@@ -12,31 +12,46 @@ class PanelModule(Node):
         super().__init__('panel_module')
         self.send_id = 819 #hex.333 
         self.receive_id = 546 #hex.222 
-        self.receive_signals={
-            1: "panel/wiper",
-            2: "panel/horn",
-            3: "panel/right_upper_front_light",
-            4: "panel/left_upper_front_light",
-            5: "panel/right_down_front_light",
-            6: "panel/left_down_front_light",
-            7: "panel/status",
-            8: "panel/error",
-        }
         self.signals={
-        "panel/wiper": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x1])],
-        "panel/horn": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x2])],
-        "panel/right_upper_front_light": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x3])],
-        "panel/left_upper_front_light": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x4])],
-        "panel/right_down_front_light": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x5])],
-        "panel/left_down_front_light": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x6])],
+        "on/panel/wiper": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x1])],
+        "on/panel/horn": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x2])],
+        "on/panel/right_upper_front_light": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x3])],
+        "on/panel/left_upper_front_light": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x4])],
+        "on/panel/right_down_front_light": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x5])],
+        "on/panel/left_down_front_light": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x6])],
         "panel/status": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x7])],
         "panel/error": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x8])],
+        "off/panel/wiper": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0xB])],
+        "off/panel/horn": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0xC])],
+        "off/panel/right_upper_front_light": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0xD])],
+        "off/panel/left_upper_front_light": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0xE])],
+        "off/panel/right_down_front_light": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0xF])],
+        "off/panel/left_down_front_light": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x10])],
+        }
+        self.receive_signals={
+            1: "on/panel/wiper",
+            2: "on/panel/horn",
+            3: "on/panel/right_upper_front_light",
+            4: "on/panel/left_upper_front_light",
+            5: "on/panel/right_down_front_light",
+            6: "on/panel/left_down_front_light",
+            7: "panel/status",
+            8: "panel/error",
+            11: "on/panel/wiper",
+            12: "off/panel/horn",
+            13: "off/panel/right_upper_front_light",
+            14: "off/panel/left_upper_front_light",
+            15: "of/panel/right_down_front_light",
+            16: "off/panel/left_down_front_light",
         }
         self.bus = can.interface.Bus(bustype='socketcan', channel='can1', bitrate=500000)
         self.data_start = 8
         self.bit_len = 6
         self.bit_panel_array=[]
+        self.old_inverse_led = 0
+        self.inverse_led = 0
         self.pub_panel_status = self.create_publisher(PanelMsg, 'panel/status', 10)
+        #Sub to activate a single led or ask for the status of all leds
         self.sub_panel = self.create_subscription(
             String,
             'panel_control',
@@ -51,10 +66,34 @@ class PanelModule(Node):
             10
         )
         self.status_sub_panel
+        #Sub to activate multiple led with SDV Message
+        self.sub_leds_panel = self.create_subscription(
+           PanelMsg,
+           'xbox_panel/control',
+            self.xbox_callback,
+            10
+        )
     def decimalToBinary(self,ip_val):
         if ip_val >= 1:
             self.decimalToBinary(ip_val // 2)
         self.bit_panel_array.append(ip_val % 2)
+    def xbox_callback(self,msg):
+        if self.old_inverse_led == 0 and bool(msg.back.data):
+            self.old_inverse_led = bool(msg.back.data)
+            self.inverse_led=0  if self.inverse_led else 1
+        else:
+            self.old_inverse_led =bool(msg.back.data)
+        if self.inverse_led:
+            self.bus.send(self.signals["on/panel/wiper"][1], timeout=1) if bool(msg.wiper.data) else None
+            self.bus.send(self.signals["on/panel/horn"][1], timeout=1) if bool(msg.horn.data) else None
+            self.bus.send(self.signals["on/panel/right_upper_front_light"][1], timeout=1) if bool(msg.right_upper_front_light.data) else None
+            self.bus.send(self.signals["on/panel/left_upper_front_light"][1], timeout=1) if bool(msg.left_upper_front_light.data) else None
+        else:
+            self.bus.send(self.signals["off/panel/wiper"][1], timeout=1) if bool(msg.wiper.data) else None
+            self.bus.send(self.signals["off/panel/horn"][1], timeout=1) if bool(msg.horn.data) else None
+            self.bus.send(self.signals["off/panel/right_upper_front_light"][1], timeout=1) if bool(msg.right_upper_front_light.data) else None
+            self.bus.send(self.signals["off/panel/left_upper_front_light"][1], timeout=1) if bool(msg.left_upper_front_light.data) else None
+
     def panel_callback(self,msg):
         try:
             action = self.signals[msg.data]
@@ -81,12 +120,12 @@ class PanelModule(Node):
                     for signal in range(self.bit_len):
                         self.signals[self.receive_signals[signal+1]][0]= self.bit_panel_array[signal] == 1
                     msg = PanelMsg()
-                    msg.wiper.data = self.signals["panel/wiper"][0]
-                    msg.horn.data = self.signals["panel/horn"][0]
-                    msg.right_upper_front_light.data = self.signals["panel/right_upper_front_light"][0]
-                    msg.left_upper_front_light.data = self.signals["panel/left_upper_front_light"][0]
-                    msg.right_down_front_light.data = self.signals["panel/right_down_front_light"][0]
-                    msg.left_down_front_light.data = self.signals["panel/left_down_front_light"][0]
+                    msg.wiper.data = self.signals["on/panel/wiper"][0]
+                    msg.horn.data = self.signals["on/panel/horn"][0]
+                    msg.right_upper_front_light.data = self.signals["on/panel/right_upper_front_light"][0]
+                    msg.left_upper_front_light.data = self.signals["on/panel/left_upper_front_light"][0]
+                    msg.right_down_front_light.data = self.signals["on/panel/right_down_front_light"][0]
+                    msg.left_down_front_light.data = self.signals["on/panel/left_down_front_light"][0]
                     #Publish Panel information
                     self.pub_panel_status.publish(msg)
                     self.bit_panel_array = []
