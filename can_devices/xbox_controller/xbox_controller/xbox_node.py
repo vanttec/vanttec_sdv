@@ -22,8 +22,10 @@ class XboxNode(Node):
         self.joy = xbox_driver.Joystick()
         self.xbox_info = XboxMsg()
         self.panel_info = PanelMsg()
+        self.thottle_info = ThrottleMsg()
         self.pub_xbox_status = self.create_publisher(XboxMsg, 'xbox_controller/status', 10)
         self.pub_panel_xbox = self.create_publisher(PanelMsg, 'xbox_panel/control', 10) 
+        self.pub_throttle_xbox = self.create_publisher(ThrottleMsg,'xbox_throttle/control',10)
         self.pub_car_mode = self.create_publisher(String, 'car_mode', 10) 
         self.old_car_mode = 0
         self.inverse_car = 0
@@ -36,11 +38,15 @@ class XboxNode(Node):
         self.panel_info.left_upper_front_light.data = bool(self.xbox_info.y.data)
         self.panel_info.back.data = bool(self.xbox_info.back.data)
         self.pub_panel_xbox.publish(self.panel_info)
+    def throttle_controller(self):
+        self.thottle_info.pot.data = self.xbox_info.right_trigger.data
+        self.thottle_info.increase_maxvel.data = self.xbox_info.dpad_up.data
+        self.thottle_info.decrease_maxvel.data =  self.xbox_info.dpad_down.data
+        self.pub_throttle_xbox.publish(self.thottle_info)
     def car_mode_pub(self):
         start = self.joy.Start()
         if self.old_car_mode == 0 and bool(start):
-            msg = String()
-            
+            msg = String() 
             self.old_car_mode = bool(start)
             if self.inverse_car:
                 self.inverse_car=0
@@ -73,6 +79,7 @@ class XboxNode(Node):
                 #Publish Xbox information
                 #self.pub_xbox_status.publish(self.xbox_info)
                 self.panel_controller()
+                self.throttle_controller()
             else:
                 self.get_logger().warn('Xbox controller not connected ')
         else:
