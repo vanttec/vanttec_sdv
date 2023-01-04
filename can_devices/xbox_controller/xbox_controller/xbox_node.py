@@ -3,8 +3,9 @@ from std_msgs.msg import String
 import rclpy
 import xbox_controller.xbox_driver as xbox_driver
 from sdv_msg.msg import XboxMsg
-from sdv_msg.msg import PanelMsg
-import can
+from sdv_msg.msg import PanelMsg,ThrottleMsg
+
+#import can
 def fmtFloat(n):
     return '{:6.3f}'.format(n)
 class XboxNode(Node):
