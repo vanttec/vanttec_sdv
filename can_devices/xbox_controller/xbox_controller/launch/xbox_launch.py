@@ -14,10 +14,19 @@ def generate_launch_description():
             shell=True,
         ),
         #Panel Module
+        '''
         Node(
            package='panel',
            executable='panel_module',
            namespace="",
            name='panel_module_sdv',
+        ),
+        '''
+        #Throttle Module
+        Node(
+           package='throttle',
+           executable='throttle_module',
+           namespace="",
+           name='throttle_module_sdv',
         ),
     ])
