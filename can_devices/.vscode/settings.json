@@ -1,0 +1,13 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/ws/install/xbox_controller/lib/python3.10/site-packages",
+        "/ws/install/throttle/lib/python3.10/site-packages",
+        "/ws/install/sdv_manual_control/lib/python3.10/site-packages",
+        "/ws/install/sdv_msg/local/lib/python3.10/dist-packages",
+        "/ws/install/ros_compatibility/lib/python3.10/site-packages",
+        "/ws/install/panel/lib/python3.10/site-packages",
+        "/ws/install/encoder/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ]
+}
