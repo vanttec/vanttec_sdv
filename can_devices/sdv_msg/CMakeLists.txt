@@ -19,6 +19,9 @@ set(MSG_FILES
     VehicleStatus.msg
     VehicleInfoWheel.msg
     GuidanceWaypoints.msg
+    EtaPose.msg
+    SystemDynamics.msg
+    ThrustControl.msg
     )
 
 if(${ROS_VERSION} EQUAL 1)
