@@ -17,9 +17,6 @@
 #include <pluginlib/class_loader.hpp>
 using namespace std::chrono_literals;
 
-/* This example creates a subclass of Node and uses std::bind() to register a
-* member function as a callback from the timer. */
-
 class CarSimulationNode : public rclcpp::Node
 {
   public:
