@@ -29,7 +29,7 @@ class CarSimulationNode : public rclcpp::Node
       car_dynamics = this->create_publisher<sdv_msg::msg::SystemDynamics>("/car_simulation/dynamic_model/non_linear_functions", 10);
 
       timer_ = this->create_wall_timer(
-      500ms, std::bind(&CarSimulationNode::timer_callback, this));
+      100ms, std::bind(&CarSimulationNode::timer_callback, this));
 
       car_functions.g.layout.dim.push_back(std_msgs::msg::MultiArrayDimension());
       car_functions.g.layout.dim.push_back(std_msgs::msg::MultiArrayDimension());

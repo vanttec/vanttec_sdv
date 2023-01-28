@@ -46,6 +46,10 @@ install(
   DIRECTORY include/
   DESTINATION include
 )
+
+install(DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}
+)
 install(
   TARGETS sdv_control_ros2
   EXPORT export_${PROJECT_NAME}
