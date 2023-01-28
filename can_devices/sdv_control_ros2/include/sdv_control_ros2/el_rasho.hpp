@@ -12,28 +12,32 @@
            longitudinal slip.
  * -----------------------------------------------------------------------------
  **/
-
-#ifndef __CAFE__
-#define __CAFE__
-
+#ifndef SDV_CONTROL_ROS2__CAFE_HPP_
+#define SDV_CONTROL_ROS2__CAFE_HPP_
+#include <memory>
+#include <chrono>
 #include "car_3dof_dynamic_model.hpp"
+#include "rclcpp/rclcpp.hpp"
+namespace cafe
+{
 
-class Cafe : public CarDynamicModel {
+class Cafe : public car_dynamic_model::CarDynamicModel {
     public:
+        /* Constructor and destructor */
+        Cafe(rclcpp::Node::SharedPtr node, float sample_time);
+        virtual ~Cafe();
+
         /* Control inputs */
         float B_;           // Steering command
         float D_;           // Throttle command
 
-        /* Constructor and destructor */
-        Cafe(const float sample_time);
-        virtual ~Cafe();
         
         /* Class methods */
         // void calculateControlInputs();
+        private:
+            rclcpp::Node::SharedPtr node_;
+            float sample_time;
 };
-
-#endif
-// #include <pluginlib/class_list_macros.hpp>
-
-// PLUGINLIB_EXPORT_CLASS(Cafe, CarDynamicModel)
+} // namespace cafe
+#endif // SDV_CONTROL_ROS2__CAFE_HPP_
 

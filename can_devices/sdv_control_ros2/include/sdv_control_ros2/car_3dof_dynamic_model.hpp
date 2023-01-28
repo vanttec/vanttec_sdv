@@ -24,6 +24,7 @@
 #include "geometry_msgs/msg/twist.hpp"
 #include "std_msgs/msg/float32.hpp"
 #include <eigen3/Eigen/Dense>
+namespace car_dynamic_model{
 class CarDynamicModel
     {
     protected:
@@ -70,11 +71,12 @@ class CarDynamicModel
         float D_;     // Throttle command
         float delta_; // Steering angle
 
-        /* Constructor and destructor */
-        CarDynamicModel(const float sample_time);
-        virtual ~CarDynamicModel();
+        
 
     public:
+        /* Constructor and destructor */
+        CarDynamicModel(float sample_time);
+        virtual ~CarDynamicModel();
         Eigen::Vector3f f_;
         Eigen::Matrix3f g_;
         Eigen::Vector3f u_;
@@ -89,4 +91,5 @@ class CarDynamicModel
         void setForceInput(const sdv_msg::msg::ThrustControl &thrust);
         void setSteeringInput(const std_msgs::msg::Float32 &delta);
     };
+}
 #endif
