@@ -18,6 +18,7 @@
 #include <chrono>
 #include "car_3dof_dynamic_model.hpp"
 #include "rclcpp/rclcpp.hpp"
+#include "std_msgs/msg/float32.hpp"
 namespace cafe
 {
 
@@ -33,10 +34,10 @@ class Cafe : public car_dynamic_model::CarDynamicModel {
 
         
         /* Class methods */
-        // void calculateControlInputs();
         private:
             rclcpp::Node::SharedPtr node_;
             float sample_time;
+            rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr sub_;
 };
 } // namespace cafe
 #endif // SDV_CONTROL_ROS2__CAFE_HPP_

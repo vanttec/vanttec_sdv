@@ -30,14 +30,7 @@ class CarSimulationNode : public rclcpp::Node
 
       timer_ = this->create_wall_timer(
       500ms, std::bind(&CarSimulationNode::timer_callback, this));
-      //model = std::make_unique<CarDynamicModel>(shared_from_this());
 
-      // ros::Subscriber car_steering_input = nh.subscribe("/car_control/car_control_node/steering", 
-      //                                                 10, 
-      //                                                 &CarDynamicModel::setSteeringInput,
-      //                                                 dynamic_cast<CarDynamicModel*> (&car_model));
-      //float a = car_model.B_
-      sdv_msg::msg::SystemDynamics car_functions;
       car_functions.g.layout.dim.push_back(std_msgs::msg::MultiArrayDimension());
       car_functions.g.layout.dim.push_back(std_msgs::msg::MultiArrayDimension());
       car_functions.g.layout.dim[0].label = "rows";
@@ -52,9 +45,20 @@ class CarSimulationNode : public rclcpp::Node
   private:
     void timer_callback()
     {
+        /* calculate Model States */
+        car_model->calculateStates();
+
+        /* Publish Odometry */
        car_accel->publish(car_model->accelerations_);
        car_vel->publish(car_model->velocities_);
        car_eta_pose->publish(car_model->eta_pose_);
+       /* Publish nonlinear functions */
+
+       car_functions.f = {car_model->f_(0), car_model->f_(1), car_model->f_(2)};
+       car_functions.g.data = { car_model->g_(0,0), car_model->g_(0,1), car_model->g_(0,2),
+                                 car_model->g_(1,0), car_model->g_(1,1), car_model->g_(1,2),
+                                 car_model->g_(2,0), car_model->g_(2,1), car_model->g_(2,2)}; 
+       car_dynamics->publish(car_functions);
     }
     int frequency = 100;
     rclcpp::TimerBase::SharedPtr timer_;
@@ -62,6 +66,7 @@ class CarSimulationNode : public rclcpp::Node
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr car_vel;
     rclcpp::Publisher<sdv_msg::msg::EtaPose>::SharedPtr car_eta_pose;
     rclcpp::Publisher<sdv_msg::msg::SystemDynamics>::SharedPtr car_dynamics;
+    sdv_msg::msg::SystemDynamics car_functions;
     float sample_time = 1.0/frequency;
     protected:
     std::unique_ptr<cafe::Cafe> car_model;
