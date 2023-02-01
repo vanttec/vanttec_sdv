@@ -1,4 +1,3 @@
-#include <pluginlib/class_loader.hpp>
 #include <chrono>
 #include <functional>
 #include <memory>
@@ -14,7 +13,7 @@
 #include <stdio.h>
 #include "rclcpp/rclcpp.hpp"
 #include <sdv_control_ros2/el_rasho.hpp>
-#include <pluginlib/class_loader.hpp>
+
 using namespace std::chrono_literals;
 
 class CarSimulationNode : public rclcpp::Node
@@ -28,8 +27,8 @@ class CarSimulationNode : public rclcpp::Node
       car_eta_pose = this->create_publisher<sdv_msg::msg::EtaPose>("/car_simulation/dynamic_model/eta_pose", 10);
       car_dynamics = this->create_publisher<sdv_msg::msg::SystemDynamics>("/car_simulation/dynamic_model/non_linear_functions", 10);
 
-      timer_ = this->create_wall_timer(
-      100ms, std::bind(&CarSimulationNode::timer_callback, this));
+       timer_ = this->create_wall_timer(
+       100ms, std::bind(&CarSimulationNode::timer_callback, this));
 
       car_functions.g.layout.dim.push_back(std_msgs::msg::MultiArrayDimension());
       car_functions.g.layout.dim.push_back(std_msgs::msg::MultiArrayDimension());
@@ -39,16 +38,19 @@ class CarSimulationNode : public rclcpp::Node
       car_functions.g.layout.dim[1].size = 3;
       car_functions.g.layout.dim[0].stride = 3;
       car_functions.g.layout.data_offset = 0;
+ 
+    }
+    void configure(){
       car_model = std::make_unique<cafe::Cafe>(shared_from_this(),
-      (float)1.0/frequency);
+            sample_time);
     }
   private:
-    void timer_callback()
-    {
-        /* calculate Model States */
-        car_model->calculateStates();
+     void timer_callback()
+     {
+      //     /* calculate Model States */
+      car_model->calculateStates();
 
-        /* Publish Odometry */
+      //     /* Publish Odometry */
        car_accel->publish(car_model->accelerations_);
        car_vel->publish(car_model->velocities_);
        car_eta_pose->publish(car_model->eta_pose_);
@@ -76,7 +78,9 @@ class CarSimulationNode : public rclcpp::Node
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<CarSimulationNode>());
+  auto merging_node = std::make_shared<CarSimulationNode>();
+  merging_node->configure();
+  rclcpp::spin(merging_node->get_node_base_interface());
   rclcpp::shutdown();
   return 0;
 }

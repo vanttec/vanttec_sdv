@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.5)
 project(sdv_control_ros2)
+
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_ros REQUIRED)
 find_package(sdv_msg REQUIRED)
@@ -13,51 +13,74 @@ find_package(std_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
+find_package(tf2_ros REQUIRED)
+find_package(tf2 REQUIRED)
 find_package(pluginlib REQUIRED)
 
-set(SRC_FILES 
-    src/model/car_simulation_node.cpp
-    src/vanttec_controllers/dynamic_models/ground_vehicles/src/el_rasho.cpp
-    src/vanttec_controllers/dynamic_models/ground_vehicles/src/car_3dof_dynamic_model.cpp
-    )
-add_library(${PROJECT_NAME} SHARED ${SRC_FILES})
 
-#add_library(sdv_control_ros2 src/sdv_control_ros2.cpp)
-target_compile_features(sdv_control_ros2 PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
-target_include_directories(sdv_control_ros2 PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>
-  )
-ament_target_dependencies(
-  sdv_control_ros2
-  "sdv_msg"
-  "std_msgs"
-  "rclcpp"
-  "geometry_msgs"
-  "nav_msgs"
-  "pluginlib"
+set(dependencies
+    sdv_msg
+    std_msgs
+    rclcpp
+    geometry_msgs
+    nav_msgs
+    tf2_ros
+    tf2
+    pluginlib
 )
 
-# Causes the visibility macros to use dllexport rather than dllimport,
-# which is appropriate when building the dll but not consuming it.
-target_compile_definitions(sdv_control_ros2 PRIVATE "SDV_CONTROL_ROS2_BUILDING_LIBRARY")
+set(libraries
+    dynamic_model
+    car_simulation_node
+    car_tf2_broadcast_node
+)
 
-install(
-  DIRECTORY include/
+#Add cpp library files
+add_library(dynamic_model SHARED
+                src/vanttec_controllers/dynamic_models/ground_vehicles/src/el_rasho.cpp
+                src/vanttec_controllers/dynamic_models/ground_vehicles/src/car_3dof_dynamic_model.cpp
+                src/vanttec_controllers/simulation/src/6dof_tf2_broadcaster.cpp)
+target_include_directories(dynamic_model PUBLIC
+$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+$<INSTALL_INTERFACE:include>
+)
+#target_compile_definitions(sdv_control_ros2 PRIVATE "SDV_CONTROL_ROS2_BUILDING_LIBRARY")
+#Add executables
+add_executable(car_simulation_node src/model/car_simulation_node.cpp)
+target_link_libraries(car_simulation_node dynamic_model)
+target_include_directories(car_simulation_node PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+target_compile_features(car_simulation_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+
+
+add_executable(car_tf2_broadcast_node src/model/car_tf2_broadcast_node.cpp)
+target_link_libraries(car_tf2_broadcast_node dynamic_model)
+target_include_directories(car_tf2_broadcast_node PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+target_compile_features(car_tf2_broadcast_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+
+
+ament_target_dependencies(dynamic_model
+  ${dependencies}
+)
+
+#### Install
+install(TARGETS ${libraries}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION lib/${PROJECT_NAME}
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(DIRECTORY include/
   DESTINATION include
 )
 
-install(DIRECTORY launch
+install(DIRECTORY launch models
   DESTINATION share/${PROJECT_NAME}
 )
-install(
-  TARGETS sdv_control_ros2
-  EXPORT export_${PROJECT_NAME}
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin
-)
-
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
@@ -70,14 +93,7 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-ament_export_include_directories(
-  include
-)
-ament_export_libraries(
-  sdv_control_ros2
-)
-ament_export_targets(
-  export_${PROJECT_NAME}
-)
-
+ament_export_include_directories(include)
+ament_export_libraries(${libraries})
+ament_export_dependencies(${dependencies})
 ament_package()
