@@ -34,7 +34,7 @@ class CarTf2Broadcast : public rclcpp::Node
     protected:
     std::unique_ptr<tf2broadcaster::TF2Broadcaster> tf_broadcaster;
     std::string parent_frame = "world";
-    std::string child_frame = "sdv";
+    std::string child_frame = "base_link";
 
 };
 
