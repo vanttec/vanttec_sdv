@@ -19,6 +19,7 @@
 #include "car_3dof_dynamic_model.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/float32.hpp"
+#include "sdv_msg/msg/thrust_control.hpp"
 namespace cafe
 {
 
@@ -38,6 +39,7 @@ class Cafe : public car_dynamic_model::CarDynamicModel {
             rclcpp::Node::SharedPtr node_;
             float sample_time;
             rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr sub_;
+            rclcpp::Subscription<sdv_msg::msg::ThrustControl>::SharedPtr sub2_;
 };
 } // namespace cafe
 #endif // SDV_CONTROL_ROS2__CAFE_HPP_
