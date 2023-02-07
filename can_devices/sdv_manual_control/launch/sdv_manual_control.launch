@@ -1,6 +1,6 @@
 <!-- -->
 <launch>
-  <arg name="role_name" default="ego_vehicle"/>
+  <arg name="role_name" default="vanttec_vehicle"/>
 
   <node pkg="sdv_manual_control" type="sdv_manual_control.py" name="sdv_manual_control_$(arg role_name)" output="screen">
     <param name="role_name" value="$(arg role_name)"/>

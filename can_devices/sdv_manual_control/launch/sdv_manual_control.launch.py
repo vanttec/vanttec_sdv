@@ -9,7 +9,7 @@ def generate_launch_description():
     ld = launch.LaunchDescription([
         launch.actions.DeclareLaunchArgument(
             name='role_name',
-            default_value='ego_vehicle'
+            default_value='vanttec_vehicle'
         ),
         launch_ros.actions.Node(
             package='sdv_manual_control',

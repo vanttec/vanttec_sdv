@@ -64,6 +64,7 @@ from sdv_msg.msg import VehicleStatus
 from sdv_msg.msg import VehicleControl
 from sdv_msg.msg import LaneInvasionEvent
 from sdv_msg.msg import CollisionEvent
+from sdv_msg.msg import Status
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import Image
 from sensor_msgs.msg import NavSatFix
@@ -82,10 +83,10 @@ class ManualControl(CompatibleNode):
     def __init__(self, resolution):
         super(ManualControl, self).__init__("ManualControl")
         self._surface = None
-        self.role_name = self.get_param("role_name", "ego_vehicle")
+        self.role_name = self.get_param("role_name", "vanttec_vehicle")
         self.hud = HUD(self.role_name, resolution['width'], resolution['height'], self)
         self.controller = KeyboardControl(self.role_name, self.hud, self)
-        self.bg = pygame.image.load('/ws/src/sdv_manual_control/img/interface_bg.jpg')
+        self.bg = pygame.image.load('/ws/src/sdv_embedded/can_devices/sdv_manual_control/img/interface_bg.jpg')
         self.image_subscriber = self.new_subscription(
             Image, "/sdv/{}/rgb_view/image".format(self.role_name),
             self.on_view_image, qos_profile=10)
@@ -97,7 +98,6 @@ class ManualControl(CompatibleNode):
         self.lane_invasion_subscriber = self.new_subscription(
             LaneInvasionEvent, "/sdv/{}/lane_invasion".format(self.role_name),
             self.on_lane_invasion, qos_profile=10)
-
     def on_collision(self, data):
         """
         Callback on collision event
@@ -137,11 +137,11 @@ class ManualControl(CompatibleNode):
         """
         render the current image
         """
-
         do_quit = self.controller.parse_events(game_clock)
         if do_quit:
             return
         self.hud.tick(game_clock)
+        #self.hud.update_info_text()
 
         #if self._surface is not None:
             #display.blit(self._surface, (0, 0))
@@ -197,7 +197,6 @@ class KeyboardControl(object):
 
         self.set_vehicle_control_manual_override(
             self.vehicle_control_manual_override)  # disable manual override
-
     def set_vehicle_control_manual_override(self, enable):
         """
         Set the manual control override
@@ -230,6 +229,7 @@ class KeyboardControl(object):
                 elif event.key == K_b:
                     self.vehicle_control_manual_override = not self.vehicle_control_manual_override
                     self.set_vehicle_control_manual_override(self.vehicle_control_manual_override)
+                    roscomp.logwarn(str(self.vehicle_control_manual_override))
                 if event.key == K_q:
                     self._control.gear = 1 if self._control.reverse else -1
                 elif event.key == K_m:
@@ -246,6 +246,7 @@ class KeyboardControl(object):
                     self.set_autopilot(self._autopilot_enabled)
                     self.hud.notification('Autopilot %s' %
                                           ('On' if self._autopilot_enabled else 'Off'))
+                    roscomp.logwarn(str(self._autopilot_enabled))
         if not self._autopilot_enabled and self.vehicle_control_manual_override:
             self._parse_vehicle_keys(pygame.key.get_pressed(), clock.get_time())
             self._control.reverse = self._control.gear < 0
@@ -278,7 +279,8 @@ class KeyboardControl(object):
         self._steer_cache = min(0.7, max(-0.7, self._steer_cache))
         self._control.steer = round(self._steer_cache, 1)
         self._control.brake = 1.0 if keys[K_DOWN] or keys[K_s] else 0.0
-        self._control.hand_brake = bool(keys[K_SPACE])
+        self._control.hand_brake = bool(keys[K_SPACE]) 
+        self.vehicle_control_publisher.publish(self._control)
 
     @staticmethod
     def _is_quit_shortcut(key):
@@ -310,10 +312,14 @@ class HUD(object):
         self._show_info = True
         self._info_text = []
         self.vehicle_status = VehicleStatus()
+        self.vehicle_control = VehicleControl()
 
+        # self.vehicle_status_subscriber = node.new_subscription(
+        #     VehicleStatus, "/sdv/{}/vehicle_status".format(self.role_name),
+        #     self.vehicle_status_updated, qos_profile=10)
         self.vehicle_status_subscriber = node.new_subscription(
-            VehicleStatus, "/sdv/{}/vehicle_status".format(self.role_name),
-            self.vehicle_status_updated, qos_profile=10)
+            VehicleControl, "/sdv/{}/vehicle_control_cmd_manual".format(self.role_name),
+            self.vehicle_status_control, qos_profile=10)
 
         self.vehicle_info = VehicleInfo()
         self.vehicle_info_subscriber = node.new_subscription(
@@ -374,11 +380,8 @@ class HUD(object):
         self.manual_control = data.data
         self.update_info_text()
 
-    def vehicle_status_updated(self, vehicle_status):
-        """
-        Callback on vehicle status updates
-        """
-        self.vehicle_status = vehicle_status
+    def vehicle_status_control(self, vehicle_control):
+        self.vehicle_control = vehicle_control
         self.update_info_text()
 
     def vehicle_info_updated(self, vehicle_info):
@@ -439,18 +442,30 @@ class HUD(object):
             'GNSS:% 24s' % ('(% 2.6f, % 3.6f)' % (self.latitude, self.longitude)),
             'Height:  % 18.0f m' % z, ''
         ]
+        # self._info_text += [
+        #     ('Throttle:', self.vehicle_status.control.throttle, 0.0, 1.0),
+        #     ('Steer:', self.vehicle_status.control.steer, -1.0, 1.0),
+        #     ('Brake:', self.vehicle_status.control.brake, 0.0, 1.0),
+        #     ('Reverse:', self.vehicle_status.control.reverse),
+        #     ('Hand brake:', self.vehicle_status.control.hand_brake),
+        #     ('Manual:', self.vehicle_status.control.manual_gear_shift),
+        #     'Gear:        %s' % {
+        #         -1: 'R',
+        #         0: 'N'
+        #     }.get(self.vehicle_status.control.gear, self.vehicle_status.control.gear), ''
+        # ]
         self._info_text += [
-            ('Throttle:', self.vehicle_status.control.throttle, 0.0, 1.0),
-            ('Steer:', self.vehicle_status.control.steer, -1.0, 1.0),
-            ('Brake:', self.vehicle_status.control.brake, 0.0, 1.0),
-            ('Reverse:', self.vehicle_status.control.reverse),
-            ('Hand brake:', self.vehicle_status.control.hand_brake),
-            ('Manual:', self.vehicle_status.control.manual_gear_shift),
-            'Gear:        %s' % {
-                -1: 'R',
-                0: 'N'
-            }.get(self.vehicle_status.control.gear, self.vehicle_status.control.gear), ''
-        ]
+                    ('Throttle:', self.vehicle_control.throttle, 0.0, 1.0),
+                    ('Steer:', self.vehicle_control.steer, -1.0, 1.0),
+                    ('Brake:', self.vehicle_control.brake, 0.0, 1.0),
+                    ('Reverse:', self.vehicle_control.reverse),
+                    ('Hand brake:', self.vehicle_control.hand_brake),
+                    ('Manual:', self.vehicle_control.manual_gear_shift),
+                    'Gear:        %s' % {
+                        -1: 'R',
+                        0: 'N'
+                    }.get(self.vehicle_control.gear, self.vehicle_control.gear), ''
+                ]
         self._info_text += [('Manual ctrl:', self.manual_control)]
         if self.sdv_status.synchronous_mode:
             self._info_text += [('Sync mode running:', self.sdv_status.synchronous_mode_running)]
@@ -489,6 +504,7 @@ class HUD(object):
                 if v_offset + 18 > self.dim[1]:
                     break
                 if isinstance(item, list):
+                    
                     if len(item) > 1:
                         points = [(x + 8, v_offset + 8 + (1.0 - y) * 30) for x, y in enumerate(item)
                                   ]
@@ -615,7 +631,7 @@ def main(args=None):
     pygame.init()
     pygame.font.init()
     pygame.display.set_caption("Vanttec/ZF Car Interface")
-    Icon = pygame.image.load('/ws/src/sdv_manual_control/img/LogoZF.png')
+    Icon = pygame.image.load('/ws/src/sdv_embedded/can_devices/sdv_manual_control/img/LogoZF.png')
     pygame.display.set_icon(Icon)
     try:
         display = pygame.display.set_mode((resolution['width'], resolution['height']),
