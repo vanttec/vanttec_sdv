@@ -20,6 +20,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/float32.hpp"
 #include "sdv_msg/msg/thrust_control.hpp"
+#include "std_msgs/msg/float32.hpp"
 namespace cafe
 {
 
@@ -28,7 +29,7 @@ class Cafe : public car_dynamic_model::CarDynamicModel {
         /* Constructor and destructor */
         Cafe(rclcpp::Node::SharedPtr node, float sample_time);
         virtual ~Cafe();
-
+        void timer_callback();
         /* Control inputs */
         float B_;           // Steering command
         float D_;           // Throttle command
@@ -40,6 +41,7 @@ class Cafe : public car_dynamic_model::CarDynamicModel {
             float sample_time;
             rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr sub_;
             rclcpp::Subscription<sdv_msg::msg::ThrustControl>::SharedPtr sub2_;
+            rclcpp::Subscription<sdv_msg::msg::VehicleControl>::SharedPtr sub3_;
 };
 } // namespace cafe
 #endif // SDV_CONTROL_ROS2__CAFE_HPP_

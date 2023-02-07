@@ -26,6 +26,7 @@ class CarSimulationNode : public rclcpp::Node
       car_vel = this->create_publisher<geometry_msgs::msg::Twist>("/car_simulation/dynamic_model/vel", 10);
       car_eta_pose = this->create_publisher<sdv_msg::msg::EtaPose>("/car_simulation/dynamic_model/eta_pose", 10);
       car_dynamics = this->create_publisher<sdv_msg::msg::SystemDynamics>("/car_simulation/dynamic_model/non_linear_functions", 10);
+      debug_publisher = this->create_publisher<std_msgs::msg::Float32>("/debug",10);
 
        timer_ = this->create_wall_timer(
        100ms, std::bind(&CarSimulationNode::timer_callback, this));
@@ -61,6 +62,9 @@ class CarSimulationNode : public rclcpp::Node
                                  car_model->g_(1,0), car_model->g_(1,1), car_model->g_(1,2),
                                  car_model->g_(2,0), car_model->g_(2,1), car_model->g_(2,2)}; 
        car_dynamics->publish(car_functions);
+       std_msgs::msg::Float32 debug;
+       debug.data= car_model->F_throttle_;
+       debug_publisher->publish(debug);
     }
     int frequency = 100;
     rclcpp::TimerBase::SharedPtr timer_;
@@ -69,6 +73,8 @@ class CarSimulationNode : public rclcpp::Node
     rclcpp::Publisher<sdv_msg::msg::EtaPose>::SharedPtr car_eta_pose;
     rclcpp::Publisher<sdv_msg::msg::SystemDynamics>::SharedPtr car_dynamics;
     sdv_msg::msg::SystemDynamics car_functions;
+    rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr debug_publisher;
+
     float sample_time = 1.0/frequency;
     protected:
     std::unique_ptr<cafe::Cafe> car_model;

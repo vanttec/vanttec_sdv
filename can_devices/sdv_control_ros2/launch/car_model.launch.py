@@ -9,7 +9,22 @@ from launch_ros.descriptions import ParameterValue
 def generate_launch_description():
 
    return LaunchDescription([
-
+      launch.actions.DeclareLaunchArgument(
+                  name='role_name',
+                  default_value='vanttec_vehicle'
+            ),
+       launch_ros.actions.Node(
+            package='sdv_manual_control',
+            executable='sdv_manual_control',
+            name=['sdv_manual_control_', launch.substitutions.LaunchConfiguration('role_name')],
+            output='screen',
+            emulate_tty=True,
+            parameters=[
+                {
+                    'role_name': launch.substitutions.LaunchConfiguration('role_name')
+                }
+            ]
+        ),
       Node(
          package='sdv_control_ros2',
          executable='car_simulation_node',

@@ -19,11 +19,13 @@
 #define __CAR_DYNAMIC_MODEL__
 #include "sdv_msg/msg/thrust_control.hpp"
 #include "sdv_msg/msg/eta_pose.hpp"
+#include "sdv_msg/msg/vehicle_control.hpp"
 #include "common.hpp"
 #include "geometry_msgs/msg/accel.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "std_msgs/msg/float32.hpp"
 #include <eigen3/Eigen/Dense>
+
 namespace car_dynamic_model{
 class CarDynamicModel
     {
@@ -57,15 +59,6 @@ class CarDynamicModel
         float alpha_f_; // Front tire velocity angle
         float alpha_r_; // Rear tire velocity angle
 
-        /* Model forces */
-        float F_grav_;     // Force due to gravity
-        float F_brake_;    // Braking force
-        float F_throttle_; // Throttle force
-        float F_drag_;     // Air drag force
-        float F_rr_;       // Rolling resistance force
-        float F_fy_;       // Frontal lateral force
-        float F_ry_;       // Rear lateral force
-
         /* Control inputs */
         float B_;     // Steering command
         float D_;     // Throttle command
@@ -85,11 +78,22 @@ class CarDynamicModel
         geometry_msgs::msg::Twist velocities_;
         geometry_msgs::msg::Accel accelerations_;
 
+        /* Model forces */
+        float F_grav_;     // Force due to gravity
+        float F_brake_;    // Braking force
+        float F_throttle_; // Throttle force
+        float F_drag_;     // Air drag force
+        float F_rr_;       // Rolling resistance force
+        float F_fy_;       // Frontal lateral force
+        float F_ry_;       // Rear lateral force
+
+
         /* Class methods */
         void calculateRotation();
         void calculateStates();
         void setForceInput(const sdv_msg::msg::ThrustControl &thrust);
         void setSteeringInput(const std_msgs::msg::Float32 &delta);
+        void manual_control(const sdv_msg::msg::VehicleControl &manual);
     };
 }
 #endif
