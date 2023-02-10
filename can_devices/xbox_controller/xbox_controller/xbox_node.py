@@ -3,7 +3,7 @@ from std_msgs.msg import String
 import rclpy
 import xbox_controller.xbox_driver as xbox_driver
 from sdv_msg.msg import XboxMsg
-from sdv_msg.msg import PanelMsg,ThrottleMsg
+from sdv_msg.msg import PanelMsg,ThrottleMsg,VehicleControl
 
 #import can
 def fmtFloat(n):
@@ -30,6 +30,8 @@ class XboxNode(Node):
         self.pub_car_mode = self.create_publisher(String, 'car_mode', 10) 
         self.old_car_mode = 0
         self.inverse_car = 0
+        self._control = VehicleControl()
+        self._control_pub = self.create_publisher(VehicleControl, '/sdv/vanttec_vehicle/vehicle_control_cmd_manual', 10)
     def car_mode_callback(self,msg):
         self.car_mode = msg.data
     def panel_controller(self):
@@ -44,6 +46,10 @@ class XboxNode(Node):
         self.thottle_info.increase_maxvel.data = self.xbox_info.dpad_up.data
         self.thottle_info.decrease_maxvel.data =  self.xbox_info.dpad_down.data
         self.pub_throttle_xbox.publish(self.thottle_info)
+    def throttle_controller2(self):
+        self._control.throttle = self.xbox_info.right_trigger.data
+        self._control.steer = self.xbox_info.leftx.data
+        self._control_pub.publish(self._control)
     def car_mode_pub(self):
         start = self.joy.Start()
         if self.old_car_mode == 0 and bool(start):
@@ -80,7 +86,8 @@ class XboxNode(Node):
                 #Publish Xbox information
                 #self.pub_xbox_status.publish(self.xbox_info)
                 self.panel_controller()
-                self.throttle_controller()
+                #self.throttle_controller()
+                self.throttle_controller2()
             else:
                 self.get_logger().warn('Xbox controller not connected ')
         else:
