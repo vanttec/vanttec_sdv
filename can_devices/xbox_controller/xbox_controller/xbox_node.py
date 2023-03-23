@@ -4,7 +4,7 @@ import rclpy
 import xbox_controller.xbox_driver as xbox_driver
 from sdv_msg.msg import XboxMsg
 from sdv_msg.msg import PanelMsg,ThrottleMsg,VehicleControl
-
+import can
 #import can
 def fmtFloat(n):
     return '{:6.3f}'.format(n)
@@ -17,7 +17,7 @@ class XboxNode(Node):
             self.car_mode_callback,
             10
         )
-        self.car_mode = ""
+        self.car_mode = "Manual"
         timer_period = 0.1 #Seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.joy = xbox_driver.Joystick()
@@ -31,7 +31,11 @@ class XboxNode(Node):
         self.old_car_mode = 0
         self.inverse_car = 0
         self._control = VehicleControl()
+        self.admin_id = 16 #hex. 10
         self._control_pub = self.create_publisher(VehicleControl, '/sdv/vanttec_vehicle/vehicle_control_cmd_manual', 10)
+        self.can_manual_mode = [can.Message(arbitration_id=self.admin_id,is_extended_id=False, data=[0x1])]
+        self.can_auto_mode = [can.Message(arbitration_id=self.admin_id,is_extended_id=False, data=[0x2])]
+        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=500000)
     def car_mode_callback(self,msg):
         self.car_mode = msg.data
     def panel_controller(self):
@@ -59,10 +63,14 @@ class XboxNode(Node):
                 self.inverse_car=0
                 msg.data = "Manual"
                 self.pub_car_mode.publish(msg)  
+                #Release 1 change mode Manual, send cand message (10-1F) | 10 data 1
+                self.bus.send(self.can_manual_mode[0])
             else:
                 self.inverse_car=1
                 msg.data = "Automatic"
                 self.pub_car_mode.publish(msg)
+                #Release 1 change mode Automatic,  send cand message (10-1F)| 10 data 2
+                self.bus.send(self.can_auto_mode[0])
         else:
             self.old_car_mode =bool(start)
     def timer_callback(self):
@@ -86,7 +94,7 @@ class XboxNode(Node):
                 #Publish Xbox information
                 #self.pub_xbox_status.publish(self.xbox_info)
                 self.panel_controller()
-                #self.throttle_controller()
+                self.throttle_controller()
                 self.throttle_controller2()
             else:
                 self.get_logger().warn('Xbox controller not connected ')

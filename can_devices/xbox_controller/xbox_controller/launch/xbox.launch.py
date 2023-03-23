@@ -23,10 +23,10 @@ def generate_launch_description():
         #),
         
         #Throttle Module
-        # Node(
-        #    package='throttle',
-        #    executable='throttle_module',
-        #    namespace="",
-        #    name='throttle_module_sdv',
-        # )
+        Node(
+           package='throttle',
+           executable='throttle_module',
+           namespace="",
+           name='throttle_module_sdv',
+        )
     ])

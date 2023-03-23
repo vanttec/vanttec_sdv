@@ -15,7 +15,7 @@ class Encoder(Node):
         filters = [
             {"can_id": 1440, "can_mask": 0xFFFF, "extended": False},
         ]
-        self.bus = can.interface.Bus(bustype='socketcan', channel='can1', bitrate=500000, can_filters=filters)
+        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=500000, can_filters=filters)
 
     def timer_callback(self):
         msg = Int64()
