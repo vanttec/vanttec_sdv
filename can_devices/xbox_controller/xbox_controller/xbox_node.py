@@ -31,10 +31,10 @@ class XboxNode(Node):
         self.old_car_mode = 0
         self.inverse_car = 0
         self._control = VehicleControl()
-        self.admin_id = 16 #hex. 10
+        self.admin_id = 256 #hex. 100
         self._control_pub = self.create_publisher(VehicleControl, '/sdv/vanttec_vehicle/vehicle_control_cmd_manual', 10)
         self.can_manual_mode = [can.Message(arbitration_id=self.admin_id,is_extended_id=False, data=[0x1])]
-        self.can_auto_mode = [can.Message(arbitration_id=self.admin_id,is_extended_id=False, data=[0x2])]
+        self.can_auto_mode = [can.Message(arbitration_id=self.admin_id,is_extended_id=False, data=[0x0])]
         self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=500000)
     def car_mode_callback(self,msg):
         self.car_mode = msg.data

@@ -10,19 +10,19 @@ from numpy import interp
 class ThrottleModule(Node):
     def __init__(self):
         super().__init__('throttle_module')
-        self.safe_velocity=50
-        self.safe_pot = 63.5
+        self.safe_velocity=127
+        self.safe_pot = 127
         #Send WiperPot position
-        self.pot_id = 128 #hex.80
+        self.pot_id = 384 #hex.180
         #Send Max velocity
-        self.max_id = 129 #hex.81
-        self.receive_id = 130 #hex.82
+        self.max_id = 385 #hex.181
+        self.receive_id = 386 #hex.182
         self.old_maxvel = self.safe_velocity
         self.temp_pot=0
         self.new_maxvel = self.safe_velocity #Can not surpass 80km/h       
         self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=500000)
         self.pub_throttle_status = self.create_publisher(ThrottleMsg, 'throttle/status', 10)
-        timer_period = 1 #1 second
+        timer_period = 0.1 #1 second
         self.timer=self.create_timer(timer_period,self.timer_callback)
 
         #Sub to change max velocity and position (Auto Mode)
@@ -104,5 +104,4 @@ def main(args=None):
     rclpy.shutdown()
             
 if __name__ == "__main__":
-    
     main()
