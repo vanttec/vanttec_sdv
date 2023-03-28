@@ -1,14 +1,12 @@
-sdv.up:
-	@xhost +
+sdv.up: display_enable
 	@docker start sdv
-sdv.down:
-	@xhost +
+sdv.down: display_enable
 	@docker stop sdv
-sdv.restart:
-	@xhost +
+sdv.restart: display_enable
 	@docker restart sdv
-sdv.shell:
-	@xhost +	
+sdv.shell: display_enable
 	@docker exec -it sdv bash
 sdv.intelcreate:
 	@./runROS2Intel.bash
+display_enable:
+	@xhost +
