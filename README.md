@@ -25,6 +25,7 @@ It includes code made for controlling the acceleartion, steering , braking and l
 ![Tutorial][tutorial]
 
 ```sh
+sudo ./runROS2Intel.bash
 sudo make sdv.up 
 sudo make sdv.shell
 cd /ws/src
