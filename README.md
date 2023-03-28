@@ -35,7 +35,7 @@ colcon build
 
 ```
 
-Read more about the matching algorithm [here][vanttec-documentation].
+Read more about the official documentation [here][vanttec-documentation].
 
 
 [vanttec-documentation]: https://vanttec-documentation.readthedocs.io/
