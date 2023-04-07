@@ -23,7 +23,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'xbox_node = xbox_controller.xbox_node:main'
+            'xbox_node = xbox_controller.xbox_node:main',
+            'throttle_module = xbox_controller.throttle_module:main'
         ],
     },
 )
