@@ -1,0 +1,3 @@
+[submodule "can_devices/sdv_ros_embedded/lib/vanttec_CANLib"]
+	path = can_devices/sdv_ros_embedded/lib/vanttec_CANLib
+	url = https://github.com/vanttec/vanttec_CANLib.git

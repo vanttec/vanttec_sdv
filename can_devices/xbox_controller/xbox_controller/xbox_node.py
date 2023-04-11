@@ -5,9 +5,10 @@ import xbox_controller.xbox_driver as xbox_driver
 from sdv_msg.msg import XboxMsg
 from sdv_msg.msg import PanelMsg,ThrottleMsg,VehicleControl
 import can
-#import can
+
 def fmtFloat(n):
     return '{:6.3f}'.format(n)
+
 class XboxNode(Node):
     def __init__(self):
         super().__init__('xbox_node')
@@ -34,7 +35,7 @@ class XboxNode(Node):
         self.panel_xbox_pub = self.create_publisher(PanelMsg, '/sdv/xbox_controller/xbox_panel', 10) 
         self.throttle_xbox_pub = self.create_publisher(ThrottleMsg,'/sdv/xbox_controller/xbox_throttle',10)
         self.drive_mode_pub = self.create_publisher(String, '/sdv/xbox_controller/drive_mode', 10) 
-        self.vehicle_control_pub = self.create_publisher(VehicleControl, '/sdv/vanttec_vehicle/vehicle_control_cmd_manual', 10)
+        self.vehicle_control_pub = self.create_publisher(VehicleControl, '/sdv/manual_ctrl_cmd', 10)
 
         self.can_manual_mode = [can.Message(arbitration_id=self.admin_id,is_extended_id=False, data=[0x1])]
         self.can_auto_mode = [can.Message(arbitration_id=self.admin_id,is_extended_id=False, data=[0x0])]

@@ -44,7 +44,7 @@ namespace cafe
         alpha_r_ = 0.0;
         sub_ = node_->create_subscription<std_msgs::msg::Float32>("/car_control/car_control_node/steering", 10,std::bind(&CarDynamicModel::setSteeringInput, this, std::placeholders::_1));
         sub2_ = node_->create_subscription<sdv_msg::msg::ThrustControl>("/car_control/car_control_node/force", 10,std::bind(&CarDynamicModel::setForceInput, this, std::placeholders::_1));
-        sub3_ = node_->create_subscription<sdv_msg::msg::VehicleControl>("/sdv/vanttec_vehicle/vehicle_control_cmd_manual", 10,std::bind(&CarDynamicModel::manual_control, this, std::placeholders::_1));
+        sub3_ = node_->create_subscription<sdv_msg::msg::VehicleControl>("/sdv/manual_ctrl_cmd", 10,std::bind(&CarDynamicModel::manual_control, this, std::placeholders::_1));
     }
 Cafe::~Cafe(){}
 } // namespace cafe
