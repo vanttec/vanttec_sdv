@@ -12,13 +12,14 @@ find_package(ament_cmake REQUIRED)
 # find_package(<dependency> REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 add_executable(can_node src/can_node.cpp src/CANTxNode.cpp src/CANRxNode.cpp)
 target_include_directories(can_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 target_compile_features(can_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
-ament_target_dependencies(can_node rclcpp std_msgs)
+ament_target_dependencies(can_node rclcpp std_msgs geometry_msgs)
 add_subdirectory(lib/vanttec_CANLib)
 target_link_libraries(can_node Vanttec_CANLibLIB)
 include_directories(lib/vanttec_CANLib/src/)

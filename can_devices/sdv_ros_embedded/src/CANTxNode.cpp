@@ -11,30 +11,33 @@ CANTxNode::CANTxNode(const std::shared_ptr<vanttec::CANHandler> &handler)
     : Node("CANTxNode") {
 
   RCLCPP_INFO(this->get_logger(), "Starting CAN Tx");
-  
+
   this->handler = handler;
 
-  motorSub = this->create_subscription<std_msgs::msg::Float32MultiArray>(
-      "motors", 10, std::bind(&CANTxNode::motorCb, this, _1));
+  steering_sub = this->create_subscription<geometry_msgs::msg::Vector3>(
+      "steering", 10, std::bind(&CANTxNode::steering_callback, this, _1));
+      
   updateTimer =
       this->create_wall_timer(10ms, std::bind(&CANTxNode::update, this));
 }
 
 void CANTxNode::update() { handler->update_write(); }
 
-void CANTxNode::motorCb(const std_msgs::msg::Float32MultiArray &msg) {
+void CANTxNode::steering_callback(const geometry_msgs::msg::Vector3 &msg) {
+  RCLCPP_INFO(this->get_logger(), "Message received");
 
-  if (msg.data.size() != 8) {
-    RCLCPP_ERROR(this->get_logger(), "Invalid motor array size");
-    return;
-  }
+  // Steppers canframe: ID #STEPS1 #STEPS2 X DIR
+  uint32_t frame = 0;
+  int8_t dir = (int8_t) msg.x/std::abs(msg.x);
+  uint16_t steps = (uint16_t) msg.y;
 
-  for (size_t i = 0; i < msg.data.size(); i++) {
-    if (msg.data[i] == lastMotorArray[i]) continue;
-    vanttec::CANMessage canMsg;
-    vanttec::packFloat(canMsg, 0x15 + i, msg.data[i]);
-    handler->write(canMsg);
-  }
+  frame |= steps << 24;
+  frame |= 0x000000FF & dir;
 
-  lastMotorArray = msg.data;
+  // if (msg == lastMotorArray) return;
+  vanttec::CANMessage canMsg;
+  vanttec::packLong(canMsg, 0x22, frame);
+  handler->write(canMsg);
+
+  lastMotorArray = msg;
 }

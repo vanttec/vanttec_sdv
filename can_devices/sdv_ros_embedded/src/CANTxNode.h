@@ -11,6 +11,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/float32_multi_array.hpp"
 #include "std_msgs/msg/u_int16.hpp"
+#include "geometry_msgs/msg/vector3.hpp"
 
 class CANTxNode : public rclcpp::Node {
  public:
@@ -21,11 +22,11 @@ class CANTxNode : public rclcpp::Node {
   std::shared_ptr<vanttec::CANHandler> handler{nullptr};
   rclcpp::TimerBase::SharedPtr updateTimer;
 
-  rclcpp::Subscription<std_msgs::msg::Float32MultiArray>::SharedPtr motorSub;
-  std::vector<float> lastMotorArray{0, 8};
+  rclcpp::Subscription<geometry_msgs::msg::Vector3>::SharedPtr steering_sub;
+  geometry_msgs::msg::Vector3 lastMotorArray{geometry_msgs::msg::Vector3()};
 
  protected:
-  void motorCb(const std_msgs::msg::Float32MultiArray &msg);
+  void steering_callback(const geometry_msgs::msg::Vector3 &msg);
 };
 
 #endif  // USV_ROS2_CANTXNODE_H

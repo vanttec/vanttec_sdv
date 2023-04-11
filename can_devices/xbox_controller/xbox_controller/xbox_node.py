@@ -4,6 +4,8 @@ import rclpy
 import xbox_controller.xbox_driver as xbox_driver
 from sdv_msg.msg import XboxMsg
 from sdv_msg.msg import PanelMsg,ThrottleMsg,VehicleControl
+from geometry_msgs.msg import Vector3
+from std_msgs.msg import Int16
 import can
 
 def fmtFloat(n):
@@ -17,6 +19,15 @@ class XboxNode(Node):
         self.drive_mode = "Manual"
         self.prev_start_btn_state = False
 
+        self.MAX_ANGLE = 57
+        self.STEP_ANGLE = 0.9
+        self.MAX_STEPS = 63
+        self.STEPS_REV = 400
+
+        self.req_steps = 0
+        self.current_step = 0
+        self.current_angle = 0
+
         self.joy_stick = xbox_driver.Joystick(50)
         self.xbox_info = XboxMsg()
         self.panel_info = PanelMsg()
@@ -26,8 +37,15 @@ class XboxNode(Node):
         self.timer = self.create_timer(0.1, self.timer_callback)
         self.drive_mode_subs = self.create_subscription(
             String,
-            'drive_mode',
+            '/drive_mode',
             self.drive_mode_callback,
+            10
+        )
+
+        self.encoder_sub = self.create_subscription(
+            Int16,
+            '/encoder',
+            self.encoder_callback,
             10
         )
 
@@ -36,6 +54,7 @@ class XboxNode(Node):
         self.throttle_xbox_pub = self.create_publisher(ThrottleMsg,'/sdv/xbox_controller/xbox_throttle',10)
         self.drive_mode_pub = self.create_publisher(String, '/sdv/xbox_controller/drive_mode', 10) 
         self.vehicle_control_pub = self.create_publisher(VehicleControl, '/sdv/manual_ctrl_cmd', 10)
+        self.steering_pub = self.create_publisher(Vector3, '/steering', 10)
 
         self.can_manual_mode = [can.Message(arbitration_id=self.admin_id,is_extended_id=False, data=[0x1])]
         self.can_auto_mode = [can.Message(arbitration_id=self.admin_id,is_extended_id=False, data=[0x0])]
@@ -43,6 +62,9 @@ class XboxNode(Node):
 
     def drive_mode_callback(self,msg):
         self.drive_mode = msg.data
+
+    def encoder_callback(self,msg):
+        self.current_angle = msg.data
 
     def panel_controller(self):
         self.panel_info.wiper.data = bool(self.xbox_info.a.data)
@@ -62,6 +84,22 @@ class XboxNode(Node):
 
         self.throttle_xbox_pub.publish(self.thottle_info)
         self.vehicle_control_pub.publish(self.vehicle_control)
+
+        req_angle = self.xbox_info.leftx.data * self.MAX_ANGLE
+        req_steps = int((req_angle - self.current_angle)/self.STEP_ANGLE)
+
+        if(req_steps != 0):
+            dire = req_steps / abs(req_steps)
+        else:
+            dire = 0
+
+        req_steps = req_steps * dire
+
+        msg = Vector3()
+        msg.x = float(dire)
+        msg.y = float(req_steps)
+
+        self.steering_pub.publish(msg)
 
     def publish_drive_mode(self):
         start_btn = bool(self.joy_stick.Start())
@@ -104,7 +142,8 @@ class XboxNode(Node):
                 self.panel_controller()
                 self.vehicle_controller()
             # else:
-            self.get_logger().warn("Drive mode: " + self.drive_mode)
+            # self.get_logger().warn("Drive mode: " + self.drive_mode)
+            # self.get_logger().info('Data: "%f"' % self.xbox_info.leftx.data)
         else:
             self.get_logger().warn('Xbox controller not connected')
 
