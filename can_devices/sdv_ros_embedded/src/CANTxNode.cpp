@@ -24,7 +24,7 @@ CANTxNode::CANTxNode(const std::shared_ptr<vanttec::CANHandler> &handler)
 void CANTxNode::update() { handler->update_write(); }
 
 void CANTxNode::steering_callback(const geometry_msgs::msg::Vector3 &msg) {
-  RCLCPP_INFO(this->get_logger(), "Message received");
+  // RCLCPP_INFO(this->get_logger(), "Message received");
 
   // Steppers canframe: ID #STEPS1 #STEPS2 X DIR
   uint32_t frame = 0;
@@ -34,9 +34,9 @@ void CANTxNode::steering_callback(const geometry_msgs::msg::Vector3 &msg) {
   frame |= steps << 24;
   frame |= 0x000000FF & dir;
 
-  // if (msg == lastMotorArray) return;
+  if (msg == lastMotorArray) return;
   vanttec::CANMessage canMsg;
-  vanttec::packLong(canMsg, 0x22, frame);
+  vanttec::packLong(canMsg, 0x15, frame);
   handler->write(canMsg);
 
   lastMotorArray = msg;

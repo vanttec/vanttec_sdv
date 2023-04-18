@@ -109,13 +109,13 @@ class XboxNode(Node):
                 drive_mode_msg.data = "Manual"
                 self.drive_mode_pub.publish(drive_mode_msg)
                 #Release 1 change mode Manual, send cand message (10-1F) | 10 data 1
-                self.bus.send(self.can_manual_mode[0])
+                # self.bus.send(self.can_manual_mode[0])
                 self.drive_mode = "Manual"
             else:
                 drive_mode_msg.data = "Autonomous"
                 self.drive_mode_pub.publish(drive_mode_msg)
                 # Release 1 change mode Autonomous,  send cand message (10-1F)| 10 data 2
-                self.bus.send(self.can_auto_mode[0])
+                # self.bus.send(self.can_auto_mode[0])
                 self.drive_mode = "Autonomous"
             
         self.prev_start_btn_state = start_btn
@@ -144,13 +144,14 @@ class XboxNode(Node):
             # else:
             # self.get_logger().warn("Drive mode: " + self.drive_mode)
             # self.get_logger().info('Data: "%f"' % self.xbox_info.leftx.data)
-        else:
-            self.get_logger().warn('Xbox controller not connected')
 
 def main(args=None):
     rclpy.init(args=args)
     xbox = XboxNode()
     xbox.get_logger().info('Xbox node started')
+    while(not xbox.joy_stick.connected()):
+        xbox.get_logger().warn('Xbox controller not connected')
+    xbox.get_logger().info('Xbox controller connected')
     rclpy.spin(xbox)
     xbox.destroy_node()
     rclpy.shutdown()
