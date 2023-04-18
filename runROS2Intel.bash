@@ -32,7 +32,7 @@ $DOCKER_COMMAND -it -d\
     --privileged \
     -v /dev/bus/usb/:/dev/bus/usb \
     -v /dev:/dev \
-    -v "$PWD/ws/src:/ws/src" \
+    -v "$PWD/can_devices:/ws/src" \
     -v /var/run/docker.sock:/var/run/docker.sock \
     --name=sdv \
     osrf/ros:humble-desktop\
