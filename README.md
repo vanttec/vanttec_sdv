@@ -25,12 +25,10 @@ It includes code made for controlling the acceleartion, steering , braking and l
 ![Tutorial][tutorial]
 
 ```sh
-sudo ./runROS2Intel.bash
+sudo ./create_container_intel.bash
 sudo make sdv.up 
 sudo make sdv.shell
 cd /ws/src
-git clone https://github.com/vanttec/sdv_embedded
-cd ..
 colcon build
 
 ```
