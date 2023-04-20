@@ -10,5 +10,7 @@ sdv.restart:
 sdv.shell:
 	@xhost +	
 	@docker exec -it sdv bash
-sdv.intelcreate:
-	@./runROS2Intel.bash
+sdv.build:
+	@docker build -t sdv ./
+# sdv.intelcreate:
+# 	@./runROS2Intel.bash

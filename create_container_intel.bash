@@ -35,5 +35,5 @@ $DOCKER_COMMAND -it -d\
     -v "$PWD/can_devices:/home/ws/src" \
     -v /var/run/docker.sock:/var/run/docker.sock \
     --name=sdv \
-    osrf/ros:humble-desktop\
+    sdv\
     bash
