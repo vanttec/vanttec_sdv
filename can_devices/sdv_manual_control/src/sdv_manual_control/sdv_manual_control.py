@@ -86,7 +86,7 @@ class ManualControl(CompatibleNode):
         self.role_name = self.get_param("role_name", "vanttec_vehicle")
         self.hud = HUD(self.role_name, resolution['width'], resolution['height'], self)
         self.controller = KeyboardControl(self.role_name, self.hud, self)
-        self.bg = pygame.image.load('/ws/src/sdv_embedded/can_devices/sdv_manual_control/img/interface_bg.jpg')
+        self.bg = pygame.image.load('/ws/src/sdv_ros/can_devices/sdv_manual_control/img/interface_bg.jpg')
         self.image_subscriber = self.new_subscription(
             Image, "/sdv/{}/rgb_view/image".format(self.role_name),
             self.on_view_image, qos_profile=10)
@@ -631,7 +631,7 @@ def main(args=None):
     pygame.init()
     pygame.font.init()
     pygame.display.set_caption("Vanttec/ZF Car Interface")
-    Icon = pygame.image.load('/ws/src/sdv_embedded/can_devices/sdv_manual_control/img/LogoZF.png')
+    Icon = pygame.image.load('/ws/src/sdv_ros/can_devices/sdv_manual_control/img/LogoZF.png')
     pygame.display.set_icon(Icon)
     try:
         display = pygame.display.set_mode((resolution['width'], resolution['height']),
