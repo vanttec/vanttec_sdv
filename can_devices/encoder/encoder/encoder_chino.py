@@ -31,11 +31,11 @@ class EncoderPublisher(Node):
         if receivedMsg is not None:
             if receivedMsg.is_rx:
 
-                d = int( (msg.data.hex()[6:])[::-1], 16)
+                d = int( (receivedMsg.data.hex()[6:])[::-1], 16)
                 absPos.data = d
                 
                 decimal = d / 65535 # 0 - 1
-                angle.data = decimal * degrees # 0 - 360
+                angle.data = decimal * self.degrees # 0 - 360
                 
                 self.publisher_absolute_pos.publish(absPos)
                 # self.publisher_turn_number.publish(turNum)

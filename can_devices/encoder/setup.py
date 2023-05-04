@@ -24,6 +24,8 @@ setup(
         ],
         'console_scripts': [
             'encoder_rm = encoder.encoder_rm:main',
+            'encoder_chino = encoder.encoder_chino:main'
         ],
+        
     },
 )
