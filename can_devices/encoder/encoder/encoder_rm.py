@@ -14,7 +14,7 @@ class EncoderPublisher(Node):
         self.publisher_angle = self.create_publisher(Float64, 'encoder/angle', 10)
         timer_period = 0.01 #Seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
-        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=500000)
+        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000)
         self.sendMsg = can.Message(arbitration_id=1568,is_extended_id=False, data=[0x43, 0x04, 0x60, 0x0])
         self.steps = 4096
         self.degrees = 360

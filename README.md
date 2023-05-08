@@ -25,10 +25,11 @@ It includes code made for controlling the acceleartion, steering , braking and l
 ![Tutorial][tutorial]
 
 ```sh
+sudo make sdv.build
 sudo ./create_container_intel.bash
 sudo make sdv.up 
 sudo make sdv.shell
-cd /home/ws/src
+cd /home/ws/
 colcon build
 
 ```

@@ -11,6 +11,3 @@ std_msgs/Int16 dpad_up
 std_msgs/Int16 dpad_down
 std_msgs/Int16 dpad_left
 std_msgs/Int16 dpad_right
-
-
-
