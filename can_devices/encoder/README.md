@@ -82,5 +82,8 @@ To set cyclic time to 100ms (check datasheet for details):
 cansend can0 620#2B00620064000000
 
 ```
+The encoder is currently configured to send data at 20Hz
+
+Use `candump -td can0` to check the canbus and the difference in time between messages to verify.
 
 Don't forget to store parameters.
