@@ -1,12 +1,11 @@
-from rclpy.node import Node
-from std_msgs.msg import String
 import rclpy
-import xbox_controller.xbox_driver as xbox_driver
-from sdv_msg.msg import XboxMsg
-from sdv_msg.msg import PanelMsg,ThrottleMsg,VehicleControl
-from geometry_msgs.msg import Vector3
-from std_msgs.msg import Int16
+from rclpy.node import Node
 import can
+
+import xbox_controller.xbox_driver as xbox_driver
+from std_msgs.msg import String, Int16
+from geometry_msgs.msg import Vector3
+from sdv_msg.msg import XboxMsg, PanelMsg, ThrottleMsg, VehicleControl, Encoder
 
 def fmtFloat(n):
     return '{:6.3f}'.format(n)
@@ -33,8 +32,12 @@ class XboxNode(Node):
 
         self.req_steps = 0
         self.current_step = 0
-        self.current_angle = 0
+        self.wheel_angle = 0
 
+        self.stepper_to_wheel_ratio = 1.5
+        # max steering = (wheel turns to max steer = 1.7) * (stepper to wheel ratio = 1.5) * 360 degrees
+        self.max_steering = 918 # degrees
+        
         # *------------------* THROTTLE *------------------*
         self.safe_velocity=127
         self.safe_pot = 127
@@ -66,8 +69,8 @@ class XboxNode(Node):
 
         # *------------------* SUBSCRIBERS *------------------*
         self.encoder_sub = self.create_subscription(
-            Int16,
-            '/encoder',
+            Encoder,
+            '/ifm_encoder',
             self.encoder_callback,
             10
         )
@@ -87,7 +90,7 @@ class XboxNode(Node):
 
 
     def encoder_callback(self,msg):
-        self.current_angle = msg.data
+        self.wheel_angle = msg.abs_angle
 
     def panel_controller(self):
         self.panel_info.wiper.data = bool(self.xbox_info.a.data)
@@ -144,21 +147,23 @@ class XboxNode(Node):
             # self.bus.send(can.Message(arbitration_id=self.pot_id,is_extended_id=False,  data=[int(temp_pos)]), timeout=1)
 
     def lateral_control(self):
+        msg = Vector3()
+        
         self.vehicle_control.throttle = self.xbox_info.right_trigger.data
         self.vehicle_control.steer = self.xbox_info.leftx.data
         # self.vehicle_control_pub.publish(self.vehicle_control)
-        req_angle = self.xbox_info.leftx.data * self.MAX_ANGLE
-        req_steps = int((req_angle - self.current_angle)/self.STEP_ANGLE)
+        joystick = self.xbox_info.leftx.data * 100
 
-        if(req_steps != 0):
-            dire = req_steps / abs(req_steps)
+        if(joystick != 0):
+            dire = joystick / abs(joystick)
         else:
             dire = 0
-        req_steps = req_steps * dire
 
-        msg = Vector3()
-        msg.x = float(dire)
-        msg.y = float(req_steps)
+        if(abs(self.wheel_angle) - self.max_steering > 0):
+            msg.x = float(dire)
+        else:
+            msg.x = 0.0
+
         self.steering_pub.publish(msg)
 
     def check_drive_mode(self):

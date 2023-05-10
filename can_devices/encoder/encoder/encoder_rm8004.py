@@ -19,11 +19,10 @@ class RM8004Encoder(Node):
 
         # CANBus
         self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000)
-        # self.sendMsg = can.Message(arbitration_id=1568,is_extended_id=False, data=[0x43, 0x04, 0x60, 0x0])
-        self.start_msg = can.Message(arbitration_id=000,is_extended_id=False, data=[0x01, 0x00])
+        self.start_msg = can.Message(arbitration_id=000,is_extended_id=False, data=[0x01, 0x00]) # to enter operational mode
 
         # Publishers
-        self.encoder_pub = self.create_publisher(Encoder, 'ifm_encoder', 10)
+        self.encoder_pub = self.create_publisher(Encoder, '/ifm_encoder', 10)
 
         timer_period = 0.01 #Seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
@@ -31,19 +30,17 @@ class RM8004Encoder(Node):
         self.bus.send(self.start_msg, timeout=1)
 
     def timer_callback(self):
-        absolute_position = Int32()
-        turn_number = Int16()
-        abs_angle = Float64()
-        angle = Float64()
         msg = self.bus.recv(1)
-
         if msg is not None:
             coded_msg = msg.data
             decoded_msg = coded_msg.hex()
             hex_pos = (decoded_msg[4:6]+decoded_msg[2:4]+decoded_msg[0:2])
             decimal_pos = int(hex_pos, 16)
-            absolute_position.data = decimal_pos
             step = decimal_pos%self.steps
+            
+            if decimal_pos > 8388608: #2^24 /2
+                decimal_pos = decimal_pos - 16777216
+                step = step - 4096
 
             self.encoder_data.turn = decimal_pos//self.steps
             self.encoder_data.abs_angle = float(self.degrees*decimal_pos/self.revolutions)
@@ -51,9 +48,9 @@ class RM8004Encoder(Node):
 
             # self.get_logger().info("Position: %d" %decimal_pos)
             # self.get_logger().info("Step: %d" %step)
-            # self.get_logger().info("Turn: %d" %turn_number.data)
-            # self.get_logger().info("Angle: %d" %angle.data)
-            # self.get_logger().info("Abs angle: %d" %abs_angle)
+            # self.get_logger().info("Turn: %d" %self.encoder_data.turn)
+            # self.get_logger().info("Angle: %d" %self.encoder_data.angle)
+            # self.get_logger().info("Abs angle: %d" %self.encoder_data.abs_angle)
 
             self.encoder_pub.publish(self.encoder_data)
 
