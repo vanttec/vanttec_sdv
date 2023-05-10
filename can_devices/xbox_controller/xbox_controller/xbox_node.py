@@ -152,17 +152,24 @@ class XboxNode(Node):
         self.vehicle_control.throttle = self.xbox_info.right_trigger.data
         self.vehicle_control.steer = self.xbox_info.leftx.data
         # self.vehicle_control_pub.publish(self.vehicle_control)
-        joystick = self.xbox_info.leftx.data * 100
-
+        joystick = self.xbox_info.leftx.data
+        # self.get_logger().info("Joystick pos: %d" %joystick)
+        # self.get_logger().info("Wheel angle: %f" %self.wheel_angle)
+        
         if(joystick != 0):
             dire = joystick / abs(joystick)
         else:
             dire = 0
 
-        if(abs(self.wheel_angle) - self.max_steering > 0):
-            msg.x = float(dire)
+        if dire > 0:
+            if(self.max_steering - self.wheel_angle > 0):
+                msg.x = float(dire)
         else:
-            msg.x = 0.0
+            if dire < 0:
+                if(-self.max_steering - self.wheel_angle < 0):
+                    msg.x = float(dire)
+            else:
+                msg.x = 0.0
 
         self.steering_pub.publish(msg)
 
