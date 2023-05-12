@@ -47,7 +47,7 @@ class PanelModule(Node):
             15: "of/panel/right_down_front_light",
             16: "off/panel/left_down_front_light",
         }
-        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=500000)
+        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=100000)
         self.data_start = 8
         self.bit_len = 6
         self.bit_panel_array=[]
