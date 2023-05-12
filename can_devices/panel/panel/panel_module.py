@@ -10,23 +10,26 @@ from std_msgs.msg import String
 class PanelModule(Node):
     def __init__(self):
         super().__init__('panel_module')
-        self.send_id = 819 #hex.333 
-        self.receive_id = 546 #hex.222 
+        self.panel_module_id = 1105 #hex.451
+        self.receive_id = 1104 #hex. 450
+        self.reversa_id = 8 # hex. 8
+        self.modo_id =  5 #hex. 5
+        self.direccional_id = 6 #hex. 6
         self.signals={
-        "on/panel/wiper": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x1])],
-        "on/panel/horn": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x2])],
-        "on/panel/right_upper_front_light": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x3])],
-        "on/panel/left_upper_front_light": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x4])],
-        "on/panel/right_down_front_light": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x5])],
-        "on/panel/left_down_front_light": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x6])],
-        "panel/status": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x7])],
-        "panel/error": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x8])],
-        "off/panel/wiper": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0xB])],
-        "off/panel/horn": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0xC])],
-        "off/panel/right_upper_front_light": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0xD])],
-        "off/panel/left_upper_front_light": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0xE])],
-        "off/panel/right_down_front_light": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0xF])],
-        "off/panel/left_down_front_light": [False,can.Message(arbitration_id=self.send_id,is_extended_id=False, data=[0x0, 0x0, 0x0, 0x10])],
+        "on/panel/wiper": [False,can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=[self.reversa_id, 0x10])],
+        "on/panel/horn": [False,can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=[self.modo_id, 0x13])],
+        "on/panel/right_upper_front_light": [False,can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=[self.modo_id, 0x14])],
+        "on/panel/left_upper_front_light": [False,can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=[self.direccional_id, 0x10, 0x1])],
+        "on/panel/right_down_front_light": [False,can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=[self.direccional_id, 0x5])],
+        "on/panel/left_down_front_light": [False,can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=[self.direccional_id, 0x6])],
+        "panel/status": [False,can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=[self.direccional_id, 0x7])],
+        "panel/error": [False,can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=[self.direccional_id, 0x8])],
+        "off/panel/wiper": [False,can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=[self.reversa_id, 0x10])],
+        "off/panel/horn": [False,can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=[self.modo_id, 0x13])],
+        "off/panel/right_upper_front_light": [False,can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=[self.modo_id, 0x14])],
+        "off/panel/left_upper_front_light": [False,can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=[self.direccional_id, 0x10,0x1])],
+        "off/panel/right_down_front_light": [False,can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=[self.direccional_id, 0xF])],
+        "off/panel/left_down_front_light": [False,can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=[self.direccional_id, 0x10])],
         }
         self.receive_signals={
             1: "on/panel/wiper",
@@ -78,11 +81,11 @@ class PanelModule(Node):
             self.decimalToBinary(ip_val // 2)
         self.bit_panel_array.append(ip_val % 2)
     def xbox_callback(self,msg):
-        if self.old_inverse_led == 0 and bool(msg.back.data):
-            self.old_inverse_led = bool(msg.back.data)
-            self.inverse_led=0  if self.inverse_led else 1
-        else:
-            self.old_inverse_led =bool(msg.back.data)
+        # if self.old_inverse_led == 0 and bool(msg.back.data):
+        #     self.old_inverse_led = bool(msg.back.data)
+        #     self.inverse_led=0  if self.inverse_led else 1
+        # else:
+        #     self.old_inverse_led =bool(msg.back.data)
         if self.inverse_led:
             self.bus.send(self.signals["on/panel/wiper"][1], timeout=1) if bool(msg.wiper.data) else None
             self.bus.send(self.signals["on/panel/horn"][1], timeout=1) if bool(msg.horn.data) else None
