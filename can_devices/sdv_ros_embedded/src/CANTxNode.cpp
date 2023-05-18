@@ -39,7 +39,7 @@ void CANTxNode::steering_callback(const geometry_msgs::msg::Vector3 &msg) {
 
   if (msg == lastMotorArray) return;
   vanttec::CANMessage canMsg;
-  vanttec::packLong(canMsg, 0x17, stpr_frame);
+  vanttec::packLong(canMsg, 0x16, stpr_frame);
   handler->write(canMsg);
 
   lastMotorArray = msg;
