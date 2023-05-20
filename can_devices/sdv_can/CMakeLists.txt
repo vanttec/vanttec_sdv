@@ -25,6 +25,12 @@ add_subdirectory(libs/vanttec_CANLib)
 target_link_libraries(can_node Vanttec_CANLibLIB)
 # include_directories(libs/vanttec_CANLib/platform_specific/vanttec_canlib_linux)
 
+install(
+  TARGETS
+  can_node
+  DESTINATION lib/${PROJECT_NAME}/
+)
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
