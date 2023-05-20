@@ -2,12 +2,12 @@
 // Created by Abiel on 3/22/23.
 //
 
-#ifndef USV_ROS2_CANRXNODE_H
-#define USV_ROS2_CANRXNODE_H
+#ifndef SDV_CANRXNODE_H
+#define SDV_CANRXNODE_H
 
-#include "Vanttec_CANLib/Utils/CANDeserialization.h"
-#include "Vanttec_CANLib/Utils/CANSerialization.h"
-#include "Vanttec_CANLib_Linux/CANHandler.h"
+#include "Utils/CANDeserialization.h"
+#include "Utils/CANSerialization.h"
+#include "CANHandler.h"
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/float32_multi_array.hpp"
 #include "std_msgs/msg/u_int16.hpp"
@@ -32,4 +32,4 @@ class CANRxNode : public rclcpp::Node {
   void handlePingMsg(can_frame frame);
 };
 
-#endif  // USV_ROS2_CANRXNODE_H
+#endif  // SDV_CANRXNODE_H

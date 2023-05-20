@@ -4,7 +4,7 @@
 #include "CANTxNode.h"
 #include "Vanttec_CANLib/Utils/CANDeserialization.h"
 #include "Vanttec_CANLib/Utils/CANSerialization.h"
-#include "Vanttec_CANLib_Linux/CANHandler.h"
+#include "CANHandler.h"
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/float32_multi_array.hpp"
 #include "std_msgs/msg/u_int16.hpp"
