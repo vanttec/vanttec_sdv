@@ -37,8 +37,9 @@ void CANTxNode::steering_callback(const geometry_msgs::msg::Vector3 &msg) {
   // printf("Steps: %X, Dir: %X\n", steps, dir);
   // printf("%X \n", stpr_frame);
 
-  if (msg == lastMotorArray) return;
+  // if (msg == lastMotorArray) return;
   vanttec::CANMessage canMsg;
+  // canMsg.id = 1;
   vanttec::packLong(canMsg, 0x16, stpr_frame);
   handler->write(canMsg);
 
