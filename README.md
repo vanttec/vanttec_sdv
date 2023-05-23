@@ -9,7 +9,7 @@
 
 <div align="center">
 
-# SDV_EMBEDDED 
+# SDV_ROS2
 
 
 SDV EMBEDDED is the official respository for VANTTEC self driving vehicle
