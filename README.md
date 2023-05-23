@@ -12,7 +12,7 @@
 # SDV_ROS2
 
 
-SDV EMBEDDED is the official respository for VANTTEC self driving vehicle
+SDV ROS2 is the official respository for VANTTEC self driving vehicle
 
 It includes code made for controlling the acceleartion, steering , braking and lights inside the car.<br />
 
