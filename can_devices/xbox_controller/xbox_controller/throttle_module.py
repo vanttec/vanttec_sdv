@@ -10,9 +10,9 @@ from numpy import interp
 class ThrottleModule(Node):
     def __init__(self):
         super().__init__('throttle_module')
-        self.safe_velocity=127
-        self.safe_pot = 127
-        self.throttle_module_id = 1073 #hex 431
+        self.safe_velocity=28
+        self.safe_pot = 72
+        self.throttle_module_id = 1030 #hex 406
         #Send WiperPot position
         self.pot_id = 0x5 #hex.5
         #Send Max velocity

@@ -10,8 +10,8 @@ from std_msgs.msg import String
 class PanelModule(Node):
     def __init__(self):
         super().__init__('panel_module')
-        self.panel_module_id = 1105 #hex.451
-        self.receive_id = 1104 #hex. 450
+        self.panel_module_id = 1040 #hex.410
+        # self.receive_id = 1104 #hex. 450
         self.reversa_id = 8 # hex. 8
         self.modo_id =  5 #hex. 5
         self.direccional_id = 6 #hex. 6
@@ -111,29 +111,29 @@ class PanelModule(Node):
         self.bus.send(self.signals["panel/status"][1], timeout=1)
         receivedMsg = self.bus.recv()
         message = receivedMsg.arbitration_id & self.receive_id
-        try:
-            if message == self.receive_id:
-                if receivedMsg is not None:
-                    codedMsg = receivedMsg.data
-                    decodedMsg = codedMsg.hex()
-                    hexaPos = (decodedMsg[6:8])
-                    decimalPos = int(hexaPos, 16)
-                    self.decimalToBinary(decimalPos)
-                    print(self.bit_panel_array)
-                    for signal in range(self.bit_len):
-                        self.signals[self.receive_signals[signal+1]][0]= self.bit_panel_array[signal] == 1
-                    msg = PanelMsg()
-                    msg.wiper.data = self.signals["on/panel/wiper"][0]
-                    msg.horn.data = self.signals["on/panel/horn"][0]
-                    msg.right_upper_front_light.data = self.signals["on/panel/right_upper_front_light"][0]
-                    msg.left_upper_front_light.data = self.signals["on/panel/left_upper_front_light"][0]
-                    msg.right_down_front_light.data = self.signals["on/panel/right_down_front_light"][0]
-                    msg.left_down_front_light.data = self.signals["on/panel/left_down_front_light"][0]
-                    #Publish Panel information
-                    self.pub_panel_status.publish(msg)
-                    self.bit_panel_array = []
-        except Exception as e:
-            self.get_logger().warn('error in panel module "%s"' % e)
+        # try:
+        #     if message == self.receive_id:
+        #         if receivedMsg is not None:
+        #             codedMsg = receivedMsg.data
+        #             decodedMsg = codedMsg.hex()
+        #             hexaPos = (decodedMsg[6:8])
+        #             decimalPos = int(hexaPos, 16)
+        #             self.decimalToBinary(decimalPos)
+        #             print(self.bit_panel_array)
+        #             for signal in range(self.bit_len):
+        #                 self.signals[self.receive_signals[signal+1]][0]= self.bit_panel_array[signal] == 1
+        #             msg = PanelMsg()
+        #             msg.wiper.data = self.signals["on/panel/wiper"][0]
+        #             msg.horn.data = self.signals["on/panel/horn"][0]
+        #             msg.right_upper_front_light.data = self.signals["on/panel/right_upper_front_light"][0]
+        #             msg.left_upper_front_light.data = self.signals["on/panel/left_upper_front_light"][0]
+        #             msg.right_down_front_light.data = self.signals["on/panel/right_down_front_light"][0]
+        #             msg.left_down_front_light.data = self.signals["on/panel/left_down_front_light"][0]
+        #             #Publish Panel information
+        #             self.pub_panel_status.publish(msg)
+        #             self.bit_panel_array = []
+        # except Exception as e:
+        #     self.get_logger().warn('error in panel module "%s"' % e)
    
         
 

@@ -15,9 +15,11 @@ class XboxNode(Node):
     def __init__(self):
         super().__init__('xbox_node')
 
-        self.admin_id = 256 #hex. 100
+        self.admin_id = 1025 #hex. 401
         self.drive_mode = "Manual"
+        self.motor_mode = "MotorOFF"
         self.prev_start_btn_state = False
+        self.prev_back_btn_state = False
 
         self.MAX_ANGLE = 57
         self.STEP_ANGLE = 0.9
@@ -61,7 +63,7 @@ class XboxNode(Node):
         self.can_auto_mode = [can.Message(arbitration_id=self.admin_id,is_extended_id=False, data=[0x0])]
         self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=100000)
         
-        self.throttle_module_id = 1073 #hex 431
+        self.throttle_module_id = 1030 #hex 406
         self.motor_mode_id = 6 #hex 6
         self.car_mode_id = 7 #hex 7
         
@@ -132,13 +134,13 @@ class XboxNode(Node):
                 drive_mode_msg.data = "Manual"
                 self.drive_mode_pub.publish(drive_mode_msg)
                 self.drive_mode = "Manual"
-                self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.car_mode_id,0x0]), timeout=1)
+                self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.car_mode_id,0x1]), timeout=1)
             else:
                 #Activate digital potentiometer
                 drive_mode_msg.data = "Autonomous"
                 self.drive_mode_pub.publish(drive_mode_msg)
                 self.drive_mode = "Autonomous"     
-                self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.car_mode_id,0x1]), timeout=1)       
+                self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.car_mode_id,0x0]), timeout=1)       
         self.prev_back_btn_state = back_btn
 
     def timer_callback(self):
