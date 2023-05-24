@@ -9,6 +9,9 @@ using namespace std::placeholders;
 
 CANRxNode::CANRxNode(const std::shared_ptr<vanttec::CANHandler> &handler)
     : Node("CANRxNode") {
+
+  RCLCPP_INFO(this->get_logger(), "Starting CAN Rx");
+  
   this->handler = handler;
 
   updateTimer =

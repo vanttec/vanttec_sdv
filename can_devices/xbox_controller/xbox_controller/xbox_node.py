@@ -3,7 +3,7 @@ from rclpy.node import Node
 import can
 
 import xbox_controller.xbox_driver as xbox_driver
-from std_msgs.msg import String, Int16
+from std_msgs.msg import String, Int16, Float32
 from geometry_msgs.msg import Vector3
 from sdv_msg.msg import XboxMsg, PanelMsg, ThrottleMsg, VehicleControl, Encoder
 
@@ -81,7 +81,7 @@ class XboxNode(Node):
         self.throttle_xbox_pub = self.create_publisher(ThrottleMsg,'/sdv/xbox_controller/xbox_throttle',10)
         self.drive_mode_pub = self.create_publisher(String, '/sdv/xbox_controller/drive_mode', 10) 
         self.vehicle_control_pub = self.create_publisher(VehicleControl, '/sdv/manual_ctrl_cmd', 10)
-        self.steering_pub = self.create_publisher(Vector3, '/steering', 10)
+        self.steering_pub = self.create_publisher(Vector3, '/steering_brake', 10)
         self.pub_throttle_status = self.create_publisher(ThrottleMsg, 'throttle/status', 10)
         
         # self.can_manual_mode = [can.Message(arbitration_id=self.admin_id,is_extended_id=False, data=[0x1])]
@@ -101,55 +101,58 @@ class XboxNode(Node):
         # self.panel_xbox_pub.publish(self.panel_info)
 
     def longitudinal_control(self):
-        self.thottle_info.pot.data = self.xbox_info.right_trigger.data
-        self.thottle_info.increase_maxvel.data = self.xbox_info.dpad_up.data
-        self.thottle_info.decrease_maxvel.data =  self.xbox_info.dpad_down.data
+        brake_data = self.xbox_info.right_trigger.data
+    
+
+        # self.thottle_info.pot.data = self.xbox_info.right_trigger.data
+        # self.thottle_info.increase_maxvel.data = self.xbox_info.dpad_up.data
+        # self.thottle_info.decrease_maxvel.data =  self.xbox_info.dpad_down.data
 
         #Detect down bottom to decrease velocity
         #Change max velocity
-        if bool(self.xbox_info.dpad_up.data):
-            if self.new_maxvel<=self.safe_velocity-5:
-                self.new_maxvel+=5
-        if bool(self.xbox_info.dpad_down.data):
-            if self.new_maxvel>=5:
-                self.new_maxvel-=5
-        if self.old_maxvel!=self.new_maxvel:
-            self.limit_pot = interp(self.new_maxvel, [0,self.safe_velocity], [0,self.safe_pot])
-            # new_pos  = (lambda x, y: (int(x), int(x*y) % y/y))(self.limit_pot, 1e7)
-            # integer = new_pos[0]
-            # decimal =  hex(int(new_pos[1]*1e7))[2:]
-            # decimal += (6-len(decimal))*'0'
-            # dec1 = int(decimal[:2],base=16)
-            # dec2 = int(decimal[2:4],base=16)
-            # dec3 = int(decimal[4:6],base=16)
-            self.old_maxvel=self.new_maxvel
-            self.get_logger().info('New max velocity: '+ str(self.new_maxvel)+" km/h")
-            self.get_logger().info('Pot Position: '+ str(self.limit_pot))
-            #self.get_logger().info('CAN Message: '+ str([integer]))
-            # self.bus.send(can.Message(arbitration_id=self.max_id,is_extended_id=False, data=[int(self.limit_pot)]), timeout=1)
-        #Modo 1 (0-100%) con trigger
-        #Change pot position
-        self.new_pot = self.xbox_info.right_trigger.data
-        # self.throttle_xbox_pub.publish(self.thottle_info)
+        # if bool(self.xbox_info.dpad_up.data):
+        #     if self.new_maxvel<=self.safe_velocity-5:
+        #         self.new_maxvel+=5
+        # if bool(self.xbox_info.dpad_down.data):
+        #     if self.new_maxvel>=5:
+        #         self.new_maxvel-=5
+        # if self.old_maxvel!=self.new_maxvel:
+        #     self.limit_pot = interp(self.new_maxvel, [0,self.safe_velocity], [0,self.safe_pot])
+        #     # new_pos  = (lambda x, y: (int(x), int(x*y) % y/y))(self.limit_pot, 1e7)
+        #     # integer = new_pos[0]
+        #     # decimal =  hex(int(new_pos[1]*1e7))[2:]
+        #     # decimal += (6-len(decimal))*'0'
+        #     # dec1 = int(decimal[:2],base=16)
+        #     # dec2 = int(decimal[2:4],base=16)
+        #     # dec3 = int(decimal[4:6],base=16)
+        #     self.old_maxvel=self.new_maxvel
+        #     self.get_logger().info('New max velocity: '+ str(self.new_maxvel)+" km/h")
+        #     self.get_logger().info('Pot Position: '+ str(self.limit_pot))
+        #     #self.get_logger().info('CAN Message: '+ str([integer]))
+        #     # self.bus.send(can.Message(arbitration_id=self.max_id,is_extended_id=False, data=[int(self.limit_pot)]), timeout=1)
+        # #Modo 1 (0-100%) con trigger
+        # #Change pot position
+        # self.new_pot = self.xbox_info.right_trigger.data
+        # # self.throttle_xbox_pub.publish(self.thottle_info)
 
-        #Modo 2 (0-100%) en 100 segundos
-        if int(self.new_pot)>0:
-            self.temp_pot=100 if self.temp_pot>=100 else self.temp_pot+1
-            temp_pos = interp(self.temp_pot, [0,100], [0,self.limit_pot]) 
-            self.get_logger().info('Vel position: ' + str(self.temp_pot))
-            self.get_logger().info('Pot position: ' + str(temp_pos))
-            # self.bus.send(can.Message(arbitration_id=self.pot_id,is_extended_id=False,  data=[int(temp_pos)]), timeout=1)
-        else:
-            self.temp_pot=0 if self.temp_pot<=0 else self.temp_pot-5
-            temp_pos = interp(self.temp_pot, [0,100], [0,self.limit_pot]) 
-            self.get_logger().info('Vel position: '+ str(self.temp_pot))
-            self.get_logger().info('Pot position: '+ str(temp_pos))
+        # #Modo 2 (0-100%) en 100 segundos
+        # if int(self.new_pot)>0:
+        #     self.temp_pot=100 if self.temp_pot>=100 else self.temp_pot+1
+        #     temp_pos = interp(self.temp_pot, [0,100], [0,self.limit_pot]) 
+        #     self.get_logger().info('Vel position: ' + str(self.temp_pot))
+        #     self.get_logger().info('Pot position: ' + str(temp_pos))
+        #     # self.bus.send(can.Message(arbitration_id=self.pot_id,is_extended_id=False,  data=[int(temp_pos)]), timeout=1)
+        # else:
+        #     self.temp_pot=0 if self.temp_pot<=0 else self.temp_pot-5
+        #     temp_pos = interp(self.temp_pot, [0,100], [0,self.limit_pot]) 
+        #     self.get_logger().info('Vel position: '+ str(self.temp_pot))
+        #     self.get_logger().info('Pot position: '+ str(temp_pos))
             # self.bus.send(can.Message(arbitration_id=self.pot_id,is_extended_id=False,  data=[int(temp_pos)]), timeout=1)
 
     def lateral_control(self):
         msg = Vector3()
         
-        self.vehicle_control.throttle = self.xbox_info.right_trigger.data
+        brake_data = self.xbox_info.right_trigger.data
         self.vehicle_control.steer = self.xbox_info.leftx.data
         # self.vehicle_control_pub.publish(self.vehicle_control)
         joystick = self.xbox_info.leftx.data
@@ -170,6 +173,8 @@ class XboxNode(Node):
                     msg.x = float(dire)
             else:
                 msg.x = 0.0
+        
+        msg.z = brake_data
 
         self.steering_pub.publish(msg)
 
