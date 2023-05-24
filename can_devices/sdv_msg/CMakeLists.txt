@@ -22,6 +22,7 @@ set(MSG_FILES
     EtaPose.msg
     SystemDynamics.msg
     ThrustControl.msg
+    Encoder.msg
     )
 
 if(${ROS_VERSION} EQUAL 1)
