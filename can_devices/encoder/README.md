@@ -56,6 +56,12 @@ cansend can0 620#2310100173617665
 ``` 
 Check datasheet on how to change baud rates or the cyclic timer.
 
+To change the preset value (change zero position of the encoder) use (store after using this command):
+
+``` 
+cansend can0 620#2303600000000000
+
+``` 
 
 ### Operational mode
 To enter the operational mode, the 2 bytes must be send 01h 00h, with the 00h identifier. If using socketCAN through the terminal, the next command

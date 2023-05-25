@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import can
+import can.interfaces.socketcan as socketcan
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Int32, Int16, Float64
@@ -30,7 +31,10 @@ class RM8004Encoder(Node):
         self.timer = self.create_timer(timer_period, self.timer_callback)
         
         # CANBus
-        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000)
+        filters = [
+            {"can_id": 0x1A0, "can_mask": 0x1A0, "extended": False}
+        ]
+        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000, can_filters=filters)
         start_msg = can.Message(arbitration_id=000,is_extended_id=False, data=[0x01, 0x00]) # to enter operational mode
 
         # get_pos_msg = can.Message(arbitration_id=0x600+self.encoder_id,is_extended_id=False, data=[0x43, 0x04, 0x60, 0x0])
@@ -58,36 +62,36 @@ class RM8004Encoder(Node):
     def timer_callback(self):
         msg = self.bus.recv(1)
         if msg is not None:
-            coded_msg = msg.data
-            decoded_msg = coded_msg.hex()
-            hex_pos = (decoded_msg[6:7]+decoded_msg[4:6]+decoded_msg[2:4]+decoded_msg[0:2])
-            absolute_pos = int(hex_pos, 16)
-            step = absolute_pos%self.steps
-            
-            # To account when encoder pos is outside the total max steering angle
+            if msg.arbitration_id == 0x1A0:     #Si recibe el 0A0, algo est[a] mal
+                coded_msg = msg.data
+                decoded_msg = coded_msg.hex()
+                hex_pos = (decoded_msg[6:7]+decoded_msg[4:6]+decoded_msg[2:4]+decoded_msg[0:2])
+                absolute_pos = int(hex_pos, 16)
+                step = absolute_pos%self.steps
+                
+                # To account when encoder pos is outside the total max steering angle
 
-            # if(abs_angle > self.car_steering_range):
-            #     offset = self.car_steering_range_pos*(absolute_pos//self.steps)
-            #     self.get_logger().info("Offset: %d\n" % offset)
-            #     absolute_pos  = absolute_pos - offset
+                # if(abs_angle > self.car_steering_range):
+                #     offset = self.car_steering_range_pos*(absolute_pos//self.steps)
+                #     self.get_logger().info("Offset: %d\n" % offset)
+                #     absolute_pos  = absolute_pos - offset
 
-            # To set to [-angle,+angle] range
-            if absolute_pos > self.bit_res/2: #2^24 /2
-                absolute_pos = absolute_pos - self.bit_res
-                step = step - self.steps
+                # To set to [-angle,+angle] range
+                if absolute_pos > self.bit_res/2: #2^24 /2
+                    absolute_pos = absolute_pos - self.bit_res
+                    step = step - self.steps
 
-            abs_angle = float(self.degrees*absolute_pos/self.revolutions)
-            self.encoder_data.turn = -absolute_pos//self.steps
-            self.encoder_data.abs_angle = -abs_angle
-            self.encoder_data.angle = -float(self.degrees*step/self.steps)
+                abs_angle = float(self.degrees*absolute_pos/self.revolutions)
+                self.encoder_data.turn = -absolute_pos//self.steps
+                self.encoder_data.abs_angle = -abs_angle
+                self.encoder_data.angle = -float(self.degrees*step/self.steps)
 
-            # self.get_logger().info("Position: %d" %absolute_pos)
-            # self.get_logger().info("Step: %d" %step)
-            # self.get_logger().info("Turn: %d" %self.encoder_data.turn)
-            # self.get_logger().info("Angle: %d" %self.encoder_data.angle)
-            # self.get_logger().info("Abs angle: %d" %self.encoder_data.abs_angle)
+                # self.get_logger().info("Step: %d" %step)
+                # self.get_logger().info("Turn: %d" %self.encoder_data.turn)
+                # self.get_logger().info("Angle: %d" %self.encoder_data.angle)
+                # self.get_logger().info("Abs angle: %d" %self.encoder_data.abs_angle)
 
-            self.encoder_pub.publish(self.encoder_data)
+                self.encoder_pub.publish(self.encoder_data)
 
 def main(args=None):
     rclpy.init(args=args)
