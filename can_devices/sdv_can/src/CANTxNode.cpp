@@ -40,15 +40,16 @@ void CANTxNode::steering_callback(const geometry_msgs::msg::Vector3 &msg) {
   // if (msg == lastMotorArray) return;
   vanttec::CANMessage steerMsg;
   // steerMsg.id = 1;
-  vanttec::packByte(steerMsg, 0x16, dir);
+  vanttec::packByte(steerMsg, 0x10, dir);
 
   handler->write(steerMsg);
 
+/*
   vanttec::CANMessage brakeMsg;
   float brake = msg.z;
   vanttec::packFloat(brakeMsg, 0x17, brake);
 
   handler->write(brakeMsg);
-
-  lastMotorArray = msg;
+*/
+  // lastMotorArray = msg;
 }
