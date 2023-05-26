@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
            'panel_module = panel.panel_module:main', 
+           'panel_modulev2 = panel.panel_modulev2:main'
         ],
     },
 )
