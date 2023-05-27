@@ -10,17 +10,17 @@ from numpy import interp
 class ThrottleModule(Node):
     def __init__(self):
         super().__init__('throttle_module')
-        self.safe_velocity=127
-        self.safe_pot = 127
+        self.safe_velocity=28
+        self.safe_pot = 72
+        self.throttle_module_id = 1030 #hex 406
         #Send WiperPot position
-        self.pot_id = 384 #hex.180
+        self.pot_id = 0x5 #hex.5
         #Send Max velocity
-        self.max_id = 385 #hex.181
-        self.receive_id = 386 #hex.182
+        self.max_id = 0X8 #hex.8
         self.old_maxvel = self.safe_velocity
         self.temp_pot=0
         self.new_maxvel = self.safe_velocity #Can not surpass 80km/h       
-        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=500000)
+        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=100000)
         self.pub_throttle_status = self.create_publisher(ThrottleMsg, 'throttle/status', 10)
         timer_period = 0.1 #1 second
         self.timer=self.create_timer(timer_period,self.timer_callback)
@@ -28,7 +28,7 @@ class ThrottleModule(Node):
         #Sub to change max velocity and position (Auto Mode)
         self.sub_throttle = self.create_subscription(
             ThrottleMsg,
-            'xbox_throttle/control',
+            '/sdv/xbox_controller/xbox_throttle',
             self.throttle_callback,
             10
         )
@@ -62,7 +62,7 @@ class ThrottleModule(Node):
             self.get_logger().info('New max velocity: '+ str(self.new_maxvel)+" km/h")
             self.get_logger().info('Pot Position: '+ str(self.limit_pot))
             #self.get_logger().info('CAN Message: '+ str([integer]))
-            self.bus.send(can.Message(arbitration_id=self.max_id,is_extended_id=False, data=[int(self.limit_pot)]), timeout=1)
+            self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.max_id,int(self.limit_pot)]), timeout=1)
         #Modo 1 (0-100%) con trigger
         #Change pot position
         self.new_pot = msg.pot.data
@@ -87,13 +87,13 @@ class ThrottleModule(Node):
             temp_pos = interp(self.temp_pot, [0,100], [0,self.limit_pot]) 
             self.get_logger().info('Vel position: '+ str(self.temp_pot))
             self.get_logger().info('Pot position: '+ str(temp_pos))
-            self.bus.send(can.Message(arbitration_id=self.pot_id,is_extended_id=False,  data=[int(temp_pos)]), timeout=1)
+            self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False,  data=[self.pot_id,int(temp_pos)]), timeout=1)
         else:
             self.temp_pot=0 if self.temp_pot<=0 else self.temp_pot-5
             temp_pos = interp(self.temp_pot, [0,100], [0,self.limit_pot]) 
             self.get_logger().info('Vel position: '+ str(self.temp_pot))
             self.get_logger().info('Pot position: '+ str(temp_pos))
-            self.bus.send(can.Message(arbitration_id=self.pot_id,is_extended_id=False,  data=[int(temp_pos)]), timeout=1)
+            self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False,  data=[self.pot_id,int(temp_pos)]), timeout=1)
 
 def main(args=None):
     rclpy.init(args=args)

@@ -14,8 +14,11 @@ class XboxNode(Node):
     def __init__(self):
         super().__init__('xbox_node')
 
-        # *------------------* XBOX CONTROLLER *------------------*
-        self.admin_id = 256 #hex. 100
+        self.admin_id = 1025 #hex. 401
+        self.drive_mode = "Controller"
+        self.motor_mode = "MotorOFF"
+        self.prev_start_btn_state = False
+        self.prev_back_btn_state = False
 
         self.controller_connected = False
         self.controller_stop = True
@@ -80,6 +83,7 @@ class XboxNode(Node):
         self.panel_xbox_pub = self.create_publisher(PanelMsg, '/sdv/xbox_controller/xbox_panel', 10) 
         self.throttle_xbox_pub = self.create_publisher(ThrottleMsg,'/sdv/xbox_controller/xbox_throttle',10)
         self.drive_mode_pub = self.create_publisher(String, '/sdv/xbox_controller/drive_mode', 10) 
+        self.motor_mode_pub = self.create_publisher(String, '/sdv/xbox_controller/motor_mode', 10) 
         self.vehicle_control_pub = self.create_publisher(VehicleControl, '/sdv/manual_ctrl_cmd', 10)
         self.steering_pub = self.create_publisher(Vector3, '/steering_brake', 10)
         self.pub_throttle_status = self.create_publisher(ThrottleMsg, 'throttle/status', 10)
@@ -88,6 +92,16 @@ class XboxNode(Node):
         # self.can_auto_mode = [can.Message(arbitration_id=self.admin_id,is_extended_id=False, data=[0x0])]
         # self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=500000)
 
+        self.can_manual_mode = [can.Message(arbitration_id=self.admin_id,is_extended_id=False, data=[0x1])]
+        self.can_auto_mode = [can.Message(arbitration_id=self.admin_id,is_extended_id=False, data=[0x0])]
+        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=100000)
+        
+        self.throttle_module_id = 1030 #hex 406
+        self.motor_mode_id = 6 #hex 6
+        self.car_mode_id = 7 #hex 7
+        
+    # def drive_mode_callback(self,msg):
+    #     self.drive_mode = msg.data
 
     def encoder_callback(self,msg):
         self.wheel_angle = msg.abs_angle
@@ -97,8 +111,8 @@ class XboxNode(Node):
         self.panel_info.horn.data = bool(self.xbox_info.b.data)
         self.panel_info.right_upper_front_light.data = bool(self.xbox_info.x.data)
         self.panel_info.left_upper_front_light.data = bool(self.xbox_info.y.data)
-        self.panel_info.back.data = bool(self.xbox_info.back.data)
-        # self.panel_xbox_pub.publish(self.panel_info)
+        #self.panel_info.back.data = bool(self.xbox_info.back.data)
+        self.panel_xbox_pub.publish(self.panel_info)
 
     def longitudinal_control(self):
         brake_data = self.xbox_info.right_trigger.data
@@ -178,72 +192,64 @@ class XboxNode(Node):
 
         self.steering_pub.publish(msg)
 
-    def check_drive_mode(self):
+    def publish_drive_mode(self):
+        #Toggle car mode and pedal with XBOX controller
         start_btn = bool(self.joy_stick.Start())
-        # self.get_logger().info('Data: "%d"' % start_btn)
-        if not self.prev_start_state and start_btn:
+        if not self.prev_start_btn_state and start_btn:
+            motor_mode_msg = String()
+            if self.motor_mode == "MotorON":
+                motor_mode_msg.data = "MotorOFF"
+                self.motor_mode_pub.publish(motor_mode_msg)
+                self.motor_mode = "MotorOFF"
+                self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.motor_mode_id,0x0]), timeout=1)
+            else:
+                motor_mode_msg.data = "MotorON"
+                self.motor_mode_pub.publish(motor_mode_msg)
+                self.motor_mode = "MotorON"
+                self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.motor_mode_id,0x1]), timeout=1)
+        
+        self.prev_start_btn_state = start_btn
+
+        back_btn = bool(self.joy_stick.Back())
+        if not self.prev_back_btn_state and back_btn:
             drive_mode_msg = String()
             if self.drive_mode == "Autonomous":
-                self.drive_mode = "Controller"
+                #Activate driver pedal
                 drive_mode_msg.data = "Controller"
                 self.drive_mode_pub.publish(drive_mode_msg)
-                # self.get_logger().info('Controller')
-
-                #Release 1 change mode Manual, send cand message (10-1F) | 10 data 1
-                # self.bus.send(skelf.can_manual_mode[0])
+                self.drive_mode = "Controller"
+                self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.car_mode_id,0x1]), timeout=1)
             else:
-                self.drive_mode = "Autonomous"
+                #Activate digital potentiometer
                 drive_mode_msg.data = "Autonomous"
                 self.drive_mode_pub.publish(drive_mode_msg)
-                # self.get_logger().info('Autonomous')
-        
-                # Release 1 change mode Autonomous,  send cand message (10-1F)| 10 data 2
-                # # self.bus.send(self.can_auto_mode[0])
-            
-        self.prev_start_state = start_btn
-
-    def check_stop_button(self):
-        stop_btn = bool(self.joy_stick.B())
-        # self.get_logger().info('Data: "%d"' % stop_btn)
-
-        # if stop_btn:
-            # publica stop
-
-        self.controller_stop = stop_btn
-            
-    def save_controller_info(self):
-        self.xbox_info.connected.data = self.joy_stick.connected()
-        self.xbox_info.back.data = self.joy_stick.Back()
-        self.xbox_info.leftx.data = self.joy_stick.leftX()
-        self.xbox_info.lefty.data = self.joy_stick.leftY()
-        self.xbox_info.right_trigger.data = self.joy_stick.rightTrigger()
-        self.xbox_info.a.data = self.joy_stick.A()
-        self.xbox_info.b.data = self.joy_stick.B()
-        self.xbox_info.x.data = self.joy_stick.X() 
-        self.xbox_info.y.data = self.joy_stick.Y() 
-        self.xbox_info.dpad_up.data = self.joy_stick.dpadUp()
-        self.xbox_info.dpad_down.data = self.joy_stick.dpadDown()
-        self.xbox_info.dpad_left.data = self.joy_stick.dpadLeft()
-        self.xbox_info.dpad_right.data = self.joy_stick.dpadRight()
-        #self.xbox_status_pub.publish(self.xbox_info)
+                self.drive_mode = "Autonomous"     
+                self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.car_mode_id,0x0]), timeout=1)       
+        self.prev_back_btn_state = back_btn
 
     def timer_callback(self):
-        self.controller_connected = self.joy_stick.connected()
-        # send info about xbox connected to enable/disable systems
-        
-        if self.controller_connected:
-            self.check_stop_button()
-            # send info about emergency stop
-            
-            if not self.controller_stop:
-                self.check_drive_mode()
-                
-                if self.drive_mode == "Controller":
-                    self.save_controller_info()
-                    # self.panel_controller()
-                    self.lateral_control()
-                    # self.longitudinal_control()
-
+        if self.joy_stick.connected():
+            self.publish_drive_mode()
+            if self.drive_mode == "Controller":
+                self.lateral_control()
+                self.xbox_info.connected.data = self.joy_stick.connected()
+                #self.xbox_info.back.data = self.joy_stick.Back()
+                self.xbox_info.leftx.data = self.joy_stick.leftX()
+                self.xbox_info.lefty.data = self.joy_stick.leftY()
+                self.xbox_info.right_trigger.data = self.joy_stick.rightTrigger()
+                self.xbox_info.a.data = self.joy_stick.A()
+                self.xbox_info.b.data = self.joy_stick.B()
+                self.xbox_info.x.data = self.joy_stick.X() 
+                self.xbox_info.y.data = self.joy_stick.Y() 
+                self.xbox_info.dpad_up.data = self.joy_stick.dpadUp()
+                self.xbox_info.dpad_down.data = self.joy_stick.dpadDown()
+                self.xbox_info.dpad_left.data = self.joy_stick.dpadLeft()
+                self.xbox_info.dpad_right.data = self.joy_stick.dpadRight()
+                #Publish Xbox information
+                #self.xbox_status_pub.publish(self.xbox_info)
+                self.panel_controller()
+                self.vehicle_controller()
+            # else:
             # self.get_logger().warn("Drive mode: " + self.drive_mode)
             # self.get_logger().info('Data: "%f"' % self.xbox_info.leftx.data)
 
