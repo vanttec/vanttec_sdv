@@ -10,8 +10,8 @@ from numpy import interp
 class ThrottleModule(Node):
     def __init__(self):
         super().__init__('throttle_module')
-        self.safe_velocity=28
-        self.safe_pot = 72
+        self.safe_velocity=140
+        self.safe_pot = 140
         self.throttle_module_id = 1030 #hex 406
         #Send WiperPot position
         self.pot_id = 0x5 #hex.5
@@ -20,7 +20,7 @@ class ThrottleModule(Node):
         self.old_maxvel = self.safe_velocity
         self.temp_pot=0
         self.new_maxvel = self.safe_velocity #Can not surpass 80km/h       
-        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=100000)
+        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000)
         self.pub_throttle_status = self.create_publisher(ThrottleMsg, 'throttle/status', 10)
         timer_period = 0.1 #1 second
         self.timer=self.create_timer(timer_period,self.timer_callback)
@@ -66,20 +66,20 @@ class ThrottleModule(Node):
         #Modo 1 (0-100%) con trigger
         #Change pot position
         self.new_pot = msg.pot.data
-        '''
-        if self.new_pot!=self.old_pot:
-            temp_pos = interp(self.new_pot, [0,1], [0,self.limit_pot])
-            #new_pos  = (lambda x, y: (int(x), int(x*y) % y/y))(temp_pos, 1e7)
-            #integer = new_pos[0]
-            #decimal =  hex(int(new_pos[1]*1e7))[2:]
-            #decimal += (6-len(decimal))*'0'
-            #dec1 = int(decimal[:2],base=16)
-            #dec2 = int(decimal[2:4],base=16)
-            #dec3 = int(decimal[4:6],base=16)
-            self.old_pot=self.new_pot
-            self.get_logger().info('Pot position: '+ str(temp_pos))
-            self.bus.send(can.Message(arbitration_id=self.pot_id,is_extended_id=False,  data=[int(temp_pos)]), timeout=1)
-        '''
+        
+        # if self.new_pot!=self.old_pot:
+        #     temp_pos = interp(self.new_pot, [0,1], [0,self.limit_pot])
+        #     #new_pos  = (lambda x, y: (int(x), int(x*y) % y/y))(temp_pos, 1e7)
+        #     #integer = new_pos[0]
+        #     #decimal =  hex(int(new_pos[1]*1e7))[2:]
+        #     #decimal += (6-len(decimal))*'0'
+        #     #dec1 = int(decimal[:2],base=16)
+        #     #dec2 = int(decimal[2:4],base=16)
+        #     #dec3 = int(decimal[4:6],base=16)
+        #     self.old_pot=self.new_pot
+        #     self.get_logger().info('Pot position: '+ str(temp_pos))
+        #     self.bus.send(can.Message(arbitration_id=self.pot_id,is_extended_id=False,  data=[int(temp_pos)]), timeout=1)
+        
     def timer_callback(self):
         #Modo 2 (0-100%) en 100 segundos
         if int(self.new_pot)>0:

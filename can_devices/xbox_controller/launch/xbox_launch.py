@@ -22,11 +22,11 @@ def generate_launch_description():
         #   name='panel_module_sdv',
         #),
         
-        # Throttle Module
-        # Node(
-        #    package='xbox_controller',
-        #    executable='throttle_module',
-        #    namespace="",
-        #    name='throttle_module_sdv',
-        # )
+        #Throttle Module
+        #Node(
+        #   package='xbox_controller',
+        #   executable='throttle_module',
+        #   namespace="",
+        #   name='throttle_module_sdv',
+        #)
     ])

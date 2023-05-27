@@ -15,7 +15,7 @@ class XboxNode(Node):
         super().__init__('xbox_node')
 
         self.admin_id = 1025 #hex. 401
-        self.drive_mode = "Controller"
+        self.drive_mode = "Manual"
         self.motor_mode = "MotorOFF"
         self.prev_start_btn_state = False
         self.prev_back_btn_state = False
@@ -24,7 +24,6 @@ class XboxNode(Node):
         self.controller_stop = True
 
         self.prev_start_state = False
-        self.drive_mode = "Controller"
         self.joy_stick = xbox_driver.Joystick(50)
 
         # *------------------* STEERING *------------------*
@@ -79,7 +78,7 @@ class XboxNode(Node):
         )
 
         # *------------------* PUBLISHERS *------------------*
-        # self.xbox_status_pub = self.create_publisher(XboxMsg, 'xbox_controller/status', 10)
+        self.xbox_status_pub = self.create_publisher(XboxMsg, 'xbox_controller/status', 10)
         self.panel_xbox_pub = self.create_publisher(PanelMsg, '/sdv/xbox_controller/xbox_panel', 10) 
         self.throttle_xbox_pub = self.create_publisher(ThrottleMsg,'/sdv/xbox_controller/xbox_throttle',10)
         self.drive_mode_pub = self.create_publisher(String, '/sdv/xbox_controller/drive_mode', 10) 
@@ -94,7 +93,7 @@ class XboxNode(Node):
 
         self.can_manual_mode = [can.Message(arbitration_id=self.admin_id,is_extended_id=False, data=[0x1])]
         self.can_auto_mode = [can.Message(arbitration_id=self.admin_id,is_extended_id=False, data=[0x0])]
-        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=100000)
+        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000)
         
         self.throttle_module_id = 1030 #hex 406
         self.motor_mode_id = 6 #hex 6
@@ -118,9 +117,9 @@ class XboxNode(Node):
         brake_data = self.xbox_info.right_trigger.data
     
 
-        # self.thottle_info.pot.data = self.xbox_info.right_trigger.data
-        # self.thottle_info.increase_maxvel.data = self.xbox_info.dpad_up.data
-        # self.thottle_info.decrease_maxvel.data =  self.xbox_info.dpad_down.data
+        self.thottle_info.pot.data = self.xbox_info.right_trigger.data
+        self.thottle_info.increase_maxvel.data = self.xbox_info.dpad_up.data
+        self.thottle_info.decrease_maxvel.data =  self.xbox_info.dpad_down.data
 
         #Detect down bottom to decrease velocity
         #Change max velocity
@@ -144,10 +143,10 @@ class XboxNode(Node):
         #     self.get_logger().info('Pot Position: '+ str(self.limit_pot))
         #     #self.get_logger().info('CAN Message: '+ str([integer]))
         #     # self.bus.send(can.Message(arbitration_id=self.max_id,is_extended_id=False, data=[int(self.limit_pot)]), timeout=1)
-        # #Modo 1 (0-100%) con trigger
+        # Modo 1 (0-100%) con trigger
         # #Change pot position
         # self.new_pot = self.xbox_info.right_trigger.data
-        # # self.throttle_xbox_pub.publish(self.thottle_info)
+        self.throttle_xbox_pub.publish(self.thottle_info)
 
         # #Modo 2 (0-100%) en 100 segundos
         # if int(self.new_pot)>0:
@@ -194,7 +193,7 @@ class XboxNode(Node):
 
     def publish_drive_mode(self):
         #Toggle car mode and pedal with XBOX controller
-        start_btn = bool(self.joy_stick.Start())
+        start_btn = bool(self.joy_stick.Back())
         if not self.prev_start_btn_state and start_btn:
             motor_mode_msg = String()
             if self.motor_mode == "MotorON":
@@ -210,10 +209,10 @@ class XboxNode(Node):
         
         self.prev_start_btn_state = start_btn
 
-        back_btn = bool(self.joy_stick.Back())
+        back_btn = bool(self.joy_stick.Start())
         if not self.prev_back_btn_state and back_btn:
             drive_mode_msg = String()
-            if self.drive_mode == "Autonomous":
+            if self.drive_mode == "Manual":
                 #Activate driver pedal
                 drive_mode_msg.data = "Controller"
                 self.drive_mode_pub.publish(drive_mode_msg)
@@ -221,9 +220,9 @@ class XboxNode(Node):
                 self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.car_mode_id,0x1]), timeout=1)
             else:
                 #Activate digital potentiometer
-                drive_mode_msg.data = "Autonomous"
+                drive_mode_msg.data = "Manual"
                 self.drive_mode_pub.publish(drive_mode_msg)
-                self.drive_mode = "Autonomous"     
+                self.drive_mode = "Manual"     
                 self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.car_mode_id,0x0]), timeout=1)       
         self.prev_back_btn_state = back_btn
 
@@ -232,6 +231,7 @@ class XboxNode(Node):
             self.publish_drive_mode()
             if self.drive_mode == "Controller":
                 self.lateral_control()
+                self.longitudinal_control()
                 self.xbox_info.connected.data = self.joy_stick.connected()
                 #self.xbox_info.back.data = self.joy_stick.Back()
                 self.xbox_info.leftx.data = self.joy_stick.leftX()
@@ -246,9 +246,8 @@ class XboxNode(Node):
                 self.xbox_info.dpad_left.data = self.joy_stick.dpadLeft()
                 self.xbox_info.dpad_right.data = self.joy_stick.dpadRight()
                 #Publish Xbox information
-                #self.xbox_status_pub.publish(self.xbox_info)
+                self.xbox_status_pub.publish(self.xbox_info)
                 self.panel_controller()
-                self.vehicle_controller()
             # else:
             # self.get_logger().warn("Drive mode: " + self.drive_mode)
             # self.get_logger().info('Data: "%f"' % self.xbox_info.leftx.data)
