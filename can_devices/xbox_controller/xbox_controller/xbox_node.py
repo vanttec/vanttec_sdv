@@ -193,21 +193,21 @@ class XboxNode(Node):
 
     def publish_drive_mode(self):
         #Toggle car mode and pedal with XBOX controller
-        start_btn = bool(self.joy_stick.Back())
-        if not self.prev_start_btn_state and start_btn:
-            motor_mode_msg = String()
-            if self.motor_mode == "MotorON":
-                motor_mode_msg.data = "MotorOFF"
-                self.motor_mode_pub.publish(motor_mode_msg)
-                self.motor_mode = "MotorOFF"
-                self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.motor_mode_id,0x0]), timeout=1)
-            else:
-                motor_mode_msg.data = "MotorON"
-                self.motor_mode_pub.publish(motor_mode_msg)
-                self.motor_mode = "MotorON"
-                self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.motor_mode_id,0x1]), timeout=1)
+        # start_btn = bool(self.joy_stick.Back())
+        # if not self.prev_start_btn_state and start_btn:
+        #     motor_mode_msg = String()
+        #     if self.motor_mode == "MotorON":
+        #         motor_mode_msg.data = "MotorOFF"
+        #         self.motor_mode_pub.publish(motor_mode_msg)
+        #         self.motor_mode = "MotorOFF"
+        #         self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.motor_mode_id,0x1]), timeout=1)
+        #     else:
+        #         motor_mode_msg.data = "MotorON"
+        #         self.motor_mode_pub.publish(motor_mode_msg)
+        #         self.motor_mode = "MotorON"
+        #         self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.motor_mode_id,0x0]), timeout=1)
         
-        self.prev_start_btn_state = start_btn
+        # self.prev_start_btn_state = start_btn
 
         back_btn = bool(self.joy_stick.Start())
         if not self.prev_back_btn_state and back_btn:
@@ -218,12 +218,14 @@ class XboxNode(Node):
                 self.drive_mode_pub.publish(drive_mode_msg)
                 self.drive_mode = "Controller"
                 self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.car_mode_id,0x1]), timeout=1)
+                self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.motor_mode_id,0x1]), timeout=1)
             else:
                 #Activate digital potentiometer
                 drive_mode_msg.data = "Manual"
                 self.drive_mode_pub.publish(drive_mode_msg)
                 self.drive_mode = "Manual"     
-                self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.car_mode_id,0x0]), timeout=1)       
+                self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.car_mode_id,0x0]), timeout=1) 
+                self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.motor_mode_id,0x0]), timeout=1)      
         self.prev_back_btn_state = back_btn
 
     def timer_callback(self):
