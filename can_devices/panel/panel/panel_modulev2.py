@@ -12,7 +12,7 @@ class PanelModule(Node):
     def __init__(self):
         super().__init__('panel_module')
         self.panel_module_id = 1040 #hex.410
-        #self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=100000)
+        #self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000)
         # Provide the path to your JSON file
         file_path = '/ws1/src/sdv_ros/can_devices/panel/resource/panel_functionalities.json'
         # Read the JSON file and store its contents in a dictionary

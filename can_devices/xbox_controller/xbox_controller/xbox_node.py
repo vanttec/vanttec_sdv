@@ -15,13 +15,12 @@ class XboxNode(Node):
         super().__init__('xbox_node')
 
         self.admin_id = 1025 #hex. 401
-        self.drive_mode = "Controller"
+        self.drive_mode = "Manual"
         self.prev_start_btn_state = False
 
         self.controller_connected = False
         self.controller_stop = True
 
-        self.prev_start_state = False
         self.joy_stick = xbox_driver.Joystick(50)
 
         # *------------------* STEERING *------------------*
@@ -76,7 +75,7 @@ class XboxNode(Node):
         )
 
         # *------------------* PUBLISHERS *------------------*
-        # self.xbox_status_pub = self.create_publisher(XboxMsg, 'xbox_controller/status', 10)
+        #self.xbox_status_pub = self.create_publisher(XboxMsg, 'xbox_controller/status', 10)
         self.panel_xbox_pub = self.create_publisher(PanelMsg, '/sdv/xbox_controller/xbox_panel', 10) 
         self.throttle_xbox_pub = self.create_publisher(ThrottleMsg,'/sdv/xbox_controller/xbox_throttle',10)
         self.drive_mode_pub = self.create_publisher(String, '/sdv/xbox_controller/drive_mode', 10) 
@@ -145,8 +144,7 @@ class XboxNode(Node):
         self.steering_pub.publish(msg)
 
     def publish_drive_mode(self):
-        #Toggle car mode and pedal with XBOX controller        
-        self.prev_start_btn_state = start_btn
+        #Toggle car mode and pedal with XBOX controller   
         start_btn = bool(self.joy_stick.Start())
         if not self.prev_start_btn_state and start_btn:
             drive_mode_msg = String()

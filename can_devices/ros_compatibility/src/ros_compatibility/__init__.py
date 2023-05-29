@@ -95,7 +95,7 @@ elif ROS_VERSION == 2:
         time = Time()
         if from_sec:
             time.sec = int(sec)
-            time.nanosec = int((sec - int(sec)) * 1000000000)
+            time.nanosec = int((sec - int(sec)) * 1250000000)
         else:
             time.sec = int(sec)
             time.nanosec = int(nsec)

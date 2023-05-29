@@ -11,7 +11,7 @@ class ThrottleModule(Node):
     def __init__(self):
         super().__init__('throttle_module')
         self.safe_velocity=90 # % of safe_pot  
-        self.safe_pot = 120
+        self.safe_pot = 140
         self.throttle_module_id = 1030 #hex 406
         #Send WiperPot position
         self.pot_id = 0x5 #hex.5
