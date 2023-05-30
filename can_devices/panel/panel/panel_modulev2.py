@@ -4,15 +4,17 @@ import time
 import rclpy
 from rclpy.node import Node
 from sdv_msg.msg import PanelMsg
-from std_msgs.msg import String
+from std_msgs.msg import String, Float32
 from sdv_msg.msg import Encoder
 from sensor_msgs.msg import Imu
 import json
+float32 voltage
 
 class PanelModule(Node):
     def __init__(self):
         super().__init__('panel_module')
-        self.panel_module_id = 1040 #hex.410
+        self.panel_module_id_tx = 1040 #hex.410
+        self.panel_module_id_rx = 1033 #hex.409
         #self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000)
         # Provide the path to your JSON file
         file_path = '/ws1/src/sdv_ros/can_devices/panel/resource/panel_functionalities.json'
@@ -66,6 +68,22 @@ class PanelModule(Node):
             "giro_prominente_izquierda":0,
             "gran_trafico":0,
             "reset"0}
+        self.battery_voltage = Float32()
+        self.pub_battery= self.create_publisher(Float32, '/sdv/panel/battery_voltage', 10)
+
+    def serializeFloatSingle(self, binNum: int):
+        if not (binNum & ~(1<<31)):
+            floatNum = 0
+        else:
+            sign = (binNum >> 31)
+            expn = (binNum >> 23) & ((1<<8)-1)
+            bias = (1<<(8-1))-1
+            bexp = expn - bias
+            frac = (binNum) & ((1<<23)-1)
+
+            floatNum = (-1)**sign * (2**bexp) * (1 + frac/(1<<23))
+            
+        return float(floatNum)
     def read_json_file(self, file_path):
         with open(file_path, 'r') as file:
             data = json.load(file)
@@ -85,38 +103,49 @@ class PanelModule(Node):
             self.bus.send(self.json_data["panelDet"][ele], timeout=1) if bool(msg.xboxcontrol[index]) else None
                 
     def km_to_m(self, km):
-        return km*1000/3600
+        return km*1000/pow(3600,2)
 
     def timer_callback(self):
 
         # Panel Mov agarrarlo de IMU topico
         if(self.imu_data.linear_acceleration.x > self.km_to_m(3)):
-            data_can = self.json_data["panelDet"]["giro_prominente_derecha"]
-            #self.bus.send(can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=data_can),timeout=1)
-        elif(self.imu_data.linear_acceleration.x < self.km_to_m(3)):
             data_can = self.json_data["panelDet"]["aceleracion"]
-            #self.bus.send(can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=data_can),timeout=1)
-        
+            #self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
+        elif(self.imu_data.linear_acceleration.x < self.km_to_m(2)):
+            data_can = self.json_data["panelDet"]["estacionario"]
+            #self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
+        else:
+            data_can = self.json_data["panelDet"]["reset"]
+            #self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1) 
         # Panel Det agarrarlo de imu y encoder  
         if(self.encoder_angle > 100):
             data_can = self.json_data["panelDet"]["giro_prominente_derecha"]
-            #self.bus.send(can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=data_can),timeout=1)
+            #self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
         elif(self.encoder_angle < -100):
             data_can = self.json_data["panelDet"]["giro_prominente_izquierda"]
-            #self.bus.send(can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=data_can),timeout=1)
+            #self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
 
         # Object Notification agarrarlo de perception
         if(self.object_key!="" and self.object_key in self.json_data["objectNotification"]):
             data_can = self.json_data["objectNotification"][self.object_key]
-            #self.bus.send(can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=data_can),timeout=1)
+            #self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
         # Recognize traffic agarrarlo de perception
         if(self.traffic_key!="" and self.traffic_key in self.json_data["recognizeTraffic"]):
             data_can = self.json_data["recognizeTraffic"][self.traffic_key]
-            #self.bus.send(can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=data_can),timeout=1)
+            #self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
         # Detect Lane agarrarlo de perception
         if(self.lane_key!="" and self.lane_key in self.json_data["detectLane"]):
             data_can = self.json_data["recognizeTraffic"][self.lane_key]
-            #self.bus.send(can.Message(arbitration_id=self.panel_module_id,is_extended_id=False, data=data_can),timeout=1)
+            #self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
+        
+        #Publish battery voltage 
+        if receivedMsg is not None:
+            if msg.arbitration_id == self.panel_module_id_rx:
+                if receivedMsg.data[0] == 0x13:
+                    receivedMsg = self.bus.recv(1)
+                    data =  (receivedMsg.data[1] << 24) | (receivedMsg.data[2] << 16) | (receivedMsg.data[3] << 8) | (receivedMsg.data[4] << 0) 
+                    self.battery_voltage.data = self.serializeFloatSingle(data)
+                    self.pub_battery.publish(self.battery_voltage)
 
 
     

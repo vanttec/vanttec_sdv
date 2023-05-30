@@ -36,7 +36,7 @@
     "recognizeTraffic":{
         "stop":[17,16],
         "pedestrian":[17,17],
-        "reset":[17,18]
+        "nothing":[17,18]
     },
     "detectLane":{
         "in_lane":[18,16],
