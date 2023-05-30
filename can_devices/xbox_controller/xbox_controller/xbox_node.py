@@ -106,6 +106,7 @@ class XboxNode(Node):
         self.panel_info.right_upper_front_light.data = bool(self.xbox_info.x.data)
         self.panel_info.left_upper_front_light.data = bool(self.xbox_info.y.data)
         #self.panel_info.back.data = bool(self.xbox_info.back.data)
+        self.panel_info.xboxcontrol.data = [bool(self.xbox_info.a.data),bool(self.xbox_info.b.data),bool(self.xbox_info.x.data),bool(self.xbox_info.y.data)]
         self.panel_xbox_pub.publish(self.panel_info)
 
     def longitudinal_control(self):

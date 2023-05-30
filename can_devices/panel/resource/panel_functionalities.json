@@ -1,42 +1,46 @@
 {
     "panelMov":{
-        "frenado":[5,10],
-        "encendido":[5,13],
-        "apagado":[5,14],
-        "estacionario":[5,15],
-        "aceleracion":[5,16],
-        "sin_cambios":[5,17]
+        "frenado":[5,16], 
+        "encendido":[5,17],
+        "apagado":[5,18],
+        "estacionario":[5,19],
+        "aceleracion":[5,20],
+        "sin_cambios":[5,21],
+        "reset":[5,10]
     },
     "panelDet":{
-        "giro_prominente":[6,10],
-        "gran_trafico":[6,11],
-        "giro_repentino":[6,11]
+        "giro_prominente_derecha":[6,16],
+        "giro_prominente_izquierda":[6,17],
+        "gran_trafico":[6,18],
+        "giro_repentino_derecha":[6,19],
+        "giro_repentino_izquierda":[6,20],
+        "reset":[6,10]
     },
     "driveMode":{
-        "autonomo":[7,10],
-        "autonomo_stop":[7,11],
-        "manual":[7,12]
+        "autonomo":[7,16],
+        "manual":[7,18]
     },
     "reverseSwitch":{
-        "reversa":[8,10],
-        "frente":[8,11]
+        "revers2":[8,16],
+        "drive":[8,17]
     },
     "safetyMode":{
-        "on":[9,10],
-        "off":[9,11]
+        "on":[9,16],
+        "off":[9,17]
     },
     "objectNotification":{
-        "cerca":[10,10],
-        "lejos":[10,11],
-        "nada":[10,12]
+        "close":[16,16],
+        "far":[16,17],
+        "nothing":[16,18]
     },
     "recognizeTraffic":{
-        "stop":[11,10],
-        "pedestrian_crossing":[11,11]
+        "stop":[17,16],
+        "pedestrian":[17,17],
+        "reset":[17,18]
     },
     "detectLane":{
-        "presente":[12,10],
-        "fuera":[12,11],
-        "nada":[12,12]
+        "in_lane":[18,16],
+        "out_lane":[18,17],
+        "no_lane":[18,18]
     }
 }
