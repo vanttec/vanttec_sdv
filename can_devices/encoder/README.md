@@ -93,3 +93,81 @@ The encoder is currently configured to send data at 20Hz
 Use `candump -td can0` to check the canbus and the difference in time between messages to verify.
 
 Don't forget to store parameters.
+
+## Briter
+
+This encoder is a little bit less sophisticated, it provides no modes, rather you are supposed to configure everything "on the fly". It has internal memory so it can save previous configurations.
+
+It is supposed to have 4096 steps.
+
+For the encoder to understand a command, you need to follow this structure:
+
+| Data Length | Encoder Address | Command | Data      |
+|-------------|-----------------|---------|-----------|
+| 1 Byte      | 1 Byte          | 1 Byte  | 0~4 Bytes |
+
+(Data length includes it's own field in the calculated length)
+(The Data column, is encoded in little endian)
+
+### Configuration commands
+**Set the encoder's ID - 0x02**
+```
+Send command to 0x01, to change it's id to 0x02
+[0x04, 0x01, 0x02, 0x02]
+```
+
+**Set the encoder's baud rate - 0x03**
+0x00:500K; 0x01:1M 0x02:250K; 0x03:125K; 0x04:100K;
+```
+Send command to 0x01, to set the baud rate of 100,000
+[0x04, 0x01, 0x03, 0x04]
+```
+
+**Set the encoder's mode - 0x04**
+0x00: query; 0xAA: automatic post back;
+```
+Send command to 0x01, change its mode to autmoatic
+[0x04, 0x01, 0x04, 0xAA]
+```
+
+**Set the encoder's return time - 0x05**
+```
+Only valid in automatic mode. Time provided in microseconds
+Send command to 0x01, change the interval to 1000ms
+[0x05, 0x01, 0x05, 0xE8, 0x03]
+```
+
+### Operation commands
+**Read the encoder value - 0x01**
+This command is really only useful if using the query mode, automatic mode with return this without asking.
+```
+Send command to 0x01, to read the encoder's position
+[0x04, 0x01, 0x01, 0x00]
+```
+
+**Set current posotion to 0 - 0x06**
+```
+Send command to 0x01, to set the position to 0
+[0x04, 0x01, 0x06, 0x00]
+```
+
+**Set an exact position on the encoder - 0x0D**
+```
+Send command to 0x01, to change it's position to 74565
+[0x07, 0x01, 0x0D, 0x00, 0x01, 0x23, 0x45]
+```
+
+### How to interpret the encoder's position?
+Here are two code snippets, because for some reason, the encoder returns the data in two diferent formats, depending if it is on automatic or query mode.
+
+**automatic mode**
+```
+int( ((receivedMsg.data.hex()[6:])[0:4])[::-1], 16)
+```
+
+**Usado para leer del query mode**
+```
+int( (receivedMsg.data.hex()[6:])[::-1], 16)
+```
+
+^^ Both of the codes basically, just reverse it converting it from low-endian to big-endian, remove the first 3 bytes (which is metadata), and convert it into an integer with the built-in python function.
