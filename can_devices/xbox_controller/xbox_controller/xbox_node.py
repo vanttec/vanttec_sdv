@@ -14,7 +14,7 @@ class XboxNode(Node):
     def __init__(self):
         super().__init__('xbox_node')
 
-        self.admin_id = 1025 #hex. 401
+        self.admin_id = 0x401
         self.drive_mode = "Manual"
         self.prev_start_btn_state = False
 
