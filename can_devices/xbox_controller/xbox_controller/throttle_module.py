@@ -10,8 +10,8 @@ from numpy import interp
 class ThrottleModule(Node):
     def __init__(self):
         super().__init__('throttle_module')
-        self.safe_velocity=90 # % of safe_pot  
-        self.safe_pot = 140
+        self.safe_velocity=200 # % of safe_pot  
+        self.safe_pot = 170
         self.throttle_module_id = 1030 #hex 406
         #Send WiperPot position
         self.pot_id = 0x5 #hex.5
@@ -59,13 +59,13 @@ class ThrottleModule(Node):
     def timer_callback(self):
         #Modo 2 (0-100%) en 100 segundos
         if int(self.new_pot)>0:
-            self.temp_pot=100 if self.temp_pot>=100 else self.temp_pot+1
+            self.temp_pot=100 if self.temp_pot>=100 else self.temp_pot+5
             temp_pos = interp(self.temp_pot, [0,100], [1,self.limit_pot]) 
             self.get_logger().info('Vel position: '+ str(self.temp_pot))
             self.get_logger().info('Pot position: '+ str(temp_pos))
             self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False,  data=[self.pot_id,int(temp_pos)]), timeout=1)
         else:
-            self.temp_pot=0 if self.temp_pot<=0 else self.temp_pot-5
+            self.temp_pot=0 if self.temp_pot<=0 else self.temp_pot-15
             temp_pos = interp(self.temp_pot, [0,100], [1,self.limit_pot]) 
             self.get_logger().info('Vel position: '+ str(self.temp_pot))
             self.get_logger().info('Pot position: '+ str(temp_pos))

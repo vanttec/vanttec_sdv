@@ -188,7 +188,7 @@ class XboxNode(Node):
                 self.xbox_info.dpad_right.data = self.joy_stick.dpadRight()
                 #Publish Xbox information
                 #self.xbox_status_pub.publish(self.xbox_info)
-                self.panel_controller()
+                #self.panel_controller()
             # else:
             # self.get_logger().warn("Drive mode: " + self.drive_mode)
             # self.get_logger().info('Data: "%f"' % self.xbox_info.leftx.data)
