@@ -8,17 +8,17 @@ from std_msgs.msg import String, Float32
 from sdv_msg.msg import Encoder
 from sensor_msgs.msg import Imu
 import json
-float32 voltage
 
 class PanelModule(Node):
     def __init__(self):
         super().__init__('panel_module')
         self.panel_module_id_tx = 1040 #hex.410
         self.panel_module_id_rx = 1033 #hex.409
-        #self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000)
         # Provide the path to your JSON file
-        file_path = '/ws1/src/sdv_ros/can_devices/panel/resource/panel_functionalities.json'
+        file_path = '/ws/src/sdv_ros/can_devices/panel/resource/panel_functionalities.json'
         # Read the JSON file and store its contents in a dictionary
+        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000)
+
         self.json_data = self.read_json_file(file_path)
         self.encoder_panel = self.create_subscription(
             Encoder,
@@ -67,7 +67,7 @@ class PanelModule(Node):
             "giro_prominente_derecha":0,
             "giro_prominente_izquierda":0,
             "gran_trafico":0,
-            "reset"0}
+            "reset":0}
         self.battery_voltage = Float32()
         self.pub_battery= self.create_publisher(Float32, '/sdv/panel/battery_voltage', 10)
 
@@ -109,13 +109,13 @@ class PanelModule(Node):
 
         # Panel Mov agarrarlo de IMU topico
         if(self.imu_data.linear_acceleration.x > self.km_to_m(3)):
-            data_can = self.json_data["panelDet"]["aceleracion"]
+            data_can = self.json_data["panelMov"]["aceleracion"]
             #self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
         elif(self.imu_data.linear_acceleration.x < self.km_to_m(2)):
-            data_can = self.json_data["panelDet"]["estacionario"]
+            data_can = self.json_data["panelMov"]["estacionario"]
             #self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
         else:
-            data_can = self.json_data["panelDet"]["reset"]
+            data_can = self.json_data["panelMov"]["reset"]
             #self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1) 
         # Panel Det agarrarlo de imu y encoder  
         if(self.encoder_angle > 100):
@@ -139,12 +139,12 @@ class PanelModule(Node):
             #self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
         
         #Publish battery voltage 
+        receivedMsg = self.bus.recv(1)
         if receivedMsg is not None:
-            if msg.arbitration_id == self.panel_module_id_rx:
-                if receivedMsg.data[0] == 0x13:
-                    receivedMsg = self.bus.recv(1)
-                    data =  (receivedMsg.data[1] << 24) | (receivedMsg.data[2] << 16) | (receivedMsg.data[3] << 8) | (receivedMsg.data[4] << 0) 
-                    self.battery_voltage.data = self.serializeFloatSingle(data)
+            if receivedMsg.arbitration_id == self.panel_module_id_rx:
+                if receivedMsg.data[0] == 0x5:
+                    data_volts =  (receivedMsg.data[1] << 24) | (receivedMsg.data[2] << 16) | (receivedMsg.data[3] << 8) | (0 << 0)
+                    self.battery_voltage.data = self.serializeFloatSingle(data_volts)
                     self.pub_battery.publish(self.battery_voltage)
 
 
