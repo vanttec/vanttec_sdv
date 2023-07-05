@@ -33,13 +33,17 @@ set(libraries
     dynamic_model
     car_simulation_node
     car_tf2_broadcast_node
+    car_control_node
 )
 
 #Add cpp library files
 add_library(dynamic_model SHARED
                 src/vanttec_controllers/dynamic_models/ground_vehicles/src/el_rasho.cpp
                 src/vanttec_controllers/dynamic_models/ground_vehicles/src/car_3dof_dynamic_model.cpp
-                src/vanttec_controllers/simulation/src/6dof_tf2_broadcaster.cpp)
+                src/vanttec_controllers/simulation/src/6dof_tf2_broadcaster.cpp
+                src/vanttec_controllers/controllers/pid.cpp
+                src/vanttec_controllers/controllers/stanley_controller.cpp
+                src/vanttec_controllers/controllers/controllers_merge.cpp)
 target_include_directories(dynamic_model PUBLIC
 $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 $<INSTALL_INTERFACE:include>
@@ -61,6 +65,12 @@ target_include_directories(car_tf2_broadcast_node PUBLIC
   $<INSTALL_INTERFACE:include>)
 target_compile_features(car_tf2_broadcast_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
+add_executable(car_control_node src/model/car_control_node.cpp)
+target_link_libraries(car_control_node dynamic_model)
+target_include_directories(car_control_node PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+target_compile_features(car_control_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
 ament_target_dependencies(dynamic_model
   ${dependencies}
