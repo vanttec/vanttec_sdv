@@ -1,11 +1,12 @@
 import rclpy
 from rclpy.node import Node
 import can
+import struct
 
 import xbox_controller.xbox_driver as xbox_driver
 from std_msgs.msg import String, Int16, Float32
 from geometry_msgs.msg import Vector3
-from sdv_msg.msg import XboxMsg, PanelMsg, ThrottleMsg, VehicleControl, Encoder
+from sdv_msg.msg import Encoder, PanelMsg#, XboxMsg, ThrottleMsg, VehicleControl 
 
 def fmtFloat(n):
     return '{:6.3f}'.format(n)
@@ -28,6 +29,9 @@ class XboxNode(Node):
 
         self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000)
 
+        self.motor_mode_id = 0x6
+        self.car_mode_id = 0x7
+
         # *------------------* STEERING *------------------*
         # self.MAX_ANGLE = 57
         # self.STEP_ANGLE = 0.9
@@ -44,6 +48,9 @@ class XboxNode(Node):
         self.steering_module_id = 0x408
         self.dir_id = 0x10
 
+        # *------------------* BRAKE *------------------*
+
+
         # *------------------* THROTTLE *------------------*
         self.safe_velocity=200 # % of safe_pot  
         self.safe_pot = 170
@@ -59,6 +66,10 @@ class XboxNode(Node):
         self.limit_pot = self.safe_velocity
         self.timer=self.create_timer(timer_period,self.throttle_timer)
 
+        self.pot_data = 0
+        self.increase_maxvel_data = 0
+        self.decrease_maxvel_data = 0
+
         self.throttle_module_id = 0x406
         #Send WiperPot position
         self.pot_id = 0x5
@@ -66,10 +77,10 @@ class XboxNode(Node):
         self.max_id = 0x8
 
         # *------------------* ROS MESSAGES *------------------*
-        self.xbox_info = XboxMsg()
+        # self.xbox_info = XboxMsg()
+        # self.thottle_info = ThrottleMsg()
         self.panel_info = PanelMsg()
-        self.thottle_info = ThrottleMsg()
-        self.vehicle_control = VehicleControl()
+        # self.vehicle_control = VehicleControl()
 
         # *------------------* SUBSCRIBERS *------------------*
         self.encoder_sub = self.create_subscription(
@@ -84,7 +95,6 @@ class XboxNode(Node):
         self.panel_xbox_pub = self.create_publisher(PanelMsg, '/sdv/xbox_controller/xbox_panel', 10) 
         self.drive_mode_pub = self.create_publisher(String, '/sdv/xbox_controller/drive_mode', 10) 
         self.motor_mode_pub = self.create_publisher(String, '/sdv/xbox_controller/motor_mode', 10) 
-        self.vehicle_control_pub = self.create_publisher(VehicleControl, '/sdv/manual_ctrl_cmd', 10)
         self.steering_pub = self.create_publisher(Vector3, '/steering_brake', 10)
         # self.pub_throttle_status = self.create_publisher(ThrottleMsg, 'throttle/status', 10)
 
@@ -94,10 +104,6 @@ class XboxNode(Node):
         }
         self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000)
         
-        self.throttle_module_id = 1030 #hex 406
-        self.motor_mode_id = 6 #hex 6
-        self.car_mode_id = 7 #hex 7
-        
     # def drive_mode_callback(self,msg):
     #     self.drive_mode = msg.data
 
@@ -105,25 +111,29 @@ class XboxNode(Node):
         self.steering_wheel_angle = msg.abs_angle
 
     def panel_controller(self):
-        self.panel_info.wiper.data = bool(self.xbox_info.a.data)
-        self.panel_info.horn.data = bool(self.xbox_info.b.data)
-        self.panel_info.right_upper_front_light.data = bool(self.xbox_info.x.data)
-        self.panel_info.left_upper_front_light.data = bool(self.xbox_info.y.data)
-        #self.panel_info.back.data = bool(self.xbox_info.back.data)
-        self.panel_info.xboxcontrol.data = [bool(self.xbox_info.a.data),bool(self.xbox_info.b.data),bool(self.xbox_info.x.data),bool(self.xbox_info.y.data)]
+        self.panel_info.wiper.data = bool(self.joy_stick.A())
+        self.panel_info.horn.data = bool(self.joy_stick.B())
+        self.panel_info.right_upper_front_light.data = bool(self.joy_stick.X() )
+        self.panel_info.left_upper_front_light.data = bool(self.joy_stick.Y() )
+        #self.panel_info.back.data = bool(self.joy_stick.Back())
+        self.panel_info.xboxcontrol.data = [bool(self.joy_stick.A()),bool(self.joy_stick.B()),bool(self.joy_stick.X() ),bool(self.joy_stick.Y() )]
         self.panel_xbox_pub.publish(self.panel_info)
 
     def longitudinal_control(self):
-        self.thottle_info.pot.data = self.xbox_info.right_trigger.data
-        self.thottle_info.increase_maxvel.data = self.xbox_info.dpad_up.data
-        self.thottle_info.decrease_maxvel.data =  self.xbox_info.dpad_down.data
+        self.pot_data = self.joy_stick.rightTrigger()
+        self.increase_maxvel_data = self.joy_stick.dpadUp()
+        self.decrease_maxvel_data =  self.joy_stick.dpadDown()
 
+        self.velocity_control()
+        self.braking_control()
+
+    def velocity_control(self):
         #Detect down bottom to decrease velocity
         #Change max velocity
-        if bool(self.thottle_info.increase_maxvel.data):
+        if bool(self.increase_maxvel_data):
             if self.new_maxvel<=self.safe_velocity-5:
                 self.new_maxvel+=5
-        if bool(self.thottle_info.decrease_maxvel.data):
+        if bool(self.decrease_maxvel_data):
             if self.new_maxvel>=5:
                 self.new_maxvel-=5
         if self.old_maxvel != self.new_maxvel:
@@ -133,15 +143,18 @@ class XboxNode(Node):
             self.get_logger().info('Pot Position: '+ str(self.limit_pot))
             self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.max_id,int(self.limit_pot)]), timeout=1)
         #Change pot position
-        self.new_pot = self.thottle_info.pot.data
+        self.new_pot = self.pot_data
+
+    def braking_control(self):
+        brake_data = self.joy_stick.leftTrigger()
+        print(brake_data)
+        brake_byte_array = bytearray(struct.pack("f", brake_data))
+        print([ "0x%02x" % b for b in brake_byte_array ])
+        self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.max_id,brake_byte_array]), timeout=1)
 
     def lateral_control(self):
-        msg = Vector3()
-        
-        brake_data = self.xbox_info.right_trigger.data
-        self.vehicle_control.steer = self.xbox_info.leftx.data
-        # self.vehicle_control_pub.publish(self.vehicle_control)
-        joystick = self.xbox_info.leftx.data
+        # self.vehicle_control.steer = self.joy_stick.leftX()
+        joystick = self.joy_stick.leftX()
         # self.get_logger().info("Joystick pos: %d" %joystick)
         # self.get_logger().info("Wheel angle: %f" %self.steering_wheel_angle)
         
@@ -151,20 +164,15 @@ class XboxNode(Node):
             dire = 0
 
         if dire > 0:
-            if(self.max_steering - self.steering_wheel_angle > 0):
-                msg.x = float(dire)
-        else:
-            if dire < 0:
-                if(-self.max_steering - self.steering_wheel_angle < 0):
-                    msg.x = float(dire)
-            else:
-                msg.x = 0.0
+            if(self.max_steering - self.steering_wheel_angle <= 0):
+                dire = 0
+        elif dire < 0:
+            if(-self.max_steering - self.steering_wheel_angle >= 0):
+                dire = 0
         
-        msg.z = brake_data
-
-        if msg.x > 0:
+        if dire > 0:
             dir = 1     # Normal -> CW:0, CCW:1, but inverted due to gears
-        elif msg.x < 0:
+        elif dire < 0:
             dir = 0
         else:
             dir = 2
@@ -201,19 +209,20 @@ class XboxNode(Node):
             if self.drive_mode == "Controller":
                 self.lateral_control()
                 self.longitudinal_control()
-                self.xbox_info.connected.data = self.joy_stick.connected()
-                self.xbox_info.back.data = self.joy_stick.Back()
-                self.xbox_info.leftx.data = self.joy_stick.leftX()
-                self.xbox_info.lefty.data = self.joy_stick.leftY()
-                self.xbox_info.right_trigger.data = self.joy_stick.rightTrigger()
-                self.xbox_info.a.data = self.joy_stick.A()
-                self.xbox_info.b.data = self.joy_stick.B()
-                self.xbox_info.x.data = self.joy_stick.X() 
-                self.xbox_info.y.data = self.joy_stick.Y() 
-                self.xbox_info.dpad_up.data = self.joy_stick.dpadUp()
-                self.xbox_info.dpad_down.data = self.joy_stick.dpadDown()
-                self.xbox_info.dpad_left.data = self.joy_stick.dpadLeft()
-                self.xbox_info.dpad_right.data = self.joy_stick.dpadRight()
+                # self.xbox_info.connected.data = self.joy_stick.connected()
+                # self.xbox_info.back.data = self.joy_stick.Back()
+                # self.xbox_info.leftx.data = self.joy_stick.leftX()
+                # self.xbox_info.lefty.data = self.joy_stick.leftY()
+                # self.xbox_info.right_trigger.data = self.joy_stick.rightTrigger()
+                # self.xbox_info.left_trigger.data = self.joy_stick.leftTrigger()
+                # self.xbox_info.a.data = self.joy_stick.A()
+                # self.xbox_info.b.data = self.joy_stick.B()
+                # self.xbox_info.x.data = self.joy_stick.X() 
+                # self.xbox_info.y.data = self.joy_stick.Y() 
+                # self.xbox_info.dpad_up.data = self.joy_stick.dpadUp()
+                # self.xbox_info.dpad_down.data = self.joy_stick.dpadDown()
+                # self.xbox_info.dpad_left.data = self.joy_stick.dpadLeft()
+                # self.xbox_info.dpad_right.data = self.joy_stick.dpadRight()
                 #Publish Xbox information
                 #self.xbox_status_pub.publish(self.xbox_info)
                 #self.panel_controller()
