@@ -10,7 +10,7 @@ def generate_launch_description():
           executable='encoder_rm8004',
           namespace="",
           name='ifm_encoder_node',
-        )
+        ),
 
         Node(
             package='xbox_controller',

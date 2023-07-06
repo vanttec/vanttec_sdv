@@ -2,6 +2,7 @@ import rclpy
 from rclpy.node import Node
 import can
 import struct
+from numpy import interp
 
 import xbox_controller.xbox_driver as xbox_driver
 from std_msgs.msg import String, Int16, Float32
@@ -49,7 +50,7 @@ class XboxNode(Node):
         self.dir_id = 0x10
 
         # *------------------* BRAKE *------------------*
-
+        self.braking_module_id = 0x407
 
         # *------------------* THROTTLE *------------------*
         self.safe_velocity=200 # % of safe_pot  
@@ -64,7 +65,7 @@ class XboxNode(Node):
         self.new_pot = 0
         self.old_pot = 0 
         self.limit_pot = self.safe_velocity
-        self.timer=self.create_timer(timer_period,self.throttle_timer)
+        # self.timer=self.create_timer(timer_period,self.throttle_timer)
 
         self.pot_data = 0
         self.increase_maxvel_data = 0
@@ -124,7 +125,7 @@ class XboxNode(Node):
         self.increase_maxvel_data = self.joy_stick.dpadUp()
         self.decrease_maxvel_data =  self.joy_stick.dpadDown()
 
-        self.velocity_control()
+        # self.velocity_control()
         self.braking_control()
 
     def velocity_control(self):
@@ -139,18 +140,34 @@ class XboxNode(Node):
         if self.old_maxvel != self.new_maxvel:
             self.limit_pot = interp(self.new_maxvel, [0,100], [0,self.safe_pot])
             self.old_maxvel=self.new_maxvel
-            self.get_logger().info('New max velocity: '+ str(self.new_maxvel)+" %")
-            self.get_logger().info('Pot Position: '+ str(self.limit_pot))
+            # self.get_logger().info('New max velocity: '+ str(self.new_maxvel)+" %")
+            # self.get_logger().info('Pot Position: '+ str(self.limit_pot))
             self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.max_id,int(self.limit_pot)]), timeout=1)
+        
         #Change pot position
         self.new_pot = self.pot_data
+        #     #Modo 2 (0-100%) en 100 segundos
+        if int(self.new_pot)>0:
+            self.temp_pot=100 if self.temp_pot>=100 else self.temp_pot+5
+            temp_pos = interp(self.temp_pot, [0,100], [1,self.limit_pot]) 
+            # self.get_logger().info('Vel position: '+ str(self.temp_pot))
+            # self.get_logger().info('Pot position: '+ str(temp_pos))
+            self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False,  data=[self.pot_id,int(temp_pos)]), timeout=1)
+        else:
+            self.temp_pot=0 if self.temp_pot<=0 else self.temp_pot-15
+            temp_pos = interp(self.temp_pot, [0,100], [1,self.limit_pot]) 
+            # self.get_logger().info('Vel position: '+ str(self.temp_pot))
+            # self.get_logger().info('Pot position: '+ str(temp_pos))
+            self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False,  data=[self.pot_id,int(temp_pos)]), timeout=1)
 
     def braking_control(self):
         brake_data = self.joy_stick.leftTrigger()
-        print(brake_data)
-        brake_byte_array = bytearray(struct.pack("f", brake_data))
-        print([ "0x%02x" % b for b in brake_byte_array ])
-        self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.max_id,brake_byte_array]), timeout=1)
+        self.get_logger().info('Left trigger pos: ' + str(brake_data))
+        brake_data = bytearray(struct.pack("f", brake_data))
+        # self.get_logger().info('Brake data: ' + str(brake_data))
+        brake_data[0:0] = bytearray([self.max_id])
+        self.get_logger().info('Brake data: ' + str(brake_data))
+        self.bus.send(can.Message(arbitration_id=self.braking_module_id,is_extended_id=False, data=brake_data), timeout=1)
 
     def lateral_control(self):
         # self.vehicle_control.steer = self.joy_stick.leftX()
@@ -207,7 +224,7 @@ class XboxNode(Node):
         if self.joy_stick.connected():
             self.publish_drive_mode()
             if self.drive_mode == "Controller":
-                self.lateral_control()
+                # self.lateral_control()
                 self.longitudinal_control()
                 # self.xbox_info.connected.data = self.joy_stick.connected()
                 # self.xbox_info.back.data = self.joy_stick.Back()
@@ -230,20 +247,20 @@ class XboxNode(Node):
             # self.get_logger().warn("Drive mode: " + self.drive_mode)
             # self.get_logger().info('Data: "%f"' % self.xbox_info.leftx.data)
 
-    def throttle_timer(self):
-        #Modo 2 (0-100%) en 100 segundos
-        if int(self.new_pot)>0:
-            self.temp_pot=100 if self.temp_pot>=100 else self.temp_pot+5
-            temp_pos = interp(self.temp_pot, [0,100], [1,self.limit_pot]) 
-            self.get_logger().info('Vel position: '+ str(self.temp_pot))
-            self.get_logger().info('Pot position: '+ str(temp_pos))
-            self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False,  data=[self.pot_id,int(temp_pos)]), timeout=1)
-        else:
-            self.temp_pot=0 if self.temp_pot<=0 else self.temp_pot-15
-            temp_pos = interp(self.temp_pot, [0,100], [1,self.limit_pot]) 
-            self.get_logger().info('Vel position: '+ str(self.temp_pot))
-            self.get_logger().info('Pot position: '+ str(temp_pos))
-            self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False,  data=[self.pot_id,int(temp_pos)]), timeout=1)
+    # def throttle_timer(self):
+    #     #Modo 2 (0-100%) en 100 segundos
+    #     if int(self.new_pot)>0:
+    #         self.temp_pot=100 if self.temp_pot>=100 else self.temp_pot+5
+    #         temp_pos = interp(self.temp_pot, [0,100], [1,self.limit_pot]) 
+    #         self.get_logger().info('Vel position: '+ str(self.temp_pot))
+    #         self.get_logger().info('Pot position: '+ str(temp_pos))
+    #         self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False,  data=[self.pot_id,int(temp_pos)]), timeout=1)
+    #     else:
+    #         self.temp_pot=0 if self.temp_pot<=0 else self.temp_pot-15
+    #         temp_pos = interp(self.temp_pot, [0,100], [1,self.limit_pot]) 
+    #         self.get_logger().info('Vel position: '+ str(self.temp_pot))
+    #         self.get_logger().info('Pot position: '+ str(temp_pos))
+    #         self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False,  data=[self.pot_id,int(temp_pos)]), timeout=1)
 
 def main(args=None):
     rclpy.init(args=args)
