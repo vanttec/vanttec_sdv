@@ -24,7 +24,7 @@ setup(
         ],
         'console_scripts': [
             'encoder_rm8004 = encoder.encoder_rm8004:main',
-            'encoder_chino = encoder.encoder_chino:main'
+            'encoder_briter = encoder.encoder_briter:main'
         ],
         
     },
