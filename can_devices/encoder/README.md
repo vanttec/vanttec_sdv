@@ -5,7 +5,7 @@ Configuration scripts and ROS2 node drivers for the encoders:
 * 1 x [IFM RM8004](https://www.ifm.com/mx/es/product/RM8004?tab=documents) - Absolute Multiturn Encoder
     * 4096 revolutions, 24-bit resolution
 * 2 x [Briter](https://briterencoder.com/product/canbus-multi-turn-absolute-rotary-encoder/) CANbus Multi-turn Absolute Rotary Encoder
-    * 24 revolutions, 10-bit resolution
+    * 24 revolutions, 12-bit resolution
 
 ## IFM RM8004
 

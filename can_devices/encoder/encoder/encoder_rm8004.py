@@ -18,7 +18,7 @@ class RM8004Encoder(Node):
         self.degrees = 360
         self.encoder_data = Encoder()
         self.encoder_id = 0x20
-        self.bit_res = 16777216
+        self.bit_res = 16777216 #2^24
 
         # Car steering params
         self.car_steering_range = 1279 #degrees
@@ -82,6 +82,9 @@ class RM8004Encoder(Node):
                     step = step - self.steps
 
                 abs_angle = float(self.degrees*absolute_pos/self.revolutions)
+
+                # Results are negative to account for gears
+
                 self.encoder_data.turn = -absolute_pos//self.steps
                 self.encoder_data.abs_angle = -abs_angle
                 self.encoder_data.angle = -float(self.degrees*step/self.steps)
