@@ -5,7 +5,12 @@ Configuration scripts and ROS2 node drivers for the encoders:
 * 1 x [IFM RM8004](https://www.ifm.com/mx/es/product/RM8004?tab=documents) - Absolute Multiturn Encoder
     * 4096 revolutions, 24-bit resolution
 * 2 x [Briter](https://briterencoder.com/product/canbus-multi-turn-absolute-rotary-encoder/) CANbus Multi-turn Absolute Rotary Encoder
-    * 24 revolutions, 10-bit resolution
+    * 24 revolutions, 12-bit resolution
+
+# IMPORTANT!!
+
+Set encoder return times to 100 Hz for control purposes !!!!!
+If canbus is filled, try reducing up to 20 Hz, no less !!
 
 ## IFM RM8004
 
@@ -98,7 +103,7 @@ Don't forget to store parameters.
 
 This encoder is a little bit less sophisticated, it provides no modes, rather you are supposed to configure everything "on the fly". It has internal memory so it can save previous configurations.
 
-It is supposed to have 4096 steps.
+Having a resolution of 12 bits, each revolution consists of 4096 steps, with a total of 4096*24 = 98304 steps.
 
 For the encoder to understand a command, you need to follow this structure:
 
@@ -133,8 +138,13 @@ Send command to 0x01, change its mode to autmoatic
 **Set the encoder's return time - 0x05**
 ```
 Only valid in automatic mode. Time provided in microseconds
-Send command to 0x01, change the interval to 1000ms
+Send command to 0x01, change the interval to 1000us
 [0x05, 0x01, 0x05, 0xE8, 0x03]
+```
+Or to set it to 10000us (10ms)
+``` 
+cansend can0 001#0501051027
+
 ```
 
 ### Operation commands
@@ -145,7 +155,11 @@ Send command to 0x01, to read the encoder's position
 [0x04, 0x01, 0x01, 0x00]
 ```
 
-**Set current posotion to 0 - 0x06**
+**Set current position to 0 - 0x06**
+Just follow the datasheet and connect the yellow wire to GND for more than 100ms. Encoder should not be operational during this!! Not in query mode, nor commuicating. To be shure just power off and turn on again, and then connect to GND.
+
+The other option:
+
 ```
 Send command to 0x01, to set the position to 0
 [0x04, 0x01, 0x06, 0x00]
