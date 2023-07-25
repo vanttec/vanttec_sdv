@@ -1,0 +1,15 @@
+/vectornav/raw/common /vectornav/raw/time /vectornav/raw/imu /vectornav/raw/gps /vectornav/raw/gps2 /vectornav/raw/attitude /vectornav/raw/ins /ifm_encoder
+
+To override the xbox_controller command to toggle autonomous mode:
+
+Enable autonomous mode:
+
+'''
+cansend can0 401#0201
+'''
+
+Disable autonomous mode:
+
+'''
+cansend can0 401#0200
+'''

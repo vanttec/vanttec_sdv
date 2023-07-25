@@ -28,6 +28,9 @@ find_package(tf2_geometry_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 #find_package(sdv_localization_msgs REQUIRED)
 
+# find_package(ament_cmake_python REQUIRED)
+# find_package(rclpy REQUIRED)
+
 # vncxx
 add_subdirectory(../vectornav/vectornav/vnproglib-1.2.0.0/cpp build)
 
@@ -70,7 +73,12 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}/
 )
 
+# ament_python_install_package(${PROJECT_NAME})
 
+# install(PROGRAMS
+#   save2csv.py
+#   DESTINATION lib/${PROJECT_NAME}
+# )
 
 
 if(BUILD_TESTING)
