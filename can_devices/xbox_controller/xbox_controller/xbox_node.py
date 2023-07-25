@@ -62,6 +62,8 @@ class XboxNode(Node):
     
         self.dir_id = 0x10
 
+        self.brake_task_id = 0x8
+
         # *------------------* THROTTLE *------------------*
         self.safe_velocity=200 # % of safe_pot  
         self.safe_pot = 170
@@ -149,8 +151,10 @@ class XboxNode(Node):
         brake_data = self.joy_stick.leftTrigger()
         self.get_logger().info('Left trigger pos: ' + str(brake_data))
         brake_data = bytearray(struct.pack("f", brake_data))
-        # self.get_logger().info('Brake data: ' + str(brake_data))
-        brake_data[0:0] = bytearray([self.max_id])
+        #Invert ieee74 floating point so it can be received correctly by STM32
+        brake_data = brake_data[::-1]
+        #Insert ID so it can select the proper STM32 Task
+        brake_data = brake_data.insert(0,self.brake_task_id)
         self.get_logger().info('Brake data: ' + str(brake_data))
         self.bus.send(can.Message(arbitration_id=self.braking_module_id,is_extended_id=False, data=brake_data), timeout=1)
 

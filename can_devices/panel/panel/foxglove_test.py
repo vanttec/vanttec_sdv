@@ -18,8 +18,11 @@ class Foxglove(Node):
         self.marker.id = 0
         self.marker.action = 0
         # Note: Must set mesh_resource to a valid URL for a model to appear
-        self.marker.mesh_resource = "https://assets.foxglove.dev/website/blog/how-to-visualize-ros-mesh-markers/Avocado.glb"
-        self.marker.mesh_use_embedded_materials = True
+        # self.marker.mesh_resource = 'package://sdv_description/meshes/yolo/Avocado.glb'
+        
+        #self.marker.mesh_resource = "https://storage.googleapis.com/fluttermarket-8e919.appspot.com/ROS/Avocado.glb"
+        self.marker.mesh_resource = 'file:///ws/src/sdv_ros/can_devices/panel/meshes/Avocado.glb'
+        self.marker.mesh_use_embedded_materials = False
 
         #Scale
         self.marker.scale.x = 10.0

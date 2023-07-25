@@ -2,7 +2,7 @@
 import rclpy
 from rclpy.node import Node
 import can
-import  std_msgs.msg import BoolMultiArray
+from  std_msgs.msg import BoolMultiArray
 class Heartbeat(Node):
     def __init__(self):
         super().__init__('Heartbit node started')      
