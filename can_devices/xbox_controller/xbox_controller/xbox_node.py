@@ -35,8 +35,8 @@ class XboxNode(Node):
         self.general_module_id_tx = 0x403
         self.general_module_id_rx = 0x404 
         self.throttle_module_id = 0x406
-        self.braking_module_id = 0x407
         self.steering_module_id = 0x408
+        self.braking_module_id = 0x412
 
         # *------------------* GENERAL *------------------*
         self.ask_status_general = False
