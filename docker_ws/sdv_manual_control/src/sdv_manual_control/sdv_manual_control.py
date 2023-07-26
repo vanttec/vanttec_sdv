@@ -58,13 +58,13 @@ import ros_compatibility as roscomp
 from ros_compatibility.node import CompatibleNode
 from ros_compatibility.qos import QoSProfile, DurabilityPolicy
 
-from sdv_msg.msg import Status
-from sdv_msg.msg import VehicleInfo
-from sdv_msg.msg import VehicleStatus
-from sdv_msg.msg import VehicleControl
-from sdv_msg.msg import LaneInvasionEvent
-from sdv_msg.msg import CollisionEvent
-from sdv_msg.msg import Status
+from sdv_msgs.msg import Status
+from sdv_msgs.msg import VehicleInfo
+from sdv_msgs.msg import VehicleStatus
+from sdv_msgs.msg import VehicleControl
+from sdv_msgs.msg import LaneInvasionEvent
+from sdv_msgs.msg import CollisionEvent
+from sdv_msgs.msg import Status
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import Image
 from sensor_msgs.msg import NavSatFix

@@ -17,9 +17,9 @@
 
 #ifndef __CAR_DYNAMIC_MODEL__
 #define __CAR_DYNAMIC_MODEL__
-#include "sdv_msg/msg/thrust_control.hpp"
-#include "sdv_msg/msg/eta_pose.hpp"
-#include "sdv_msg/msg/vehicle_control.hpp"
+#include "sdv_msgs/msg/thrust_control.hpp"
+#include "sdv_msgs/msg/eta_pose.hpp"
+#include "sdv_msgs/msg/vehicle_control.hpp"
 #include "common.hpp"
 #include "geometry_msgs/msg/accel.hpp"
 #include "geometry_msgs/msg/twist.hpp"
@@ -74,7 +74,7 @@ class CarDynamicModel
         Eigen::Matrix3f g_;
         Eigen::Vector3f u_;
 
-        sdv_msg::msg::EtaPose eta_pose_;
+        sdv_msgs::msg::EtaPose eta_pose_;
         geometry_msgs::msg::Twist velocities_;
         geometry_msgs::msg::Accel accelerations_;
 
@@ -91,9 +91,9 @@ class CarDynamicModel
         /* Class methods */
         void calculateRotation();
         void calculateStates();
-        void setForceInput(const sdv_msg::msg::ThrustControl &thrust);
+        void setForceInput(const sdv_msgs::msg::ThrustControl &thrust);
         void setSteeringInput(const std_msgs::msg::Float32 &delta);
-        void manual_control(const sdv_msg::msg::VehicleControl &manual);
+        void manual_control(const sdv_msgs::msg::VehicleControl &manual);
     };
 }
 #endif

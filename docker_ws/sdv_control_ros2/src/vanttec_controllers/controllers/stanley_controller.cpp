@@ -73,7 +73,7 @@ namespace stanleycontroller
         // ROS_INFO_STREAM("ak = " << ak_);
     }
 
-    void StanleyController::setHeading(const sdv_msg::msg::EtaPose& pose){
+    void StanleyController::setHeading(const sdv_msgs::msg::EtaPose& pose){
         vehicle_pose_ = pose;
         psi_ = pose.psi;
     }

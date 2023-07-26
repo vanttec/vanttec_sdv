@@ -25,7 +25,7 @@
 #include "geometry_msgs/msg/pose.hpp"
 #include "geometry_msgs/msg/pose_stamped.hpp"
 #include "nav_msgs/msg/path.hpp"
-#include "sdv_msg/msg/eta_pose.hpp"
+#include "sdv_msgs/msg/eta_pose.hpp"
 namespace tf2broadcaster
 {
 class TF2Broadcaster
@@ -40,11 +40,11 @@ class TF2Broadcaster
         std::string parent_frame;
         std::string child_frame;
         /* Class methods */
-        void BroadcastTransform(const sdv_msg::msg::EtaPose& msg);
+        void BroadcastTransform(const sdv_msgs::msg::EtaPose& msg);
     private:
         rclcpp::Node::SharedPtr node_;
         std::unique_ptr<tf2_ros::TransformBroadcaster> br;
-        rclcpp::Subscription<sdv_msg::msg::EtaPose>::SharedPtr sub_;
+        rclcpp::Subscription<sdv_msgs::msg::EtaPose>::SharedPtr sub_;
 
 };
 }// namespace tf2broadcaster

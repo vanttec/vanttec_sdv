@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(sdv_localization)
+project(sdv_vectornav)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -73,12 +73,12 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}/
 )
 
-# ament_python_install_package(${PROJECT_NAME})
+ament_python_install_package(${PROJECT_NAME})
 
-# install(PROGRAMS
-#   save2csv.py
-#   DESTINATION lib/${PROJECT_NAME}
-# )
+install(PROGRAMS
+  sdv_vectornav/save2csv.py
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 
 if(BUILD_TESTING)

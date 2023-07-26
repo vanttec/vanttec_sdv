@@ -13,7 +13,7 @@
 
 #include <stdio.h>
 #include <cmath>
-#include "sdv_msg/msg/eta_pose.hpp"
+#include "sdv_msgs/msg/eta_pose.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "std_msgs/msg/float32.hpp"
 
@@ -36,11 +36,11 @@ namespace stanleycontroller
         StanleyController(float delta_max, float k, float k_soft);
         virtual ~StanleyController();
         
-        sdv_msg::msg::EtaPose vehicle_pose_;
+        sdv_msgs::msg::EtaPose vehicle_pose_;
         float delta_;           // Desired steering
 
         void calculateCrosstrackError(float x0, float y0, float x1, float y1);
-        void setHeading(const sdv_msg::msg::EtaPose &pose);
+        void setHeading(const sdv_msgs::msg::EtaPose &pose);
         void calculateSteering(const geometry_msgs::msg::Twist &vel);
         
  };

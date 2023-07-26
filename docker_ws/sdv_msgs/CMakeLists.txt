@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(sdv_msg)
+project(sdv_msgs)
 
 find_package(ros_environment REQUIRED)
 

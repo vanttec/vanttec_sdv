@@ -5,8 +5,8 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
 #include "sdv_control_ros2/car_3dof_dynamic_model.hpp"
-#include "sdv_msg/msg/eta_pose.hpp"
-#include "sdv_msg/msg/system_dynamics.hpp"
+#include "sdv_msgs/msg/eta_pose.hpp"
+#include "sdv_msgs/msg/system_dynamics.hpp"
 #include "std_msgs/msg/multi_array_dimension.hpp"
 #include "std_msgs/msg/float32.hpp"
 #include "geometry_msgs/msg/accel.hpp"
@@ -24,8 +24,8 @@ class CarSimulationNode : public rclcpp::Node
     {
       car_accel = this->create_publisher<geometry_msgs::msg::Accel>("/vectornav/ins_3d/ins_acc", 10);
       car_vel = this->create_publisher<geometry_msgs::msg::Twist>("/car_simulation/dynamic_model/vel", 10);
-      car_eta_pose = this->create_publisher<sdv_msg::msg::EtaPose>("/car_simulation/dynamic_model/eta_pose", 10);
-      car_dynamics = this->create_publisher<sdv_msg::msg::SystemDynamics>("/car_simulation/dynamic_model/non_linear_functions", 10);
+      car_eta_pose = this->create_publisher<sdv_msgs::msg::EtaPose>("/car_simulation/dynamic_model/eta_pose", 10);
+      car_dynamics = this->create_publisher<sdv_msgs::msg::SystemDynamics>("/car_simulation/dynamic_model/non_linear_functions", 10);
       debug_publisher = this->create_publisher<std_msgs::msg::Float32>("/debug",10);
 
        timer_ = this->create_wall_timer(
@@ -70,9 +70,9 @@ class CarSimulationNode : public rclcpp::Node
     rclcpp::TimerBase::SharedPtr timer_;
     rclcpp::Publisher<geometry_msgs::msg::Accel>::SharedPtr car_accel;
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr car_vel;
-    rclcpp::Publisher<sdv_msg::msg::EtaPose>::SharedPtr car_eta_pose;
-    rclcpp::Publisher<sdv_msg::msg::SystemDynamics>::SharedPtr car_dynamics;
-    sdv_msg::msg::SystemDynamics car_functions;
+    rclcpp::Publisher<sdv_msgs::msg::EtaPose>::SharedPtr car_eta_pose;
+    rclcpp::Publisher<sdv_msgs::msg::SystemDynamics>::SharedPtr car_dynamics;
+    sdv_msgs::msg::SystemDynamics car_functions;
     rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr debug_publisher;
 
     float sample_time = 1.0/frequency;

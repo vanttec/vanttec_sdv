@@ -6,10 +6,10 @@
 #include "std_msgs/msg/float32.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "nav_msgs/msg/path.hpp"
-#include "sdv_msg/msg/system_dynamics.hpp"
-#include "sdv_msg/msg/thrust_control.hpp"
-#include "sdv_msg/msg/system_dynamics.hpp"
-#include "sdv_msg/msg/eta_pose.hpp"
+#include "sdv_msgs/msg/system_dynamics.hpp"
+#include "sdv_msgs/msg/thrust_control.hpp"
+#include "sdv_msgs/msg/system_dynamics.hpp"
+#include "sdv_msgs/msg/eta_pose.hpp"
 #include "geometry_msgs/msg/pose_stamped.hpp"
 
 #include <sdv_control_ros2/controllers_merge.hpp>
@@ -26,7 +26,7 @@ class CarControlNode : public rclcpp::Node
         CarControlNode() : Node("car_control_node")
         {
             car_steering = this->create_publisher<std_msgs::msg::Float32>("/car_control/car_control_node/steering",1);
-            car_force = this->create_publisher<sdv_msg::msg::ThrustControl>("/car_control/car_control_node/force",1);
+            car_force = this->create_publisher<sdv_msgs::msg::ThrustControl>("/car_control/car_control_node/force",1);
             follow_path = this->create_publisher<nav_msgs::msg::Path>("/car_path_to_follow",1);
             timer_ = this->create_wall_timer(
                 100ms, std::bind(&CarControlNode::timer_callback, this));
@@ -44,7 +44,7 @@ class CarControlNode : public rclcpp::Node
             deltainfo.data = carcontroller->delta_;
             car_steering->publish(deltainfo);
             carcontroller->updateSetpoint(4,0);
-            sdv_msg::msg::ThrustControl u;
+            sdv_msgs::msg::ThrustControl u;
             u.tau_x = carcontroller->u_;
             car_force->publish(u);
 
@@ -76,7 +76,7 @@ class CarControlNode : public rclcpp::Node
 
         rclcpp::TimerBase::SharedPtr timer_;
         rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr car_steering;
-        rclcpp::Publisher<sdv_msg::msg::ThrustControl>::SharedPtr car_force;
+        rclcpp::Publisher<sdv_msgs::msg::ThrustControl>::SharedPtr car_force;
         rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr follow_path;
 
         float sample_time = 1.0/frequency;

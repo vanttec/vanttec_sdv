@@ -5,7 +5,7 @@ import can.interfaces.socketcan as socketcan
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Int32, Int16, Float64
-from sdv_msg.msg import Encoder
+from sdv_msgs.msg import Encoder
 
 class RM8004Encoder(Node):
 

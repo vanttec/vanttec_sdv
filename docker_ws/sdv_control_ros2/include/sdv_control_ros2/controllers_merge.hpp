@@ -3,8 +3,8 @@
 #include <memory>
 #include <chrono>
 #include "rclcpp/rclcpp.hpp"
-#include "sdv_msg/msg/eta_pose.hpp"
-#include "sdv_msg/msg/system_dynamics.hpp"
+#include "sdv_msgs/msg/eta_pose.hpp"
+#include "sdv_msgs/msg/system_dynamics.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "common.hpp"
 #include <sdv_control_ros2/stanley_controller.hpp>
@@ -31,8 +31,8 @@ namespace car_controller
             float u_max;
             DOFControllerType_E type;
 
-            rclcpp::Subscription<sdv_msg::msg::EtaPose>::SharedPtr stanley_heading;
-            rclcpp::Subscription<sdv_msg::msg::SystemDynamics>::SharedPtr car_dynamics;
+            rclcpp::Subscription<sdv_msgs::msg::EtaPose>::SharedPtr stanley_heading;
+            rclcpp::Subscription<sdv_msgs::msg::SystemDynamics>::SharedPtr car_dynamics;
             rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr car_vel1;
             rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr car_vel2;
     };

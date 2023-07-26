@@ -139,14 +139,14 @@ namespace car_dynamic_model{
         eta_pose_.psi = eta_(2);
     }
 
-    void CarDynamicModel::setForceInput(const sdv_msg::msg::ThrustControl &thrust)
+    void CarDynamicModel::setForceInput(const sdv_msgs::msg::ThrustControl &thrust)
     {
         u_ << thrust.tau_x,
             0,
             0;
     }
 
-    void CarDynamicModel::manual_control(const sdv_msg::msg::VehicleControl &manual)
+    void CarDynamicModel::manual_control(const sdv_msgs::msg::VehicleControl &manual)
     {
         
         //RCLCPP_WARN(node_->get_logger(), "Could not create directory!");

@@ -14,9 +14,9 @@
 #define __PID_H__
 
 #include <sdv_control_ros2/common.hpp>
-#include "sdv_msg/msg/eta_pose.hpp"
+#include "sdv_msgs/msg/eta_pose.hpp"
 #include "std_msgs/msg/float32.hpp"
-#include "sdv_msg/msg/system_dynamics.hpp"
+#include "sdv_msgs/msg/system_dynamics.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include <cmath>
 
@@ -50,7 +50,7 @@ namespace pid
         float error_;
         float prev_error_;
 
-        void updateFunctions(const sdv_msg::msg::SystemDynamics &non_linear_functions);
+        void updateFunctions(const sdv_msgs::msg::SystemDynamics &non_linear_functions);
         void updateSetpoint(const float set_point, const float a_);
         void calculateManipulation(const geometry_msgs::msg::Twist &current_value);
         

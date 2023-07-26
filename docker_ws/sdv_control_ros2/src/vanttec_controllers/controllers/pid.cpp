@@ -32,7 +32,7 @@ namespace pid
     }
     PID::~PID() {}
     
-    void PID::updateFunctions(const sdv_msg::msg::SystemDynamics &non_linear_functions)
+    void PID::updateFunctions(const sdv_msgs::msg::SystemDynamics &non_linear_functions)
     {
         f_ = non_linear_functions.f[0];
         g_ = non_linear_functions.g.data[0];

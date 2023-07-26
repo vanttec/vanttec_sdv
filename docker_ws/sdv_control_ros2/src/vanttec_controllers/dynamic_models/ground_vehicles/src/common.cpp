@@ -13,9 +13,9 @@
 
 namespace common
 {
-    sdv_msg::msg::GuidanceWaypoints GenerateCircle(const float& _radius, const float& _x_center, const float& _y_center, const float& _z_center, const float& _angle_offset)
+    sdv_msgs::msg::GuidanceWaypoints GenerateCircle(const float& _radius, const float& _x_center, const float& _y_center, const float& _z_center, const float& _angle_offset)
     {
-        sdv_msg::msg::GuidanceWaypoints _waypoints;
+        sdv_msgs::msg::GuidanceWaypoints _waypoints;
         
         float angle = _angle_offset;
         uint8_t counter = 0;

@@ -6,7 +6,15 @@ import csv
 import rclpy
 from rclpy.node import Node
 
-from std_msgs.msg import String
+from sdv_msgs.msg import Encoder
+from vectornav_msgs.msgs import CommonGroup, InsGroup, ImuGroup
+
+#include "vectornav_msgs/msg/attitude_group.hpp"
+#include "vectornav_msgs/msg/common_group.hpp"
+#include "vectornav_msgs/msg/gps_group.hpp"
+#include "vectornav_msgs/msg/imu_group.hpp"
+#include "vectornav_msgs/msg/ins_group.hpp"
+#include "vectornav_msgs/msg/time_group.hpp"
 
 
 class IMU2CSV(Node):
@@ -14,26 +22,28 @@ class IMU2CSV(Node):
     def __init__(self):
         super().__init__('to_csv_node')
 
-        self.common_sub = self.create_subscription( String, 'vectornav/raw/common',
+        self.common_sub_ = self.create_subscription( CommonGroup, 'vectornav/raw/common',
                                                       self.save_common, 10)
-        self.imu_sub = self.create_subscription( String, 'vectornav/raw/imu',
-                                                      self.save_imu, 10)
-        self.gps2_sub = self.create_subscription( String, 'vectornav/raw/gps2',
-                                                      self.save_gps, 10)
-        self.attitude_sub = self.create_subscription( String, 'vectornav/raw/attitude',
-                                                      self.save_attitude, 10)
-        self.ins_sub = self.create_subscription( String, 'vectornav/raw/ins',
-                                                      self.save_ins, 10)
-        self.wheel_encoder_sub = self.create_subscription( String, 'ifm_encoder',
-                                                      self.save_encoder, 10)
+        # self.ins_sub_ = self.create_subscription( InsGroup, 'vectornav/raw/ins',
+        #                                               self.save_ins, 10)
+        # self.wheel_encoder_sub_ = self.create_subscription( Encoder, 'ifm_encoder',
+        #                                               self.save_encoder, 10)
+        # self.imu_sub_ = self.create_subscription( String, 'vectornav/raw/imu',
+        #                                               self.save_imu, 10)
+        # self.gps2_sub_ = self.create_subscription( String, 'vectornav/raw/gps2',
+        #                                               self.save_gps, 10)
+        # self.attitude_sub_ = self.create_subscription( String, 'vectornav/raw/attitude',
+        #                                               self.save_attitude, 10)
 
-        self.csv_file_path = 'imu_data.csv'
-        self.csv_file = open(self.csv_file_path, 'w')
-        self.csv_writer = csv.writer(self.csv_file)
-        self.csv_writer.writerow(['Time', 'AccelBody', 'VelBody', 'WheelAngle', 'Psi (yaw)'])
+        # self.start_time_ = node.get_clock().now()
+
+        self.csv_file_path_ = '/home/ws/src/tests/imu_data.csv'
+        self.csv_file_ = open(self.csv_file_path, 'w')
+        self.csv_writer_ = csv.writer(self.csv_file)
+        self.csv_writer_.writerow(['Time', 'AccelBody', 'VelBody', 'WheelAngle', 'Psi (yaw)'])
 
     def save_common(self, msg):
-        self.get_logger().info('I heard: "%s"' % msg.data)
+        self.csv_writer_.writerow([msg.header.stamp.sec, 0, 0, 0, 0])
 
     def save_time(self, msg):
         self.get_logger().info('I heard: "%s"' % msg.data)

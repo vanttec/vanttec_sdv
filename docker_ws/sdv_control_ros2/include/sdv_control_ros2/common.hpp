@@ -14,7 +14,7 @@
 #define __COMMON_H__
 
 //#include <vanttec_msgs/GuidanceWaypoints.h>
-#include <sdv_msg/msg/guidance_waypoints.hpp>
+#include <sdv_msgs/msg/guidance_waypoints.hpp>
 #include <cmath>
 #include <eigen3/Eigen/Dense>
 
@@ -38,7 +38,7 @@ namespace common
     static const float g = 9.81;
     
     /* Helper functions */
-    sdv_msg::msg::GuidanceWaypoints GenerateCircle(float _radius, float _x_center, float _y_center, float _z_center, float _angle_offset);
+    sdv_msgs::msg::GuidanceWaypoints GenerateCircle(float _radius, float _x_center, float _y_center, float _z_center, float _angle_offset);
     // Eigen::MatrixXf                calculateTransformation(double phi, double theta_, double psi);
     Eigen::MatrixXf calculateRotation(double phi, double theta_, double psi);
     Eigen::Matrix3f Skew(const Eigen::Vector3f& vect);

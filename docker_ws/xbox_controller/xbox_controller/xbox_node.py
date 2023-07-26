@@ -5,7 +5,7 @@ import can
 import xbox_controller.xbox_driver as xbox_driver
 from std_msgs.msg import String, Int16, Float32
 from geometry_msgs.msg import Vector3
-from sdv_msg.msg import XboxMsg, PanelMsg, ThrottleMsg, VehicleControl, Encoder
+from sdv_msgs.msg import XboxMsg, PanelMsg, ThrottleMsg, VehicleControl, Encoder
 
 def fmtFloat(n):
     return '{:6.3f}'.format(n)

@@ -3,7 +3,7 @@ import can
 import time
 import rclpy
 from rclpy.node import Node
-from sdv_msg.msg import PanelMsg
+from sdv_msgs.msg import PanelMsg
 from std_msgs.msg import String
 
 

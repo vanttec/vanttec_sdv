@@ -7,13 +7,13 @@ namespace tf2broadcaster
    {
     
     br = std::make_unique<tf2_ros::TransformBroadcaster>(node_);
-    sub_ = node_->create_subscription<sdv_msg::msg::EtaPose>("/car_simulation/dynamic_model/eta_pose",  10,std::bind(&TF2Broadcaster::BroadcastTransform, this, std::placeholders::_1));
+    sub_ = node_->create_subscription<sdv_msgs::msg::EtaPose>("/car_simulation/dynamic_model/eta_pose",  10,std::bind(&TF2Broadcaster::BroadcastTransform, this, std::placeholders::_1));
     
 
    }
    TF2Broadcaster::~TF2Broadcaster(){}
 
-   void TF2Broadcaster::BroadcastTransform(const sdv_msg::msg::EtaPose& _pose)
+   void TF2Broadcaster::BroadcastTransform(const sdv_msgs::msg::EtaPose& _pose)
  {    
     geometry_msgs::msg::TransformStamped transformStamped;
     

@@ -8,7 +8,7 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_ros REQUIRED)
-find_package(sdv_msg REQUIRED)
+find_package(sdv_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
@@ -19,7 +19,7 @@ find_package(pluginlib REQUIRED)
 
 
 set(dependencies
-    sdv_msg
+    sdv_msgs
     std_msgs
     rclcpp
     geometry_msgs
