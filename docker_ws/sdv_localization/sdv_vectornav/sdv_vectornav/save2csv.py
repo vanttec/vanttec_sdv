@@ -7,7 +7,7 @@ import rclpy
 from rclpy.node import Node
 
 from sdv_msgs.msg import Encoder
-from vectornav_msgs.msgs import CommonGroup, InsGroup, ImuGroup
+from vectornav_msgs.msg import CommonGroup, InsGroup, ImuGroup
 
 #include "vectornav_msgs/msg/attitude_group.hpp"
 #include "vectornav_msgs/msg/common_group.hpp"
@@ -35,15 +35,21 @@ class IMU2CSV(Node):
         # self.attitude_sub_ = self.create_subscription( String, 'vectornav/raw/attitude',
         #                                               self.save_attitude, 10)
 
-        # self.start_time_ = node.get_clock().now()
+        self.are_msg_arrived_ = False
 
         self.csv_file_path_ = '/home/ws/src/tests/imu_data.csv'
-        self.csv_file_ = open(self.csv_file_path, 'w')
-        self.csv_writer_ = csv.writer(self.csv_file)
+        self.csv_file_ = open(self.csv_file_path_, 'w')
+        self.csv_writer_ = csv.writer(self.csv_file_)
         self.csv_writer_.writerow(['Time', 'AccelBody', 'VelBody', 'WheelAngle', 'Psi (yaw)'])
 
     def save_common(self, msg):
-        self.csv_writer_.writerow([msg.header.stamp.sec, 0, 0, 0, 0])
+        if not self.are_msg_arrived_:
+            self.are_msg_arrived_ = True
+            self.start_time_ = self.get_clock().now()
+
+        # self.csv_writer_.writerow([msg.header.stamp.sec, msg.accel, 0, 0, 0])
+        elapsed_time = self.get_clock().now() - self.start_time_
+        self.csv_writer_.writerow([elapsed_time.nanoseconds / 1e9, msg.accel, 0, 0, 0])
 
     def save_time(self, msg):
         self.get_logger().info('I heard: "%s"' % msg.data)
