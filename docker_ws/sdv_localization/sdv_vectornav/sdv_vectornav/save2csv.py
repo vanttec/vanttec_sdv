@@ -24,10 +24,10 @@ class IMU2CSV(Node):
 
         self.common_sub_ = self.create_subscription( CommonGroup, 'vectornav/raw/common',
                                                       self.save_common, 10)
-        # self.ins_sub_ = self.create_subscription( InsGroup, 'vectornav/raw/ins',
-        #                                               self.save_ins, 10)
-        # self.wheel_encoder_sub_ = self.create_subscription( Encoder, 'ifm_encoder',
-        #                                               self.save_encoder, 10)
+        self.ins_sub_ = self.create_subscription( InsGroup, 'vectornav/raw/ins',
+                                                      self.save_ins, 10)
+        self.wheel_encoder_sub_ = self.create_subscription( Encoder, 'ifm_encoder',
+                                                      self.save_wheel_encoder, 10)
         # self.imu_sub_ = self.create_subscription( String, 'vectornav/raw/imu',
         #                                               self.save_imu, 10)
         # self.gps2_sub_ = self.create_subscription( String, 'vectornav/raw/gps2',
@@ -35,43 +35,65 @@ class IMU2CSV(Node):
         # self.attitude_sub_ = self.create_subscription( String, 'vectornav/raw/attitude',
         #                                               self.save_attitude, 10)
 
-        self.are_msg_arrived_ = False
+        self.is_msg_arrived_ = False
 
-        self.csv_file_path_ = '/home/ws/src/tests/imu_data.csv'
-        self.csv_file_ = open(self.csv_file_path_, 'w')
-        self.csv_writer_ = csv.writer(self.csv_file_)
-        self.csv_writer_.writerow(['Time', 'AccelBody', 'VelBody', 'WheelAngle', 'Psi (yaw)'])
+        test = 'step90'
+
+        self.accel_file_path_ = '/home/ws/src/tests/' + test + '/accel_data.csv'
+        self.accel_file_ = open(self.accel_file_path_, 'w')
+        self.accel_file_writer_ = csv.writer(self.accel_file_)
+        self.accel_file_writer_.writerow(['Time', 'AccelBody(x)','AccelBody(y)','AccelBody(z)', 'Psi'])
+
+        self.vel_file_path_ = '/home/ws/src/tests/' + test + '/vel_data.csv'
+        self.vel_file_ = open(self.vel_file_path_, 'w')
+        self.vel_file_writer_ = csv.writer(self.vel_file_)
+        self.vel_file_writer_.writerow(['Time', 'VelBody(x)','VelBody(y)','VelBody(z)'])
+
+        self.encoder_file_path_ = '/home/ws/src/tests/' + test + '/encoder_data.csv'
+        self.encoder_file_ = open(self.encoder_file_path_, 'w')
+        self.encoder_file_writer_ = csv.writer(self.encoder_file_)
+        self.encoder_file_writer_.writerow(['Time', 'WheelAngle'])
+
+        # self.vel_file_writer_.writerow(['Time', 'AccelBody(x)','AccelBody(y)','AccelBody(z)', 'VelBody', 'WheelAngle', 'Psi (yaw)'])
 
     def save_common(self, msg):
-        if not self.are_msg_arrived_:
-            self.are_msg_arrived_ = True
+        if not self.is_msg_arrived_:
+            self.is_msg_arrived_ = True
             self.start_time_ = self.get_clock().now()
 
-        # self.csv_writer_.writerow([msg.header.stamp.sec, msg.accel, 0, 0, 0])
         elapsed_time = self.get_clock().now() - self.start_time_
-        self.csv_writer_.writerow([elapsed_time.nanoseconds / 1e9, msg.accel, 0, 0, 0])
-
-    def save_time(self, msg):
-        self.get_logger().info('I heard: "%s"' % msg.data)
-
-    def save_imu(self, msg):
-        pass
-
-    def save_gps(self, msg):
-        pass
-
-    def save_attitude(self, msg):
-        pass
+        self.accel_file_writer_.writerow([elapsed_time.nanoseconds / 1e9, msg.accel.x, msg.accel.y, msg.accel.z, msg.yawpitchroll.x])
 
     def save_ins(self, msg):
-        pass
+        if not self.is_msg_arrived_:
+            self.is_msg_arrived_ = True
+            self.start_time_ = self.get_clock().now()
 
-    def save_encoder(self, msg):
-        pass
+        elapsed_time = self.get_clock().now() - self.start_time_
+        self.vel_file_writer_.writerow([elapsed_time.nanoseconds / 1e9, msg.velbody.x, msg.velbody.y, msg.velbody.z])
+
+    def save_wheel_encoder(self, msg):
+        if not self.is_msg_arrived_:
+            self.is_msg_arrived_ = True
+            self.start_time_ = self.get_clock().now()
+
+        elapsed_time = self.get_clock().now() - self.start_time_
+        self.encoder_file_writer_.writerow([elapsed_time.nanoseconds / 1e9, msg.abs_angle])
+
+    # def save_imu(self, msg):
+    #     pass
+
+    # def save_gps(self, msg):
+    #     pass
+
+    # def save_attitude(self, msg):
+    #     pass
+
 
     def close(self):
-        self.csv_file.close()
-
+        self.accel_file_.close()
+        self.vel_file_.close()
+        self.encoder_file_.close()
 
 def main(args=None):
     rclpy.init(args=args)
