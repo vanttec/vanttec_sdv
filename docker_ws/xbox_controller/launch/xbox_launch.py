@@ -4,6 +4,14 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     return LaunchDescription([
+
+        Node(
+          package='encoder',
+          executable='encoder_rm8004',
+          namespace="",
+          name='ifm_encoder_node',
+        ),
+
         Node(
             package='xbox_controller',
             executable='xbox_node',
