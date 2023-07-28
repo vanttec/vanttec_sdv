@@ -5,12 +5,9 @@ import struct
 from numpy import interp
 
 import xbox_controller.xbox_driver as xbox_driver
-from std_msgs.msg import String, Int16, Float32
+from std_msgs.msg import String, UInt8, Float32
 from geometry_msgs.msg import Vector3
 from sdv_msgs.msg import Encoder, PanelMsg#, XboxMsg, ThrottleMsg, VehicleControl 
-
-def fmtFloat(n):
-    return '{:6.3f}'.format(n)
 
 class XboxNode(Node):
     def __init__(self):
@@ -29,6 +26,8 @@ class XboxNode(Node):
 
         self.motor_mode_id = 0x6
         self.car_mode_id = 0x7
+
+        self.drive_mode_sent = False
 
         # *------------------* VANTTEC_IDS *------------------*
         self.admin_id = 0x401
@@ -95,6 +94,16 @@ class XboxNode(Node):
             10
         )
 
+        # USE THIS SUBSCRIBER ONLY WHEN CHARACTERIZATION OF THE VEHICLE IS REQUIRED.
+        # COMMENT IT OUT OTHERWISE. DO NOT USE THIS METHOD TO CONTROL THE CAR.
+        self.encoder_sub = self.create_subscription(
+            UInt8,
+            '/potentiometer_step',
+            self.pot_callback,
+            1
+        )
+        self.step_zero_sent = False
+
         # *------------------* PUBLISHERS *------------------*
         #self.xbox_status_pub = self.create_publisher(XboxMsg, 'xbox_controller/status', 10)
         self.panel_xbox_pub = self.create_publisher(PanelMsg, '/sdv/xbox_controller/xbox_panel', 10) 
@@ -112,6 +121,19 @@ class XboxNode(Node):
     def encoder_callback(self,msg):
         self.steering_wheel_angle = msg.abs_angle
 
+    # USE THIS CALLBACK ONLY WHEN CHARACTERIZATION OF THE VEHICLE IS REQUIRED.
+    # COMMENT IT OUT OTHERWISE. DO NOT USE THIS METHOD TO CONTROL THE CAR.
+    def pot_callback(self, msg):
+        if self.drive_mode == "Xbox_Controller":
+            if self.limit_pot != msg.data:
+                self.limit_pot = msg.data
+                self.get_logger().info('Pot: '+ str(self.limit_pot))
+                self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.pot_id,int(self.limit_pot)]), timeout=1)
+                self.step_zero_sent = False
+        else:
+            if not self.step_zero_sent:
+                self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.pot_id,int(0)]), timeout=1)
+                self.step_zero_sent = True
 
     def longitudinal_control(self):
         self.pot_data = self.joy_stick.rightTrigger()
@@ -128,34 +150,34 @@ class XboxNode(Node):
         if self.old_maxvel != self.new_maxvel:
             self.limit_pot = interp(self.new_maxvel, [0,100], [0,self.safe_pot])
             self.old_maxvel=self.new_maxvel
-            self.get_logger().info('New max velocity: '+ str(self.new_maxvel)+" %")
-            self.get_logger().info('Pot Position: '+ str(self.limit_pot))
+            # self.get_logger().info('New max velocity: '+ str(self.new_maxvel)+" %")
+            # self.get_logger().info('Pot Position: '+ str(self.limit_pot))
             self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.max_id,int(self.limit_pot)]), timeout=1)
         #Change pot position
         #Modo 2 (0-100%) en 20 segundos
         if int(self.pot_data)>0:
             self.temp_pot=100 if self.temp_pot>=100 else self.temp_pot+5
             temp_pos = interp(self.temp_pot, [0,100], [1,self.limit_pot]) 
-            self.get_logger().info('Vel position: '+ str(self.temp_pot))
-            self.get_logger().info('Pot position: '+ str(temp_pos))
+            # self.get_logger().info('Vel position: '+ str(self.temp_pot))
+            # self.get_logger().info('Pot position: '+ str(temp_pos))
             self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False,  data=[self.pot_id,int(temp_pos)]), timeout=1)
         else:
             self.temp_pot=0 if self.temp_pot<=0 else self.temp_pot-15
             temp_pos = interp(self.temp_pot, [0,100], [1,self.limit_pot]) 
-            self.get_logger().info('Vel position: '+ str(self.temp_pot))
-            self.get_logger().info('Pot position: '+ str(temp_pos))
+            # self.get_logger().info('Vel position: '+ str(self.temp_pot))
+            # self.get_logger().info('Pot position: '+ str(temp_pos))
             self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False,  data=[self.pot_id,int(temp_pos)]), timeout=1)
         self.braking_control()
 
     def braking_control(self):
         brake_data = self.joy_stick.leftTrigger()
-        self.get_logger().info('Left trigger pos: ' + str(brake_data))
+        # self.get_logger().info('Left trigger pos: ' + str(brake_data))
         brake_data = bytearray(struct.pack("f", brake_data))
         #Invert ieee74 floating point so it can be received correctly by STM32
         brake_data = brake_data[::-1]
         #Insert ID so it can select the proper STM32 Task
         brake_data = brake_data.insert(0,self.brake_task_id)
-        self.get_logger().info('Brake data: ' + str(brake_data))
+        # self.get_logger().info('Brake data: ' + str(brake_data))
         self.bus.send(can.Message(arbitration_id=self.braking_module_id,is_extended_id=False, data=brake_data), timeout=1)
 
     def lateral_control(self):
@@ -201,9 +223,13 @@ class XboxNode(Node):
                 drive_mode_msg.data = "No_Xbox_Controller"
                 self.drive_mode_pub.publish(drive_mode_msg)
                 self.drive_mode = "No_Xbox_Controller"     
-                #self.bus.send(self.drive_mode_dict["manual"],timeout=1)   
+                #self.bus.send(self.drive_mode_dict["manual"],timeout=1)
+            self.drive_mode_sent = False 
             self.ask_status_general = True
         self.prev_start_btn_state = start_btn
+        self.get_logger().info(self.drive_mode)
+
+        
     def uint8_to_bool_list(self, num):
         # Convert the number to binary representation and remove the '0b' prefix
         binary_string = bin(num)[2:]
@@ -212,6 +238,7 @@ class XboxNode(Node):
         # Convert each character in the binary string to a boolean value
         bool_list = [bit == '1' for bit in binary_string]
         return bool_list
+    
     def analyse_drive_mode(self):
         # The general module control mode Manual/Auto
         # If the user want to use Xbox controller, the drive mode buttons has to be turned on, so it is in Auto mode.
@@ -220,9 +247,11 @@ class XboxNode(Node):
         #  - Turned off Emergency stop, turned off the drivemode buttons if it is in auto mode and again turn on if he wants to activate auto mode .
         #  - Display a string message with topic name "sdv/drive_mode/logs"
         if self.ask_status_general :
-            self.bus.send(self.drive_mode_dict["status_general"],timeout=1)   
-            msg = self.bus.recv(1)
-            if msf is not None:
+            if not self.drive_mode_sent:
+                self.bus.send(self.drive_mode_dict["status_general"],timeout=1)
+                self.drive_mode_sent = True
+            msg = self.bus.recv(0.05)
+            if msg is not None:
                 if msg.arbitration_id == self.general_module_id_rx:
                     self.general_msg = msg.data
                     self.ask_status_general = False
@@ -241,27 +270,10 @@ class XboxNode(Node):
             self.publish_drive_mode()
             self.analyse_drive_mode()
             if self.drive_mode == "Xbox_Controller":
+                # UNCOMMENT FOR NORMAL CAR OPERATION. COMMENT WHEN PERFORMING CHARACTERIZATION TESTS
                 # self.lateral_control()
-                self.longitudinal_control()
-                # self.xbox_info.connected.data = self.joy_stick.connected()
-                # self.xbox_info.back.data = self.joy_stick.Back()
-                # self.xbox_info.leftx.data = self.joy_stick.leftX()
-                # self.xbox_info.lefty.data = self.joy_stick.leftY()
-                # self.xbox_info.right_trigger.data = self.joy_stick.rightTrigger()
-                # self.xbox_info.left_trigger.data = self.joy_stick.leftTrigger()
-                # self.xbox_info.a.data = self.joy_stick.A()
-                # self.xbox_info.b.data = self.joy_stick.B()
-                # self.xbox_info.x.data = self.joy_stick.X() 
-                # self.xbox_info.y.data = self.joy_stick.Y() 
-                # self.xbox_info.dpad_up.data = self.joy_stick.dpadUp()
-                # self.xbox_info.dpad_down.data = self.joy_stick.dpadDown()
-                # self.xbox_info.dpad_left.data = self.joy_stick.dpadLeft()
-                # self.xbox_info.dpad_right.data = self.joy_stick.dpadRight()
-                #Publish Xbox information
-                #self.xbox_status_pub.publish(self.xbox_info)
-            # else:
-            # self.get_logger().warn("Drive mode: " + self.drive_mode)
-            # self.get_logger().info('Data: "%f"' % self.xbox_info.leftx.data)
+                # self.longitudinal_control()
+                pass
 
   
 def main(args=None):

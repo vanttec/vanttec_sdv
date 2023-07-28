@@ -3,17 +3,9 @@ import can
 import time
 import rclpy
 from rclpy.node import Node
-<<<<<<< HEAD:docker_ws/panel/panel/panel_modulev2.py
-from sdv_msgs.msg import PanelMsg
-from std_msgs.msg import String, Float32
-from sdv_msgs.msg import Encoder
-from sensor_msgs.msg import Imu
-import json
-=======
 from sdv_msg.msg import PanelMsg
 from std_msgs.msg import String
 from sdv_msg.msg import Encoder
->>>>>>> main:can_devices/panel/panel/panel_modulev2.py
 
 class PanelModule(Node):
     def __init__(self):
