@@ -7,6 +7,7 @@ import rclpy
 from rclpy.node import Node
 
 from sdv_msgs.msg import Encoder
+from std_msgs.msg import UInt8
 from vectornav_msgs.msg import CommonGroup, InsGroup, ImuGroup
 
 #include "vectornav_msgs/msg/attitude_group.hpp"
@@ -23,26 +24,29 @@ class IMU2CSV(Node):
         super().__init__('to_csv_node')
 
         self.common_sub_ = self.create_subscription( CommonGroup, 'vectornav/raw/common',
-                                                      self.save_common, 10)
+                                                      self.save_common, 1)
         self.ins_sub_ = self.create_subscription( InsGroup, 'vectornav/raw/ins',
-                                                      self.save_ins, 10)
+                                                      self.save_ins, 1)
         self.wheel_encoder_sub_ = self.create_subscription( Encoder, 'ifm_encoder',
-                                                      self.save_wheel_encoder, 10)
+                                                      self.save_wheel_encoder, 1)
+        self.pot_step_sub_ = self.create_subscription( UInt8, 'potentiometer_step',
+                                                      self.pot_step, 1)
         # self.imu_sub_ = self.create_subscription( String, 'vectornav/raw/imu',
-        #                                               self.save_imu, 10)
+        #                                               self.save_imu, 1)
         # self.gps2_sub_ = self.create_subscription( String, 'vectornav/raw/gps2',
-        #                                               self.save_gps, 10)
+        #                                               self.save_gps, 1)
         # self.attitude_sub_ = self.create_subscription( String, 'vectornav/raw/attitude',
-        #                                               self.save_attitude, 10)
+        #                                               self.save_attitude, 1)
 
         self.is_msg_arrived_ = False
+        self.pot_step_val = 0
 
         test = 'step90'
 
         self.accel_file_path_ = '/home/ws/src/tests/' + test + '/accel_data.csv'
         self.accel_file_ = open(self.accel_file_path_, 'w')
         self.accel_file_writer_ = csv.writer(self.accel_file_)
-        self.accel_file_writer_.writerow(['Time', 'AccelBody(x)','AccelBody(y)','AccelBody(z)', 'Psi'])
+        self.accel_file_writer_.writerow(['Time', 'AccelBody(x)','AccelBody(y)','AccelBody(z)', 'Theta', 'Psi', 'Psi_dot'])
 
         self.vel_file_path_ = '/home/ws/src/tests/' + test + '/vel_data.csv'
         self.vel_file_ = open(self.vel_file_path_, 'w')
@@ -52,43 +56,59 @@ class IMU2CSV(Node):
         self.encoder_file_path_ = '/home/ws/src/tests/' + test + '/encoder_data.csv'
         self.encoder_file_ = open(self.encoder_file_path_, 'w')
         self.encoder_file_writer_ = csv.writer(self.encoder_file_)
-        self.encoder_file_writer_.writerow(['Time', 'WheelAngle'])
+        self.encoder_file_writer_.writerow(['Time', 'WheelAngle', 'SteeringAngle'])
 
-        # self.vel_file_writer_.writerow(['Time', 'AccelBody(x)','AccelBody(y)','AccelBody(z)', 'VelBody', 'WheelAngle', 'Psi (yaw)'])
+        self.pot_file_path_ = '/home/ws/src/tests/' + test + '/pot_data.csv'
+        self.pot_file_ = open(self.pot_file_path_, 'w')
+        self.pot_file_writer_ = csv.writer(self.pot_file_)
+        self.pot_file_writer_.writerow(['Time', 'Pot_Step'])
+
+    def pot_step(self, msg):
+        if not self.is_msg_arrived_:
+            self.is_msg_arrived_ = True
+            self.start_time_ = self.get_clock().now()
+
+        elapsed_time = self.get_clock().now() - self.start_time_
+        self.accel_file_writer_.writerow([elapsed_time.nanoseconds / 1e9, msg.data])
 
     def save_common(self, msg):
-        if not self.is_msg_arrived_:
-            self.is_msg_arrived_ = True
-            self.start_time_ = self.get_clock().now()
-
-        elapsed_time = self.get_clock().now() - self.start_time_
-        self.accel_file_writer_.writerow([elapsed_time.nanoseconds / 1e9, msg.accel.x, msg.accel.y, msg.accel.z, msg.yawpitchroll.x])
+        # if not self.is_msg_arrived_:
+        #     self.is_msg_arrived_ = True
+        #     self.start_time_ = self.get_clock().now()
+        
+        if self.is_msg_arrived_:
+            elapsed_time = self.get_clock().now() - self.start_time_
+            self.accel_file_writer_.writerow([elapsed_time.nanoseconds / 1e9, msg.accel.x, msg.accel.y, msg.accel.z, msg.yawpitchroll.y, msg.yawpitchroll.x, msg.angularrate.z])
 
     def save_ins(self, msg):
-        if not self.is_msg_arrived_:
-            self.is_msg_arrived_ = True
-            self.start_time_ = self.get_clock().now()
-
-        elapsed_time = self.get_clock().now() - self.start_time_
-        self.vel_file_writer_.writerow([elapsed_time.nanoseconds / 1e9, msg.velbody.x, msg.velbody.y, msg.velbody.z])
+        # if not self.is_msg_arrived_:
+        #     self.is_msg_arrived_ = True
+        #     self.start_time_ = self.get_clock().now()
+        
+        if self.is_msg_arrived_:
+            elapsed_time = self.get_clock().now() - self.start_time_
+            self.vel_file_writer_.writerow([elapsed_time.nanoseconds / 1e9, msg.velbody.x, msg.velbody.y, msg.velbody.z])
 
     def save_wheel_encoder(self, msg):
-        if not self.is_msg_arrived_:
-            self.is_msg_arrived_ = True
-            self.start_time_ = self.get_clock().now()
+        # if not self.is_msg_arrived_:
+        #     self.is_msg_arrived_ = True
+        #     self.start_time_ = self.get_clock().now()
+        
+        if self.is_msg_arrived_:
+            elapsed_time = self.get_clock().now() - self.start_time_
+            MAX_WHEEL_ANGLE = 715.78
+            MIN_WHEEL_ANGLE = -577
 
-        elapsed_time = self.get_clock().now() - self.start_time_
-        self.encoder_file_writer_.writerow([elapsed_time.nanoseconds / 1e9, msg.abs_angle])
+        MAX_DELTA_R = 44
+        MIN_DELTA_R = -44 #TO CHECK
 
-    # def save_imu(self, msg):
-    #     pass
-
-    # def save_gps(self, msg):
-    #     pass
-
-    # def save_attitude(self, msg):
-    #     pass
-
+        MAX_DELTA_L = 38 #TO CHECK
+        MIN_DELTA_L = -38
+        
+        delta_r = msg.abs_angle * MAX_DELTA_R/MAX_WHEEL_ANGLE if msg.abs_angle >= 0 else msg.abs_angle * MIN_DELTA_R/MIN_WHEEL_ANGLE
+        delta_l = msg.abs_angle * MAX_DELTA_L/MAX_WHEEL_ANGLE if msg.abs_angle >= 0 else msg.abs_angle * MIN_DELTA_L/MIN_WHEEL_ANGLE
+        delta = (delta_l + delta_r) / 2
+        self.encoder_file_writer_.writerow([elapsed_time.nanoseconds / 1e9, msg.abs_angle, delta])
 
     def close(self):
         self.accel_file_.close()

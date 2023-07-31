@@ -27,7 +27,7 @@ class RM8004Encoder(Node):
         # Publishers
         self.encoder_pub = self.create_publisher(Encoder, '/ifm_encoder', 10)
 
-        timer_period = 0.01 #Seconds
+        timer_period = 0.1 #Seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         
         # CANBus
@@ -60,7 +60,7 @@ class RM8004Encoder(Node):
 
 
     def timer_callback(self):
-        msg = self.bus.recv(1)
+        msg = self.bus.recv(0.05)
         if msg is not None:
             if msg.arbitration_id == 0x1A0:     #Si recibe el 0A0, algo est[a] mal
                 coded_msg = msg.data

@@ -12,6 +12,7 @@
   <test_depend>ament_pep257</test_depend>
   <test_depend>python3-pytest</test_depend>
   <test_depend>sdv_msgs</test_depend>
+  <test_depend>std_msgs</test_depend>
   <test_depend>geometry_msg</test_depend>
   <exec_depend>ros2launch</exec_depend>
   <export>
