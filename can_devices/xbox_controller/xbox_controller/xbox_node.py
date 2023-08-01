@@ -60,9 +60,9 @@ class XboxNode(Node):
         # max steering = (wheel turns to max steer = 1.7) * (stepper to wheel ratio = 1.5) * 360 degrees
         self.max_steering = 918 # degrees
     
-        self.dir_id = 0x10
+        self.steer_task_id = 0x0
 
-        self.brake_task_id = 0x8
+        self.brake_task_id = 0x1
 
         # *------------------* THROTTLE *------------------*
         self.safe_velocity=200 # % of safe_pot  
@@ -151,8 +151,6 @@ class XboxNode(Node):
         brake_data = self.joy_stick.leftTrigger()
         self.get_logger().info('Left trigger pos: ' + str(brake_data))
         brake_data = bytearray(struct.pack("f", brake_data))
-        #Invert ieee74 floating point so it can be received correctly by STM32
-        brake_data = brake_data[::-1]
         #Insert ID so it can select the proper STM32 Task
         brake_data = brake_data.insert(0,self.brake_task_id)
         self.get_logger().info('Brake data: ' + str(brake_data))
@@ -183,7 +181,7 @@ class XboxNode(Node):
             dir = 2
 
         # self.steering_pub.publish(msg)
-        self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=[self.dir_id,int(dir)]), timeout=1)
+        self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=[self.steer_task_id,int(dir)]), timeout=1)
 
     def publish_drive_mode(self):
         #Toggle car mode and pedal with XBOX controller   
@@ -222,7 +220,7 @@ class XboxNode(Node):
         if self.ask_status_general :
             self.bus.send(self.drive_mode_dict["status_general"],timeout=1)   
             msg = self.bus.recv(1)
-            if msf is not None:
+            if msg is not None:
                 if msg.arbitration_id == self.general_module_id_rx:
                     self.general_msg = msg.data
                     self.ask_status_general = False
@@ -241,7 +239,7 @@ class XboxNode(Node):
             self.publish_drive_mode()
             self.analyse_drive_mode()
             if self.drive_mode == "Xbox_Controller":
-                # self.lateral_control()
+                #self.lateral_control()
                 self.longitudinal_control()
                 # self.xbox_info.connected.data = self.joy_stick.connected()
                 # self.xbox_info.back.data = self.joy_stick.Back()
