@@ -11,7 +11,7 @@ class EncoderPublisher(Node):
 
     def __init__(self):
         super().__init__('encoder_rm')
-        self.publisher = self.create_publisher(Encoder, 'encoder/freno', 10)
+        self.publisher = self.create_publisher(Encoder, 'encoder_freno', 10)
         timer_period = 0.01 #Seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000)
@@ -24,7 +24,7 @@ class EncoderPublisher(Node):
         receivedMsg = self.bus.recv(1)
 
         if receivedMsg is not None:
-            if receivedMsg.is_rx:
+            if receivedMsg.arbitration_id == 0x1:
                 decoded_msg = receivedMsg.data.hex()[6:]
                 hex_pos = (decoded_msg[6:7]+decoded_msg[4:6]+decoded_msg[2:4]+decoded_msg[0:2])
                 absolute_pos = int(hex_pos, 16)

@@ -31,8 +31,6 @@ sudo make sdv.up
 sudo make sdv.shell
 cd /home/ws/
 git clone --recurse-submodules https://github.com/vanttec/sdv_ros.git
-cd src/sdv_ros/can_devices/sdv_can/libs/vanttec_CANLib/
-git checkout feature/sdv_can
 cd /home/ws/
 colcon build
 
