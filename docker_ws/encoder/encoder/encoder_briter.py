@@ -4,7 +4,7 @@ import time
 import rclpy
 from rclpy.node import Node
 
-from sdv_msgs.msg import Encoder
+from sdv_msg.msg import Encoder
 # import usb
 
 class EncoderPublisher(Node):
