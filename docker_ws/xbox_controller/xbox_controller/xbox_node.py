@@ -268,7 +268,7 @@ class XboxNode(Node):
             self.publish_drive_mode()
             self.analyse_drive_mode()
             if self.drive_mode == "Xbox_Controller":
-                #self.lateral_control()
+                self.lateral_control()
                 self.longitudinal_control()
                 # self.xbox_info.connected.data = self.joy_stick.connected()
                 # self.xbox_info.back.data = self.joy_stick.Back()
