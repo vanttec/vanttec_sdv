@@ -63,6 +63,9 @@ class XboxNode(Node):
 
         self.brake_task_id = 0x1
 
+        self.prev_brake_data = 0
+
+
         # *------------------* THROTTLE *------------------*
         self.safe_velocity=200 # % of safe_pot  
         self.safe_pot = 170
@@ -170,13 +173,16 @@ class XboxNode(Node):
         self.braking_control()
 
     def braking_control(self):
-        brake_data = self.joy_stick.leftTrigger()
-        # self.get_logger().info('Left trigger pos: ' + str(brake_data))
-        brake_data = bytearray(struct.pack("f", brake_data))
-        #Insert ID so it can select the proper STM32 Task
-        brake_data = brake_data.insert(0,self.brake_task_id)
-        # self.get_logger().info('Brake data: ' + str(brake_data))
-        self.bus.send(can.Message(arbitration_id=self.braking_module_id,is_extended_id=False, data=brake_data), timeout=1)
+        brake_data = self.joy_stick.leftTrigge
+        r()
+        if self.prev_brake_data != brake_data:
+            # self.get_logger().info('Left trigger pos: ' + str(brake_data))
+            brake_data = bytearray(struct.pack("f", brake_data))
+            #Insert ID so it can select the proper STM32 Task
+            brake_data = brake_data.insert(0,self.brake_task_id)
+            # self.get_logger().info('Brake data: ' + str(brake_data))
+            self.bus.send(can.Message(arbitration_id=self.braking_module_id,is_extended_id=False, data=brake_data), timeout=1)
+        self.prev_brake_data = brake_data
 
     def lateral_control(self):
         joystick = self.joy_stick.leftX()
