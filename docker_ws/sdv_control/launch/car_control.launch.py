@@ -14,19 +14,19 @@ def generate_launch_description():
 
    # Define Actions
    start_sdv_control = Node(
-      package='sdv_control_ros2',
+      package='sdv_control',
       executable='car_control_node',
       name=['sdv_control_', role_name],
       output='screen',
       emulate_tty=True,
       parameters=[{'role_name': role_name}])
    start_car_simulation_node = Node(
-      package='sdv_control_ros2',
+      package='sdv_control',
       executable='car_simulation_node',
       namespace="",
       name='car_simulation_node_sdv',)
    start_car_tf2_broadcast_node_sdv = Node(
-      package='sdv_control_ros2',
+      package='sdv_control',
       executable='car_tf2_broadcast_node',
       namespace="",
       name='car_tf2_broadcast_node_sdv',)

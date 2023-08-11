@@ -12,10 +12,10 @@
 #include "sdv_msgs/msg/eta_pose.hpp"
 #include "geometry_msgs/msg/pose_stamped.hpp"
 
-#include <sdv_control_ros2/controllers_merge.hpp>
-#include <sdv_control_ros2/common.hpp>
-#include <sdv_control_ros2/stanley_controller.hpp>
-#include <sdv_control_ros2/pid.hpp>
+#include <sdv_control/controllers_merge.hpp>
+#include <sdv_control/common.hpp>
+#include <sdv_control/stanley_controller.hpp>
+#include <sdv_control/pid.hpp>
 
 using namespace std::chrono_literals;
 using std::placeholders::_1;

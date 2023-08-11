@@ -26,13 +26,13 @@ def generate_launch_description():
             ]
         ),
       Node(
-         package='sdv_control_ros2',
+         package='sdv_control',
          executable='car_simulation_node',
          namespace="",
          name='car_simulation_node_sdv',
       ),
       Node(
-         package='sdv_control_ros2',
+         package='sdv_control',
          executable='car_tf2_broadcast_node',
          namespace="",
          name='car_tf2_broadcast_node_sdv',

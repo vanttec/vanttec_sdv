@@ -7,8 +7,8 @@
 #include "sdv_msgs/msg/system_dynamics.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "common.hpp"
-#include <sdv_control_ros2/stanley_controller.hpp>
-#include <sdv_control_ros2/pid.hpp>
+#include <sdv_control/stanley_controller.hpp>
+#include <sdv_control/pid.hpp>
 
 namespace car_controller
 {

@@ -1,18 +1,14 @@
-#include <chrono>
-#include <functional>
-#include <memory>
-#include <string>
+#include <stdio.h>
+
 #include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/string.hpp"
-#include "sdv_control_ros2/car_3dof_dynamic_model.hpp"
+
+#include "vehicles/vtec_sdc1.hpp"
+
 #include "sdv_msgs/msg/eta_pose.hpp"
 #include "sdv_msgs/msg/system_dynamics.hpp"
 #include "std_msgs/msg/multi_array_dimension.hpp"
 #include "std_msgs/msg/float32.hpp"
 #include "geometry_msgs/msg/accel.hpp"
-#include <stdio.h>
-#include "rclcpp/rclcpp.hpp"
-#include <sdv_control_ros2/el_rasho.hpp>
 
 using namespace std::chrono_literals;
 

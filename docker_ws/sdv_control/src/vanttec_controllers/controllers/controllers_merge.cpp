@@ -5,7 +5,7 @@
 #include "sdv_msgs/msg/eta_pose.hpp"
 #include "sdv_msgs/msg/system_dynamics.hpp"
 #include "geometry_msgs/msg/twist.hpp"
-#include "sdv_control_ros2/controllers_merge.hpp"
+#include "sdv_control/controllers_merge.hpp"
 
 namespace car_controller
 

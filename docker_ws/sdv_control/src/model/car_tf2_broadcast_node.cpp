@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "nav_msgs/msg/path.hpp"
 #include "rclcpp/rclcpp.hpp"
-#include "sdv_control_ros2/6dof_tf2_broadcaster.hpp"
+#include "sdv_control/tf2_6dof_broadcaster_ros2.hpp"
 
 using namespace std::chrono_literals;
 
