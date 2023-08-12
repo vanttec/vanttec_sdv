@@ -63,6 +63,10 @@ class XboxNode(Node):
 
         self.brake_task_id = 0x1
 
+        self.prev_brake_data = 0
+
+        self.prev_steer_data = 0
+
         # *------------------* THROTTLE *------------------*
         self.safe_velocity=200 # % of safe_pot  
         self.safe_pot = 170
@@ -171,12 +175,14 @@ class XboxNode(Node):
 
     def braking_control(self):
         brake_data = self.joy_stick.leftTrigger()
-        # self.get_logger().info('Left trigger pos: ' + str(brake_data))
-        brake_data = bytearray(struct.pack("f", brake_data))
-        #Insert ID so it can select the proper STM32 Task
-        brake_data = brake_data.insert(0,self.brake_task_id)
-        # self.get_logger().info('Brake data: ' + str(brake_data))
-        self.bus.send(can.Message(arbitration_id=self.braking_module_id,is_extended_id=False, data=brake_data), timeout=1)
+        if (self.prev_brake_data != brake_data):
+            # self.get_logger().info('Left trigger pos: ' + str(brake_data))
+            brake_data = bytearray(struct.pack("f", brake_data))
+            #Insert ID so it can select the proper STM32 Task
+            brake_data = brake_data.insert(0,self.brake_task_id)
+            # self.get_logger().info('Brake data: ' + str(brake_data))
+            self.bus.send(can.Message(arbitration_id=self.braking_module_id,is_extended_id=False, data=brake_data), timeout=1)
+        self.prev_brake_data = brake_data
 
     def lateral_control(self):
         joystick = self.joy_stick.leftX()
@@ -205,6 +211,15 @@ class XboxNode(Node):
         # self.steering_pub.publish(msg)
         self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=[self.steer_task_id,int(dir)]), timeout=1)
 
+    def lateral_control_float(self):
+        steer_data = self.joy_stick.leftX()
+        if (self.prev_steer_data != steer_data):
+            steer_data = bytearray(struct.pack("f", steer_data))
+            #Insert ID so it can select the proper STM32 Task
+            steer_data = steer_data.insert(0,self.steer_task_id)
+            # self.get_logger().info('Brake data: ' + str(steer_data))
+            self.bus.send(can.Message(arbitration_id=self.braking_module_id,is_extended_id=False, data=steer_data), timeout=1)
+        self.prev_steer_data = steer_data
     def publish_drive_mode(self):
         #Toggle car mode and pedal with XBOX controller   
         start_btn = bool(self.joy_stick.Start())
@@ -269,7 +284,8 @@ class XboxNode(Node):
             self.analyse_drive_mode()
             if self.drive_mode == "Xbox_Controller":
                 #self.lateral_control()
-                self.longitudinal_control()
+                self.lateral_control_float()
+                #self.longitudinal_control()
                 # self.xbox_info.connected.data = self.joy_stick.connected()
                 # self.xbox_info.back.data = self.joy_stick.Back()
                 # self.xbox_info.leftx.data = self.joy_stick.leftX()
