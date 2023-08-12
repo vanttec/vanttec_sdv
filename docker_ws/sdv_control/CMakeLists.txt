@@ -15,56 +15,83 @@ find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2 REQUIRED)
-find_package(pluginlib REQUIRED)
 
-# Add include directories
-include_directories(
-    vanttec_controllers/
-    vanttec_controllers/dynamic_models/ground_vehicles/car_like/
-    vanttec_controllers/controllers/feedback_linearization/PID_based/first_order/
-    vanttec_controllers/controllers/guidance_laws/
-    ${ament_INCLUDE_DIRS}
+set(DEPENDENCIES
+    sdv_msgs
+    std_msgs
+    rclcpp
+    geometry_msgs
+    nav_msgs
+    tf2_ros
+    tf2
 )
 
-# set(dependencies
-#     sdv_msgs
-#     std_msgs
-#     rclcpp
-#     geometry_msgs
-#     nav_msgs
-#     tf2_ros
-#     tf2
-#     pluginlib
-# )
+set(LIBRARIES
+    VANTTEC_CONTROLLERS
+    # car_simulation_node
+    # car_tf2_broadcast_node
+    # car_control_node
+)
 
-# set(libraries
-#     dynamic_model
-#     car_simulation_node
-#     car_tf2_broadcast_node
-#     # car_control_node
-# )
+set(VANTTEC_CONTROLLER_SOURCES
+    # ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/dynamic_models/ground_vehicles/car_like/vehicles/vtec_sdc1.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/dynamic_models/ground_vehicles/car_like/base/car_3dof_dynamic_model.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/utils/utils.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/simulation/tf2_6dof_broadcaster_ros2.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/control_laws/PID/first_order/pid.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/guidance_laws/stanley_controller.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/vanttec_controllers/controllers/controllers_merge.cpp
+)
+
+set(VANTTEC_CONTROLLER_PATHS
+    # ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/dynamic_models/ground_vehicles/car_like/
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/simulation/
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/control_laws/PID/first_order/
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/guidance_laws/
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/
+)
 
 #Add cpp library files
-# add_library(dynamic_model SHARED
-#                 libs/vanttec_controllers/dynamic_models/ground_vehicles/car_like/vehicles/vtec_sdc1.cpp
-#                 libs/vanttec_controllers/dynamic_models/ground_vehicles/car_like/base/car_3dof_dynamic_model.cpp
-#                 libs/vanttec_controllers/simulation/tf2_6dof_broadcaster_ros2.hpp
-#                 libs/vanttec_controllers/controllers/control_laws/PID/first_order/pid.cpp
-#                 libs/vanttec_controllers/controllers/guidance_laws/stanley_controller.cpp
-#                 src/vanttec_controllers/controllers/controllers_merge.cpp)
-# target_include_directories(dynamic_model PUBLIC
-# $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-# $<INSTALL_INTERFACE:include>
-# )
+add_library(VANTTEC_CONTROLLERS SHARED ${VANTTEC_CONTROLLER_SOURCES}
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/dynamic_models/ground_vehicles/car_like/vehicles/vtec_sdc1.cpp
+)
+
+# Specify the include directories for the libraries
+target_include_directories(VANTTEC_CONTROLLERS
+  PUBLIC
+  $<BUILD_INTERFACE:${VANTTEC_CONTROLLER_PATHS}>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/dynamic_models/ground_vehicles/car_like/>
+  $<INSTALL_INTERFACE:include>
+)
+
+ament_target_dependencies(VANTTEC_CONTROLLERS ${DEPENDENCIES})
+
 
 #target_compile_definitions(sdv_control PRIVATE "sdv_control_BUILDING_LIBRARY")
 #Add executables
 add_executable(car_simulation_node 
-              src/model/car_simulation_node.cpp
-              libs/vanttec_controllers/dynamic_models/ground_vehicles/car_like/vehicles/vtec_sdc1.cpp
-              libs/vanttec_controllers/dynamic_models/ground_vehicles/car_like/base/car_3dof_dynamic_model.cpp
-              )
-ament_target_dependencies(car_simulation_node rclcpp std_msgs)
+              src/model/car_simulation_node.cpp)
+
+ament_target_dependencies(car_simulation_node ${DEPENDENCIES})
+
+# Link against required libraries
+target_link_libraries(car_simulation_node
+    VANTTEC_CONTROLLERS
+    ${rclcpp_LIBRARIES}
+    ${std_msgs_LIBRARIES}
+    ${sdv_msgs_LIBRARIES}
+)
+
+# Include directories for project headers and other package headers
+target_include_directories(car_simulation_node
+            PUBLIC
+            # $<BUILD_INTERFACE:${VANTTEC_CONTROLLER_PATHS}>
+            $<BUILD_INTERFACE:${sdv_msgs_INCLUDE_DIRS}>
+            $<INSTALL_INTERFACE:include>
+)
+
+target_compile_features(car_simulation_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
 # target_link_libraries(car_simulation_node dynamic_model)
 # target_include_directories(car_simulation_node PUBLIC
@@ -87,12 +114,10 @@ ament_target_dependencies(car_simulation_node rclcpp std_msgs)
 #   $<INSTALL_INTERFACE:include>)
 # target_compile_features(car_control_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
-# ament_target_dependencies(dynamic_model
-#   ${dependencies}
-# )
 
 #### Install
-install(TARGETS #${libraries}
+install(TARGETS 
+  ${LIBRARIES}
   car_simulation_node
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
@@ -100,8 +125,9 @@ install(TARGETS #${libraries}
   DESTINATION lib/${PROJECT_NAME}
 )
 
-install(DIRECTORY include/
-  DESTINATION include
+# Install header files
+install(DIRECTORY VANTTEC_CONTROLLER_PATHS
+  DESTINATION include/${PROJECT_NAME}
 )
 
 install(DIRECTORY launch 
@@ -119,7 +145,7 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-# ament_export_include_directories(include)
-# ament_export_libraries(${libraries})
-# ament_export_dependencies(${dependencies})
+ament_export_include_directories(include)
+ament_export_libraries(${LIBRARIES})
+ament_export_dependencies(${DEPENDENCIES})
 ament_package()
