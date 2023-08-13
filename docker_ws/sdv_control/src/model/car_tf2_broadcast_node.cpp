@@ -48,7 +48,7 @@ class CarTf2Broadcast : public rclcpp::Node
         std::bind(&CarTf2Broadcast::timer_callback, this));   
     }
 
-    ~CarTf2Broadcast(){}
+    ~CarTf2Broadcast(){tf_broadcaster_.reset();}
 
     void configure()
     {

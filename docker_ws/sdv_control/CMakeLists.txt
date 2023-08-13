@@ -36,10 +36,16 @@ set(LIBRARIES
 )
 
 set(VANTTEC_CONTROLLER_SOURCES
-    # ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/dynamic_models/ground_vehicles/car_like/vehicles/vtec_sdc1.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/dynamic_models/ground_vehicles/car_like/vehicles/vtec_sdc1.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/dynamic_models/ground_vehicles/car_like/base/car_3dof_dynamic_model.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/utils/utils.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/simulation/tf2_6dof_broadcaster_ros2.cpp
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/feedback_linearization/model_based_controllers/SDCs/regulators/vtec_sdc1_pid.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/feedback_linearization/PID_based/first_order/fblin_pid.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/feedback_linearization/base/fb_lin_control.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/control_laws/PID/first_order/pid.cpp
+    
     # ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/control_laws/PID/first_order/pid.cpp
     # ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/guidance_laws/stanley_controller.cpp
     # ${CMAKE_CURRENT_SOURCE_DIR}/src/vanttec_controllers/controllers/controllers_merge.cpp
@@ -55,8 +61,9 @@ set(VANTTEC_CONTROLLER_PATHS
 )
 
 #Add cpp library files
-add_library(VANTTEC_CONTROLLERS SHARED ${VANTTEC_CONTROLLER_SOURCES}
-    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/dynamic_models/ground_vehicles/car_like/vehicles/vtec_sdc1.cpp
+add_library(VANTTEC_CONTROLLERS SHARED 
+    ${VANTTEC_CONTROLLER_SOURCES}
+    # ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/dynamic_models/ground_vehicles/car_like/vehicles/vtec_sdc1.cpp
 )
 
 # Specify the include directories for the libraries
@@ -71,7 +78,7 @@ ament_target_dependencies(VANTTEC_CONTROLLERS ${DEPENDENCIES})
 
 #target_compile_definitions(sdv_control PRIVATE "sdv_control_BUILDING_LIBRARY")
 
-#   ********************** SDC1 SIMULATION NODE
+#   ********************** SDC1 SIMULATION NODE **********************
 #Add executables
 add_executable(sdc1_simulation_node 
               src/model/sdc1_simulation_node.cpp)
@@ -86,13 +93,13 @@ target_link_libraries(sdc1_simulation_node
 # Include directories for project headers and other package headers
 target_include_directories(sdc1_simulation_node
             PUBLIC
-            # $<BUILD_INTERFACE:${VANTTEC_CONTROLLER_PATHS}>
+            $<BUILD_INTERFACE:${VANTTEC_CONTROLLER_PATHS}>
             $<BUILD_INTERFACE:${sdv_msgs_INCLUDE_DIRS}>
             $<INSTALL_INTERFACE:include>
 )
 target_compile_features(sdc1_simulation_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
-#   ********************** TF2 BROADCAST NODE
+#   ********************** TF2 BROADCAST NODE **********************
 #Add executables
 add_executable(car_tf2_broadcast_node 
               src/model/car_tf2_broadcast_node.cpp)
@@ -114,6 +121,26 @@ target_include_directories(car_tf2_broadcast_node
 target_compile_features(car_tf2_broadcast_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
 
+#   ********************** SDC1 CONTROL NODE **********************
+#Add executables
+add_executable(sdc1_vel_control_node 
+              src/control/sdc1_vel_control_node.cpp)
+# Link against required libraries
+target_link_libraries(sdc1_vel_control_node
+    VANTTEC_CONTROLLERS
+    # ${rclcpp_LIBRARIES}
+    # ${std_msgs_LIBRARIES}
+    # ${sdv_msgs_LIBRARIES}
+    # ${diagnostic_msgs_LIBRARIES}
+)
+# Include directories for project headers and other package headers
+target_include_directories(sdc1_vel_control_node
+            PUBLIC
+            $<BUILD_INTERFACE:${VANTTEC_CONTROLLER_PATHS}>
+            $<BUILD_INTERFACE:${sdv_msgs_INCLUDE_DIRS}>
+            $<INSTALL_INTERFACE:include>
+)
+target_compile_features(sdc1_vel_control_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
 
 # target_link_libraries(sdc1_simulation_node dynamic_model)
@@ -136,6 +163,7 @@ install(TARGETS
   ${LIBRARIES}
   sdc1_simulation_node
   car_tf2_broadcast_node
+  sdc1_vel_control_node
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}
