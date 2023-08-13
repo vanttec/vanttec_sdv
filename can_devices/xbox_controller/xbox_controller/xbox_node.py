@@ -41,8 +41,8 @@ class XboxNode(Node):
         # *------------------* GENERAL *------------------*
         self.ask_status_general = False
         self.drive_mode_dict = {
-                "manual": can.Message(arbitration_id=self.admin_id,is_extended_id=False, data=[0x2,0x0]),
-                "auto": can.Message(arbitration_id=self.admin_id,is_extended_id=False, data=[0x2,0x1]),
+                "manual": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x2,0x0]),
+                "auto": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x2,0x1]),
                 "status_general": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x5,0x1])
             }
         self.general_msg = 0

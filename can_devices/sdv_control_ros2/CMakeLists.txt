@@ -16,6 +16,7 @@ find_package(nav_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(pluginlib REQUIRED)
+find_package(rclpy REQUIRED)
 
 
 set(dependencies
@@ -81,6 +82,12 @@ install(TARGETS ${libraries}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+#Install the python modules
+install(PROGRAMS
+  scripts/boards.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
