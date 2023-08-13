@@ -8,7 +8,7 @@ from ament_index_python.packages import get_package_share_directory
 def generate_launch_description():
    frequency_arg = DeclareLaunchArgument(
       name='frequency',
-      default_value='50',
+      default_value='100',
       description='Frequency for nodes'
    )
 

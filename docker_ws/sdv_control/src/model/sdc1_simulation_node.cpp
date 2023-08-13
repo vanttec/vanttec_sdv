@@ -52,7 +52,7 @@ class CarSimulationNode : public rclcpp::Node
 
       car_model_->calculateModelParams();
 
-      car_model_->updateDBSignals();
+      // car_model_->updateDBSignals();
 
       /* Publish Odometry */
       car_accel_->publish(car_model_->accelerations_);
@@ -82,7 +82,7 @@ class CarSimulationNode : public rclcpp::Node
     {
       this->declare_parameter("frequency", 100);    // Super important to get parameters from launch files!!
       this->get_parameter_or("frequency", frequency_, 100);
-      sample_time_ = 1000 / static_cast<float>(frequency_);
+      sample_time_ = 1 / static_cast<float>(frequency_);
 
       car_accel_ = this->create_publisher<geometry_msgs::msg::Accel>("/car_simulation/dynamic_model/accel", 10);
       car_vel_ = this->create_publisher<geometry_msgs::msg::Twist>("/car_simulation/dynamic_model/vel", 10);
