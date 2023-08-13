@@ -45,7 +45,7 @@ def generate_launch_description():
       frequency_arg,
       car_model_node,
       tf2_node,
-      rviz
+      # rviz
    ])
 
 

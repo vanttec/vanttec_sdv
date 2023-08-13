@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot name="sdv">
-  <link name="base_link">
+  <link name="sdv_base_link">
     <visual>
       <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
       <geometry>
@@ -9,8 +9,8 @@
     </visual>
   </link>
 <!--
-  <joint name="base_link_to_base_laser_joint" type="fixed">
-    <parent link="base_link"/>
+  <joint name="sdv_base_link_to_base_laser_joint" type="fixed">
+    <parent link="sdv_base_link"/>
     <child link="base_laser"/>
     <origin xyz="0 0 1.0"/>
   </joint>
