@@ -5,7 +5,7 @@
  * @email: sebas.martp@gmail.com
  * @author: Edison Altamirano
  * 
- * @brief: Self-Driving Car 1 simulation node.
+ * @brief: Self-Driving Car 1 simulation node. Based on Sebas' car dyn model.
  * -----------------------------------------------------------------------------
  **/
 
@@ -58,13 +58,16 @@ class CarSimulationNode : public rclcpp::Node
       throttle_diag_.level = 0;
       value.key = "D";
       value.value = car_model_->u_(0);
+      // RCLCPP_INFO(this->get_logger(), "U: %f",  car_model_->u_(0));
+      
       throttle_diag_.values.push_back(value);
       diagnostics_publisher_->publish(throttle_diag_);
     }
     
   public:
-    CarSimulationNode() : Node("car_simulation_node")
+    CarSimulationNode() : Node("sdc1_simulation_node")
     {
+      this->declare_parameter("frequency", 0);    // Super important to get parameters from launch files!!
       this->get_parameter_or("frequency", frequency_, 100);
       sample_time_ = 1000 / static_cast<float>(frequency_);
 

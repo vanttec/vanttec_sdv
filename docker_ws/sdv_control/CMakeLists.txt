@@ -70,19 +70,19 @@ target_include_directories(VANTTEC_CONTROLLERS
 ament_target_dependencies(VANTTEC_CONTROLLERS ${DEPENDENCIES})
 
 #target_compile_definitions(sdv_control PRIVATE "sdv_control_BUILDING_LIBRARY")
+
+#   ********************** SDC1 SIMULATION NODE
 #Add executables
 add_executable(sdc1_simulation_node 
               src/model/sdc1_simulation_node.cpp)
-
 # Link against required libraries
 target_link_libraries(sdc1_simulation_node
     VANTTEC_CONTROLLERS
-    ${rclcpp_LIBRARIES}
-    ${std_msgs_LIBRARIES}
-    ${sdv_msgs_LIBRARIES}
-    ${diagnostic_msgs_LIBRARIES}
+    # ${rclcpp_LIBRARIES}
+    # ${std_msgs_LIBRARIES}
+    # ${sdv_msgs_LIBRARIES}
+    # ${diagnostic_msgs_LIBRARIES}
 )
-
 # Include directories for project headers and other package headers
 target_include_directories(sdc1_simulation_node
             PUBLIC
@@ -90,8 +90,31 @@ target_include_directories(sdc1_simulation_node
             $<BUILD_INTERFACE:${sdv_msgs_INCLUDE_DIRS}>
             $<INSTALL_INTERFACE:include>
 )
-
 target_compile_features(sdc1_simulation_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+
+#   ********************** TF2 BROADCAST NODE
+#Add executables
+add_executable(car_tf2_broadcast_node 
+              src/model/car_tf2_broadcast_node.cpp)
+# Link against required libraries
+target_link_libraries(car_tf2_broadcast_node
+    VANTTEC_CONTROLLERS
+    # ${rclcpp_LIBRARIES}
+    # ${geometry_msgs_LIBRARIES}
+    # ${nav_msgs_LIBRARIES}
+    # ${sdv_msgs_LIBRARIES}
+)
+# Include directories for project headers and other package headers
+target_include_directories(car_tf2_broadcast_node
+            PUBLIC
+            # $<BUILD_INTERFACE:${VANTTEC_CONTROLLER_PATHS}>
+            $<BUILD_INTERFACE:${sdv_msgs_INCLUDE_DIRS}>
+            $<INSTALL_INTERFACE:include>
+)
+target_compile_features(car_tf2_broadcast_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+
+
+
 
 # target_link_libraries(sdc1_simulation_node dynamic_model)
 # target_include_directories(sdc1_simulation_node PUBLIC
@@ -99,13 +122,6 @@ target_compile_features(sdc1_simulation_node PUBLIC c_std_99 cxx_std_17)  # Requ
 #   $<INSTALL_INTERFACE:include>)
 # target_compile_features(sdc1_simulation_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
-
-# add_executable(car_tf2_broadcast_node src/model/car_tf2_broadcast_node.cpp)
-# target_link_libraries(car_tf2_broadcast_node dynamic_model)
-# target_include_directories(car_tf2_broadcast_node PUBLIC
-#   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-#   $<INSTALL_INTERFACE:include>)
-# target_compile_features(car_tf2_broadcast_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
 # add_executable(car_control_node src/model/car_control_node.cpp)
 # target_link_libraries(car_control_node dynamic_model)
@@ -119,6 +135,7 @@ target_compile_features(sdc1_simulation_node PUBLIC c_std_99 cxx_std_17)  # Requ
 install(TARGETS 
   ${LIBRARIES}
   sdc1_simulation_node
+  car_tf2_broadcast_node
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}
