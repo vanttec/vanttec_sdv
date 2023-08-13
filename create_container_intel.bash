@@ -32,7 +32,8 @@ $DOCKER_COMMAND -it -d\
     --privileged \
     -v /dev/bus/usb/:/dev/bus/usb \
     -v /dev:/dev \
-    -v "$PWD/can_devices:/home/ws/src" \
+    -v "$PWD/docker_ws:/home/ws/src" \
+    -v "/media/saveasmtz/pacman/rosbags:/home/ws/src/tests" \
     -v /var/run/docker.sock:/var/run/docker.sock \
     --name=sdv \
     sdv\

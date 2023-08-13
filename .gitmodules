@@ -1,6 +1,6 @@
-[submodule "can_devices/sdv_can/libs/vanttec_CANLib"]
-	path = can_devices/sdv_can/libs/vanttec_CANLib
+[submodule "docker_ws/sdv_can/libs/vanttec_CANLib"]
+	path = docker_ws/sdv_can/libs/vanttec_CANLib
 	url = https://github.com/vanttec/vanttec_CANLib.git
-[submodule "can_devices/sdv_localization/vectornav"]
-	path = can_devices/sdv_localization/vectornav
+[submodule "docker_ws/sdv_localization/vectornav"]
+	path = docker_ws/sdv_localization/vectornav
 	url = https://github.com/dawonn/vectornav.git
