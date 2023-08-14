@@ -40,8 +40,8 @@ class XboxNode(Node):
         # *------------------* GENERAL *------------------*
         self.ask_status_general = False
         self.drive_mode_dict = {
-                "manual": can.Message(arbitration_id=self.admin_id,is_extended_id=False, data=[0x2,0x0]),
-                "auto": can.Message(arbitration_id=self.admin_id,is_extended_id=False, data=[0x2,0x1]),
+                "manual": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x2,0x0]),
+                "auto": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x2,0x1]),
                 "status_general": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x5,0x1])
             }
         self.general_msg = 0
@@ -65,6 +65,7 @@ class XboxNode(Node):
 
         self.prev_brake_data = 0
 
+        self.prev_steer_data = 0
 
         # *------------------* THROTTLE *------------------*
         self.safe_velocity=200 # % of safe_pot  
@@ -173,9 +174,8 @@ class XboxNode(Node):
         self.braking_control()
 
     def braking_control(self):
-        brake_data = self.joy_stick.leftTrigge
-        r()
-        if self.prev_brake_data != brake_data:
+        brake_data = self.joy_stick.leftTrigger()
+        if (self.prev_brake_data != brake_data):
             # self.get_logger().info('Left trigger pos: ' + str(brake_data))
             brake_data = bytearray(struct.pack("f", brake_data))
             #Insert ID so it can select the proper STM32 Task
@@ -211,6 +211,15 @@ class XboxNode(Node):
         # self.steering_pub.publish(msg)
         self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=[self.steer_task_id,int(dir)]), timeout=1)
 
+    def lateral_control_float(self):
+        steer_data = self.joy_stick.leftX()
+        if (self.prev_steer_data != steer_data):
+            steer_data = bytearray(struct.pack("f", steer_data))
+            #Insert ID so it can select the proper STM32 Task
+            steer_data = steer_data.insert(0,self.steer_task_id)
+            # self.get_logger().info('Brake data: ' + str(steer_data))
+            self.bus.send(can.Message(arbitration_id=self.braking_module_id,is_extended_id=False, data=steer_data), timeout=1)
+        self.prev_steer_data = steer_data
     def publish_drive_mode(self):
         #Toggle car mode and pedal with XBOX controller   
         start_btn = bool(self.joy_stick.Start())
