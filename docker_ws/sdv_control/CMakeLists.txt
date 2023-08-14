@@ -16,6 +16,7 @@ find_package(nav_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(diagnostic_msgs REQUIRED)
+find_package(vectornav_msgs REQUIRED)
 
 set(DEPENDENCIES
     sdv_msgs
@@ -26,6 +27,7 @@ set(DEPENDENCIES
     tf2_ros
     tf2
     diagnostic_msgs
+    vectornav_msgs
 )
 
 set(LIBRARIES
