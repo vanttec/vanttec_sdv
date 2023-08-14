@@ -79,8 +79,8 @@ class CarSimulationNode : public rclcpp::Node
     CarSimulationNode() : Node("sdc1_simulation_node")
     {
       int frequency;
-      this->declare_parameter("frequency", 100);    // Super important to get parameters from launch files!!
-      this->declare_parameter("D_MAX", 255);
+      this->declare_parameter("frequency", rclcpp::PARAMETER_INTEGER);    // Super important to get parameters from launch files!!
+      this->declare_parameter("D_MAX", rclcpp::PARAMETER_INTEGER);
       this->get_parameter_or("frequency", frequency, 100);
       this->get_parameter_or("D_MAX", D_MAX_, static_cast<uint8_t>(255));
 

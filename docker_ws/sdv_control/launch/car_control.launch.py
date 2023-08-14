@@ -1,45 +1,51 @@
 import os
-import launch
 from launch import LaunchDescription
-from launch.substitutions import LaunchConfiguration
-from launch.actions import DeclareLaunchArgument
 from launch_ros.actions import Node
+from launch.actions import DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration
+from ament_index_python.packages import get_package_share_directory
+
 def generate_launch_description():
 
-   # Create Launch Configuration Variables
-   role_name = LaunchConfiguration('role_name')
-   
-   # Define Launch Arguments
-   declare_role_name = DeclareLaunchArgument('role_name', default_value='vanttec_vehicle')
+   frequency_arg = DeclareLaunchArgument(
+      name='frequency',
+      default_value='100',
+      description='Frequency for nodes'
+   )
 
-   # Define Actions
-   start_sdv_control = Node(
+   pid_gains = os.path.join(
+      get_package_share_directory('sdv_control'),
+      'config',
+      'VTec_SDC1_PID_Gains.yaml'
+   )
+
+   car_control_node = Node(
       package='sdv_control',
-      executable='car_control_node',
-      name=['sdv_control_', role_name],
+      executable='sdc1_vel_control_node',
       output='screen',
-      emulate_tty=True,
-      parameters=[{'role_name': role_name}])
-   start_car_simulation_node = Node(
-      package='sdv_control',
-      executable='car_simulation_node',
-      namespace="",
-      name='car_simulation_node_sdv',)
-   start_car_tf2_broadcast_node_sdv = Node(
+      name='sdc1_vel_control_node',
+      parameters=[{'frequency': LaunchConfiguration('frequency')},
+                  pid_gains]
+   )
+
+   tf2_node = Node(
       package='sdv_control',
       executable='car_tf2_broadcast_node',
       namespace="",
-      name='car_tf2_broadcast_node_sdv',)
+      name='car_tf2_broadcast_node',
+      parameters=[{'frequency': LaunchConfiguration('frequency')}]
+   )
 
-   # Create launch description
-   ld = launch.LaunchDescription()
+   rviz = Node(
+      package='rviz2',
+      executable='rviz2',
+      name='rviz2',
+      # arguments=['-d', rviz_config]
+   )
 
-   # Declare launch options
-   ld.add_action(declare_role_name)
-
-   # Add actions
-   ld.add_action(start_sdv_control)
-   ld.add_action(start_car_simulation_node)
-   ld.add_action(start_car_tf2_broadcast_node_sdv)
-   
-   return ld  
+   return LaunchDescription([
+      frequency_arg,
+      car_control_node,
+      tf2_node,
+      # rviz
+   ])

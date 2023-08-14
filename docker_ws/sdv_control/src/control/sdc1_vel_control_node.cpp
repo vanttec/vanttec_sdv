@@ -18,6 +18,7 @@
 #include "geometry_msgs/msg/accel.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "std_msgs/msg/multi_array_dimension.hpp"
+#include "std_msgs/msg/float32.hpp"
 #include "std_msgs/msg/u_int8.hpp"
 #include "diagnostic_msgs/msg/diagnostic_status.hpp"
 #include "diagnostic_msgs/msg/key_value.hpp"
@@ -48,9 +49,10 @@ class CarControlNode : public rclcpp::Node
         rclcpp::Publisher<geometry_msgs::msg::Accel>::SharedPtr car_accel_;
         rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr car_vel_;
         rclcpp::Publisher<sdv_msgs::msg::EtaPose>::SharedPtr car_eta_pose_;
-        rclcpp::Publisher<diagnostic_msgs::msg::DiagnosticStatus>::SharedPtr cal_throttle_;
+        rclcpp::Publisher<diagnostic_msgs::msg::DiagnosticStatus>::SharedPtr throttle_diag_pub;
+        rclcpp::Publisher<std_msgs::msg::UInt8>::SharedPtr calc_throttle_;
 
-        rclcpp::Subscription<std_msgs::msg::UInt8>::SharedPtr desired_velocity_;
+        rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr desired_velocity_;
 
         // rclcpp::Publisher<sdv_msgs::msg::ThrustControl>::SharedPtr car_force_;
         // rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr car_steering;
@@ -84,11 +86,13 @@ class CarControlNode : public rclcpp::Node
             diagnostic_msgs::msg::KeyValue value;
             throttle_diag_.level = 0;
             value.key = "throttle_signal";
-            value.value = model_->D_;
+            value.value = std::to_string(model_->D_);
             throttle_diag_.values.push_back(value);
-            cal_throttle_->publish(throttle_diag_);
+            throttle_diag_pub->publish(throttle_diag_);
 
-
+            std_msgs::msg::UInt8 D;
+            D.data = model_->D_;
+            calc_throttle_->publish(D);
 
             // model_->calculateCrosstrackError(x0,y0,x1,y1);
             // std_msgs::msg::Float32 deltainfo;
@@ -124,39 +128,46 @@ class CarControlNode : public rclcpp::Node
             // follow_path->publish(path);
         }
         
-        void set_reference(const std_msgs::msg::UInt8& msg) const
+        void set_reference(const std_msgs::msg::Float32& msg) const
         {
-            model_->updateCurrentReference(static_cast<float>(msg.data), 0);
+            model_->updateCurrentReference(msg.data, 0);
         }
 
     public:
         CarControlNode() : Node("car_control_node")
         {
             int frequency;
+            //https://roboticsbackend.com/rclcpp-params-tutorial-get-set-ros2-params-with-cpp/
+            this->declare_parameter("frequency", rclcpp::PARAMETER_INTEGER);    // Super important to get parameters from launch files!!
+            this->declare_parameter("Kp", rclcpp::PARAMETER_DOUBLE);
+            this->declare_parameter("Ki", rclcpp::PARAMETER_DOUBLE);
+            this->declare_parameter("Kd", rclcpp::PARAMETER_DOUBLE);
+            this->declare_parameter("D_MAX", rclcpp::PARAMETER_INTEGER);
 
-            this->declare_parameter("frequency", 100);    // Super important to get parameters from launch files!!
-            this->declare_parameter("kp", 0);
-            this->declare_parameter("ki", 0);
-            this->declare_parameter("kd", 0);
-            this->declare_parameter("D_MAX", 0);
-
-            this->get_parameter_or("frequency", frequency, 100);
-            this->get_parameter_or("kp", kp_, static_cast<float>(1.0));
-            this->get_parameter_or("ki", ki_, static_cast<float>(0.01));
-            this->get_parameter_or("kd", kd_, static_cast<float>(0.01));
+            frequency = this->get_parameter("frequency").as_int();
+            kp_ = this->get_parameter("Kp").as_double();
+            ki_ = this->get_parameter("Ki").as_double();
+            kd_ = this->get_parameter("Kd").as_double();
             this->get_parameter_or("D_MAX", D_MAX_, static_cast<uint8_t>(100));
+
+            // std::cout << "Freq = " << frequency << std::endl;
+            // std::cout << "kp = " << kp_ << std::endl;
+            // std::cout << "ki = " << ki_ << std::endl;
+            // std::cout << "kd = " << kd_ << std::endl;
+            // std::cout << "D_MAX = " << static_cast<int>(D_MAX_) << std::endl;
 
             sample_time_ = 1.0 / static_cast<float>(frequency);
 
             car_accel_ = this->create_publisher<geometry_msgs::msg::Accel>("/car_simulation/dynamic_model/accel", 10);
             car_vel_ = this->create_publisher<geometry_msgs::msg::Twist>("/car_simulation/dynamic_model/vel", 10);
             car_eta_pose_ = this->create_publisher<sdv_msgs::msg::EtaPose>("/car_simulation/dynamic_model/eta_pose", 10);
-            cal_throttle_ = this->create_publisher<diagnostic_msgs::msg::DiagnosticStatus>("/diagnostics",10);
+            throttle_diag_pub = this->create_publisher<diagnostic_msgs::msg::DiagnosticStatus>("/diagnostics",10);
+            calc_throttle_ = this->create_publisher<std_msgs::msg::UInt8>("/car_control/control_signal/D",10);
             // car_steering = this->create_publisher<std_msgs::msg::Float32>("/car_control/car_control_node/steering",1);
             // follow_path = this->create_publisher<nav_msgs::msg::Path>("/car_path_to_follow",1);
             // car_force_ = this->create_publisher<sdv_msgs::msg::ThrustControl>("/car_control/car_control_node/force",1);
 
-            desired_velocity_ = this->create_subscription<std_msgs::msg::UInt8>("/car_simulation/dynamic_model/set_vel_d",
+            desired_velocity_ = this->create_subscription<std_msgs::msg::Float32>("/car_control/setpoint/velocity",
                                 1, std::bind(&CarControlNode::set_reference, this, std::placeholders::_1));
 
 

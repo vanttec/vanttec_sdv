@@ -38,7 +38,7 @@ class CarTf2Broadcast : public rclcpp::Node
   public:
     CarTf2Broadcast() : Node("car_t2_broadcast_node")
     {
-      this->declare_parameter("frequency", 0);    // Super important to get parameters from launch files!!
+      this->declare_parameter("frequency", rclcpp::PARAMETER_INTEGER);    // Super important to get parameters from launch files!!
       this->get_parameter_or("frequency", frequency_, 100);
 
       car_path_ = this->create_publisher<nav_msgs::msg::Path>("/car_simulation/car_tf_broadcast/car_path", 10);
