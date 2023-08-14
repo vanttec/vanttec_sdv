@@ -1,0 +1,8 @@
+# First Order Feedback Linearization 1-DOF PID Controller for the VTec SDC1
+
+sdc1_vel_control_node:
+  ros__parameters:
+    Kp: 2.0
+    Ki: 0.01
+    Kd: 0.0 #0.01
+    D_MAX: 180
