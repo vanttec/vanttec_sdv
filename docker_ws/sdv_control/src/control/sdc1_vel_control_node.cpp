@@ -37,7 +37,8 @@ class CarControlNode : public rclcpp::Node
         float ki_;
         float kd_;
         uint8_t D_MAX_;
-        float U_MAX_ = 5000;     // MAX THROTTLE
+        float U_MAX_ = 12800;     // MAX THROTTLE (pasarnos de esto no es bueno
+                                  // de acuerdo a sims con modelo parametrizado hasta step 95)
 
         float vel_d_ = 0.0;
 
