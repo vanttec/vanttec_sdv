@@ -26,7 +26,7 @@ def generate_launch_description():
 
    is_sim_arg = DeclareLaunchArgument(
       name='is_simulation',
-      default_value='True'
+      default_value='False'
    )
 
    # foxglove_launch = IncludeLaunchDescription(

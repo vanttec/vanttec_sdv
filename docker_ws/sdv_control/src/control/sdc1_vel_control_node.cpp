@@ -81,10 +81,12 @@ class CarControlNode : public rclcpp::Node
                 model_->updateDBSignals(vel_d_);
             } else {
                 if(vel_msgs_arrived_){
+                    RCLCPP_INFO(this->get_logger(), "Vectornav vel received");
                     model_->calculateControlSignals(vel_body_x_);
                     model_->updateControlSignals();
                     model_->updateDBSignals(vel_d_);
-                }
+                } else
+                    RCLCPP_INFO(this->get_logger(), "Waiting for vectornav");
             }
             
             /* Publish Odometry */
