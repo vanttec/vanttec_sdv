@@ -33,11 +33,13 @@ class CarControlNode : public rclcpp::Node
 {
     private:
         float sample_time_;
-        float kp_ = 1;
-        float ki_ = 0;
-        float kd_ = 1;
-        uint8_t D_MAX_ = 100;
+        float kp_;
+        float ki_;
+        float kd_;
+        uint8_t D_MAX_;
         float U_MAX_ = 5000;     // MAX THROTTLE
+
+        float vel_d_ = 0.0;
 
         std::vector<float> init_pose_ = {0,0,0};
 
@@ -72,7 +74,7 @@ class CarControlNode : public rclcpp::Node
 
             model_->updateControlSignals();
 
-            model_->updateDBSignals();
+            model_->updateDBSignals(vel_d_);
             
             /* Publish Odometry */
             car_accel_->publish(model_->accelerations_);
@@ -128,9 +130,10 @@ class CarControlNode : public rclcpp::Node
             // follow_path->publish(path);
         }
         
-        void set_reference(const std_msgs::msg::Float32& msg) const
+        void set_reference(const std_msgs::msg::Float32& msg) //const
         {
-            model_->updateCurrentReference(msg.data, 0);
+            vel_d_ = msg.data;
+            model_->updateCurrentReference(vel_d_, 0);
         }
 
     public:
@@ -148,7 +151,7 @@ class CarControlNode : public rclcpp::Node
             kp_ = this->get_parameter("Kp").as_double();
             ki_ = this->get_parameter("Ki").as_double();
             kd_ = this->get_parameter("Kd").as_double();
-            this->get_parameter_or("D_MAX", D_MAX_, static_cast<uint8_t>(100));
+            this->get_parameter_or("D_MAX", D_MAX_, static_cast<uint8_t>(180));
 
             // std::cout << "Freq = " << frequency << std::endl;
             // std::cout << "kp = " << kp_ << std::endl;
