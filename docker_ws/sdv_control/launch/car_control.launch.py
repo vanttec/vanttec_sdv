@@ -15,7 +15,7 @@ def generate_launch_description():
    pid_gains = os.path.join(
       get_package_share_directory('sdv_control'),
       'config',
-      'VTec_SDC1_PID_Gains.yaml'
+      'car_control.yaml'
    )
 
    frequency_arg = DeclareLaunchArgument(
@@ -26,7 +26,7 @@ def generate_launch_description():
 
    is_sim_arg = DeclareLaunchArgument(
       name='is_simulation',
-      default_value='False'
+      default_value='True'
    )
 
    # foxglove_launch = IncludeLaunchDescription(
@@ -71,12 +71,22 @@ def generate_launch_description():
       # arguments=['-d', rviz_config]
    )
 
+   can_node = Node(
+      package='sdv_control',
+      executable='can_node.py',
+      namespace="",
+      name='can_node',
+      parameters=[{'channel': 'can0'},
+                  {'bitrate': 125000}]
+   )
+
    return LaunchDescription([
       frequency_arg,
       is_sim_arg,
       # foxglove_launch,
       car_control_node,
       tf2_node,
+      # can_node
       # foxglove_studio
       # rviz
    ])
