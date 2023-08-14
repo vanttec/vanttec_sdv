@@ -1,11 +1,22 @@
 import os
-from launch import LaunchDescription
-from launch_ros.actions import Node
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration
+
 from ament_index_python.packages import get_package_share_directory
 
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, ExecuteProcess
+from launch.substitutions import PathJoinSubstitution, LaunchConfiguration
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+
+from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
+
 def generate_launch_description():
+
+   pid_gains = os.path.join(
+      get_package_share_directory('sdv_control'),
+      'config',
+      'car_control.yaml'
+   )
 
    frequency_arg = DeclareLaunchArgument(
       name='frequency',
@@ -13,11 +24,25 @@ def generate_launch_description():
       description='Frequency for nodes'
    )
 
-   pid_gains = os.path.join(
-      get_package_share_directory('sdv_control'),
-      'config',
-      'VTec_SDC1_PID_Gains.yaml'
+   is_sim_arg = DeclareLaunchArgument(
+      name='is_simulation',
+      default_value='True'
    )
+
+   # foxglove_launch = IncludeLaunchDescription(
+   #    PythonLaunchDescriptionSource([
+   #       PathJoinSubstitution([
+   #          FindPackageShare('foxglove_bridge'),
+   #          'launch/foxglove_bridge_launch.xml'
+   #       ])
+   #    ]),
+   #    launch_arguments = {
+   #       'send_buffer_limit': '50000000',
+   #       'num_threads': '4'
+   #    }.items()
+   # )
+
+   # foxglove_studio = ExecuteProcess(cmd=["foxglove-studio"])
 
    car_control_node = Node(
       package='sdv_control',
@@ -25,7 +50,10 @@ def generate_launch_description():
       output='screen',
       name='sdc1_vel_control_node',
       parameters=[{'frequency': LaunchConfiguration('frequency')},
-                  pid_gains]
+                  pid_gains,
+                  # {'is_simulation': True}
+                  {'is_simulation': LaunchConfiguration('is_simulation')}
+                  ]
    )
 
    tf2_node = Node(
@@ -43,9 +71,22 @@ def generate_launch_description():
       # arguments=['-d', rviz_config]
    )
 
+   can_node = Node(
+      package='sdv_control',
+      executable='can_node.py',
+      namespace="",
+      name='can_node',
+      parameters=[{'channel': 'can0'},
+                  {'bitrate': 125000}]
+   )
+
    return LaunchDescription([
       frequency_arg,
+      is_sim_arg,
+      # foxglove_launch,
       car_control_node,
       tf2_node,
+      # can_node
+      # foxglove_studio
       # rviz
    ])

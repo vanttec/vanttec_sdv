@@ -132,11 +132,11 @@ class XboxNode(Node):
             if self.limit_pot != msg.data:
                 self.limit_pot = msg.data
                 self.get_logger().info('Pot: '+ str(self.limit_pot))
-                self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.pot_id,int(self.limit_pot)]), timeout=1)
+                self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.pot_id,int(self.limit_pot)]), timeout=0.1)
                 self.step_zero_sent = False
         else:
             if not self.step_zero_sent:
-                self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.pot_id,int(0)]), timeout=1)
+                self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.pot_id,int(0)]), timeout=0.1)
                 self.step_zero_sent = True
 
     def longitudinal_control(self):
@@ -156,7 +156,7 @@ class XboxNode(Node):
             self.old_maxvel=self.new_maxvel
             # self.get_logger().info('New max velocity: '+ str(self.new_maxvel)+" %")
             # self.get_logger().info('Pot Position: '+ str(self.limit_pot))
-            self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.max_id,int(self.limit_pot)]), timeout=1)
+            self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[self.max_id,int(self.limit_pot)]), timeout=0.1)
         #Change pot position
         #Modo 2 (0-100%) en 20 segundos
         if int(self.pot_data)>0:
@@ -164,13 +164,13 @@ class XboxNode(Node):
             temp_pos = interp(self.temp_pot, [0,100], [1,self.limit_pot]) 
             # self.get_logger().info('Vel position: '+ str(self.temp_pot))
             # self.get_logger().info('Pot position: '+ str(temp_pos))
-            self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False,  data=[self.pot_id,int(temp_pos)]), timeout=1)
+            self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False,  data=[self.pot_id,int(temp_pos)]), timeout=0.1)
         else:
             self.temp_pot=0 if self.temp_pot<=0 else self.temp_pot-15
             temp_pos = interp(self.temp_pot, [0,100], [1,self.limit_pot]) 
             # self.get_logger().info('Vel position: '+ str(self.temp_pot))
             # self.get_logger().info('Pot position: '+ str(temp_pos))
-            self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False,  data=[self.pot_id,int(temp_pos)]), timeout=1)
+            self.bus.send(can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False,  data=[self.pot_id,int(temp_pos)]), timeout=0.1)
         self.braking_control()
 
     def braking_control(self):
@@ -181,7 +181,7 @@ class XboxNode(Node):
             #Insert ID so it can select the proper STM32 Task
             brake_data = brake_data.insert(0,self.brake_task_id)
             # self.get_logger().info('Brake data: ' + str(brake_data))
-            self.bus.send(can.Message(arbitration_id=self.braking_module_id,is_extended_id=False, data=brake_data), timeout=1)
+            self.bus.send(can.Message(arbitration_id=self.braking_module_id,is_extended_id=False, data=brake_data), timeout=0.1)
         self.prev_brake_data = brake_data
 
     def lateral_control(self):
@@ -209,7 +209,7 @@ class XboxNode(Node):
             dir = 2
 
         # self.steering_pub.publish(msg)
-        self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=[self.steer_task_id,int(dir)]), timeout=1)
+        self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=[self.steer_task_id,int(dir)]), timeout=0.1)
 
     def lateral_control_float(self):
         steer_data = self.joy_stick.leftX()
@@ -218,7 +218,7 @@ class XboxNode(Node):
             #Insert ID so it can select the proper STM32 Task
             steer_data = steer_data.insert(0,self.steer_task_id)
             # self.get_logger().info('Brake data: ' + str(steer_data))
-            self.bus.send(can.Message(arbitration_id=self.braking_module_id,is_extended_id=False, data=steer_data), timeout=1)
+            self.bus.send(can.Message(arbitration_id=self.braking_module_id,is_extended_id=False, data=steer_data), timeout=0.1)
         self.prev_steer_data = steer_data
     def publish_drive_mode(self):
         #Toggle car mode and pedal with XBOX controller   
@@ -230,13 +230,13 @@ class XboxNode(Node):
                 drive_mode_msg.data = "Xbox_Controller"
                 self.drive_mode_pub.publish(drive_mode_msg)
                 self.drive_mode = "Xbox_Controller"
-                #self.bus.send(self.drive_mode_dict["auto"],timeout=1)
+                #self.bus.send(self.drive_mode_dict["auto"],timeout=0.1)
             else:
                 #Activate digital potentiometer
                 drive_mode_msg.data = "No_Xbox_Controller"
                 self.drive_mode_pub.publish(drive_mode_msg)
                 self.drive_mode = "No_Xbox_Controller"     
-                #self.bus.send(self.drive_mode_dict["manual"],timeout=1)
+                #self.bus.send(self.drive_mode_dict["manual"],timeout=0.1)
             self.drive_mode_sent = False 
             self.ask_status_general = True
         self.prev_start_btn_state = start_btn
@@ -261,7 +261,7 @@ class XboxNode(Node):
         #  - Display a string message with topic name "sdv/drive_mode/logs"
         if self.ask_status_general :
             if not self.drive_mode_sent:
-                self.bus.send(self.drive_mode_dict["status_general"],timeout=1)
+                self.bus.send(self.drive_mode_dict["status_general"],timeout=0.1)
                 self.drive_mode_sent = True
             msg = self.bus.recv(0.05)
             if msg is not None:

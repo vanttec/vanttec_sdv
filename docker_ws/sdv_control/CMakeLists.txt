@@ -7,7 +7,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 find_package(ament_cmake REQUIRED)
-find_package(ament_cmake_ros REQUIRED)
+find_package(ament_cmake_python REQUIRED)
 find_package(sdv_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -16,6 +16,8 @@ find_package(nav_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(diagnostic_msgs REQUIRED)
+find_package(vectornav_msgs REQUIRED)
+find_package(rclpy REQUIRED)
 
 set(DEPENDENCIES
     sdv_msgs
@@ -26,6 +28,7 @@ set(DEPENDENCIES
     tf2_ros
     tf2
     diagnostic_msgs
+    vectornav_msgs
 )
 
 set(LIBRARIES
@@ -124,7 +127,7 @@ target_compile_features(car_tf2_broadcast_node PUBLIC c_std_99 cxx_std_17)  # Re
 #   ********************** SDC1 CONTROL NODE **********************
 #Add executables
 add_executable(sdc1_vel_control_node 
-              src/control/sdc1_vel_control_node.cpp)
+              src/control/regulators/first_order/sdc1_vel_control_node.cpp)
 # Link against required libraries
 target_link_libraries(sdc1_vel_control_node
     VANTTEC_CONTROLLERS
@@ -182,6 +185,15 @@ install(DIRECTORY launch
 install(DIRECTORY
   config
   DESTINATION share/${PROJECT_NAME}
+)
+
+# Install Python modules
+# ament_python_install_package(${PROJECT_NAME})
+
+# Install Python executables
+install(PROGRAMS
+  scripts/can_node.py
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)

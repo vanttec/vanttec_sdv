@@ -24,6 +24,7 @@
 #include "diagnostic_msgs/msg/key_value.hpp"
 
 #include "sdv_msgs/msg/eta_pose.hpp"
+#include "vectornav_msgs/msg/ins_group.hpp"
 
 // #include "std_msgs/msg/float32.hpp"
 // #include "geometry_msgs/msg/pose_stamped.hpp"
@@ -37,10 +38,12 @@ class CarControlNode : public rclcpp::Node
         float ki_;
         float kd_;
         uint8_t D_MAX_;
-        float U_MAX_ = 12800;     // MAX THROTTLE (pasarnos de esto no es bueno
+        float U_MAX_{12800};     // MAX THROTTLE (pasarnos de esto no es bueno
                                   // de acuerdo a sims con modelo parametrizado hasta step 95)
-
-        float vel_d_ = 0.0;
+        bool is_simulation_;
+        bool vel_msgs_arrived_{false};
+        float vel_d_{0.0};
+        float vel_body_x_{0.0};
 
         std::vector<float> init_pose_ = {0,0,0};
 
@@ -55,6 +58,7 @@ class CarControlNode : public rclcpp::Node
         rclcpp::Publisher<diagnostic_msgs::msg::DiagnosticStatus>::SharedPtr throttle_diag_pub;
         rclcpp::Publisher<std_msgs::msg::UInt8>::SharedPtr calc_throttle_;
 
+        rclcpp::Subscription<vectornav_msgs::msg::InsGroup>::SharedPtr current_velocity_;
         rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr desired_velocity_;
 
         // rclcpp::Publisher<sdv_msgs::msg::ThrustControl>::SharedPtr car_force_;
@@ -70,12 +74,20 @@ class CarControlNode : public rclcpp::Node
             model_->calculateStates();
 
             model_->updateNonLinearFunctions();
-
-            model_->calculateControlSignals();
-
-            model_->updateControlSignals();
-
-            model_->updateDBSignals(vel_d_);
+            
+            if(is_simulation_){
+                model_->calculateControlSignals();
+                model_->updateControlSignals();
+                model_->updateDBSignals(vel_d_);
+            } else {
+                if(vel_msgs_arrived_){
+                    RCLCPP_INFO(this->get_logger(), "Vectornav vel received");
+                    model_->calculateControlSignals(vel_body_x_);
+                    model_->updateControlSignals();
+                    model_->updateDBSignals(vel_d_);
+                } else
+                    RCLCPP_INFO(this->get_logger(), "Waiting for vectornav");
+            }
             
             /* Publish Odometry */
             car_accel_->publish(model_->accelerations_);
@@ -137,11 +149,19 @@ class CarControlNode : public rclcpp::Node
             model_->updateCurrentReference(vel_d_, 0);
         }
 
+        void save_velocity(const vectornav_msgs::msg::InsGroup::SharedPtr msg_in) //const
+        {
+            vel_body_x_ = msg_in->velbody.x;
+            model_->updateCurrentReference(vel_body_x_, 0);
+            vel_msgs_arrived_ = true;
+        }
+
     public:
         CarControlNode() : Node("car_control_node")
         {
             int frequency;
             //https://roboticsbackend.com/rclcpp-params-tutorial-get-set-ros2-params-with-cpp/
+            this->declare_parameter("is_simulation", rclcpp::PARAMETER_BOOL);
             this->declare_parameter("frequency", rclcpp::PARAMETER_INTEGER);    // Super important to get parameters from launch files!!
             this->declare_parameter("Kp", rclcpp::PARAMETER_DOUBLE);
             this->declare_parameter("Ki", rclcpp::PARAMETER_DOUBLE);
@@ -149,6 +169,7 @@ class CarControlNode : public rclcpp::Node
             this->declare_parameter("D_MAX", rclcpp::PARAMETER_INTEGER);
 
             frequency = this->get_parameter("frequency").as_int();
+            is_simulation_ = this->get_parameter("is_simulation").as_bool();
             kp_ = this->get_parameter("Kp").as_double();
             ki_ = this->get_parameter("Ki").as_double();
             kd_ = this->get_parameter("Kd").as_double();
@@ -161,19 +182,21 @@ class CarControlNode : public rclcpp::Node
             // std::cout << "D_MAX = " << static_cast<int>(D_MAX_) << std::endl;
 
             sample_time_ = 1.0 / static_cast<float>(frequency);
-
+            
             car_accel_ = this->create_publisher<geometry_msgs::msg::Accel>("/car_simulation/dynamic_model/accel", 10);
             car_vel_ = this->create_publisher<geometry_msgs::msg::Twist>("/car_simulation/dynamic_model/vel", 10);
             car_eta_pose_ = this->create_publisher<sdv_msgs::msg::EtaPose>("/car_simulation/dynamic_model/eta_pose", 10);
+
             throttle_diag_pub = this->create_publisher<diagnostic_msgs::msg::DiagnosticStatus>("/diagnostics",10);
             calc_throttle_ = this->create_publisher<std_msgs::msg::UInt8>("/car_control/control_signal/D",10);
             // car_steering = this->create_publisher<std_msgs::msg::Float32>("/car_control/car_control_node/steering",1);
             // follow_path = this->create_publisher<nav_msgs::msg::Path>("/car_path_to_follow",1);
             // car_force_ = this->create_publisher<sdv_msgs::msg::ThrustControl>("/car_control/car_control_node/force",1);
 
+            current_velocity_ = this->create_subscription<vectornav_msgs::msg::InsGroup>("/vectornav/raw/ins",
+                                1, std::bind(&CarControlNode::save_velocity, this, std::placeholders::_1));
             desired_velocity_ = this->create_subscription<std_msgs::msg::Float32>("/car_control/setpoint/velocity",
                                 1, std::bind(&CarControlNode::set_reference, this, std::placeholders::_1));
-
 
             throttle_diag_.name = "Throttle command (D)";
             throttle_diag_.message = "Integer in the range of [0, 255] for motor controller";
