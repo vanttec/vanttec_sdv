@@ -26,7 +26,7 @@ def generate_launch_description():
 
    is_sim_arg = DeclareLaunchArgument(
       name='is_simulation',
-      default_value='True'
+      default_value='False'
    )
 
    # foxglove_launch = IncludeLaunchDescription(
@@ -86,7 +86,7 @@ def generate_launch_description():
       # foxglove_launch,
       car_control_node,
       tf2_node,
-      # can_node
+      can_node
       # foxglove_studio
       # rviz
    ])

@@ -230,13 +230,13 @@ class XboxNode(Node):
                 drive_mode_msg.data = "Xbox_Controller"
                 self.drive_mode_pub.publish(drive_mode_msg)
                 self.drive_mode = "Xbox_Controller"
-                #self.bus.send(self.drive_mode_dict["auto"],timeout=0.1)
+                self.bus.send(self.drive_mode_dict["auto"],timeout=0.1)
             else:
                 #Activate digital potentiometer
                 drive_mode_msg.data = "No_Xbox_Controller"
                 self.drive_mode_pub.publish(drive_mode_msg)
                 self.drive_mode = "No_Xbox_Controller"     
-                #self.bus.send(self.drive_mode_dict["manual"],timeout=0.1)
+                self.bus.send(self.drive_mode_dict["manual"],timeout=0.1)
             self.drive_mode_sent = False 
             self.ask_status_general = True
         self.prev_start_btn_state = start_btn
@@ -284,7 +284,7 @@ class XboxNode(Node):
             self.analyse_drive_mode()
             if self.drive_mode == "Xbox_Controller":
                 self.lateral_control()
-                self.longitudinal_control()
+                # self.longitudinal_control()
                 # self.xbox_info.connected.data = self.joy_stick.connected()
                 # self.xbox_info.back.data = self.joy_stick.Back()
                 # self.xbox_info.leftx.data = self.joy_stick.leftX()

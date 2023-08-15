@@ -2,7 +2,7 @@
 
 sdc1_vel_control_node:
   ros__parameters:
-    Kp: 2.0
+    Kp: 10.0
     Ki: 0.01
     Kd: 0.0 #0.01
     D_MAX: 180
