@@ -27,7 +27,7 @@ class RM8004Encoder(Node):
         # Publishers
         self.encoder_pub = self.create_publisher(Encoder, '/ifm_encoder', 10)
 
-        timer_period = 0.1 #Seconds
+        timer_period = 0.01 #Seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         
         # CANBus
