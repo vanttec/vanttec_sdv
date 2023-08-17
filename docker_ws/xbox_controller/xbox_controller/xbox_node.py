@@ -16,6 +16,10 @@ class XboxNode(Node):
         self.drive_mode = "No_Xbox_Controller"
         self.prev_start_btn_state = False
 
+        self.steer_mode = "No_Steer_Controller"
+        self.prev_steer_btn_state = False
+
+
         self.controller_connected = False
         self.controller_stop = True
 
@@ -42,6 +46,8 @@ class XboxNode(Node):
         self.drive_mode_dict = {
                 "manual": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x2,0x0]),
                 "auto": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x2,0x1]),
+                "xbox_controller": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x8,0x1]),
+                "no_xbox_controller": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x8,0x0]),
                 "status_general": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x5,0x1])
             }
         self.general_msg = 0
@@ -59,9 +65,11 @@ class XboxNode(Node):
         # max steering = (wheel turns to max steer = 1.7) * (stepper to wheel ratio = 1.5) * 360 degrees
         self.max_steering = 918 # degrees
     
-        self.steer_task_id = 0x0
+        self.steer_task_id_control = 0x00
 
-        self.brake_task_id = 0x1
+        self.steer_task_id_xbox = 0x08
+
+        self.brake_task_id = 0x01
 
         self.prev_brake_data = 0
 
@@ -112,6 +120,7 @@ class XboxNode(Node):
         #self.xbox_status_pub = self.create_publisher(XboxMsg, 'xbox_controller/status', 10)
         self.panel_xbox_pub = self.create_publisher(PanelMsg, '/sdv/xbox_controller/xbox_panel', 10) 
         self.drive_mode_pub = self.create_publisher(String, '/sdv/xbox_controller/drive_mode', 10) 
+        self.steer_mode_pub = self.create_publisher(String, '/sdv/xbox_controller/steer_mode', 10)
         self.motor_mode_pub = self.create_publisher(String, '/sdv/xbox_controller/motor_mode', 10) 
         self.steering_pub = self.create_publisher(Vector3, '/steering_brake', 10)
 
@@ -209,16 +218,16 @@ class XboxNode(Node):
             dir = 2
 
         # self.steering_pub.publish(msg)
-        self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=[self.steer_task_id,int(dir)]), timeout=0.1)
+        self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=[self.steer_task_id_xbox,int(dir)]), timeout=0.1)
 
     def lateral_control_float(self):
         steer_data = self.joy_stick.leftX()
         if (self.prev_steer_data != steer_data):
             steer_data = bytearray(struct.pack("f", steer_data))
             #Insert ID so it can select the proper STM32 Task
-            steer_data = steer_data.insert(0,self.steer_task_id)
+            steer_data = steer_data.insert(0,self.steer_task_id_control)
             # self.get_logger().info('Brake data: ' + str(steer_data))
-            self.bus.send(can.Message(arbitration_id=self.braking_module_id,is_extended_id=False, data=steer_data), timeout=0.1)
+            self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=steer_data), timeout=0.1)
         self.prev_steer_data = steer_data
     def publish_drive_mode(self):
         #Toggle car mode and pedal with XBOX controller   
@@ -230,18 +239,37 @@ class XboxNode(Node):
                 drive_mode_msg.data = "Xbox_Controller"
                 self.drive_mode_pub.publish(drive_mode_msg)
                 self.drive_mode = "Xbox_Controller"
-                #self.bus.send(self.drive_mode_dict["auto"],timeout=0.1)
+                self.bus.send(self.drive_mode_dict["auto"],timeout=0.1)
             else:
                 #Activate digital potentiometer
                 drive_mode_msg.data = "No_Xbox_Controller"
                 self.drive_mode_pub.publish(drive_mode_msg)
                 self.drive_mode = "No_Xbox_Controller"     
-                #self.bus.send(self.drive_mode_dict["manual"],timeout=0.1)
+                self.bus.send(self.drive_mode_dict["manual"],timeout=0.1)
             self.drive_mode_sent = False 
             self.ask_status_general = True
         self.prev_start_btn_state = start_btn
         self.get_logger().info(self.drive_mode)
 
+    def publish_xbox_mode(self):
+        #Toggle car mode and pedal with XBOX controller   
+        steer_btn = bool(self.joy_stick.A())
+        if not self.prev_steer_btn_state and steer_btn:
+            steer_mode_msg = String()
+            if self.steer_mode == "No_Steer_Controller":
+                #Activate driver pedal
+                steer_mode_msg.data = "Steer_Controller"
+                self.steer_mode_pub.publish(steer_mode_msg)
+                self.steer_mode = "Steer_Controller"
+                self.bus.send(self.drive_mode_dict["xbox_controller"],timeout=0.1)
+            else:
+                #Activate digital potentiometer
+                steer_mode_msg.data = "No_Steer_Controller"
+                self.steer_mode_pub.publish(steer_mode_msg)
+                self.steer_mode = "No_Steer_Controller"     
+                self.bus.send(self.drive_mode_dict["no_xbox_controller"],timeout=0.1)
+        self.prev_steer_btn_state = steer_btn
+        self.get_logger().info(self.steer_mode)
         
     def uint8_to_bool_list(self, num):
         # Convert the number to binary representation and remove the '0b' prefix
@@ -281,6 +309,7 @@ class XboxNode(Node):
     def xbox_timer(self):
         if self.joy_stick.connected():
             self.publish_drive_mode()
+            self.publish_xbox_mode()
             self.analyse_drive_mode()
             if self.drive_mode == "Xbox_Controller":
                 self.lateral_control()
