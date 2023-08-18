@@ -67,7 +67,8 @@ class CarGuidanceNode : public rclcpp::Node
 
         void timer_callback()
         {
-
+            std::cout << "Car x = " << vehicle_pos_.x << ", y = " << vehicle_pos_.y  << std::endl;
+            std::cout << "Psi = " << psi_ << std::endl;
             stanley_->calculateCrosstrackError(vehicle_pos_, p1_, p2_);
 
             stanley_->setYawAngle(psi_);
