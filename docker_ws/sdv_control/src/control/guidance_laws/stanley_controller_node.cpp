@@ -33,7 +33,7 @@ class CarGuidanceNode : public rclcpp::Node
         /* Stanley Params */
         float k_{0.3};
         float k_soft_{1};
-        float delta_max_{1};
+        float DELTA_MAX_{1};
 
         float vel_;
         std_msgs::msg::Float32 delta_;
@@ -133,13 +133,13 @@ class CarGuidanceNode : public rclcpp::Node
             this->declare_parameter("frequency", rclcpp::PARAMETER_INTEGER);    // Super important to get parameters from launch files!!
             this->declare_parameter("K", rclcpp::PARAMETER_DOUBLE);
             this->declare_parameter("K_soft", rclcpp::PARAMETER_DOUBLE);
-            this->declare_parameter("Delta_max", rclcpp::PARAMETER_DOUBLE);
+            this->declare_parameter("DELTA_MAX", rclcpp::PARAMETER_DOUBLE);
 
             frequency = this->get_parameter("frequency").as_int();
             is_simulation_ = this->get_parameter("is_simulation").as_bool();
             k_ = this->get_parameter("K").as_double();
             k_soft_ = this->get_parameter("K_soft").as_double();
-            delta_max_ = this->get_parameter("Delta_max").as_double();
+            DELTA_MAX_ = this->get_parameter("DELTA_MAX").as_double();
 
             sample_time_ = 1.0 / static_cast<float>(frequency);
             
@@ -166,7 +166,7 @@ class CarGuidanceNode : public rclcpp::Node
         ~CarGuidanceNode(){stanley_.reset();}
 
         void configure(){
-            stanley_ = std::make_unique<StanleyController>(delta_max_, k_, k_soft_);
+            stanley_ = std::make_unique<StanleyController>(DELTA_MAX_, k_, k_soft_);
         }
 };
 

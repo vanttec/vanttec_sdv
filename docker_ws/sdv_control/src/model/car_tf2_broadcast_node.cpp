@@ -28,7 +28,7 @@ class CarTf2Broadcast : public rclcpp::Node
     rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr car_path_;
 
     std::string parent_frame = "world";
-    std::string child_frame = "base_link";
+    std::string child_frame = "sdv_base_link";
 
     void timer_callback()
     {
