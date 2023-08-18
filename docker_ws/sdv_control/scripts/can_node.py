@@ -10,7 +10,7 @@
 
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import UInt8
+from std_msgs.msg import UInt8, Float32
 import can
 
 class SDVControlNode(Node):
@@ -30,8 +30,14 @@ class SDVControlNode(Node):
             '/car_control/control_signal/D',
             self.throttle_callback,
             1)
+        self.steer_sub = self.create_subscription(
+            Float32,
+            '/car_control/control_signal/Delta',
+            self.steering_callback,
+            1)
 
         self.throttle = -1
+        self.steer = -2
         # *------------------* VANTTEC_IDS *------------------*
         self.admin_id = 0x401
         self.general_module_id_tx = 0x403
@@ -42,6 +48,7 @@ class SDVControlNode(Node):
 
         self.car_messages= {
                 "throttle": can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[0x5,0x1]),
+                "steering": can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=[0x00,0x00]),
             }
 
     def throttle_callback(self, msg):
@@ -49,6 +56,13 @@ class SDVControlNode(Node):
             self.car_messages["throttle"].data[1] = msg.data
             self.bus.send(self.car_messages["throttle"],timeout=0.01)
             self.throttle = msg.data
+
+    def steering_callback(self, msg):
+        if(msg.data != self.steer):
+            self.car_messages["steering"].data[1] = msg.data
+            self.bus.send(self.car_messages["steering"],timeout=0.01)
+            self.steer = msg.data
+
 
 
 def main(args=None):
