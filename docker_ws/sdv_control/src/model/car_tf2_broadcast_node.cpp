@@ -16,23 +16,37 @@
 
 #include "nav_msgs/msg/path.hpp"
 
+#include "sdv_msgs/msg/eta_pose.hpp"
+
 using namespace std::chrono_literals;
 
 class CarTf2Broadcast : public rclcpp::Node
 {
   private:
     int frequency_;
+    sdv_msgs::msg::EtaPose car_pose_;
 
     rclcpp::TimerBase::SharedPtr timer_;
     std::unique_ptr<TF2Broadcaster> tf_broadcaster_;
+
     rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr car_path_;
+
+    rclcpp::Subscription<sdv_msgs::msg::EtaPose>::SharedPtr car_eta_pose_;
 
     std::string parent_frame = "world";
     std::string child_frame = "sdv_base_link";
 
     void timer_callback()
     {
+      tf_broadcaster_->BroadcastTransform(car_pose_);
       car_path_->publish(tf_broadcaster_->path_);
+    }
+
+    void set_sim_pose(const sdv_msgs::msg::EtaPose& msg)
+    {
+        car_pose_.x = msg.x;
+        car_pose_.y = msg.y;
+        car_pose_.psi = msg.psi;
     }
 
   public:
@@ -42,6 +56,9 @@ class CarTf2Broadcast : public rclcpp::Node
       this->get_parameter_or("frequency", frequency_, 100);
 
       car_path_ = this->create_publisher<nav_msgs::msg::Path>("/car_simulation/car_tf_broadcast/car_path", 10);
+
+      car_eta_pose_ = this->create_subscription<sdv_msgs::msg::EtaPose>("/car_simulation/dynamic_model/eta_pose",
+                          1, std::bind(&CarTf2Broadcast::set_sim_pose, this, std::placeholders::_1));
 
       timer_ = this->create_wall_timer(
         std::chrono::milliseconds(1000 / frequency_),
