@@ -46,8 +46,8 @@ class XboxNode(Node):
         self.drive_mode_dict = {
                 "manual": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x2,0x0]),
                 "auto": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x2,0x1]),
-                "xbox_controller": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x8,0x1]),
-                "no_xbox_controller": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x8,0x0]),
+                "xbox_controller": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x8,0x0]),
+                "no_xbox_controller": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x8,0x1]),
                 "status_general": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x5,0x1])
             }
         self.general_msg = 0
@@ -195,7 +195,7 @@ class XboxNode(Node):
 
     def lateral_control(self):
         joystick = self.joy_stick.leftX()
-        # self.get_logger().info("Joystick pos: %d" %joystick)
+        self.get_logger().info("Joystick pos: %d" %joystick)
         # self.get_logger().info("Wheel angle: %f" %self.steering_wheel_angle)
         
         if(joystick != 0):
@@ -312,8 +312,9 @@ class XboxNode(Node):
             self.publish_xbox_mode()
             self.analyse_drive_mode()
             if self.drive_mode == "Xbox_Controller":
-                self.lateral_control()
-                self.longitudinal_control()
+                if self.steer_mode=="Steer_Controller":
+                    self.lateral_control()
+                #self.longitudinal_control()
                 # self.xbox_info.connected.data = self.joy_stick.connected()
                 # self.xbox_info.back.data = self.joy_stick.Back()
                 # self.xbox_info.leftx.data = self.joy_stick.leftX()

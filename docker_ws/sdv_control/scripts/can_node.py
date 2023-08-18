@@ -12,6 +12,7 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import UInt8, Float32
 import can
+import struct
 
 class SDVControlNode(Node):
     def __init__(self):
@@ -45,11 +46,11 @@ class SDVControlNode(Node):
         self.throttle_module_id = 0x406
         self.steering_module_id = 0x408
         self.braking_module_id = 0x412
+        self.steer_task_id_control = 0x00
 
         self.car_messages= {
                 "throttle": can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[0x5,0x1]),
-                "steering": can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=[0x00,0x00]),
-            }
+                }
 
     def throttle_callback(self, msg):
         if(msg.data != self.throttle):
@@ -59,8 +60,11 @@ class SDVControlNode(Node):
 
     def steering_callback(self, msg):
         if(msg.data != self.steer):
-            self.car_messages["steering"].data[1] = msg.data
-            self.bus.send(self.car_messages["steering"],timeout=0.01)
+            steer_data = bytearray(struct.pack("f", msg.data))
+            #Insert ID so it can select the proper STM32 Task
+            steer_data = steer_data.insert(0,self.steer_task_id_control)
+            # self.get_logger().info('Brake data: ' + str(steer_data))
+            self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=steer_data), timeout=0.1)
             self.steer = msg.data
 
 

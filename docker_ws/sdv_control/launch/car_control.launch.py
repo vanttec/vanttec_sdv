@@ -44,32 +44,32 @@ def generate_launch_description():
 
    # foxglove_studio = ExecuteProcess(cmd=["foxglove-studio"])
 
-   car_control_node = Node(
-      package='sdv_control',
-      executable='sdc1_vel_control_node',
-      output='screen',
-      name='sdc1_vel_control_node',
-      parameters=[{'frequency': LaunchConfiguration('frequency')},
-                  pid_gains,
-                  # {'is_simulation': True}
-                  {'is_simulation': LaunchConfiguration('is_simulation')}
-                  ]
-   )
+   # car_control_node = Node(
+   #    package='sdv_control',
+   #    executable='sdc1_vel_control_node',
+   #    output='screen',
+   #    name='sdc1_vel_control_node',
+   #    parameters=[{'frequency': LaunchConfiguration('frequency')},
+   #                pid_gains,
+   #                # {'is_simulation': True}
+   #                {'is_simulation': LaunchConfiguration('is_simulation')}
+   #                ]
+   # )
 
-   tf2_node = Node(
-      package='sdv_control',
-      executable='car_tf2_broadcast_node',
-      namespace="",
-      name='car_tf2_broadcast_node',
-      parameters=[{'frequency': LaunchConfiguration('frequency')}]
-   )
+   # tf2_node = Node(
+   #    package='sdv_control',
+   #    executable='car_tf2_broadcast_node',
+   #    namespace="",
+   #    name='car_tf2_broadcast_node',
+   #    parameters=[{'frequency': LaunchConfiguration('frequency')}]
+   # )
 
-   rviz = Node(
-      package='rviz2',
-      executable='rviz2',
-      name='rviz2',
-      # arguments=['-d', rviz_config]
-   )
+   # rviz = Node(
+   #    package='rviz2',
+   #    executable='rviz2',
+   #    name='rviz2',
+   #    # arguments=['-d', rviz_config]
+   # )
 
    can_node = Node(
       package='sdv_control',
@@ -84,9 +84,9 @@ def generate_launch_description():
       frequency_arg,
       is_sim_arg,
       # foxglove_launch,
-      car_control_node,
-      tf2_node,
-      # can_node
+      # car_control_node,
+      # tf2_node,
+      can_node
       # foxglove_studio
       # rviz
    ])
