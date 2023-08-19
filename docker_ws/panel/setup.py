@@ -22,7 +22,8 @@ setup(
         'console_scripts': [
            'panel_module = panel.panel_module:main', 
            'panel_modulev2 = panel.panel_modulev2:main',
-           'foxglove_test = panel.foxglove_test:main'
+           'foxglove_test = panel.foxglove_test:main',
+           'mesh_marker = panel.mesh_marker:main'
         ],
     },
 )
