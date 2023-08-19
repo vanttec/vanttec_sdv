@@ -18,6 +18,12 @@ def generate_launch_description():
       'car_guidance_control.yaml'
    )
 
+   rviz_config = os.path.join(
+      get_package_share_directory('sdv_control'),
+      'launch/rviz_cfg',
+      'sdv.rviz'
+   )
+
    frequency_arg = DeclareLaunchArgument(
       name='frequency',
       default_value='100',
@@ -78,7 +84,7 @@ def generate_launch_description():
       package='rviz2',
       executable='rviz2',
       name='rviz2',
-      # arguments=['-d', rviz_config]
+      arguments=['-d', rviz_config]
    )
 
    can_node = Node(
