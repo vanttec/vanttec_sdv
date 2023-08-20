@@ -49,13 +49,8 @@ class CarGuidanceNode : public rclcpp::Node
         float psi_{0};
 
         /* Path */
-        Point p1_ = {0, -10};
-        Point p2_ = {0, 10};
-
-        // float x1{0};
-        // float y1{-10};
-        // float x2{0};
-        // float y2{10};
+        Point p1_ = {0, -100};
+        Point p2_ = {0, 100};
 
         /* Publishers */
         rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr car_steering_;
