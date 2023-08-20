@@ -43,14 +43,15 @@ class CarGuidanceNode : public rclcpp::Node
         rclcpp::TimerBase::SharedPtr timer_;
 
         /* Vehicle pose */
+        std::vector<double> init_pose_ = {0,0,0};
         Point vehicle_pos_ = {0, 0};
         // float x_{0};
         // float y_{0};
         float psi_{0};
 
         /* Path */
-        Point p1_ = {0, -100};
-        Point p2_ = {0, 100};
+        Point p1_ = {0, -30};
+        Point p2_ = {0, 30};
 
         /* Publishers */
         rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr car_steering_;
@@ -155,12 +156,16 @@ class CarGuidanceNode : public rclcpp::Node
             this->declare_parameter("K", rclcpp::PARAMETER_DOUBLE);
             this->declare_parameter("K_soft", rclcpp::PARAMETER_DOUBLE);
             this->declare_parameter("DELTA_MAX", rclcpp::PARAMETER_DOUBLE);
+            this->declare_parameter("init_pose", rclcpp::PARAMETER_DOUBLE_ARRAY);
 
             frequency = this->get_parameter("frequency").as_int();
             is_simulation_ = this->get_parameter("is_simulation").as_bool();
             k_ = this->get_parameter("K").as_double();
             k_soft_ = this->get_parameter("K_soft").as_double();
             DELTA_MAX_ = this->get_parameter("DELTA_MAX").as_double();
+            init_pose_ = this->get_parameter("init_pose").as_double_array();
+            vehicle_pos_.x = init_pose_[0];
+            vehicle_pos_.y = init_pose_[1];
 
             sample_time_ = 1.0 / static_cast<float>(frequency);
             

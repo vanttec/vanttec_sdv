@@ -49,7 +49,7 @@ class CarControlNode : public rclcpp::Node
 
         /* Model Params */
         std::unique_ptr<VTEC_SDC1_1DOF_PID> model_;
-        std::vector<float> init_pose_ = {0,0,0};
+        std::vector<double> init_pose_ = {0,0,0};
 
         rclcpp::TimerBase::SharedPtr timer_;
         diagnostic_msgs::msg::DiagnosticStatus throttle_diag_;
@@ -163,6 +163,7 @@ class CarControlNode : public rclcpp::Node
             this->declare_parameter("Ki", rclcpp::PARAMETER_DOUBLE);
             this->declare_parameter("Kd", rclcpp::PARAMETER_DOUBLE);
             this->declare_parameter("D_MAX", rclcpp::PARAMETER_INTEGER);
+            this->declare_parameter("init_pose", rclcpp::PARAMETER_DOUBLE_ARRAY);
 
             frequency = this->get_parameter("frequency").as_int();
             is_simulation_ = this->get_parameter("is_simulation").as_bool();
@@ -170,6 +171,7 @@ class CarControlNode : public rclcpp::Node
             ki_ = this->get_parameter("Ki").as_double();
             kd_ = this->get_parameter("Kd").as_double();
             this->get_parameter_or("D_MAX", D_MAX_, static_cast<uint8_t>(180));
+            init_pose_ = this->get_parameter("init_pose").as_double_array();
 
             // std::cout << "Freq = " << frequency << std::endl;
             // std::cout << "kp = " << kp_ << std::endl;
@@ -210,7 +212,11 @@ class CarControlNode : public rclcpp::Node
         void configure(){
             model_ = std::make_unique<VTEC_SDC1_1DOF_PID>(sample_time_, kp_, ki_, kd_,
                                                             U_MAX_, controller_type_, D_MAX_);
-            model_->setInitPose(init_pose_);
+            
+            std::vector<float> init_pose = {static_cast<float>(init_pose_[0]),
+                                            static_cast<float>(init_pose_[1]),
+                                            static_cast<float>(init_pose_[2])};
+            model_->setInitPose(init_pose);
         }
 };
 

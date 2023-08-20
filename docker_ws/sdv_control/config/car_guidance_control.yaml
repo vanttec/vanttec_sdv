@@ -1,4 +1,8 @@
-# First Order Feedback Linearization 1-DOF PID Controller for the VTec SDC1
+/**:
+  ros__parameters:
+    init_pose: [0.0, 5.0, 1.4] # x, y, psi
+
+# First Order Feedback Lineari  zation 1-DOF PID Controller for the VTec SDC1
 sdc1_vel_pid_node:
   ros__parameters:
     Kp: 10.0
@@ -9,6 +13,6 @@ sdc1_vel_pid_node:
 # Stanley Controller Params
 stanley_controller_node:
   ros__parameters:
-    K: 0.4
-    K_soft: 0.5
+    K: 1.0 # drives you to path faster, induces overshoot
+    K_soft: 1.0 #softens overshoot
     DELTA_MAX: 1.0 # radians
