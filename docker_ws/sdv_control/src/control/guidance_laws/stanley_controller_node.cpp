@@ -21,6 +21,8 @@
 #include "vectornav_msgs/msg/ins_group.hpp"
 #include "vectornav_msgs/msg/common_group.hpp"
 
+#include "geometry_msgs/msg/pose_stamped.hpp"
+#include "nav_msgs/msg/path.hpp"
 
 class CarGuidanceNode : public rclcpp::Node
 {
@@ -48,7 +50,7 @@ class CarGuidanceNode : public rclcpp::Node
 
         /* Path */
         Point p1_ = {0, -10};
-        Point p2_ = {0, 0};
+        Point p2_ = {0, 10};
 
         // float x1{0};
         // float y1{-10};
@@ -57,7 +59,7 @@ class CarGuidanceNode : public rclcpp::Node
 
         /* Publishers */
         rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr car_steering_;
-        // rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr follow_path;
+        rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr follow_path_;
 
         /* Subscribers */
         rclcpp::Subscription<sdv_msgs::msg::EtaPose>::SharedPtr car_eta_pose_;
@@ -67,8 +69,8 @@ class CarGuidanceNode : public rclcpp::Node
 
         void timer_callback()
         {
-            std::cout << "Car x = " << vehicle_pos_.x << ", y = " << vehicle_pos_.y  << std::endl;
-            std::cout << "Psi = " << psi_ << std::endl;
+            // std::cout << "Car x = " << vehicle_pos_.x << ", y = " << vehicle_pos_.y  << std::endl;
+            // std::cout << "Psi = " << psi_ << std::endl;
             stanley_->calculateCrosstrackError(vehicle_pos_, p1_, p2_);
 
             stanley_->setYawAngle(psi_);
@@ -90,6 +92,29 @@ class CarGuidanceNode : public rclcpp::Node
                     RCLCPP_INFO(this->get_logger(), "Waiting for vectornav");
             
             }
+
+            geometry_msgs::msg::PoseStamped pose;
+            nav_msgs::msg::Path path;
+
+            pose.header.stamp       = rclcpp::Clock().now();
+            pose.header.frame_id    = "world";
+            pose.pose.position.x    = p1_.x;
+            pose.pose.position.y    = -p1_.y; // NED to NWU
+
+            path.header.stamp     = rclcpp::Clock().now();
+            path.header.frame_id  = "world";
+            path.poses.push_back(pose);
+
+            pose.header.stamp       = rclcpp::Clock().now();
+            pose.header.frame_id    = "world";
+            pose.pose.position.x    = p2_.x;
+            pose.pose.position.y    = -p2_.y;
+
+            path.header.stamp     = rclcpp::Clock().now(); // NED to NWU
+            path.header.frame_id  = "world";
+            path.poses.push_back(pose);
+
+            follow_path_->publish(path);
         }
 
         void set_velocity_imu(const vectornav_msgs::msg::InsGroup::SharedPtr msg_in)
@@ -146,6 +171,7 @@ class CarGuidanceNode : public rclcpp::Node
             
             /* Publishers */
             car_steering_ = this->create_publisher<std_msgs::msg::Float32>("/car_control/control_signal/delta", 1);
+            follow_path_ = this->create_publisher<nav_msgs::msg::Path>("/car_path_to_follow",1);
 
             /* Subscribers */
             car_eta_pose_ = this->create_subscription<sdv_msgs::msg::EtaPose>("/car_simulation/dynamic_model/eta_pose",

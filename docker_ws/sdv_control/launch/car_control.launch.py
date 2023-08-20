@@ -111,7 +111,7 @@ def generate_launch_description():
       is_sim_arg,
       # foxglove_launch,
       car_control_node,
-      # car_guidance_node,
+      car_guidance_node,
       tf2_node,
       # can_node
       # foxglove_studio

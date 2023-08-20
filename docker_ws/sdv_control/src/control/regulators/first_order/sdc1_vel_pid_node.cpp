@@ -28,8 +28,6 @@
 #include "vectornav_msgs/msg/common_group.hpp"
 
 // #include "std_msgs/msg/float32.hpp"
-// #include "geometry_msgs/msg/pose_stamped.hpp"
-// #include "nav_msgs/msg/path.hpp"
 
 class CarControlNode : public rclcpp::Node
 {
@@ -70,7 +68,6 @@ class CarControlNode : public rclcpp::Node
         rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr desired_velocity_;
 
         // rclcpp::Publisher<sdv_msgs::msg::ThrustControl>::SharedPtr car_force_;
-        // rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr follow_path;
 
         void timer_callback()
         {
@@ -128,28 +125,6 @@ class CarControlNode : public rclcpp::Node
             // u.tau_x = model_->u_;
             // car_force_->publish(u);
 
-            // geometry_msgs::msg::PoseStamped pose;
-            // nav_msgs::msg::Path path;
-
-            // pose.header.stamp       = rclcpp::Clock().now();
-            // pose.header.frame_id    = "world";
-            // pose.pose.position.x    = x0;
-            // pose.pose.position.y    = y0;
-
-            // path.header.stamp     = rclcpp::Clock().now();
-            // path.header.frame_id  = "world";
-            // path.poses.push_back(pose);
-
-            // pose.header.stamp       = rclcpp::Clock().now();
-            // pose.header.frame_id    = "world";
-            // pose.pose.position.x    = x1;
-            // pose.pose.position.y    = y1;
-
-            // path.header.stamp     = rclcpp::Clock().now();
-            // path.header.frame_id  = "world";
-            // path.poses.push_back(pose);
-
-            // follow_path->publish(path);
         }
         
         void set_reference(const std_msgs::msg::Float32& msg) //const
@@ -210,7 +185,6 @@ class CarControlNode : public rclcpp::Node
             car_eta_pose_ = this->create_publisher<sdv_msgs::msg::EtaPose>("/car_simulation/dynamic_model/eta_pose", 10);
             calc_throttle_ = this->create_publisher<std_msgs::msg::UInt8>("/car_control/control_signal/D",10);
             throttle_diag_pub = this->create_publisher<diagnostic_msgs::msg::DiagnosticStatus>("/diagnostics",10);
-            // follow_path = this->create_publisher<nav_msgs::msg::Path>("/car_path_to_follow",1);
             // car_force_ = this->create_publisher<sdv_msgs::msg::ThrustControl>("/car_control/car_control_node/force",1);
 
             /* Subscribers */
