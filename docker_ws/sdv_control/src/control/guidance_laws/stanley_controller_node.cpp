@@ -18,6 +18,7 @@
 #include "geometry_msgs/msg/vector3.hpp"
 
 #include "sdv_msgs/msg/eta_pose.hpp"
+#include "sdv_msgs/msg/path.hpp"
 #include "vectornav_msgs/msg/ins_group.hpp"
 #include "vectornav_msgs/msg/common_group.hpp"
 
@@ -35,7 +36,7 @@ class CarGuidanceNode : public rclcpp::Node
         std::unique_ptr<StanleyController> stanley_;
 
         /* Stanley Params */
-        float k_{0.3};
+        float k_{3};
         float k_soft_{1};
         float DELTA_MAX_{1};
 
@@ -52,8 +53,13 @@ class CarGuidanceNode : public rclcpp::Node
         float psi_{0};
 
         /* Path */
+<<<<<<< HEAD
         Point p1_ = {0, -30};
         Point p2_ = {0, 30};
+=======
+        Point p1_ = {0, 0};
+        Point p2_ = {0, 5};
+>>>>>>> 5d4ceae (Waypoint implementation)
 
         /* Publishers */
         rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr car_steering_;
@@ -65,6 +71,7 @@ class CarGuidanceNode : public rclcpp::Node
         rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr car_velocity_;
         rclcpp::Subscription<vectornav_msgs::msg::InsGroup>::SharedPtr car_velocity_imu_;
         rclcpp::Subscription<vectornav_msgs::msg::CommonGroup>::SharedPtr current_yaw_;
+        rclcpp::Subscription<sdv_msgs::msg::Path>::SharedPtr path_;
 
         void timer_callback()
         {
@@ -135,6 +142,7 @@ class CarGuidanceNode : public rclcpp::Node
             psi_ = msg.psi;
         }
 
+<<<<<<< HEAD
         void set_real_pos(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg)
         {
             // In NED
@@ -143,6 +151,19 @@ class CarGuidanceNode : public rclcpp::Node
             // psi_ = msg_in->yawpitchroll.x;
             pose_msgs_received_ = true;
         }
+=======
+        void set_path(const sdv_msgs::msg::Path msg){
+            p1_ = {(float)msg.p1.x, (float)msg.p1.y};
+            p2_ = {(float)msg.p2.x, (float)msg.p2.y};
+        }
+
+        // void set_real_pose(const sdv_msgs::msg::EtaPose& msg)
+        // {
+        //     vehicle_pos_.x = msg.x;
+        //     vehicle_pos_.y = msg.y;
+        //     psi_ = msg_in->yawpitchroll.x;
+        // }
+>>>>>>> 5d4ceae (Waypoint implementation)
 
         void set_yaw(const vectornav_msgs::msg::CommonGroup::SharedPtr msg_in)
         {
@@ -179,6 +200,7 @@ class CarGuidanceNode : public rclcpp::Node
             follow_path_ = this->create_publisher<nav_msgs::msg::Path>("/car_path_to_follow",1);
 
             /* Subscribers */
+<<<<<<< HEAD
             if(is_simulation_){
                 car_eta_pose_ = this->create_subscription<sdv_msgs::msg::EtaPose>("/car_simulation/dynamic_model/eta_pose",
                                     1, std::bind(&CarGuidanceNode::set_sim_pose, this, std::placeholders::_1));
@@ -192,6 +214,22 @@ class CarGuidanceNode : public rclcpp::Node
                 current_yaw_ = this->create_subscription<vectornav_msgs::msg::CommonGroup>("/vectornav/raw/common",
                                     1, std::bind(&CarGuidanceNode::set_yaw, this, std::placeholders::_1));
             }
+=======
+            car_eta_pose_ = this->create_subscription<sdv_msgs::msg::EtaPose>("/car_simulation/dynamic_model/eta_pose",
+                                1, std::bind(&CarGuidanceNode::set_sim_pose, this, std::placeholders::_1));
+
+            // FALTA RECIBIR POS REAL
+
+            car_velocity_ = this->create_subscription<geometry_msgs::msg::Twist>("/car_simulation/dynamic_model/vel",
+                                1, std::bind(&CarGuidanceNode::set_velocity, this, std::placeholders::_1));
+            car_velocity_imu_ = this->create_subscription<vectornav_msgs::msg::InsGroup>("/vectornav/raw/ins",
+                                1, std::bind(&CarGuidanceNode::set_velocity_imu, this, std::placeholders::_1));
+            current_yaw_ = this->create_subscription<vectornav_msgs::msg::CommonGroup>("/vectornav/raw/common",
+                                1, std::bind(&CarGuidanceNode::set_yaw, this, std::placeholders::_1));
+            path_ = this->create_subscription<sdv_msgs::msg::Path>("/car_control/path",
+                                1, std::bind(&CarGuidanceNode::set_path, this, std::placeholders::_1));
+
+>>>>>>> 5d4ceae (Waypoint implementation)
 
             timer_ = this->create_wall_timer( std::chrono::milliseconds(1000 / frequency),
                                                 std::bind(&CarGuidanceNode::timer_callback, this));
