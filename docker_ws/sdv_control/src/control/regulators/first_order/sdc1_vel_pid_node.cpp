@@ -34,7 +34,7 @@ class CarControlNode : public rclcpp::Node
     private:
         float sample_time_;
         bool is_simulation_;
-        bool vel_msgs_arrived_{false};
+        bool vel_msgs_received_{false};
         
         /* PID Params */
         float kp_;
@@ -90,7 +90,7 @@ class CarControlNode : public rclcpp::Node
                 car_eta_pose_->publish(model_->eta_pose_);
 
             } else {
-                if(vel_msgs_arrived_){
+                if(vel_msgs_received_){
                     RCLCPP_INFO(this->get_logger(), "Vectornav vel received");
                     model_->calculateControlSignals(vel_body_x_);
                     model_->updateControlSignals();
@@ -137,7 +137,7 @@ class CarControlNode : public rclcpp::Node
         {
             vel_body_x_ = msg_in->velbody.x;
             // model_->updateCurrentReference(vel_body_x_, 0);
-            vel_msgs_arrived_ = true;
+            vel_msgs_received_ = true;
         }
 
         void set_pitch(const vectornav_msgs::msg::CommonGroup::SharedPtr msg_in) //const
@@ -182,9 +182,11 @@ class CarControlNode : public rclcpp::Node
             sample_time_ = 1.0 / static_cast<float>(frequency);
             
             /* Publishers */
-            car_accel_ = this->create_publisher<geometry_msgs::msg::Accel>("/car_simulation/dynamic_model/accel", 10);
-            car_vel_ = this->create_publisher<geometry_msgs::msg::Twist>("/car_simulation/dynamic_model/vel", 10);
-            car_eta_pose_ = this->create_publisher<sdv_msgs::msg::EtaPose>("/car_simulation/dynamic_model/eta_pose", 10);
+            if(is_simulation_){
+                car_accel_ = this->create_publisher<geometry_msgs::msg::Accel>("/car_simulation/dynamic_model/accel", 10);
+                car_vel_ = this->create_publisher<geometry_msgs::msg::Twist>("/car_simulation/dynamic_model/vel", 10);
+                car_eta_pose_ = this->create_publisher<sdv_msgs::msg::EtaPose>("/car_simulation/dynamic_model/eta_pose", 10);
+            }
             calc_throttle_ = this->create_publisher<std_msgs::msg::UInt8>("/car_control/control_signal/D",10);
             throttle_diag_pub = this->create_publisher<diagnostic_msgs::msg::DiagnosticStatus>("/diagnostics",10);
             // car_force_ = this->create_publisher<sdv_msgs::msg::ThrustControl>("/car_control/car_control_node/force",1);

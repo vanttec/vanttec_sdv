@@ -38,7 +38,7 @@ class CarControlNode : public rclcpp::Node
         float U_MAX_{12800};    // MAX THROTTLE (pasarnos de esto no es bueno
                                 // de acuerdo a sims con modelo parametrizado hasta step 95)
         bool is_simulation_;
-        bool vel_msgs_arrived_{false};
+        bool vel_msgs_received_{false};
         float vel_d_{0.0};
         float vel_body_x_{0.0};
 
@@ -77,7 +77,7 @@ class CarControlNode : public rclcpp::Node
                 model_->updateControlSignals();
                 model_->updateDBSignals(vel_d_);
             } else {
-                if(vel_msgs_arrived_){
+                if(vel_msgs_received_){
                     RCLCPP_INFO(this->get_logger(), "Vectornav vel received");
                     model_->calculateControlSignals(vel_body_x_);
                     model_->updateControlSignals();
@@ -116,7 +116,7 @@ class CarControlNode : public rclcpp::Node
         void save_velocity(const vectornav_msgs::msg::InsGroup::SharedPtr msg_in) //const
         {
             vel_body_x_ = msg_in->velbody.x;
-            vel_msgs_arrived_ = true;
+            vel_msgs_received_ = true;
         }
 
     public:

@@ -24,6 +24,12 @@ def generate_launch_description():
       'sdv.rviz'
    )
 
+   vn_gps_params = os.path.join(
+      get_package_share_directory('sdv_vectornav'),
+      'config',
+      'vn_gps_node_params.yaml'
+   ) 
+
    frequency_arg = DeclareLaunchArgument(
       name='frequency',
       default_value='100',
@@ -49,6 +55,14 @@ def generate_launch_description():
    # )
 
    # foxglove_studio = ExecuteProcess(cmd=["foxglove-studio"])
+
+    # Vectornav odometry and path
+   start_odom_pub = Node(
+      package='sdv_vectornav', 
+      executable='vn_gps_pose',
+      output='screen',
+      parameters=[vn_gps_params]
+   )
 
    car_control_node = Node(
       package='sdv_control',
@@ -110,11 +124,12 @@ def generate_launch_description():
       frequency_arg,
       is_sim_arg,
       # foxglove_launch,
-      car_control_node,
-      car_guidance_node,
+      # car_control_node,
+      # car_guidance_node,
       tf2_node,
       # can_node
       # foxglove_studio
       rviz,
-      sdv_description_launch
+      sdv_description_launch,
+      start_odom_pub
    ])
