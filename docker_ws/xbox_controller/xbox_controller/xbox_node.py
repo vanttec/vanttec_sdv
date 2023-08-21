@@ -285,12 +285,10 @@ class XboxNode(Node):
             if self.encoder_mode == "No_Reset_Encoder":
                 #Activate driver pedal
                 encoder_mode_msg.data = "Reset_Encoder"
-                self.encoder_mode_pub.publish(encoder_mode_msg)
                 self.encoder_mode = "Reset_Encoder"
             else:
                 #Activate digital potentiometer
                 encoder_mode_msg.data = "No_Reset_Encoder"
-                self.encoder_mode_pub.publish(encoder_mode_msg)
                 self.encoder_mode = "No_Reset_Encoder" 
                 self.bus.send(self.drive_mode_dict["reset_encoder"][0],timeout=0.1)
                 self.bus.send(self.drive_mode_dict["reset_encoder"][1],timeout=0.1)    
@@ -338,6 +336,7 @@ class XboxNode(Node):
             self.publish_drive_mode()
             self.publish_xbox_mode()
             self.analyse_drive_mode()
+            self.reset_encoder_ifm()
             if self.drive_mode == "Xbox_Controller":
                 if self.steer_mode=="Steer_Controller":
                     self.lateral_control()

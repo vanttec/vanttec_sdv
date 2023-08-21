@@ -62,8 +62,7 @@ class SDVControlNode(Node):
         if(msg.data != self.steer):
             steer_data = bytearray(struct.pack("f", msg.data))
             #Insert ID so it can select the proper STM32 Task
-            steer_data = steer_data.insert(0,self.steer_task_id_control)
-            # self.get_logger().info('Brake data: ' + str(steer_data))
+            steer_data.insert(0, self.steer_task_id_control)
             self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=steer_data), timeout=0.1)
             self.steer = msg.data
 
