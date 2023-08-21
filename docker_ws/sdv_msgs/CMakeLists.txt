@@ -14,7 +14,6 @@ set(MSG_FILES
     CollisionEvent.msg
     LaneInvasionEvent.msg
     Status.msg
-    Path.msg
     VehicleControl.msg
     VehicleInfo.msg
     VehicleStatus.msg

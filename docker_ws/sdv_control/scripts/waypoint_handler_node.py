@@ -3,8 +3,9 @@
 import rclpy
 from rclpy.node import Node
 
-from std_msgs.msg import String, Float32
-from sdv_msgs.msg import Path, EtaPose
+from std_msgs.msg import Float32
+from sdv_msgs.msg import EtaPose
+from nav_msgs.msg import Path
 
 import yaml
 from yaml.loader import SafeLoader
@@ -15,8 +16,9 @@ class WaypointNode(Node):
     def __init__(self):
         super().__init__('waypoint_handler_node')
         self.vel_pub_ = self.create_publisher(Float32, '/car_control/setpoint/velocity', 10)
-        self.path_pub_ = self.create_publisher(Path, '/car_control/path', 10)
-        timer_period = 0.5  # seconds
+        self.path_pub_ = self.create_publisher(Path, '/car_control/reference_path', 10)
+        
+        timer_period = 0.01  # seconds
         self.eta_sub_ = self.create_subscription(
             EtaPose,
             '/car_simulation/dynamic_model/eta_pose',
