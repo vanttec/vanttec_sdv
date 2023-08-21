@@ -19,6 +19,10 @@ class XboxNode(Node):
         self.steer_mode = "No_Steer_Controller"
         self.prev_steer_btn_state = False
 
+        self.encoder_mode = "No_Reset_Encoder"
+        self.prev_encoder_btn_state = False
+
+
 
         self.controller_connected = False
         self.controller_stop = True
@@ -40,6 +44,7 @@ class XboxNode(Node):
         self.throttle_module_id = 0x406
         self.steering_module_id = 0x408
         self.braking_module_id = 0x412
+        self.encoder_id = 0x620
 
         # *------------------* GENERAL *------------------*
         self.ask_status_general = False
@@ -48,7 +53,8 @@ class XboxNode(Node):
                 "auto": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x2,0x1]),
                 "xbox_controller": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x8,0x0]),
                 "no_xbox_controller": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x8,0x1]),
-                "status_general": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x5,0x1])
+                "status_general": can.Message(arbitration_id=self.general_module_id_tx,is_extended_id=False, data=[0x5,0x1]),
+                "reset_encoder": [can.Message(arbitration_id=self.encoder_id,is_extended_id=False, data=[0x23,0x03,0x60,0x00,0x00,0x00,0x00,0x00]),can.Message(arbitration_id=self.encoder_id,is_extended_id=False, data=[0x23,0x10,0x10,0x01,0x73,0x61,0x76,0x65])],
             }
         self.general_msg = 0
         self.prev_general_msg = 0
@@ -270,6 +276,27 @@ class XboxNode(Node):
                 self.bus.send(self.drive_mode_dict["no_xbox_controller"],timeout=0.1)
         self.prev_steer_btn_state = steer_btn
         self.get_logger().info(self.steer_mode)
+
+    def reset_encoder_ifm(self):
+        #Toggle car mode and pedal with XBOX controller   
+        encoder_btn = bool(self.joy_stick.Back())
+        if not self.prev_encoder_btn_state and encoder_btn:
+            encoder_mode_msg = String()
+            if self.encoder_mode == "No_Reset_Encoder":
+                #Activate driver pedal
+                encoder_mode_msg.data = "Reset_Encoder"
+                self.encoder_mode_pub.publish(encoder_mode_msg)
+                self.encoder_mode = "Reset_Encoder"
+            else:
+                #Activate digital potentiometer
+                encoder_mode_msg.data = "No_Reset_Encoder"
+                self.encoder_mode_pub.publish(encoder_mode_msg)
+                self.encoder_mode = "No_Reset_Encoder" 
+                self.bus.send(self.drive_mode_dict["reset_encoder"][0],timeout=0.1)
+                self.bus.send(self.drive_mode_dict["reset_encoder"][1],timeout=0.1)    
+        self.prev_encoder_btn_state = encoder_btn
+        self.get_logger().info(self.encoder_mode)
+
         
     def uint8_to_bool_list(self, num):
         # Convert the number to binary representation and remove the '0b' prefix
