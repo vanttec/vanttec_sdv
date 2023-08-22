@@ -10,8 +10,9 @@
 
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import UInt8
+from std_msgs.msg import UInt8, Float32
 import can
+import struct
 
 class SDVControlNode(Node):
     def __init__(self):
@@ -30,8 +31,14 @@ class SDVControlNode(Node):
             '/car_control/control_signal/D',
             self.throttle_callback,
             1)
+        self.steer_sub = self.create_subscription(
+            Float32,
+            '/car_control/control_signal/Delta',
+            self.steering_callback,
+            1)
 
         self.throttle = -1
+        self.steer = -2
         # *------------------* VANTTEC_IDS *------------------*
         self.admin_id = 0x401
         self.general_module_id_tx = 0x403
@@ -39,16 +46,38 @@ class SDVControlNode(Node):
         self.throttle_module_id = 0x406
         self.steering_module_id = 0x408
         self.braking_module_id = 0x412
+        self.steer_task_id_control = 0x00
 
         self.car_messages= {
                 "throttle": can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[0x5,0x1]),
-            }
+                }
 
     def throttle_callback(self, msg):
         if(msg.data != self.throttle):
             self.car_messages["throttle"].data[1] = msg.data
             self.bus.send(self.car_messages["throttle"],timeout=0.01)
             self.throttle = msg.data
+
+    def steering_callback(self, msg):
+        # delta = 0.0452*wheel - 2.1097 o -2.1142
+        # delta = 0.0453*wheel
+        MAX_WHEEL_ANGLE = 688 # degrees
+        MIN_WHEEL_ANGLE = -555 # degrees
+        wheel_angle = msg.data * 57.2958 / 0.0453 # degrees
+        # self.get_logger().info("Wheel angle = %f" % wheel_angle)
+
+        normalized_wheel_angle = wheel_angle / MAX_WHEEL_ANGLE if msg.data >= 0 else wheel_angle / MIN_WHEEL_ANGLE
+
+        # print(normalized_wheel_angle)
+        # self.get_logger().info("Normalized wheel angle = %f" % normalized_wheel_angle)
+
+        if(normalized_wheel_angle != self.steer):
+            steer_data = bytearray(struct.pack("f", normalized_wheel_angle))
+            #Insert ID so it can select the proper STM32 Task
+            steer_data.insert(0, self.steer_task_id_control)
+            self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=steer_data), timeout=0.1)
+            self.steer = normalized_wheel_angle
+
 
 
 def main(args=None):

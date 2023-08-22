@@ -19,7 +19,7 @@ class EncoderDevice(Node):
         self.publisher = self.create_publisher(Encoder, 'encoder_freno', 10)
         self.set_encoder_mode()
 
-        timer_period = 1 #Seconds
+        timer_period = 0.1 #Seconds
         self.timer = (self.create_timer(timer_period, self.query_timer_callback) 
                         if encoder_mode == 0x00 
                         else self.create_timer(timer_period, self.automatic_timer_callback))
@@ -64,7 +64,7 @@ class EncoderDevice(Node):
                 decoded_msg = receivedMsg.data.hex()[6:]
                 hex_pos = (decoded_msg[6:7]+decoded_msg[4:6]+decoded_msg[2:4]+decoded_msg[0:2])
                 absolute_pos = int(hex_pos, 16)
-                # print(absolute_pos)
+                
                 step = absolute_pos%self.steps
 
                 msg.angle = float(self.degrees*step/self.steps)
