@@ -42,7 +42,7 @@ class CarGuidanceNode : public rclcpp::Node
         /* Stanley Params */
         float k_{3};
         float k_soft_{1};
-        std::vector<double> DELTA_SAT_ = {0.4101524, -0.5497787}; // // {max, min} steering in rads
+        std::vector<double> DELTA_SAT_; // {max, min} steering in rads
 
         /* Control signals */
         float vel_;
@@ -54,8 +54,8 @@ class CarGuidanceNode : public rclcpp::Node
         float psi_{0};
 
         /* Path */
-        Point p1_ = {-96, -77};
-        Point p2_ = {-59, -98};
+        Point p1_;
+        Point p2_;
         nav_msgs::msg::Path reference_path_;
         size_t waypoint_;
         float path_length_;
