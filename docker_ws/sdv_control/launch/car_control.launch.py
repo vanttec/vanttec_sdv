@@ -75,6 +75,7 @@ def generate_launch_description():
       package='sdv_control',
       executable='can_node.py',
       namespace="",
+      output="screen",
       name='can_node',
       parameters=[{'channel': 'can0'},
                   {'bitrate': 125000}]

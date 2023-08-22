@@ -59,12 +59,24 @@ class SDVControlNode(Node):
             self.throttle = msg.data
 
     def steering_callback(self, msg):
-        if(msg.data != self.steer):
-            steer_data = bytearray(struct.pack("f", msg.data))
+        # delta = 0.0452*wheel - 2.1097 o -2.1142
+        # delta = 0.0453*wheel
+        MAX_WHEEL_ANGLE = 688 # degrees
+        MIN_WHEEL_ANGLE = -555 # degrees
+        wheel_angle = msg.data * 57.2958 / 0.0453 # degrees
+        # self.get_logger().info("Wheel angle = %f" % wheel_angle)
+
+        normalized_wheel_angle = wheel_angle / MAX_WHEEL_ANGLE if msg.data >= 0 else wheel_angle / MIN_WHEEL_ANGLE
+
+        # print(normalized_wheel_angle)
+        # self.get_logger().info("Normalized wheel angle = %f" % normalized_wheel_angle)
+
+        if(normalized_wheel_angle != self.steer):
+            steer_data = bytearray(struct.pack("f", normalized_wheel_angle))
             #Insert ID so it can select the proper STM32 Task
             steer_data.insert(0, self.steer_task_id_control)
             self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=steer_data), timeout=0.1)
-            self.steer = msg.data
+            self.steer = normalized_wheel_angle
 
 
 
