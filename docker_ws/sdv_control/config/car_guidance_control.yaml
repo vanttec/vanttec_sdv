@@ -15,4 +15,4 @@ stanley_controller_node:
   ros__parameters:
     K: 1.0 # drives you to path faster, induces overshoot
     K_soft: 1.0 #softens overshoot
-    DELTA_MAX: 1.0 # radians
+    DELTA_SAT: [-0.5497787, 0.4101524] # radians
