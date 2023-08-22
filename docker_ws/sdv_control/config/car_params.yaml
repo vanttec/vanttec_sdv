@@ -1,6 +1,11 @@
 /**:
   ros__parameters:
-    init_pose: [-5.0, 5.0, 1.5704] # x, y, psi
+    frequency: 100
+    # init_pose: [-5.0, 5.0, 1.5704] # x, y, psi
+    init_pose: [0.0,0.0,0.0] # x, y, psi
+    is_simulation: True
+    parent_frame: "odom"
+    child_frame: "sdv_base_link"
 
 # First Order Feedback Lineari  zation 1-DOF PID Controller for the VTec SDC1
 sdc1_vel_pid_node:
@@ -13,6 +18,6 @@ sdc1_vel_pid_node:
 # Stanley Controller Params
 stanley_controller_node:
   ros__parameters:
-    K: 1.0 # drives you to path faster, induces overshoot
+    K: 10.0 # drives you to path faster, induces overshoot
     K_soft: 1.0 #softens overshoot
     DELTA_SAT: [-0.5497787, 0.4101524] # radians

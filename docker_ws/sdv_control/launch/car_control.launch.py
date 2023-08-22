@@ -15,44 +15,24 @@ def generate_launch_description():
    car_params = os.path.join(
       get_package_share_directory('sdv_control'),
       'config',
-      'car_guidance_control.yaml'
+      'car_params.yaml'
    )
 
    rviz_config = os.path.join(
       get_package_share_directory('sdv_control'),
       'launch/rviz_cfg',
-      'nav.rviz'
+      # 'nav.rviz'
+      'sdv.rviz'
    )
 
    vn_gps_params = os.path.join(
       get_package_share_directory('sdv_vectornav'),
       'config',
       'vn_gps_node_params.yaml'
-   ) 
-
-   frequency_arg = DeclareLaunchArgument(
-      name='frequency',
-      default_value='100',
-      description='Frequency for nodes'
    )
 
-   is_sim_arg = DeclareLaunchArgument(
-      name='is_simulation',
-      default_value='True'
-   )
-
-   # foxglove_launch = IncludeLaunchDescription(
-   #    PythonLaunchDescriptionSource([
-   #       PathJoinSubstitution([
-   #          FindPackageShare('foxglove_bridge'),
-   #          'launch/foxglove_bridge_launch.xml'
-   #       ])
-   #    ]),
-   #    launch_arguments = {
-   #       'send_buffer_limit': '50000000',
-   #       'num_threads': '4'
-   #    }.items()
-   # )
+   # 'send_buffer_limit': '50000000',
+   # 'num_threads': '4'
 
    # foxglove_studio = ExecuteProcess(cmd=["foxglove-studio"])
 
@@ -69,9 +49,10 @@ def generate_launch_description():
       executable='sdc1_vel_pid_node',
       output='screen',
       name='sdc1_vel_pid_node',
-      parameters=[{'frequency': LaunchConfiguration('frequency')},
-                  car_params,
-                  {'is_simulation': LaunchConfiguration('is_simulation')}
+      parameters=[
+                  # {'frequency': LaunchConfiguration('frequency')},
+                  # {'is_simulation': LaunchConfiguration('is_simulation')},
+                  car_params
                   ]
    )
 
@@ -80,9 +61,10 @@ def generate_launch_description():
       executable='stanley_controller_node',
       output='screen',
       name='stanley_controller_node',
-      parameters=[{'frequency': LaunchConfiguration('frequency')},
-                  car_params,
-                  {'is_simulation': LaunchConfiguration('is_simulation')}
+      parameters=[
+                  # {'frequency': LaunchConfiguration('frequency')},
+                  # {'is_simulation': LaunchConfiguration('is_simulation')},
+                  car_params
                   ]
    )
 
@@ -91,7 +73,10 @@ def generate_launch_description():
       executable='car_tf2_broadcast_node',
       namespace="",
       name='car_tf2_broadcast_node',
-      parameters=[{'frequency': LaunchConfiguration('frequency')}]
+      parameters=[
+                  # {'frequency': LaunchConfiguration('frequency')},
+                  car_params
+                  ]
    )
 
    rviz = Node(
@@ -111,6 +96,17 @@ def generate_launch_description():
                   {'bitrate': 125000}]
    )
 
+   waypoint_handler = Node(
+      package='sdv_control',
+      executable='waypoint_handler.py',
+      namespace="",
+      output="screen",
+      name='waypoint_handler',
+      parameters=[
+                  car_params
+                  ]
+   )
+
    sdv_description_launch = IncludeLaunchDescription(
       PythonLaunchDescriptionSource([
             PathJoinSubstitution([
@@ -122,14 +118,11 @@ def generate_launch_description():
    )
 
    return LaunchDescription([
-      frequency_arg,
-      is_sim_arg,
-      # foxglove_launch,
+      waypoint_handler,
       car_control_node,
       car_guidance_node,
       tf2_node,
       # can_node,
-      # foxglove_studio,
       rviz,
       sdv_description_launch,
       start_odom_pub

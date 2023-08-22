@@ -18,7 +18,6 @@
 #include "geometry_msgs/msg/vector3.hpp"
 
 #include "sdv_msgs/msg/eta_pose.hpp"
-// #include "sdv_msgs/msg/path.hpp"
 #include "vectornav_msgs/msg/ins_group.hpp"
 #include "vectornav_msgs/msg/common_group.hpp"
 
@@ -30,35 +29,43 @@ class CarGuidanceNode : public rclcpp::Node
 {
     private:
         float sample_time_;
+
         bool is_simulation_;
         bool vel_msgs_received_{false};
-        bool pose_msgs_received_{false};
+        bool vehicle_pose_msgs_received_{false};
+        bool new_path_arrived_{false};
+        bool path_arrived_{false};
+        bool nearest_waypoint_found_{false};
+
         std::unique_ptr<StanleyController> stanley_;
 
         /* Stanley Params */
         float k_{3};
         float k_soft_{1};
-        std::vector<double> DELTA_SAT_ = {-0.5497787, 0.4101524}; //rads
+        std::vector<double> DELTA_SAT_ = {0.4101524, -0.5497787}; // // {max, min} steering in rads
 
+        /* Control signals */
         float vel_;
         std_msgs::msg::Float32 delta_;
-
-        rclcpp::TimerBase::SharedPtr timer_;
 
         /* Vehicle pose */
         std::vector<double> init_pose_ = {0,0,0};
         Point vehicle_pos_ = {0, 0};
-        // float x_{0};
-        // float y_{0};
         float psi_{0};
 
         /* Path */
         Point p1_ = {-96, -77};
         Point p2_ = {-59, -98};
+        nav_msgs::msg::Path reference_path_;
+        size_t waypoint_;
+        float path_length_;
+        float DISTANCE_VAL_ = 1;                // Meters
+
+        rclcpp::TimerBase::SharedPtr timer_;
 
         /* Publishers */
         rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr car_steering_;
-        rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr follow_path_;
+        // rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr visualize_path_;
 
         /* Subscribers */
         rclcpp::Subscription<sdv_msgs::msg::EtaPose>::SharedPtr car_eta_pose_;
@@ -66,55 +73,116 @@ class CarGuidanceNode : public rclcpp::Node
         rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr car_velocity_;
         rclcpp::Subscription<vectornav_msgs::msg::InsGroup>::SharedPtr car_velocity_imu_;
         rclcpp::Subscription<vectornav_msgs::msg::CommonGroup>::SharedPtr current_yaw_;
-        // rclcpp::Subscription<sdv_msgs::msg::Path>::SharedPtr path_;
+        rclcpp::Subscription<nav_msgs::msg::Path>::SharedPtr path_to_follow_;
 
         void timer_callback()
         {
-            // std::cout << "Car x = " << vehicle_pos_.x << ", y = " << vehicle_pos_.y  << std::endl;
-            // std::cout << "Psi = " << psi_ << std::endl;
-            stanley_->calculateCrosstrackError(vehicle_pos_, p2_, p1_);
-
-            stanley_->setYawAngle(psi_);
             
-            if(is_simulation_){
+            if(is_simulation_) {
 
-                stanley_->calculateSteering(vel_);
-                delta_.data = stanley_->delta_;
-                car_steering_->publish(delta_);
+                traverse_path();
 
             } else {
-                if(vel_msgs_received_ && pose_msgs_received_){
+                if(vel_msgs_received_ && vehicle_pose_msgs_received_){
                     RCLCPP_INFO(this->get_logger(), "Vectornav msgs received");
+
+                    traverse_path();
+
+                } else {
+                    RCLCPP_INFO(this->get_logger(), "Waiting for vectornav");
+                }
+            }
+
+                // geometry_msgs::msg::PoseStamped pose;
+                // nav_msgs::msg::Path path;
+
+                // pose.header.stamp       = rclcpp::Clock().now();
+                // pose.header.frame_id    = "world";
+                // pose.pose.position.x    = p1_.x;
+                // pose.pose.position.y    = -p1_.y; // NED to NWU
+
+                // path.header.stamp     = rclcpp::Clock().now();
+                // path.header.frame_id  = "world";
+                // path.poses.push_back(pose);
+
+                // pose.header.stamp       = rclcpp::Clock().now();
+                // pose.header.frame_id    = "world";
+                // pose.pose.position.x    = p2_.x;
+                // pose.pose.position.y    = -p2_.y;
+
+                // path.header.stamp     = rclcpp::Clock().now(); // NED to NWU
+                // path.header.frame_id  = "world";
+
+                // path.poses.push_back(pose);
+
+                // visualize_path_->publish(path);
+            
+        }
+
+        void traverse_path(){
+            if(new_path_arrived_) {
+                if(!nearest_waypoint_found_) {
+                    waypoint_ = check_nearest_waypoint();
+                }
+            }
+
+            if(path_arrived_) {
+
+                if(waypoint_ < path_length_){
+                    p1_.x = reference_path_.poses[waypoint_].pose.position.x;
+                    p1_.y = reference_path_.poses[waypoint_].pose.position.y;
+
+                    p2_.x = reference_path_.poses[waypoint_+1].pose.position.x;
+                    p2_.y = reference_path_.poses[waypoint_+1].pose.position.y;
+
+                    RCLCPP_INFO(this->get_logger(), "Traversing path segment : (%f, %f) to (%f, %f)",
+                                p1_.x, p1_.y, p2_.x, p2_.y);
+
+                    stanley_->calculateCrosstrackError(vehicle_pos_, p1_, p2_);
+                    stanley_->setYawAngle(psi_);
                     stanley_->calculateSteering(vel_);
                     delta_.data = stanley_->delta_;
                     car_steering_->publish(delta_);
-                } else
-                    RCLCPP_INFO(this->get_logger(), "Waiting for vectornav");
-            
+
+                    if(stanley_->ex_ < DISTANCE_VAL_){
+                        waypoint_++;
+                    }
+
+                } else {
+                    RCLCPP_INFO(this->get_logger(), "Reached the end of the path");
+                }
+
+            } else {
+                RCLCPP_INFO(this->get_logger(), "Waiting for reference path");
+            }
+        }
+
+        size_t check_nearest_waypoint()
+        {
+            size_t waypoint;
+            float shortest_distance = __FLT_MAX__;
+            float distance;
+            float ex;
+            float ey;
+
+            for(size_t i=0; i<path_length_; ++i){
+                ex = reference_path_.poses[i].pose.position.x - vehicle_pos_.x;
+                ey = reference_path_.poses[i].pose.position.y - vehicle_pos_.y;
+                distance = std::sqrt(ex*ex + ey*ey);
+
+                if (distance < shortest_distance){
+                    shortest_distance = distance;
+                    waypoint = i;
+                }
             }
 
-            geometry_msgs::msg::PoseStamped pose;
-            nav_msgs::msg::Path path;
+            RCLCPP_INFO(this->get_logger(), "Nearest waypoint found : (%f, %f)",
+                        reference_path_.poses[waypoint].pose.position.x,
+                        reference_path_.poses[waypoint].pose.position.y );
 
-            pose.header.stamp       = rclcpp::Clock().now();
-            pose.header.frame_id    = "world";
-            pose.pose.position.x    = p1_.x;
-            pose.pose.position.y    = -p1_.y; // NED to NWU
+            nearest_waypoint_found_ = true;
 
-            path.header.stamp     = rclcpp::Clock().now();
-            path.header.frame_id  = "world";
-            path.poses.push_back(pose);
-
-            pose.header.stamp       = rclcpp::Clock().now();
-            pose.header.frame_id    = "world";
-            pose.pose.position.x    = p2_.x;
-            pose.pose.position.y    = -p2_.y;
-
-            path.header.stamp     = rclcpp::Clock().now(); // NED to NWU
-            path.header.frame_id  = "world";
-            path.poses.push_back(pose);
-
-            follow_path_->publish(path);
+            return waypoint;
         }
 
         void set_velocity_imu(const vectornav_msgs::msg::InsGroup::SharedPtr msg_in)
@@ -143,17 +211,31 @@ class CarGuidanceNode : public rclcpp::Node
             vehicle_pos_.x = msg->pose.pose.position.x;
             vehicle_pos_.y = msg->pose.pose.position.y;
             // psi_ = msg_in->yawpitchroll.x;
-            pose_msgs_received_ = true;
+            vehicle_pose_msgs_received_ = true;
         }
-
-        // void set_path(const sdv_msgs::msg::Path msg){
-        //     p1_ = {(float)msg.p1.x, (float)msg.p1.y};
-        //     p2_ = {(float)msg.p2.x, (float)msg.p2.y};
-        // }
 
         void set_yaw(const vectornav_msgs::msg::CommonGroup::SharedPtr msg_in)
         {
             psi_ = msg_in->yawpitchroll.x;
+        }
+
+        void set_path(const nav_msgs::msg::Path::SharedPtr msg)
+        {
+            rclcpp::Time path_msg_time(msg->header.stamp);
+            rclcpp::Time current_path_time(reference_path_.header.stamp);
+
+            if (std::abs((current_path_time - path_msg_time).nanoseconds()) > 0){
+                RCLCPP_INFO(this->get_logger(), "New path received");
+                reference_path_ = *msg;
+                path_length_ = reference_path_.poses.size();
+                new_path_arrived_ = true;
+                nearest_waypoint_found_ = false;
+            } else {
+                new_path_arrived_ = false;
+                // RCLCPP_INFO(this->get_logger(), "Same path received");
+            }
+
+            path_arrived_ = true;
         }
 
     public:
@@ -176,17 +258,20 @@ class CarGuidanceNode : public rclcpp::Node
             k_soft_ = this->get_parameter("K_soft").as_double();
             DELTA_SAT_ = this->get_parameter("DELTA_SAT").as_double_array();
             init_pose_ = this->get_parameter("init_pose").as_double_array();
-            vehicle_pos_.x = init_pose_[0];
-            vehicle_pos_.y = init_pose_[1];
-
             sample_time_ = 1.0 / static_cast<float>(frequency);
             
             /* Publishers */
             car_steering_ = this->create_publisher<std_msgs::msg::Float32>("/car_control/control_signal/delta", 1);
-            follow_path_ = this->create_publisher<nav_msgs::msg::Path>("/car_path_to_follow",1);
+            // visualize_path_ = this->create_publisher<nav_msgs::msg::Path>("/reference_path",1);
 
             /* Subscribers */
+            
             if(is_simulation_){
+
+                vehicle_pos_.x = init_pose_[0];
+                vehicle_pos_.y = init_pose_[1];
+                psi_ = init_pose_[2];
+
                 car_eta_pose_ = this->create_subscription<sdv_msgs::msg::EtaPose>("/car_simulation/dynamic_model/eta_pose",
                                     1, std::bind(&CarGuidanceNode::set_sim_pose, this, std::placeholders::_1));
                 car_velocity_ = this->create_subscription<geometry_msgs::msg::Twist>("/car_simulation/dynamic_model/vel",
@@ -199,6 +284,8 @@ class CarGuidanceNode : public rclcpp::Node
                 current_yaw_ = this->create_subscription<vectornav_msgs::msg::CommonGroup>("/vectornav/raw/common",
                                     1, std::bind(&CarGuidanceNode::set_yaw, this, std::placeholders::_1));
             }
+            path_to_follow_ = this->create_subscription<nav_msgs::msg::Path>("/car_control/reference_path",
+                                    1, std::bind(&CarGuidanceNode::set_path, this, std::placeholders::_1));
 
             timer_ = this->create_wall_timer( std::chrono::milliseconds(1000 / frequency),
                                                 std::bind(&CarGuidanceNode::timer_callback, this));

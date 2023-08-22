@@ -33,8 +33,8 @@ class CarTf2Broadcast : public rclcpp::Node
 
     rclcpp::Subscription<sdv_msgs::msg::EtaPose>::SharedPtr car_eta_pose_;
 
-    std::string parent_frame = "world";
-    std::string child_frame = "sdv_base_link";
+    std::string parent_frame_;
+    std::string child_frame_;
 
     void timer_callback()
     {
@@ -53,7 +53,12 @@ class CarTf2Broadcast : public rclcpp::Node
     CarTf2Broadcast() : Node("car_t2_broadcast_node")
     {
       this->declare_parameter("frequency", rclcpp::PARAMETER_INTEGER);    // Super important to get parameters from launch files!!
+      this->declare_parameter("parent_frame", rclcpp::PARAMETER_STRING);    // Super important to get parameters from launch files!!
+      this->declare_parameter("child_frame", rclcpp::PARAMETER_STRING);    // Super important to get parameters from launch files!!
+
       this->get_parameter_or("frequency", frequency_, 100);
+      parent_frame_ = this->get_parameter("parent_frame").as_string();
+      child_frame_ = this->get_parameter("child_frame").as_string();
 
       car_path_ = this->create_publisher<nav_msgs::msg::Path>("/car_simulation/car_tf_broadcast/car_path", 10);
 
@@ -70,7 +75,7 @@ class CarTf2Broadcast : public rclcpp::Node
     void configure()
     {
       tf_broadcaster_ = std::make_unique<TF2Broadcaster>(shared_from_this(),
-            parent_frame, child_frame);
+            parent_frame_, child_frame_);
     }
 
 };
