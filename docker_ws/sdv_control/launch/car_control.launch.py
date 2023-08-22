@@ -21,7 +21,7 @@ def generate_launch_description():
    rviz_config = os.path.join(
       get_package_share_directory('sdv_control'),
       'launch/rviz_cfg',
-      'sdv.rviz'
+      'nav.rviz'
    )
 
    vn_gps_params = os.path.join(
@@ -125,11 +125,11 @@ def generate_launch_description():
       frequency_arg,
       is_sim_arg,
       # foxglove_launch,
-      # car_control_node,
-      # car_guidance_node,
+      car_control_node,
+      car_guidance_node,
       tf2_node,
-      # can_node
-      # foxglove_studio
+      # can_node,
+      # foxglove_studio,
       rviz,
       sdv_description_launch,
       start_odom_pub

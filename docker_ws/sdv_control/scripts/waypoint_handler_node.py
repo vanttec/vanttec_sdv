@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+import os
+
+from ament_index_python.packages import get_package_share_directory
+
 import rclpy
 from rclpy.node import Node
 
@@ -25,6 +29,14 @@ class WaypointNode(Node):
             self.eta_pose_callback,
             10)
         self.eta_sub_  # prevent unused variable warning
+
+
+        car_params = os.path.join(
+            get_package_share_directory('sdv_control'),
+            'config',
+            'car_guidance_control.yaml'
+        )
+
 
         with open('/home/max/sdv/src/sdv_ros/docker_ws/sdv_control/config/waypoints.yaml') as f:
             self.data = yaml.load(f, Loader=SafeLoader)

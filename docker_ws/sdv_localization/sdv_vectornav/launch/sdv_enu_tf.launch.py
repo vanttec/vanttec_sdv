@@ -10,11 +10,11 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
 
-    this_dir = get_package_share_directory('sdv_localization')
+    this_dir = get_package_share_directory('sdv_vectornav')
     
     # Vectornav odometry and path
     start_odom_pub = Node(
-        package='sdv_localization', 
+        package='sdv_vectornav', 
         executable='vn_gps_pose',
         output='screen',
         parameters=[os.path.join(this_dir, 'config', 'vn_gps_node_params.yaml')])

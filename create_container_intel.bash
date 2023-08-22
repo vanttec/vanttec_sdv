@@ -33,7 +33,7 @@ $DOCKER_COMMAND -it -d\
     -v /dev/bus/usb/:/dev/bus/usb \
     -v /dev:/dev \
     -v "$PWD/docker_ws:/home/ws/src" \
-    -v "/media/saveasmtz/pacman3/rosbags:/home/ws/src/tests" \
+    -v "/media/saveasmtz/pacman/rosbags:/home/ws/src/tests" \
     -v /var/run/docker.sock:/var/run/docker.sock \
     --name=sdv \
     sdv\
