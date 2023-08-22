@@ -229,7 +229,8 @@ install(DIRECTORY
 # Install Python executables
 install(PROGRAMS
   scripts/can_node.py
-  scripts/waypoint_handler_node.py
+  # scripts/waypoint_handler_node.py
+  scripts/waypoint_handler.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
