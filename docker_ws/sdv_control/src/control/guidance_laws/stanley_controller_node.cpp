@@ -58,7 +58,7 @@ class CarGuidanceNode : public rclcpp::Node
         Point p2_;
         nav_msgs::msg::Path reference_path_;
         size_t waypoint_;
-        float path_length_;
+        size_t path_length_;
         float DISTANCE_VAL_ = 1;                // Meters
         std::string parent_frame_;
 
@@ -103,7 +103,7 @@ class CarGuidanceNode : public rclcpp::Node
 
             if(path_arrived_) {
 
-                if(waypoint_ < path_length_){
+                if(waypoint_ < path_length_-1){
                     p1_.x = reference_path_.poses[waypoint_].pose.position.x;
                     p1_.y = reference_path_.poses[waypoint_].pose.position.y;
 
