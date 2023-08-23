@@ -5,7 +5,7 @@
     init_pose: [0.0,0.0,0.0] # x, y, psi
     is_simulation: True
     parent_frame: "odom"
-    child_frame: "sdv_base_link"
+    child_frame: "base_link"
 
 # First Order Feedback Lineari  zation 1-DOF PID Controller for the VTec SDC1
 sdc1_vel_pid_node:

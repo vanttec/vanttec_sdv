@@ -39,7 +39,7 @@ class WaypointNode(Node):
             get_package_share_directory('sdv_control'),
             'config',
             # 'sim_waypoints.csv'
-            'sim_waypoints.csv'
+            'parking_waypoints_ned.csv'
         )
 
         self.path_ = Path()
