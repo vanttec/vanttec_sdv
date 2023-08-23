@@ -23,6 +23,7 @@ set(MSG_FILES
     SystemDynamics.msg
     ThrustControl.msg
     Encoder.msg
+    ObjectDetection.msg
     )
 
 if(${ROS_VERSION} EQUAL 1)
