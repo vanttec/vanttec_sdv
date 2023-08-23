@@ -1,16 +1,19 @@
 <?xml version="1.0"?>
 <robot name="sdv">
-  <link name="sdv_base_link">
+  <link name="base_link">
     <visual>
-      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <origin rpy="0 0 -1.5707" xyz="0.5 0.0 1.9"/>
       <geometry>
         <mesh filename="package://sdv_description/meshes/sdv.stl" scale="1.0 1.0 1.0"/>
       </geometry>
+      <material name="Cyan">
+        <color rgba="0.95 0.95 0.95 1.0"/>
+      </material>
     </visual>
   </link>
 <!--
-  <joint name="sdv_base_link_to_base_laser_joint" type="fixed">
-    <parent link="sdv_base_link"/>
+  <joint name="base_link_to_base_laser_joint" type="fixed">
+    <parent link="base_link"/>
     <child link="base_laser"/>
     <origin xyz="0 0 1.0"/>
   </joint>
