@@ -23,7 +23,7 @@ def generate_launch_description():
       'launch/rviz_cfg',
       # 'nav.rviz'
       # 'sdv_parking_wpnts.rviz'
-      'sdv_sim_wpnt_simple.rviz'
+      'sdv_sim_wpnts.rviz'
    )
 
    vn_gps_params = os.path.join(

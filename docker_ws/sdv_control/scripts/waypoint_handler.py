@@ -38,8 +38,8 @@ class WaypointNode(Node):
         self.waypoints_file_ = os.path.join(
             get_package_share_directory('sdv_control'),
             'config',
-            # 'sim_waypoints.csv'
-            'sim_waypoints_simple.csv'
+            'sim_waypoints.csv'
+            # 'sim_waypoints_simple.csv'
             # 'parking_waypoints_ned.csv'
         )
 
