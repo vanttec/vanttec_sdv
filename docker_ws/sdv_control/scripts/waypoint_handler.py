@@ -39,7 +39,8 @@ class WaypointNode(Node):
             get_package_share_directory('sdv_control'),
             'config',
             # 'sim_waypoints.csv'
-            'parking_waypoints_ned.csv'
+            'sim_waypoints_simple.csv'
+            # 'parking_waypoints_ned.csv'
         )
 
         self.path_ = Path()
@@ -52,9 +53,6 @@ class WaypointNode(Node):
             for row in csv_reader:
                 pose_stmpd = PoseStamped()
                 pose_stmpd.header.frame_id = parent_frame
-                # print(row[0])
-                # print(row[1])
-                # print(" ")
                 pose_stmpd.pose.position.x = float(row[0])
                 pose_stmpd.pose.position.y = float(row[1])
         
