@@ -58,14 +58,14 @@ class CarGuidanceNode : public rclcpp::Node
         Point p2_;
         nav_msgs::msg::Path reference_path_;
         size_t waypoint_;
-        float path_length_;
+        size_t path_length_;
         float DISTANCE_VAL_ = 1;                // Meters
+        std::string parent_frame_;
 
         rclcpp::TimerBase::SharedPtr timer_;
 
         /* Publishers */
         rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr car_steering_;
-        // rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr visualize_path_;
 
         /* Subscribers */
         rclcpp::Subscription<sdv_msgs::msg::EtaPose>::SharedPtr car_eta_pose_;
@@ -92,31 +92,6 @@ class CarGuidanceNode : public rclcpp::Node
                     RCLCPP_INFO(this->get_logger(), "Waiting for vectornav");
                 }
             }
-
-                // geometry_msgs::msg::PoseStamped pose;
-                // nav_msgs::msg::Path path;
-
-                // pose.header.stamp       = rclcpp::Clock().now();
-                // pose.header.frame_id    = "world";
-                // pose.pose.position.x    = p1_.x;
-                // pose.pose.position.y    = -p1_.y; // NED to NWU
-
-                // path.header.stamp     = rclcpp::Clock().now();
-                // path.header.frame_id  = "world";
-                // path.poses.push_back(pose);
-
-                // pose.header.stamp       = rclcpp::Clock().now();
-                // pose.header.frame_id    = "world";
-                // pose.pose.position.x    = p2_.x;
-                // pose.pose.position.y    = -p2_.y;
-
-                // path.header.stamp     = rclcpp::Clock().now(); // NED to NWU
-                // path.header.frame_id  = "world";
-
-                // path.poses.push_back(pose);
-
-                // visualize_path_->publish(path);
-            
         }
 
         void traverse_path(){
@@ -128,7 +103,7 @@ class CarGuidanceNode : public rclcpp::Node
 
             if(path_arrived_) {
 
-                if(waypoint_ < path_length_){
+                if(waypoint_ < path_length_-1){
                     p1_.x = reference_path_.poses[waypoint_].pose.position.x;
                     p1_.y = reference_path_.poses[waypoint_].pose.position.y;
 
@@ -151,6 +126,7 @@ class CarGuidanceNode : public rclcpp::Node
                 } else {
                     RCLCPP_INFO(this->get_logger(), "Reached the end of the path");
                 }
+
 
             } else {
                 RCLCPP_INFO(this->get_logger(), "Waiting for reference path");
@@ -251,6 +227,7 @@ class CarGuidanceNode : public rclcpp::Node
             this->declare_parameter("K_soft", rclcpp::PARAMETER_DOUBLE);
             this->declare_parameter("DELTA_SAT", rclcpp::PARAMETER_DOUBLE_ARRAY);
             this->declare_parameter("init_pose", rclcpp::PARAMETER_DOUBLE_ARRAY);
+            this->declare_parameter("parent_frame", rclcpp::PARAMETER_STRING);    // Super important to get parameters from launch files!!
 
             frequency = this->get_parameter("frequency").as_int();
             is_simulation_ = this->get_parameter("is_simulation").as_bool();
@@ -258,11 +235,12 @@ class CarGuidanceNode : public rclcpp::Node
             k_soft_ = this->get_parameter("K_soft").as_double();
             DELTA_SAT_ = this->get_parameter("DELTA_SAT").as_double_array();
             init_pose_ = this->get_parameter("init_pose").as_double_array();
+            parent_frame_ = this->get_parameter("parent_frame").as_string();
+            
             sample_time_ = 1.0 / static_cast<float>(frequency);
             
             /* Publishers */
             car_steering_ = this->create_publisher<std_msgs::msg::Float32>("/car_control/control_signal/delta", 1);
-            // visualize_path_ = this->create_publisher<nav_msgs::msg::Path>("/reference_path",1);
 
             /* Subscribers */
             

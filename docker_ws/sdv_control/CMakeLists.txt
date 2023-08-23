@@ -43,7 +43,8 @@ set(VANTTEC_CONTROLLER_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/dynamic_models/ground_vehicles/car_like/vehicles/vtec_sdc1.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/dynamic_models/ground_vehicles/car_like/base/car_3dof_dynamic_model.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/utils/utils.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/simulation/tf2_6dof_broadcaster_ros2.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/simulation/car_tfs/sdc1_broadcaster.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/simulation/base/tf2_6dof_broadcaster_ros2.cpp
 
     # PID
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/feedback_linearization/model_based_controllers/SDCs/regulators/vtec_sdc1_pid.cpp

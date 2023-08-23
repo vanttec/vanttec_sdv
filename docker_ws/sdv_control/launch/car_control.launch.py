@@ -21,8 +21,9 @@ def generate_launch_description():
    rviz_config = os.path.join(
       get_package_share_directory('sdv_control'),
       'launch/rviz_cfg',
-      'nav.rviz'
-      # 'sdv_sim.rviz'
+      # 'nav.rviz'
+      # 'sdv_parking_wpnts.rviz'
+      'sdv_sim_wpnt_simple.rviz'
    )
 
    vn_gps_params = os.path.join(
@@ -34,15 +35,13 @@ def generate_launch_description():
    # 'send_buffer_limit': '50000000',
    # 'num_threads': '4'
 
-   # foxglove_studio = ExecuteProcess(cmd=["foxglove-studio"])
-
     # Vectornav odometry and path
-   start_odom_pub = Node(
-      package='sdv_vectornav', 
-      executable='vn_gps_pose',
-      output='screen',
-      parameters=[vn_gps_params]
-   )
+   # start_odom_pub = Node(
+   #    package='sdv_vectornav', 
+   #    executable='vn_gps_pose',
+   #    output='screen',
+   #    parameters=[vn_gps_params]
+   # )
 
    car_control_node = Node(
       package='sdv_control',
@@ -117,13 +116,23 @@ def generate_launch_description():
       ])
    )
 
+   sdv_loc_launch = IncludeLaunchDescription(
+      PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+               FindPackageShare('sdv_vectornav'),
+               'launch',
+               'sdv_tf.launch.py'
+            ])
+      ])
+   )
+
    return LaunchDescription([
       waypoint_handler,
-      # car_control_node,
-      # car_guidance_node,
+      car_control_node,
+      car_guidance_node,
       tf2_node,
       # can_node,
       rviz,
       sdv_description_launch,
-      # start_odom_pub
+      sdv_loc_launch
    ])
