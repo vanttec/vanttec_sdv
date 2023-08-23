@@ -6,6 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /Grid1
         - /Path1
         - /RobotModel1
         - /Path2
@@ -136,7 +137,7 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /car_control/reference_path
+        Value: /visualization/reference_path
       Value: true
   Enabled: true
   Global Options:
@@ -184,15 +185,15 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 104.68599700927734
+      Distance: 127.82341766357422
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0
-        Y: 0
+        X: -62
+        Y: 98
         Z: 0
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
@@ -202,7 +203,7 @@ Visualization Manager:
       Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.1414999961853027
+      Yaw: 0.5215087532997131
     Saved: ~
 Window Geometry:
   Displays:

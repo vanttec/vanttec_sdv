@@ -21,8 +21,8 @@ def generate_launch_description():
    rviz_config = os.path.join(
       get_package_share_directory('sdv_control'),
       'launch/rviz_cfg',
-      'nav.rviz'
-      # 'sdv_sim.rviz'
+      # 'nav.rviz'
+      'sdv_sim.rviz'
    )
 
    vn_gps_params = os.path.join(
@@ -119,8 +119,8 @@ def generate_launch_description():
 
    return LaunchDescription([
       waypoint_handler,
-      # car_control_node,
-      # car_guidance_node,
+      car_control_node,
+      car_guidance_node,
       tf2_node,
       # can_node,
       rviz,
