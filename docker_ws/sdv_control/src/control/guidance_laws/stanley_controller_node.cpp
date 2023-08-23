@@ -57,7 +57,6 @@ class CarGuidanceNode : public rclcpp::Node
         Point p1_;
         Point p2_;
         nav_msgs::msg::Path reference_path_;
-        nav_msgs::msg::Path path_to_visualize_;
         size_t waypoint_;
         float path_length_;
         float DISTANCE_VAL_ = 1;                // Meters
@@ -67,7 +66,6 @@ class CarGuidanceNode : public rclcpp::Node
 
         /* Publishers */
         rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr car_steering_;
-        rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr visualize_path_;
 
         /* Subscribers */
         rclcpp::Subscription<sdv_msgs::msg::EtaPose>::SharedPtr car_eta_pose_;
@@ -129,7 +127,6 @@ class CarGuidanceNode : public rclcpp::Node
                     RCLCPP_INFO(this->get_logger(), "Reached the end of the path");
                 }
 
-                visualize_path_->publish(path_to_visualize_);
 
             } else {
                 RCLCPP_INFO(this->get_logger(), "Waiting for reference path");
@@ -153,18 +150,6 @@ class CarGuidanceNode : public rclcpp::Node
                     shortest_distance = distance;
                     waypoint = i;
                 }
-
-                geometry_msgs::msg::PoseStamped pose;
-
-                pose.header.stamp       = rclcpp::Clock().now();
-                pose.header.frame_id    = parent_frame_;
-                pose.pose.position.x    = reference_path_.poses[i].pose.position.x;
-                pose.pose.position.y    = -reference_path_.poses[i].pose.position.y; // NED to NWU
-
-                path_to_visualize_.header.stamp     = rclcpp::Clock().now(); // NED to NWU
-                path_to_visualize_.header.frame_id  = parent_frame_;
-
-                path_to_visualize_.poses.push_back(pose);
             }
 
             RCLCPP_INFO(this->get_logger(), "Nearest waypoint found : (%f, %f)",
@@ -256,7 +241,6 @@ class CarGuidanceNode : public rclcpp::Node
             
             /* Publishers */
             car_steering_ = this->create_publisher<std_msgs::msg::Float32>("/car_control/control_signal/delta", 1);
-            visualize_path_ = this->create_publisher<nav_msgs::msg::Path>("/visualization/reference_path",1);
 
             /* Subscribers */
             
