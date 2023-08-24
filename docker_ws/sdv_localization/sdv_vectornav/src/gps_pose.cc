@@ -138,11 +138,7 @@ private:
         enu_pose_msg.pose.pose.position.z = 0;
 
 
-        //Removal of pitch and roll angles, since we're only interested in working in a x,y plane 
-        tf2::Quaternion quaternionTransformNed;
-
-        quaternionTransformNed.setRPY(0, 0, msg_in->yawpitchroll.x);
-        ned_pose_msg.pose.pose.orientation = tf2::toMsg(quaternionTransformNed);
+        ned_pose_msg.pose.pose.orientation = msg_in->quaternion;
 
         tf2::Quaternion quaternionTransformEnu, quaternionResult;
         //quaternionTransformEnu.setRPY(0, 0, -90);
@@ -202,16 +198,16 @@ private:
 
         pub_odom_->publish(odom_msg);
 
-        //Transform odom to base_link publish in a ENU frame
+        //Transform odom to base_link publish in a NED frame
         geometry_msgs::msg::TransformStamped odom2baselink_tf;
 
         odom2baselink_tf.header.frame_id = "odom";
         odom2baselink_tf.header.set__stamp(msg_in->header.stamp);
         odom2baselink_tf.child_frame_id = "base_link";
-        odom2baselink_tf.transform.translation.x = enu_pose_msg.pose.pose.position.x;  //
-        odom2baselink_tf.transform.translation.y = enu_pose_msg.pose.pose.position.y;  //
-        odom2baselink_tf.transform.translation.z = enu_pose_msg.pose.pose.position.z;  //
-        odom2baselink_tf.transform.set__rotation(enu_pose_msg.pose.pose.orientation);  //
+        odom2baselink_tf.transform.translation.x = ned_pose_msg.pose.pose.position.x;  //
+        odom2baselink_tf.transform.translation.y = ned_pose_msg.pose.pose.position.y;  //
+        odom2baselink_tf.transform.translation.z = ned_pose_msg.pose.pose.position.z;  //
+        odom2baselink_tf.transform.set__rotation(ned_pose_msg.pose.pose.orientation);  //
         odom_tf_broadcaster_->sendTransform(odom2baselink_tf);
         
     }
