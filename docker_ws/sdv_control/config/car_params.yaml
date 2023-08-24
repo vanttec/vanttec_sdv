@@ -2,8 +2,8 @@
   ros__parameters:
     frequency: 100
     # init_pose: [-5.0, 5.0, 0.0] # x, y, psi
-    # init_pose: [-63.0, -97.0, 3.1415] # x, y, psi
-    init_pose: [0.0,0.0,0.0] # x, y, psi
+    init_pose: [-63.0, -97.0, 3.1415] # x, y, psi
+    # init_pose: [0.0,0.0,0.0] # x, y, psi
     is_simulation: True
     parent_frame: "odom"
     child_frame: "base_link"
@@ -20,5 +20,5 @@ sdc1_vel_pid_node:
 stanley_controller_node:
   ros__parameters:
     K: 0.8 # drives you to path faster, induces overshoot
-    K_soft: 1.0 #softens overshoot
+    K_soft: 20.0 #softens overshoot
     DELTA_SAT: [0.4101524, -0.5497787] # radians
