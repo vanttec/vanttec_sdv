@@ -79,11 +79,10 @@ def generate_launch_description():
    can_node = Node(
       package='sdv_control',
       executable='can_node.py',
-      namespace="",
+      namespace="can_devices",
       output="screen",
       name='can_node',
-      parameters=[{'channel': 'can0'},
-                  {'bitrate': 125000}]
+      parameters=[car_params]
    )
 
    waypoint_handler = Node(
@@ -92,9 +91,7 @@ def generate_launch_description():
       namespace="",
       output="screen",
       name='waypoint_handler',
-      parameters=[
-                  car_params
-                  ]
+      parameters=[car_params]
    )
 
    sdv_description_launch = IncludeLaunchDescription(
@@ -117,13 +114,23 @@ def generate_launch_description():
       ])
    )
 
+   encoder_node = Node(
+      package='encoder',
+      executable='encoder_rm8004',
+      namespace="can_devices",
+      output='screen',
+      name='encoder_rm8004',
+      parameters=[car_params]
+   )
+
    return LaunchDescription([
-      waypoint_handler,
+      # waypoint_handler,
       # car_control_node,
       # car_guidance_node,
       # tf2_node,
-      # can_node,
-      rviz,
-      sdv_description_launch,
-      sdv_loc_launch
+      # rviz,
+      # sdv_description_launch,
+      # sdv_loc_launch,
+      can_node,
+      encoder_node
    ])

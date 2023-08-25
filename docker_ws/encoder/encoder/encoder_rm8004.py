@@ -21,6 +21,12 @@ class RM8004Encoder(Node):
         self.bit_res = 16777216 #2^24
 
         # Car steering params
+        self.declare_parameter('channel', rclpy.Parameter.Type.STRING)
+        self.declare_parameter('bitrate', rclpy.Parameter.Type.INTEGER)
+
+        channel = self.get_parameter('channel').value
+        bitrate = self.get_parameter('bitrate').value
+
         self.car_steering_range = 1279 #degrees
         self.car_steering_range_pos = self.car_steering_range*self.revolutions//self.degrees
 
@@ -34,7 +40,7 @@ class RM8004Encoder(Node):
         filters = [
             {"can_id": 0x1A0, "can_mask": 0x1A0, "extended": False}
         ]
-        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000, can_filters=filters)
+        self.bus = can.interface.Bus(bustype='socketcan', channel=channel, bitrate=bitrate, can_filters=filters)
         start_msg = can.Message(arbitration_id=000,is_extended_id=False, data=[0x01, 0x00]) # to enter operational mode
 
         # get_pos_msg = can.Message(arbitration_id=0x600+self.encoder_id,is_extended_id=False, data=[0x43, 0x04, 0x60, 0x0])

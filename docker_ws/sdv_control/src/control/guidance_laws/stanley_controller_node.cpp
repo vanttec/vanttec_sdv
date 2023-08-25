@@ -32,7 +32,8 @@ class CarGuidanceNode : public rclcpp::Node
 
         bool is_simulation_;
         bool vel_msgs_received_{false};
-        bool vehicle_pose_msgs_received_{false};
+        bool vehicle_pos_msgs_received_{false};
+        bool vehicle_yaw_msgs_received_{false};
         bool new_path_arrived_{false};
         bool path_arrived_{false};
         bool nearest_waypoint_found_{false};
@@ -83,7 +84,7 @@ class CarGuidanceNode : public rclcpp::Node
                 traverse_path();
 
             } else {
-                if(vel_msgs_received_ && vehicle_pose_msgs_received_){
+                if(vel_msgs_received_ && vehicle_pos_msgs_received_ && vehicle_yaw_msgs_received_){
                     RCLCPP_INFO(this->get_logger(), "Vectornav msgs received");
 
                     traverse_path();
@@ -187,12 +188,13 @@ class CarGuidanceNode : public rclcpp::Node
             vehicle_pos_.x = msg->pose.pose.position.x;
             vehicle_pos_.y = msg->pose.pose.position.y;
             // psi_ = msg_in->yawpitchroll.x;
-            vehicle_pose_msgs_received_ = true;
+            vehicle_pos_msgs_received_ = true;
         }
 
         void set_yaw(const vectornav_msgs::msg::CommonGroup::SharedPtr msg_in)
         {
             psi_ = msg_in->yawpitchroll.x;
+            vehicle_yaw_msgs_received_ = true;
         }
 
         void set_path(const nav_msgs::msg::Path::SharedPtr msg)

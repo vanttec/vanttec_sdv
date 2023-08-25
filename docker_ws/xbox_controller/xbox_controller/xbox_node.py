@@ -201,7 +201,7 @@ class XboxNode(Node):
 
     def lateral_control(self):
         joystick = self.joy_stick.leftX()
-        self.get_logger().info("Joystick pos: %d" %joystick)
+        # self.get_logger().info("Joystick pos: %d" %joystick)
         # self.get_logger().info("Wheel angle: %f" %self.steering_wheel_angle)
         
         if(joystick != 0):
@@ -235,6 +235,7 @@ class XboxNode(Node):
             # self.get_logger().info('Brake data: ' + str(steer_data))
             self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=steer_data), timeout=0.1)
         self.prev_steer_data = steer_data
+
     def publish_drive_mode(self):
         #Toggle car mode and pedal with XBOX controller   
         start_btn = bool(self.joy_stick.Start())
@@ -281,14 +282,12 @@ class XboxNode(Node):
         #Toggle car mode and pedal with XBOX controller   
         encoder_btn = bool(self.joy_stick.Back())
         if not self.prev_encoder_btn_state and encoder_btn:
-            encoder_mode_msg = String()
+            # encoder_mode_msg = String()
             if self.encoder_mode == "No_Reset_Encoder":
-                #Activate driver pedal
-                encoder_mode_msg.data = "Reset_Encoder"
+                # encoder_mode_msg.data = "Reset_Encoder"
                 self.encoder_mode = "Reset_Encoder"
             else:
-                #Activate digital potentiometer
-                encoder_mode_msg.data = "No_Reset_Encoder"
+                # encoder_mode_msg.data = "No_Reset_Encoder"
                 self.encoder_mode = "No_Reset_Encoder" 
                 self.bus.send(self.drive_mode_dict["reset_encoder"][0],timeout=0.1)
                 self.bus.send(self.drive_mode_dict["reset_encoder"][1],timeout=0.1)    

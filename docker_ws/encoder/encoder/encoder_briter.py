@@ -12,9 +12,15 @@ class EncoderDevice(Node):
     def __init__(self, encoder_id, encoder_mode):
         super().__init__('encoder_rm')
         
+        self.declare_parameter('channel', rclpy.Parameter.Type.STRING)
+        self.declare_parameter('bitrate', rclpy.Parameter.Type.INTEGER)
+
+        channel = self.get_parameter('channel').value
+        bitrate = self.get_parameter('bitrate').value
+
         self.id = encoder_id
         self.encoder_mode = encoder_mode
-        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000)
+        self.bus = can.interface.Bus(bustype='socketcan', channel=channel, bitrate=bitrate)
 
         self.publisher = self.create_publisher(Encoder, 'encoder_freno', 10)
         self.set_encoder_mode()

@@ -20,9 +20,6 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'encoder_node = encoder.encoder_node:main',
-        ],
-        'console_scripts': [
             'encoder_rm8004 = encoder.encoder_rm8004:main',
             'encoder_briter = encoder.encoder_briter:main'
         ],
