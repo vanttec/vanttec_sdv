@@ -23,7 +23,8 @@ setup(
            'panel_module = panel.panel_module:main', 
            'panel_modulev2 = panel.panel_modulev2:main',
            'foxglove_test = panel.foxglove_test:main',
-           'mesh_marker = panel.mesh_marker:main'
+           'mesh_marker = panel.mesh_marker:main',
+           'voice = panel.voice:main'
         ],
     },
 )
