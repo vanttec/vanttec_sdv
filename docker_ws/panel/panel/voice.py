@@ -40,7 +40,7 @@ class Indicators(Node):
                        }
 
         # Get the package path
-        package_name = "audio_indicators"
+        package_name = "panel"
         self.package_path = get_package_share_directory(package_name).replace("/share/" + package_name, "").replace("install", "src")
 
         timer_period = 5
