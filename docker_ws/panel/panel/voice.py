@@ -43,7 +43,7 @@ class Indicators(Node):
         package_name = "panel"
         self.package_path = get_package_share_directory(package_name).replace("/share/" + package_name, "").replace("install", "src")
 
-        timer_period = 5
+        timer_period = 1
         self.timer = self.create_timer(timer_period, self.timer_callback)
 
         self.audio_name_subscription = self.create_subscription(String, '/sdv/panel/audio', self.audio_name_callback, 10)
@@ -80,36 +80,45 @@ class Indicators(Node):
 
         
         if self.audio_connected and len(self.audio_queue):
+            print(self.audio_queue)
             self.play_audio(self.package_path + self.audios[self.audio_queue.pop(0)])
-        
 
+    def check_if_paired(self, device_name):
+        try:
+            devices = subprocess.check_output(['bluetoothctl', 'paired-devices']).decode('utf-8').splitlines()
+
+            for device in devices:
+                if device_name in device:
+                    self.device_address = device.split()[1]
+                    return True
+            return False
+        except subprocess.CalledProcessError as e:
+            return False
+
+        
     def bluetooth_device_pair_connect(self, device_name):
         # Get a list of nearby Bluetooth devices
-        devices = subprocess.check_output(['hcitool', 'scan']).decode('utf-8').splitlines()
+        try:
+            devices  = subprocess.check_output(['hcitool', 'scan']).decode('utf-8').splitlines()
+            for device in devices:
+                # Find the device address based on its name
+                if device_name in device:
+                    self.device_address = device.split()[0]
+                    self.get_logger().info(f"euuu to {device}")
+            if self.device_address:
+                # Pair and connect to the Bluetooth device
+                subprocess.run(['bluetoothctl', 'trust', self.device_address], stdout=subprocess.DEVNULL)
+                
+                subprocess.run(['bluetoothctl', 'connect', self.device_address], stdout=subprocess.DEVNULL)
 
-        # Find the device address based on its name
-        for device in devices:
-            if device_name in device:
-                self.device_address = device.split()[0]
-                break
-
-        if self.device_address:
-            # Pair and connect to the Bluetooth device
-            subprocess.run(['bluetoothctl', 'trust', self.device_address], stdout=subprocess.DEVNULL)
-            subprocess.run(['bluetoothctl', 'connect', self.device_address], stdout=subprocess.DEVNULL)
-            return True
-        else:
+                return True
+            else:
+                return False
+        except subprocess.CalledProcessError as e:
             return False
 
 
-    def check_if_paired(self, device_name):
-        devices = subprocess.check_output(['bluetoothctl', 'paired-devices']).decode('utf-8').splitlines()
 
-        for device in devices:
-            if device_name in device:
-                self.device_address = device.split()[1]
-                return True
-        return False
     
     def check_if_connected(self, device_address):
         info = subprocess.check_output(['bluetoothctl', 'info', device_address]).decode('utf-8').splitlines()

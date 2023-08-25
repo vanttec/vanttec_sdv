@@ -32,6 +32,7 @@ $DOCKER_COMMAND -it -d\
     --privileged \
     -v /dev/bus/usb/:/dev/bus/usb \
     -v /dev:/dev \
+    -v /run/dbus:/run/dbus:ro
     -v "$PWD/docker_ws:/home/ws/src" \
     -v "/media/saveasmtz/pacman1/rosbags:/home/ws/src/tests" \
     -v /var/run/docker.sock:/var/run/docker.sock \

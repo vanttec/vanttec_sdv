@@ -1,2 +1,2 @@
 geometry_msgs/Pose2D position
-String name
+std_msgs/String name
