@@ -3,9 +3,9 @@ import can
 import time
 import rclpy
 from rclpy.node import Node
-from sdv_msg.msg import PanelMsg
+from sdv_msgs.msg import PanelMsg
 from std_msgs.msg import String, Float32
-from sdv_msg.msg import Encoder
+from sdv_msgs.msg import Encoder
 from sensor_msgs.msg import Imu
 import json
 
@@ -15,7 +15,7 @@ class PanelModule(Node):
         self.panel_module_id_tx = 1040 #hex.410
         self.panel_module_id_rx = 1033 #hex.409
         # Provide the path to your JSON file
-        file_path = '/ws/src/sdv_ros/can_devices/panel/resource/panel_functionalities.json'
+        file_path = '/home/ws/src/panel/resource/panel_functionalities.json'
         # Read the JSON file and store its contents in a dictionary
         self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000)
 
