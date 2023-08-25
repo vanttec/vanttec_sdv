@@ -42,10 +42,11 @@ install(
 )
 
 install(PROGRAMS
-  scripts/xbox_node.py
   scripts/can_node.py
   scripts/encoder_rm8004.py
   scripts/encoder_briter.py
+  scripts/xbox_driver.py
+  scripts/xbox_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

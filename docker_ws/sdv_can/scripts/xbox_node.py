@@ -1,10 +1,12 @@
+#!/usr/bin/env python3
+
 import rclpy
 from rclpy.node import Node
 import can
 import struct
 from numpy import interp
 
-import xbox_controller.xbox_driver as xbox_driver
+import xbox_driver as xbox_driver
 from std_msgs.msg import String, UInt8, Float32
 from geometry_msgs.msg import Vector3
 from sdv_msgs.msg import Encoder, PanelMsg#, XboxMsg, ThrottleMsg, VehicleControl 
