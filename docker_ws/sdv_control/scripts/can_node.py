@@ -10,7 +10,7 @@
 
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import UInt8, Float32
+from std_msgs.msg import UInt8, Float32, String
 import can
 import struct
 
@@ -37,8 +37,22 @@ class SDVControlNode(Node):
             self.steering_callback,
             1)
 
+        self.drive_mode_sub = self.create_subscription(
+            String,
+            '/sdv/drive_mode',
+            self.drive_mode_callback,
+            1)
+
+        self.emergency_stop_sub = self.create_subscription(
+            String,
+            '/sdv/emergency_stop',
+            self.emergency_stop_callback,
+            1)
+        
         self.throttle = -1
         self.wheel_angle = -2
+        self.drive_mode = "Manual"
+        self.emergency_stop = "Deactivated"
         # *------------------* VANTTEC_IDS *------------------*
         self.admin_id = 0x401
         self.general_module_id_tx = 0x403
@@ -52,11 +66,19 @@ class SDVControlNode(Node):
                 "throttle": can.Message(arbitration_id=self.throttle_module_id,is_extended_id=False, data=[0x5,0x1]),
                 }
 
+    def emergency_stop_callback(self, msg):
+        self.emergency_stop = msg.data
+
+    def drive_mode_callback(self, msg):
+        self.drive_mode = msg.data
+
     def throttle_callback(self, msg):
-        if(msg.data != self.throttle):
-            self.car_messages["throttle"].data[1] = msg.data
-            self.bus.send(self.car_messages["throttle"],timeout=0.01)
-            self.throttle = msg.data
+        if self.emergency_stop=="Deactivated":
+            if self.drive_mode == "Automatico":
+                if(msg.data != self.throttle):
+                    self.car_messages["throttle"].data[1] = msg.data
+                    self.bus.send(self.car_messages["throttle"],timeout=0.01)
+                    self.throttle = msg.data
 
     def steering_callback(self, msg):
         # delta = 0.0454*wheel
@@ -76,14 +98,14 @@ class SDVControlNode(Node):
         # # print(normalized_wheel_angle)
         # self.get_logger().info("Wheel angle = %f" % wheel_angle)
         self.get_logger().info("Normalized wheel angle = %f" % normalized_wheel_angle)
-
-
-        if(normalized_wheel_angle != self.wheel_angle):
-            steer_data = bytearray(struct.pack("f", normalized_wheel_angle))
-            #Insert ID so it can select the proper STM32 Task
-            steer_data.insert(0, self.steer_task_id_control)
-            self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=steer_data), timeout=0.1)
-            self.wheel_angle = normalized_wheel_angle
+        if self.emergency_stop=="Deactivated":
+            if self.drive_mode == "Automatico":
+                if(normalized_wheel_angle != self.wheel_angle):
+                    steer_data = bytearray(struct.pack("f", normalized_wheel_angle))
+                    #Insert ID so it can select the proper STM32 Task
+                    steer_data.insert(0, self.steer_task_id_control)
+                    self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=steer_data), timeout=0.1)
+                    self.wheel_angle = normalized_wheel_angle
 
 
 

@@ -36,6 +36,8 @@ class XboxNode(Node):
         self.car_mode_id = 0x7
 
         self.drive_mode_sent = False
+        
+        self.admin_general = True  # False if the vehicle will use the general module 
 
         # *------------------* VANTTEC_IDS *------------------*
         self.admin_id = 0x401
@@ -125,17 +127,37 @@ class XboxNode(Node):
         # *------------------* PUBLISHERS *------------------*
         #self.xbox_status_pub = self.create_publisher(XboxMsg, 'xbox_controller/status', 10)
         self.panel_xbox_pub = self.create_publisher(PanelMsg, '/sdv/xbox_controller/xbox_panel', 10) 
-        self.drive_mode_pub = self.create_publisher(String, '/sdv/xbox_controller/drive_mode', 10) 
+        self.drive_mode_xbox_pub = self.create_publisher(String, '/sdv/xbox_controller/drive_mode', 10) 
         self.steer_mode_pub = self.create_publisher(String, '/sdv/xbox_controller/steer_mode', 10)
         self.motor_mode_pub = self.create_publisher(String, '/sdv/xbox_controller/motor_mode', 10) 
+        self.drive_mode_pub = self.create_publisher(String, '/sdv/drive_mode', 10) 
+        self.emergency_stop_pub = self.create_publisher(String, '/sdv/emergency_stop', 10) 
         self.steering_pub = self.create_publisher(Vector3, '/steering_brake', 10)
 
         # *------------------* TIMER_CALLBACKS *------------------*
         timer_period = 0.1 #1 second
         self.timer=self.create_timer(timer_period,self.xbox_timer)
+        self.timer_drive_mode=self.create_timer(timer_period,self.timer_drive_mode)
 
     # def drive_mode_callback(self,msg):
     #     self.drive_mode = msg.data
+    def timer_drive_mode(self, msg):
+        if self.admin_general != True:
+            receivedMsg = self.bus.recv(1)
+            if receivedMsg is not None:
+                if receivedMsg.arbitration_id == self.general_module_id_tx:
+                    if receivedMsg.data[0] == 0x0:
+                        if receivedMsg.data[1]:
+                            self.emergency_stop_pub.publish("Activated")
+                        else:
+                            self.emergency_stop_pub.publish("Deactivated")
+                    elif receivedMsg.data[0] == 0x2:
+                        if receivedMsg.data[1]:
+                            self.drive_mode_pub.publish("Automatico")
+                        else:
+                            self.drive_mode_pub.publish("Manual")
+
+        
 
     def encoder_callback(self,msg):
         self.steering_wheel_angle = msg.abs_angle
@@ -236,27 +258,29 @@ class XboxNode(Node):
             self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=steer_data), timeout=0.1)
         self.prev_steer_data = steer_data
 
-    def publish_drive_mode(self):
+    def publish_drive_mode_xbox(self):
         #Toggle car mode and pedal with XBOX controller   
         start_btn = bool(self.joy_stick.Start())
         if not self.prev_start_btn_state and start_btn:
             drive_mode_msg = String()
-            if self.drive_mode == "No_Xbox_Controller":
+            if self.drive_mode_xbox == "No_Xbox_Controller":
                 #Activate driver pedal
                 drive_mode_msg.data = "Xbox_Controller"
-                self.drive_mode_pub.publish(drive_mode_msg)
-                self.drive_mode = "Xbox_Controller"
-                self.bus.send(self.drive_mode_dict["auto"],timeout=0.1)
+                self.drive_mode_xbox_pub.publish(drive_mode_msg)
+                self.drive_mode_xbox = "Xbox_Controller"
+                if self.admin_general:
+                    self.bus.send(self.drive_mode_dict["auto"],timeout=0.1)
             else:
                 #Activate digital potentiometer
                 drive_mode_msg.data = "No_Xbox_Controller"
-                self.drive_mode_pub.publish(drive_mode_msg)
-                self.drive_mode = "No_Xbox_Controller"     
-                self.bus.send(self.drive_mode_dict["manual"],timeout=0.1)
+                self.drive_mode_xbox_pub.publish(drive_mode_msg)
+                self.drive_mode_xbox = "No_Xbox_Controller"
+                if self.admin_general:
+                    self.bus.send(self.drive_mode_dict["manual"],timeout=0.1)
             self.drive_mode_sent = False 
             self.ask_status_general = True
         self.prev_start_btn_state = start_btn
-        self.get_logger().info(self.drive_mode)
+        self.get_logger().info(self.drive_xbox_mode)
 
     def publish_xbox_mode(self):
         #Toggle car mode and pedal with XBOX controller   
@@ -323,7 +347,7 @@ class XboxNode(Node):
 
         if self.prev_general_msg != self.general_msg:
 
-            if self.drive_mode=="Xbox_Controller" :
+            if self.drive_mode_xbox=="Xbox_Controller" :
                 #See Status of buttons general module and inform User if neccessary
                 status_buttons  = self.uint8_to_bool_list(self.general_msg)
                 main_dr, aux_dr, main_es, aux_es = status_buttons[7], status_buttons[6], status_buttons[5], status_buttons[4]
@@ -332,7 +356,7 @@ class XboxNode(Node):
 
     def xbox_timer(self):
         if self.joy_stick.connected():
-            self.publish_drive_mode()
+            self.publish_drive_mode_xbox()
             self.publish_xbox_mode()
             self.analyse_drive_mode()
             self.reset_encoder_ifm()
