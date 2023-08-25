@@ -27,14 +27,14 @@ def generate_launch_description():
    #    parameters=[can_params]
    # )
 
-   # encoder_node = Node(
-   #    package='sdv_can',
-   #    executable='encoder_rm8004.py',
-   #    namespace="can_devices",
-   #    output='screen',
-   #    name='encoder_rm8004',
-   #    parameters=[can_params]
-   # )
+   encoder_node = Node(
+      package='sdv_can',
+      executable='encoder_rm8004.py',
+      namespace="can_devices",
+      output='screen',
+      name='encoder_rm8004',
+      parameters=[can_params]
+   )
 
    xbox_node = Node(
       package='sdv_can',
@@ -48,7 +48,7 @@ def generate_launch_description():
    )
 
    return LaunchDescription([
-      xbox_node,
+      # xbox_node,
       # can_node,
-      # encoder_node
+      encoder_node
    ])

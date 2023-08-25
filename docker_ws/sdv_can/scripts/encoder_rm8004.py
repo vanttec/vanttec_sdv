@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import can
 import can.interfaces.socketcan as socketcan
@@ -26,6 +26,9 @@ class RM8004Encoder(Node):
 
         channel = self.get_parameter('channel').value
         bitrate = self.get_parameter('bitrate').value
+
+        self.get_logger().info("%s" %channel)
+        self.get_logger().info("%s" %bitrate)
 
         self.car_steering_range = 1279 #degrees
         self.car_steering_range_pos = self.car_steering_range*self.revolutions//self.degrees
