@@ -48,7 +48,7 @@ def generate_launch_description():
    )
 
    return LaunchDescription([
-      # xbox_node,
+      xbox_node,
       # can_node,
       encoder_node
    ])

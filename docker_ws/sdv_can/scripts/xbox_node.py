@@ -140,7 +140,7 @@ class XboxNode(Node):
 
     # def drive_mode_callback(self,msg):
     #     self.drive_mode = msg.data
-    def timer_drive_mode(self, msg):
+    def timer_drive_mode(self):
         if self.admin_general != True:
             receivedMsg = self.bus.recv(1)
             if receivedMsg is not None:
