@@ -1,10 +1,12 @@
+#!/usr/bin/env python3
+
 import rclpy
 from rclpy.node import Node
 import can
 import struct
 from numpy import interp
 
-import xbox_controller.xbox_driver as xbox_driver
+import xbox_driver as xbox_driver
 from std_msgs.msg import String, UInt8, Float32
 from geometry_msgs.msg import Vector3
 from sdv_msgs.msg import Encoder, PanelMsg#, XboxMsg, ThrottleMsg, VehicleControl 
@@ -22,13 +24,10 @@ class XboxNode(Node):
         self.encoder_mode = "No_Reset_Encoder"
         self.prev_encoder_btn_state = False
 
-
-
         self.controller_connected = False
         self.controller_stop = True
 
         self.joy_stick = xbox_driver.Joystick(50)
-        
 
         self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000)
 
@@ -141,7 +140,7 @@ class XboxNode(Node):
 
     # def drive_mode_callback(self,msg):
     #     self.drive_mode = msg.data
-    def timer_drive_mode(self, msg):
+    def timer_drive_mode(self):
         if self.admin_general != True:
             receivedMsg = self.bus.recv(1)
             if receivedMsg is not None:
@@ -280,7 +279,6 @@ class XboxNode(Node):
             self.drive_mode_sent = False 
             self.ask_status_general = True
         self.prev_start_btn_state = start_btn
-        self.get_logger().info(self.drive_xbox_mode)
 
     def publish_xbox_mode(self):
         #Toggle car mode and pedal with XBOX controller   

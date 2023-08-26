@@ -76,15 +76,6 @@ def generate_launch_description():
       arguments=['-d', rviz_config]
    )
 
-   can_node = Node(
-      package='sdv_control',
-      executable='can_node.py',
-      namespace="can_devices",
-      output="screen",
-      name='can_node',
-      parameters=[car_params]
-   )
-
    waypoint_handler = Node(
       package='sdv_control',
       executable='waypoint_handler.py',
@@ -131,6 +122,5 @@ def generate_launch_description():
       # rviz,
       # sdv_description_launch,
       # sdv_loc_launch,
-      can_node,
       encoder_node
    ])

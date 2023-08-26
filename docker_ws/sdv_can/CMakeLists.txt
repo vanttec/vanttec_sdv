@@ -7,6 +7,7 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
@@ -25,10 +26,28 @@ add_subdirectory(libs/vanttec_CANLib)
 target_link_libraries(can_node Vanttec_CANLibLIB)
 # include_directories(libs/vanttec_CANLib/platform_specific/vanttec_canlib_linux)
 
+install(DIRECTORY launch 
+  DESTINATION share/${PROJECT_NAME}
+)
+
+install(DIRECTORY
+  config
+  DESTINATION share/${PROJECT_NAME}
+)
+
 install(
   TARGETS
   can_node
   DESTINATION lib/${PROJECT_NAME}/
+)
+
+install(PROGRAMS
+  scripts/can_node.py
+  scripts/encoder_rm8004.py
+  scripts/encoder_briter.py
+  scripts/xbox_driver.py
+  scripts/xbox_node.py
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)
