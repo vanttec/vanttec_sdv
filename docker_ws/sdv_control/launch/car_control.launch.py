@@ -115,12 +115,12 @@ def generate_launch_description():
    )
 
    return LaunchDescription([
-      # waypoint_handler,
-      # car_control_node,
-      # car_guidance_node,
-      # tf2_node,
-      # rviz,
-      # sdv_description_launch,
-      # sdv_loc_launch,
-      encoder_node
+      waypoint_handler,
+      car_control_node,
+      car_guidance_node,
+      tf2_node,
+      rviz,
+      sdv_description_launch,
+      sdv_loc_launch
+      # encoder_node
    ])

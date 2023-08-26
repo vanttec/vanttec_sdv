@@ -97,9 +97,9 @@ class SDVControlNode(Node):
         normalized_wheel_angle = msg.data
         # # print(normalized_wheel_angle)
         # self.get_logger().info("Wheel angle = %f" % wheel_angle)
-        self.get_logger().info("Normalized wheel angle = %f" % normalized_wheel_angle)
         if self.emergency_stop=="Deactivated":
             if self.drive_mode == "Automatico":
+                self.get_logger().info("Normalized wheel angle = %f" % normalized_wheel_angle)
                 if(normalized_wheel_angle != self.wheel_angle):
                     steer_data = bytearray(struct.pack("f", normalized_wheel_angle))
                     #Insert ID so it can select the proper STM32 Task
