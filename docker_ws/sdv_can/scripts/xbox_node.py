@@ -15,10 +15,10 @@ class XboxNode(Node):
     def __init__(self):
         super().__init__('xbox_node')
 
-        self.drive_mode = "No_Xbox_Controller"
+        self.xbox_mode = "No_Xbox_Controller"
         self.prev_start_btn_state = False
 
-        self.steer_mode = "Setpoint_Controller"
+        self.auto_mode = "Setpoint_Controller"
         self.prev_steer_btn_state = False
 
         self.encoder_mode = "No_Reset_Encoder"
@@ -127,7 +127,7 @@ class XboxNode(Node):
         #self.xbox_status_pub = self.create_publisher(XboxMsg, 'xbox_controller/status', 10)
         self.panel_xbox_pub = self.create_publisher(PanelMsg, '/sdv/xbox_controller/xbox_panel', 10) 
         self.xbox_status_pub = self.create_publisher(String, '/sdv/xbox_controller/status', 10) 
-        self.steer_mode_pub = self.create_publisher(String, '/sdv/xbox_controller/steer_mode', 10)
+        self.auto_mode_pub = self.create_publisher(String, '/sdv/xbox_controller/auto_mode', 10)
         self.motor_mode_pub = self.create_publisher(String, '/sdv/xbox_controller/motor_mode', 10) 
         self.drive_mode_pub = self.create_publisher(String, '/sdv/drive_mode', 10) 
         self.emergency_stop_pub = self.create_publisher(String, '/sdv/emergency_stop', 10) 
@@ -139,7 +139,7 @@ class XboxNode(Node):
         self.timer_drive_mode=self.create_timer(timer_period,self.timer_drive_mode)
 
     # def drive_mode_callback(self,msg):
-    #     self.drive_mode = msg.data
+    #     self.xbox_mode = msg.data
     def timer_drive_mode(self):
         msg = String()
         if self.admin_general != True:
@@ -154,7 +154,7 @@ class XboxNode(Node):
                         self.emergency_stop_pub.publish(msg)
                     elif receivedMsg.data[0] == 0x2:
                         if receivedMsg.data[1]:
-                            msg.data = "Automatico"
+                            msg.data = "Automatic"
                         else:
                             msg.data = "Manual"
                         self.drive_mode_pub.publish(msg)
@@ -165,7 +165,7 @@ class XboxNode(Node):
     # USE THIS CALLBACK ONLY WHEN CHARACTERIZATION OF THE VEHICLE IS REQUIRED.
     # COMMENT IT OUT OTHERWISE. DO NOT USE THIS METHOD TO CONTROL THE CAR.
     def pot_callback(self, msg):
-        if self.drive_mode == "Xbox_Controller":
+        if self.xbox_mode == "Xbox_Controller":
             if self.limit_pot != msg.data:
                 self.limit_pot = msg.data
                 self.get_logger().info('Pot: '+ str(self.limit_pot))
@@ -262,49 +262,49 @@ class XboxNode(Node):
         #Toggle car mode and pedal with XBOX controller   
         start_btn = bool(self.joy_stick.Start())
         if not self.prev_start_btn_state and start_btn:
-            drive_mode_msg = String()
-            if self.drive_mode == "No_Xbox_Controller":
+            xbox_status_msg = String()
+            if self.xbox_mode == "No_Xbox_Controller":
                 #Activate driver pedal
-                drive_mode_msg.data = "Xbox_Controller"
-                self.xbox_status_pub.publish(drive_mode_msg)
-                self.drive_mode = "Xbox_Controller"
+                xbox_status_msg.data = "Xbox_Controller"
+                self.xbox_status_pub.publish(xbox_status_msg)
+                self.xbox_mode = "Xbox_Controller"
                 if self.admin_general:
                     self.bus.send(self.drive_mode_dict["auto"],timeout=0.1)
-                    drive_mode_msg.data = "Automatico"
-                    self.drive_mode_pub.publish(drive_mode_msg)
+                    xbox_status_msg.data = "Automatic"
+                    self.drive_mode_pub.publish(xbox_status_msg)
             else:
                 #Activate digital potentiometer
-                drive_mode_msg.data = "No_Xbox_Controller"
-                self.xbox_status_pub.publish(drive_mode_msg)
-                self.drive_mode = "No_Xbox_Controller"
+                xbox_status_msg.data = "No_Xbox_Controller"
+                self.xbox_status_pub.publish(xbox_status_msg)
+                self.xbox_mode = "No_Xbox_Controller"
                 if self.admin_general:
                     self.bus.send(self.drive_mode_dict["manual"],timeout=0.1)
-                    drive_mode_msg.data = "Manual"
-                    self.drive_mode_pub.publish(drive_mode_msg)
+                    xbox_status_msg.data = "Manual"
+                    self.drive_mode_pub.publish(xbox_status_msg)
             self.drive_mode_sent = False 
             self.ask_status_general = True
         self.prev_start_btn_state = start_btn
-        self.get_logger().info(self.drive_mode)
+        self.get_logger().info(self.xbox_mode)
 
     def publish_xbox_mode(self):
         #Toggle car mode and pedal with XBOX controller   
         steer_btn = bool(self.joy_stick.A())
         if not self.prev_steer_btn_state and steer_btn:
-            steer_mode_msg = String()
-            if self.steer_mode == "Setpoint_Controller":
+            auto_mode_pub = String()
+            if self.auto_mode == "Setpoint_Controller":
                 #Activate driver pedal
-                steer_mode_msg.data = "Joystick_Controller"
-                self.steer_mode_pub.publish(steer_mode_msg)
-                self.steer_mode = "Joystick_Controller"
+                auto_mode_pub.data = "Joystick_Controller"
+                self.auto_mode_pub.publish(auto_mode_pub)
+                self.auto_mode = "Joystick_Controller"
                 self.bus.send(self.drive_mode_dict["xbox_controller"],timeout=0.1)
             else:
                 #Activate digital potentiometer
-                steer_mode_msg.data = "Setpoint_Controller"
-                self.steer_mode_pub.publish(steer_mode_msg)
-                self.steer_mode = "Setpoint_Controller"     
+                auto_mode_pub.data = "Setpoint_Controller"
+                self.auto_mode_pub.publish(auto_mode_pub)
+                self.auto_mode = "Setpoint_Controller"     
                 self.bus.send(self.drive_mode_dict["no_xbox_controller"],timeout=0.1)
         self.prev_steer_btn_state = steer_btn
-        self.get_logger().info(self.steer_mode)
+        self.get_logger().info(self.auto_mode)
 
     def reset_encoder_ifm(self):
         #Toggle car mode and pedal with XBOX controller   
@@ -364,8 +364,8 @@ class XboxNode(Node):
             self.publish_xbox_mode()
             self.analyse_drive_mode()
             self.reset_encoder_ifm()
-            if self.drive_mode == "Xbox_Controller":
-                if self.steer_mode=="Joystick_Controller":
+            if self.xbox_mode == "Xbox_Controller":
+                if self.auto_mode=="Joystick_Controller":
                     self.lateral_control()
                     self.longitudinal_control()
                 # self.xbox_info.connected.data = self.joy_stick.connected()
@@ -385,7 +385,7 @@ class XboxNode(Node):
                 #Publish Xbox information
                 #self.xbox_status_pub.publish(self.xbox_info)
             # else:
-            # self.get_logger().warn("Drive mode: " + self.drive_mode)
+            # self.get_logger().warn("Drive mode: " + self.xbox_mode)
             # self.get_logger().info('Data: "%f"' % self.xbox_info.leftx.data)
 
   
