@@ -54,6 +54,8 @@ class SDVControlNode(Node):
         self.steering_mode = "Joystick_Controller"
         self.prev_steering_mode = "Joystick_Controller"
         self.emergency_stop = "Deactivated"
+
+        # self.prev_delta_angle = 0
         # *------------------* VANTTEC_IDS *------------------*
         self.admin_id = 0x401
         self.general_module_id_tx = 0x403
@@ -95,6 +97,12 @@ class SDVControlNode(Node):
         MAX_STEERING_WHEEL_ANGLE = 600 - ERROR_OFFSET # degrees
         MIN_STEERING_WHEEL_ANGLE = -400 + ERROR_OFFSET # degrees
 
+        # ERROR_OFFSET_RAD = 10 / 57.2958
+
+        # If the difference between consecutive delta angles is too low, do not publish it
+        # if(abs(delta.data - self.prev_delta_angle) < ERROR_OFFSET_RAD):
+
+
         # WHEN delta.data = 0.541052 the result is less than 700, which is the real max steering wheel angle, so it is safe
         delta_angle = delta.data
 
@@ -108,9 +116,11 @@ class SDVControlNode(Node):
 
         normalized_wheel_angle = wheel_angle / MAX_STEERING_WHEEL_ANGLE if delta_angle >= 0 else wheel_angle / -MIN_STEERING_WHEEL_ANGLE
 
+        # self.get_logger().info("Wheel angle = %f" % wheel_angle)
         # self.get_logger().info("Normalized wheel angle = " + str(normalized_wheel_angle))
 
-        self.get_logger().info("Wheel angle = %f" % wheel_angle)
+        self.prev_delta_angle = delta_angle
+        
         if self.emergency_stop=="Deactivated":
             if self.prev_steering_mode == "Joystick_Controller" and self.steering_mode =="Setpoint_Controller":
                     steer_data = bytearray(struct.pack("f", normalized_wheel_angle))
@@ -118,10 +128,8 @@ class SDVControlNode(Node):
                     steer_data.insert(0, self.steer_task_id_control)
                     self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=steer_data), timeout=0.1)
                     self.wheel_angle = normalized_wheel_angle
-                    self.get_logger().info('A')
             else:
                 if self.steering_mode == "Setpoint_Controller":
-                    self.get_logger().info('B')
                     self.get_logger().info("Normalized wheel angle = %f" % normalized_wheel_angle)
                     if(normalized_wheel_angle != self.wheel_angle):
                         steer_data = bytearray(struct.pack("f", normalized_wheel_angle))

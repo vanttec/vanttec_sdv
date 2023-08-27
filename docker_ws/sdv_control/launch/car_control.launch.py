@@ -21,7 +21,7 @@ def generate_launch_description():
    rviz_config = os.path.join(
       get_package_share_directory('sdv_control'),
       'launch/rviz_cfg',
-      'sdv_parking_lot_cetec.rviz'
+      'sdv_parking_lot_cetec2.rviz'
       # 'sdv_sim_wpnts.rviz'
    )
 
@@ -105,22 +105,12 @@ def generate_launch_description():
       ])
    )
 
-   encoder_node = Node(
-      package='encoder',
-      executable='encoder_rm8004',
-      namespace="can_devices",
-      output='screen',
-      name='encoder_rm8004',
-      parameters=[car_params]
-   )
-
    return LaunchDescription([
       waypoint_handler,
-      car_control_node,
+      # car_control_node,
       car_guidance_node,
-      tf2_node,
+      # tf2_node,
       rviz,
       sdv_description_launch,
       sdv_loc_launch
-      # encoder_node
    ])
