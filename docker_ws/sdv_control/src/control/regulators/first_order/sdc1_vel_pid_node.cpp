@@ -20,6 +20,7 @@
 #include "std_msgs/msg/multi_array_dimension.hpp"
 #include "std_msgs/msg/float32.hpp"
 #include "std_msgs/msg/u_int8.hpp"
+#include "std_msgs/msg/string.hpp"
 #include "diagnostic_msgs/msg/diagnostic_status.hpp"
 #include "diagnostic_msgs/msg/key_value.hpp"
 
@@ -35,6 +36,7 @@ class CarControlNode : public rclcpp::Node
         float sample_time_;
         bool is_simulation_;
         bool vel_msgs_received_{false};
+        std::string drive_mode_;
         
         /* PID Params */
         float kp_;
@@ -66,6 +68,7 @@ class CarControlNode : public rclcpp::Node
         rclcpp::Subscription<vectornav_msgs::msg::InsGroup>::SharedPtr current_velocity_;
         rclcpp::Subscription<vectornav_msgs::msg::CommonGroup>::SharedPtr current_attitude_;
         rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr desired_velocity_;
+        rclcpp::Subscription<std_msgs::msg::String>::SharedPtr drive_mode_sub_;
 
         // rclcpp::Publisher<sdv_msgs::msg::ThrustControl>::SharedPtr car_force_;
 
@@ -79,25 +82,32 @@ class CarControlNode : public rclcpp::Node
 
             model_->updateNonLinearFunctions();
             
-            if(is_simulation_){
-                model_->calculateControlSignals();
-                model_->updateControlSignals();
-                model_->updateDBSignals(vel_d_);
-
-                /* Publish Odometry */
-                car_accel_->publish(model_->accelerations_);
-                car_vel_->publish(model_->velocities_);
-                car_eta_pose_->publish(model_->eta_pose_);
-
-            } else {
-                if(vel_msgs_received_){
-                    RCLCPP_INFO(this->get_logger(), "Vectornav vel received");
-                    model_->calculateControlSignals(vel_body_x_);
+                if(is_simulation_){
+                    model_->calculateControlSignals();
                     model_->updateControlSignals();
                     model_->updateDBSignals(vel_d_);
-                } else
-                    RCLCPP_INFO(this->get_logger(), "Waiting for vectornav");
-            }
+
+                    /* Publish Odometry */
+                    car_accel_->publish(model_->accelerations_);
+                    car_vel_->publish(model_->velocities_);
+                    car_eta_pose_->publish(model_->eta_pose_);
+
+                } else {
+
+                    if(drive_mode_ == "Automatico"){
+                        RCLCPP_INFO(this->get_logger(), "Autonomous mode enabled");
+
+                        if(vel_msgs_received_){
+                            RCLCPP_INFO(this->get_logger(), "Vectornav vel received");
+                            model_->calculateControlSignals(vel_body_x_);
+                            model_->updateControlSignals();
+                            model_->updateDBSignals(vel_d_);
+                        } else
+                            RCLCPP_INFO(this->get_logger(), "Waiting for vectornav");
+                    } else {
+                        RCLCPP_WARN(this->get_logger(), "Warning: Manual mode enabled");
+                    }
+                }
             
 
             /* Publish diagnostics */
@@ -150,6 +160,11 @@ class CarControlNode : public rclcpp::Node
             model_->setSteering(msg.data);
         }
 
+        void set_drive_mode(const std_msgs::msg::String& msg)
+        {
+            drive_mode_ = msg.data;
+        }
+
     public:
         CarControlNode() : Node("car_control_node")
         {
@@ -200,6 +215,8 @@ class CarControlNode : public rclcpp::Node
                                 1, std::bind(&CarControlNode::set_pitch, this, std::placeholders::_1));
             current_velocity_ = this->create_subscription<vectornav_msgs::msg::InsGroup>("/vectornav/raw/ins",
                                 1, std::bind(&CarControlNode::save_velocity, this, std::placeholders::_1));
+            drive_mode_sub_   = this->create_subscription<std_msgs::msg::String>("/sdv/drive_mode",
+                                1, std::bind(&CarControlNode::set_drive_mode, this, std::placeholders::_1));
 
             throttle_diag_.name = "Throttle command (D)";
             throttle_diag_.message = "Integer in the range of [0, 255] for motor controller";

@@ -193,7 +193,7 @@ class CarGuidanceNode : public rclcpp::Node
 
         void set_yaw(const vectornav_msgs::msg::CommonGroup::SharedPtr msg_in)
         {
-            psi_ = msg_in->yawpitchroll.x;
+            psi_ = msg_in->yawpitchroll.x * M_PI / 180;
             vehicle_yaw_msgs_received_ = true;
         }
 

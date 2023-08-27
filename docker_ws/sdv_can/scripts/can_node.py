@@ -37,10 +37,10 @@ class SDVControlNode(Node):
             self.steering_callback,
             1)
 
-        self.drive_mode_sub = self.create_subscription(
+        self.steer_mode_pub = self.create_subscription(
             String,
-            '/sdv/drive_mode',
-            self.drive_mode_callback,
+            '/sdv/xbox_controller/steer_mode',
+            self.steer_mode_callback,
             1)
 
         self.emergency_stop_sub = self.create_subscription(
@@ -51,8 +51,11 @@ class SDVControlNode(Node):
         
         self.throttle = -1
         self.wheel_angle = -2
-        self.drive_mode = "Manual"
+        self.steering_mode = "Joystick_Controller"
+        self.prev_steering_mode = "Joystick_Controller"
         self.emergency_stop = "Deactivated"
+
+        # self.prev_delta_angle = 0
         # *------------------* VANTTEC_IDS *------------------*
         self.admin_id = 0x401
         self.general_module_id_tx = 0x403
@@ -69,44 +72,73 @@ class SDVControlNode(Node):
     def emergency_stop_callback(self, msg):
         self.emergency_stop = msg.data
 
-    def drive_mode_callback(self, msg):
-        self.drive_mode = msg.data
+    def steer_mode_callback(self, msg):
+        self.steering_mode = msg.data
 
     def throttle_callback(self, msg):
         if self.emergency_stop=="Deactivated":
-            if self.drive_mode == "Automatico":
+            if self.steering_mode == "Setpoint_Controller":
                 if(msg.data != self.throttle):
                     self.car_messages["throttle"].data[1] = msg.data
                     self.bus.send(self.car_messages["throttle"],timeout=0.01)
                     self.throttle = msg.data
 
-    def steering_callback(self, msg):
-        # delta = 0.0454*wheel
-        # MAX DELTA = 31 degrees = 0.541052 rads
-        # MIN DELTA = -22.5 degrees = -0.3926991 rads
+    def steering_callback(self, delta):
+        # Steering to steering wheel relation:
+        # delta in rads
+        # wheel angle in degrees
+        # delta = 0.0454 * wheel / 57.2958
+
+        # REAL MAX DELTA = 31 degrees = 0.541052 rads
+        # REAL MIN DELTA = -22.5 degrees = -0.3926991 rads
 
         # MAKE SURE THESE STEERING WHEEL VALS ARE THE SAME AS IN THE STEERING PCB!!!!!
-        # MAX_STEERING_WHEEL_ANGLE = 700 # degrees
-        # MIN_STEERING_WHEEL_ANGLE = -470 # degrees
+        ERROR_OFFSET = 10
+        MAX_STEERING_WHEEL_ANGLE = 600 - ERROR_OFFSET # degrees
+        MIN_STEERING_WHEEL_ANGLE = -400 + ERROR_OFFSET # degrees
 
-        # # WHEN msg.data = 0.541052 the result is less than 700, so it is safe
-        # wheel_angle = msg.data * 57.2958 / 0.0454 # degrees
+        # ERROR_OFFSET_RAD = 10 / 57.2958
 
-        # normalized_wheel_angle = wheel_angle / MAX_STEERING_WHEEL_ANGLE if msg.data >= 0 else wheel_angle / -MIN_STEERING_WHEEL_ANGLE
+        # If the difference between consecutive delta angles is too low, do not publish it
+        # if(abs(delta.data - self.prev_delta_angle) < ERROR_OFFSET_RAD):
 
-        normalized_wheel_angle = msg.data
-        # # print(normalized_wheel_angle)
+
+        # WHEN delta.data = 0.541052 the result is less than 700, which is the real max steering wheel angle, so it is safe
+        delta_angle = delta.data
+
+        if(delta_angle > MAX_STEERING_WHEEL_ANGLE*0.0454/57.2958):
+            delta_angle = MAX_STEERING_WHEEL_ANGLE*0.0454/57.2958
+        else:
+            if(delta_angle < MIN_STEERING_WHEEL_ANGLE*0.0454/57.2958):
+                delta_angle = MIN_STEERING_WHEEL_ANGLE*0.0454/57.2958
+
+        wheel_angle = delta_angle * 57.2958 / 0.0454 # degrees
+
+        normalized_wheel_angle = wheel_angle / MAX_STEERING_WHEEL_ANGLE if delta_angle >= 0 else wheel_angle / -MIN_STEERING_WHEEL_ANGLE
+
         # self.get_logger().info("Wheel angle = %f" % wheel_angle)
-        self.get_logger().info("Normalized wheel angle = %f" % normalized_wheel_angle)
+        # self.get_logger().info("Normalized wheel angle = " + str(normalized_wheel_angle))
+
+        self.prev_delta_angle = delta_angle
+        
         if self.emergency_stop=="Deactivated":
-            if self.drive_mode == "Automatico":
-                if(normalized_wheel_angle != self.wheel_angle):
+            if self.prev_steering_mode == "Joystick_Controller" and self.steering_mode =="Setpoint_Controller":
                     steer_data = bytearray(struct.pack("f", normalized_wheel_angle))
                     #Insert ID so it can select the proper STM32 Task
                     steer_data.insert(0, self.steer_task_id_control)
                     self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=steer_data), timeout=0.1)
                     self.wheel_angle = normalized_wheel_angle
+            else:
+                if self.steering_mode == "Setpoint_Controller":
+                    self.get_logger().info("Normalized wheel angle = %f" % normalized_wheel_angle)
+                    if(normalized_wheel_angle != self.wheel_angle):
+                        steer_data = bytearray(struct.pack("f", normalized_wheel_angle))
+                        #Insert ID so it can select the proper STM32 Task
+                        steer_data.insert(0, self.steer_task_id_control)
+                        self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=steer_data), timeout=0.1)
+                        self.wheel_angle = normalized_wheel_angle
 
+            self.prev_steering_mode = self.steering_mode
 
 
 def main(args=None):
