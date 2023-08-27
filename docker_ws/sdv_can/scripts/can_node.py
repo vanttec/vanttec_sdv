@@ -37,10 +37,15 @@ class SDVControlNode(Node):
             self.steering_callback,
             1)
 
-        self.steer_mode_pub = self.create_subscription(
+        self.auto_mode_sub = self.create_subscription(
             String,
-            '/sdv/xbox_controller/steer_mode',
-            self.steer_mode_callback,
+            '/sdv/xbox_controller/auto_mode',
+            self.auto_mode_callback,
+            1)
+        self.drive_mode_sub = self.create_subscription(
+            String,
+            '/sdv/drive_mode',
+            self.drive_mode_callback,
             1)
 
         self.emergency_stop_sub = self.create_subscription(
@@ -51,9 +56,10 @@ class SDVControlNode(Node):
         
         self.throttle = -1
         self.wheel_angle = -2
-        self.steering_mode = "Joystick_Controller"
-        self.prev_steering_mode = "Joystick_Controller"
+        self.auto_mode = "Joystick_Controller"
+        self.prev_auto_mode = "Joystick_Controller"
         self.emergency_stop = "Deactivated"
+        self.drive_mode == "Manual"
 
         # self.prev_delta_angle = 0
         # *------------------* VANTTEC_IDS *------------------*
@@ -72,16 +78,19 @@ class SDVControlNode(Node):
     def emergency_stop_callback(self, msg):
         self.emergency_stop = msg.data
 
-    def steer_mode_callback(self, msg):
-        self.steering_mode = msg.data
+    def auto_mode_callback(self, msg):
+        self.auto_mode = msg.data
+    def drive_mode_callback(self, msg):
+        self.drive_mode = msg.data
 
     def throttle_callback(self, msg):
         if self.emergency_stop=="Deactivated":
-            if self.steering_mode == "Setpoint_Controller":
-                if(msg.data != self.throttle):
-                    self.car_messages["throttle"].data[1] = msg.data
-                    self.bus.send(self.car_messages["throttle"],timeout=0.01)
-                    self.throttle = msg.data
+            if self.drive_mode == "Automatic":
+                if self.auto_mode == "Setpoint_Controller":
+                    if(msg.data != self.throttle):
+                        self.car_messages["throttle"].data[1] = msg.data
+                        self.bus.send(self.car_messages["throttle"],timeout=0.01)
+                        self.throttle = msg.data
 
     def steering_callback(self, delta):
         # Steering to steering wheel relation:
@@ -122,23 +131,23 @@ class SDVControlNode(Node):
         self.prev_delta_angle = delta_angle
         
         if self.emergency_stop=="Deactivated":
-            if self.prev_steering_mode == "Joystick_Controller" and self.steering_mode =="Setpoint_Controller":
-                    steer_data = bytearray(struct.pack("f", normalized_wheel_angle))
-                    #Insert ID so it can select the proper STM32 Task
-                    steer_data.insert(0, self.steer_task_id_control)
-                    self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=steer_data), timeout=0.1)
-                    self.wheel_angle = normalized_wheel_angle
-            else:
-                if self.steering_mode == "Setpoint_Controller":
-                    self.get_logger().info("Normalized wheel angle = %f" % normalized_wheel_angle)
-                    if(normalized_wheel_angle != self.wheel_angle):
+            if self.drive_mode == "Automatic":
+                if self.prev_auto_mode == "Joystick_Controller" and self.auto_mode =="Setpoint_Controller":
                         steer_data = bytearray(struct.pack("f", normalized_wheel_angle))
                         #Insert ID so it can select the proper STM32 Task
                         steer_data.insert(0, self.steer_task_id_control)
                         self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=steer_data), timeout=0.1)
                         self.wheel_angle = normalized_wheel_angle
-
-            self.prev_steering_mode = self.steering_mode
+                else:
+                    if self.auto_mode == "Setpoint_Controller":
+                        self.get_logger().info("Normalized wheel angle = %f" % normalized_wheel_angle)
+                        if(normalized_wheel_angle != self.wheel_angle):
+                            steer_data = bytearray(struct.pack("f", normalized_wheel_angle))
+                            #Insert ID so it can select the proper STM32 Task
+                            steer_data.insert(0, self.steer_task_id_control)
+                            self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=steer_data), timeout=0.1)
+                            self.wheel_angle = normalized_wheel_angle
+                self.prev_auto_mode = self.auto_mode
 
 
 def main(args=None):

@@ -37,6 +37,7 @@ class CarControlNode : public rclcpp::Node
         bool is_simulation_;
         bool vel_msgs_received_{false};
         std::string drive_mode_;
+        std:string auto_mode_;
         
         /* PID Params */
         float kp_;
@@ -69,6 +70,7 @@ class CarControlNode : public rclcpp::Node
         rclcpp::Subscription<vectornav_msgs::msg::CommonGroup>::SharedPtr current_attitude_;
         rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr desired_velocity_;
         rclcpp::Subscription<std_msgs::msg::String>::SharedPtr drive_mode_sub_;
+        rclcpp::Subscription<std_msgs::msg::String>::SharedPtr auto_mode_sub_;
 
         // rclcpp::Publisher<sdv_msgs::msg::ThrustControl>::SharedPtr car_force_;
 
@@ -94,7 +96,7 @@ class CarControlNode : public rclcpp::Node
 
                 } else {
 
-                    if(drive_mode_ == "Automatico"){
+                    if(drive_mode_ == "Automatic" && auto_mode_ == "Setpoint_Controller"){
                         RCLCPP_INFO(this->get_logger(), "Autonomous mode enabled");
 
                         if(vel_msgs_received_){
@@ -165,6 +167,10 @@ class CarControlNode : public rclcpp::Node
             drive_mode_ = msg.data;
         }
 
+        void set_auto_mode(const std_msgs::msg::String& msg)
+        {
+            auto_mode_ = msg.data;
+        }
     public:
         CarControlNode() : Node("car_control_node")
         {
@@ -217,6 +223,8 @@ class CarControlNode : public rclcpp::Node
                                 1, std::bind(&CarControlNode::save_velocity, this, std::placeholders::_1));
             drive_mode_sub_   = this->create_subscription<std_msgs::msg::String>("/sdv/drive_mode",
                                 1, std::bind(&CarControlNode::set_drive_mode, this, std::placeholders::_1));
+            auto_mode_sub_   = this->create_subscription<std_msgs::msg::String>("/sdv/xbox_controller/auto_mode",
+                    1, std::bind(&CarControlNode::set_auto_mode, this, std::placeholders::_1));
 
             throttle_diag_.name = "Throttle command (D)";
             throttle_diag_.message = "Integer in the range of [0, 255] for motor controller";
