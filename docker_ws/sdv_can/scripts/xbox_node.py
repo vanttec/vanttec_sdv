@@ -18,7 +18,7 @@ class XboxNode(Node):
         self.drive_mode = "No_Xbox_Controller"
         self.prev_start_btn_state = False
 
-        self.steer_mode = "No_Steer_Controller"
+        self.steer_mode = "Setpoint_Controller"
         self.prev_steer_btn_state = False
 
         self.encoder_mode = "No_Reset_Encoder"
@@ -126,7 +126,7 @@ class XboxNode(Node):
         # *------------------* PUBLISHERS *------------------*
         #self.xbox_status_pub = self.create_publisher(XboxMsg, 'xbox_controller/status', 10)
         self.panel_xbox_pub = self.create_publisher(PanelMsg, '/sdv/xbox_controller/xbox_panel', 10) 
-        self.drive_mode_xbox_pub = self.create_publisher(String, '/sdv/xbox_controller/drive_mode', 10) 
+        self.xbox_status_pub = self.create_publisher(String, '/sdv/xbox_controller/status', 10) 
         self.steer_mode_pub = self.create_publisher(String, '/sdv/xbox_controller/steer_mode', 10)
         self.motor_mode_pub = self.create_publisher(String, '/sdv/xbox_controller/motor_mode', 10) 
         self.drive_mode_pub = self.create_publisher(String, '/sdv/drive_mode', 10) 
@@ -157,7 +157,7 @@ class XboxNode(Node):
                             msg.data = "Automatico"
                         else:
                             msg.data = "Manual"
-                        self.drive_mode_pub.publish()
+                        self.drive_mode_pub.publish(msg)
 
     def encoder_callback(self,msg):
         self.steering_wheel_angle = msg.abs_angle
@@ -266,7 +266,7 @@ class XboxNode(Node):
             if self.drive_mode == "No_Xbox_Controller":
                 #Activate driver pedal
                 drive_mode_msg.data = "Xbox_Controller"
-                self.drive_mode_xbox_pub.publish(drive_mode_msg)
+                self.xbox_status_pub.publish(drive_mode_msg)
                 self.drive_mode = "Xbox_Controller"
                 if self.admin_general:
                     self.bus.send(self.drive_mode_dict["auto"],timeout=0.1)
@@ -275,11 +275,11 @@ class XboxNode(Node):
             else:
                 #Activate digital potentiometer
                 drive_mode_msg.data = "No_Xbox_Controller"
-                self.drive_mode_xbox_pub.publish(drive_mode_msg)
+                self.xbox_status_pub.publish(drive_mode_msg)
                 self.drive_mode = "No_Xbox_Controller"
                 if self.admin_general:
                     self.bus.send(self.drive_mode_dict["manual"],timeout=0.1)
-                    drive_mode_msg.data = "Automatico"
+                    drive_mode_msg.data = "Manual"
                     self.drive_mode_pub.publish(drive_mode_msg)
             self.drive_mode_sent = False 
             self.ask_status_general = True
@@ -291,17 +291,17 @@ class XboxNode(Node):
         steer_btn = bool(self.joy_stick.A())
         if not self.prev_steer_btn_state and steer_btn:
             steer_mode_msg = String()
-            if self.steer_mode == "No_Steer_Controller":
+            if self.steer_mode == "Setpoint_Controller":
                 #Activate driver pedal
-                steer_mode_msg.data = "Steer_Controller"
+                steer_mode_msg.data = "Joystick_Controller"
                 self.steer_mode_pub.publish(steer_mode_msg)
-                self.steer_mode = "Steer_Controller"
+                self.steer_mode = "Joystick_Controller"
                 self.bus.send(self.drive_mode_dict["xbox_controller"],timeout=0.1)
             else:
                 #Activate digital potentiometer
-                steer_mode_msg.data = "No_Steer_Controller"
+                steer_mode_msg.data = "Setpoint_Controller"
                 self.steer_mode_pub.publish(steer_mode_msg)
-                self.steer_mode = "No_Steer_Controller"     
+                self.steer_mode = "Setpoint_Controller"     
                 self.bus.send(self.drive_mode_dict["no_xbox_controller"],timeout=0.1)
         self.prev_steer_btn_state = steer_btn
         self.get_logger().info(self.steer_mode)
@@ -365,7 +365,7 @@ class XboxNode(Node):
             self.analyse_drive_mode()
             self.reset_encoder_ifm()
             if self.drive_mode == "Xbox_Controller":
-                if self.steer_mode=="Steer_Controller":
+                if self.steer_mode=="Joystick_Controller":
                     self.lateral_control()
                 #self.longitudinal_control()
                 # self.xbox_info.connected.data = self.joy_stick.connected()
