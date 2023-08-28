@@ -37,7 +37,7 @@ class CarControlNode : public rclcpp::Node
         bool is_simulation_;
         bool vel_msgs_received_{false};
         std::string drive_mode_;
-        std:string auto_mode_;
+        std::string auto_mode_;
         
         /* PID Params */
         float kp_;
@@ -77,14 +77,15 @@ class CarControlNode : public rclcpp::Node
         void timer_callback()
         {
 
-            /* calculate Model States */
-            model_->calculateModelParams();
-
-            model_->calculateStates();
-
-            model_->updateNonLinearFunctions();
-            
                 if(is_simulation_){
+
+                    /* calculate Model States */
+                    model_->calculateModelParams();
+
+                    model_->calculateStates();
+
+                    model_->updateNonLinearFunctions();
+
                     model_->calculateControlSignals();
                     model_->updateControlSignals();
                     model_->updateDBSignals(vel_d_);
@@ -100,6 +101,14 @@ class CarControlNode : public rclcpp::Node
                         RCLCPP_INFO(this->get_logger(), "Autonomous mode enabled");
 
                         if(vel_msgs_received_){
+
+                            /* calculate Model States */
+                            model_->calculateModelParams();
+
+                            model_->calculateStates();
+
+                            model_->updateNonLinearFunctions();
+
                             RCLCPP_INFO(this->get_logger(), "Vectornav vel received");
                             model_->calculateControlSignals(vel_body_x_);
                             model_->updateControlSignals();
@@ -154,12 +163,13 @@ class CarControlNode : public rclcpp::Node
 
         void set_pitch(const vectornav_msgs::msg::CommonGroup::SharedPtr msg_in) //const
         {
-            model_->setPitch(msg_in->yawpitchroll.y);
+            // model_->setPitch(msg_in->yawpitchroll.y * M_PI / 180);
         }
 
         void set_steering(const std_msgs::msg::Float32& msg) //const
         {
-            model_->setSteering(msg.data);
+            // model_->setSteering(msg.data);
+            model_->setSteering(0.0);
         }
 
         void set_drive_mode(const std_msgs::msg::String& msg)

@@ -59,7 +59,7 @@ class SDVControlNode(Node):
         self.auto_mode = "Joystick_Controller"
         self.prev_auto_mode = "Joystick_Controller"
         self.emergency_stop = "Deactivated"
-        self.drive_mode == "Manual"
+        self.drive_mode = "Manual"
 
         # self.prev_delta_angle = 0
         # *------------------* VANTTEC_IDS *------------------*
