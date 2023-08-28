@@ -16,7 +16,7 @@ def generate_launch_description():
 
    is_sim = DeclareLaunchArgument(
       'is_simulation',
-      default_value = 'true',
+      default_value = 'false',
       description = 'Defines if the application will run in simulation or in real life'
     )
    
@@ -25,7 +25,8 @@ def generate_launch_description():
       'launch/rviz_cfg',
 
       # For real life tests
-      'sdv_parking_lot_cetec2.rviz'
+      'sdv_anniversary.rviz'
+      # 'sdv_parking_lot_cetec2.rviz'
       # 'sdv_parking_lot_cetec.rviz'
 
       # --- For simulations ---
@@ -145,6 +146,6 @@ def generate_launch_description():
       tf2_node,
       rviz,
       sdv_description_launch,
-      sdv_loc_launch,
-      sdv_can_launch
+      # sdv_loc_launch
+      # sdv_can_launch
    ])

@@ -4,9 +4,12 @@ from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import PathJoinSubstitution, LaunchConfiguration
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 
 from launch.conditions import UnlessCondition
 
@@ -28,6 +31,17 @@ def generate_launch_description():
       parameters=[os.path.join(this_dir, 'config', 'vn_gps_node_params.yaml')],
       condition=UnlessCondition(LaunchConfiguration('is_simulation'))
     )
+
+    vectornav_launch = IncludeLaunchDescription(
+      PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+               FindPackageShare('vectornav'),
+               'launch',
+               'vectornav.launch.py'
+            ])
+      ]),
+      condition=UnlessCondition(LaunchConfiguration('is_simulation'))
+   )
     
     #ODOM is in NED frame since vn measurements are in that configuration, so the rotation from NED to ENU for MAP is necessary
     start_transform_odom_base_link = Node(
@@ -41,5 +55,6 @@ def generate_launch_description():
 
     ld.add_action(is_simulation)
     ld.add_action(start_odom_pub)
+    ld.add_action(vectornav_launch)
     ld.add_action(start_transform_odom_base_link)
     return ld
