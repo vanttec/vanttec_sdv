@@ -35,8 +35,14 @@ find_package(sbg_driver REQUIRED)
 # find_package(rclpy REQUIRED)
 
 # vncxx
-add_subdirectory(../sensors/vectornav/vectornav/vnproglib-1.2.0.0/cpp vn_build)
-add_subdirectory(../sensors/sbg_ros2_driver/external/sbgECom sbg_build)
+add_subdirectory(../sensors/vectornav/vectornav/vnproglib-1.2.0.0/cpp build)
+
+include_directories(
+  #${catkin_INCLUDE_DIRS}
+  ../sensors/sbg_ros2_driver/include/sbg_driver/
+  ../sensors/sbg_ros2_driver/external/sbgECom/common
+  ../sensors/sbg_ros2_driver/external/sbgECom/src
+)
 
 add_executable(vn_gps_pose src/gps_pose.cc)
 # add_executable(diagnostics src/diagnostics.cc)
@@ -47,11 +53,11 @@ ament_target_dependencies(vn_gps_pose rclcpp sensor_msgs vectornav_msgs tf2_geom
 # ament_target_dependencies(vslam_repub rclcpp sensor_msgs vectornav_msgs tf2_geometry_msgs nav_msgs sdv_localization_msgs)
 # ament_target_dependencies(isaac_awake rclcpp geometry_msgs)
 
-add_executable(sbg_gps_pose src/sbg_gps_pose.cc)
+add_executable(sbg_gps_pose src/sbg_gps_pose.cc
+              ../sensors/sbg_ros2_driver/external/sbgECom/src/sbgEComLib.h)
 ament_target_dependencies(sbg_gps_pose rclcpp sensor_msgs vectornav_msgs tf2_geometry_msgs nav_msgs sbg_driver std_srvs)
 
 target_link_libraries(vn_gps_pose vncxx )
-target_link_libraries(sbg_gps_pose sbgECom)
 
 # target_link_libraries(diagnostics vncxx )
 # target_link_libraries(vslam_repub vncxx )
