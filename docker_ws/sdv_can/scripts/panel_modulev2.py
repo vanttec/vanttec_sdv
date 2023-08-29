@@ -29,6 +29,8 @@ class PanelModule(Node):
         self.object_key=""
         self.traffic_key=""
         self.lane_key=""
+        self.safety_status = ""
+        self.show_status = ""
         self.xbox_status={
             "giro_prominente_derecha":0,
             "giro_prominente_izquierda":0,
@@ -72,6 +74,20 @@ class PanelModule(Node):
             10
         )
 
+        self.safety_sub = self.create_subscription(
+            String,
+            '/sdv/panel/safety_mode',
+            self.safety_mode_callback,
+            10
+        )
+
+        self.show_sub = self.create_subscription(
+            String,
+            '/sdv/panel/show_mode',
+            self.show_mode_callback,
+            10
+        )
+
 
     def serializeFloatSingle(self, binNum: int):
         if not (binNum & ~(1<<31)):
@@ -102,74 +118,83 @@ class PanelModule(Node):
         self.imu_data=msg
     def km_to_m(self, km):
         return km*1000/pow(3600,2)
+    def safety_mode_callback(self, msg):
+        self.safety_status = msg.data
+    def show_mode_callback(self, msg):
+        self.show_status = msg.data
 
     def timer_callback(self):
         try:
-        # Panel Mov agarrarlo de IMU topico
-        if(self.imu_data.linear_acceleration.x > self.km_to_m(3)):
-            data_can = self.json_data["panelMov"]["aceleracion"][0]
-            self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
-        elif(self.imu_data.linear_acceleration.x < self.km_to_m(2)):
-            data_can = self.json_data["panelMov"]["estacionario"][0]
-            self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
-            audio = self.json_data["panelMov"]["estacionario"][1]
-            if len(audio)>=1:
-                self.audio_panel.publish(audio_file)
-        else:
-            data_can = self.json_data["panelMov"]["reset"][0]
-            self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1) 
-        # Panel Det agarrarlo de imu y encoder  
-        if(self.encoder_angle > 100):
-            data_can = self.json_data["panelDet"]["giro_prominente_derecha"][0]
-            self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
-        elif(self.encoder_angle < -100):
-            data_can = self.json_data["panelDet"]["giro_prominente_izquierda"][0]
-            self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
-
-        # Object Notification agarrarlo de perception
-        if(self.object_key!="" and self.object_key in self.json_data["objectNotification"]):
-            data_can = self.json_data["objectNotification"][self.object_key][0]
-            self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
-            audio = self.json_data["objectNotification"][self.object_key][1]
-            if len(audio)>=1:
-                self.audio_panel.publish(audio_file)
-        # Recognize traffic agarrarlo de perception
-        if(self.traffic_key!="" and self.traffic_key in self.json_data["recognizeTraffic"]):
-            data_can = self.json_data["recognizeTraffic"][self.traffic_key][0]
-            self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
-            audio = self.json_data["recognizeTraffic"][self.traffic_key][1]
-            if len(audio)>=1:
-                self.audio_panel.publish(audio_file)
-        # Detect Lane agarrarlo de perception
-        if(self.lane_key!="" and self.lane_key in self.json_data["detectLane"]):
-            data_can = self.json_data["recognizeTraffic"][self.lane_key][0]
-            self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
-        
-        #Publish battery voltage 
-        receivedMsg = self.bus.recv(1)
-        if receivedMsg is not None:
-            if receivedMsg.arbitration_id == self.panel_module_id_rx:
-                if receivedMsg.data[0] == 0x5:
-                    data_volts =  (receivedMsg.data[1] << 24) | (receivedMsg.data[2] << 16) | (receivedMsg.data[3] << 8) | (0 << 0)
-                    self.battery_voltage.data = self.serializeFloatSingle(data_volts)
-                    self.pub_battery.publish(self.battery_voltage)
-            elif receivedMsg.arbitration_id == self.general_module_id_tx:
-                if receivedMsg.data[0] == 0x0:
-                    audio_file = self.json_data["emergency_audio_mode"][str(receivedMsg.data[1])]
+            # Panel Mov agarrarlo de IMU topico
+            if(self.imu_data.linear_acceleration.x > self.km_to_m(3)):
+                data_can = self.json_data["panelMov"]["aceleracion"][0]
+                self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
+            elif(self.imu_data.linear_acceleration.x < self.km_to_m(2)):
+                data_can = self.json_data["panelMov"]["estacionario"][0]
+                self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
+                audio = self.json_data["panelMov"]["estacionario"][1]
+                if len(audio)>=1:
                     self.audio_panel.publish(audio_file)
-                elif receivedMsg.data[0] == 0x2:
-                    audio_file = self.json_data["drive_audio_mode"][str(receivedMsg.data[1])]
+            else:
+                data_can = self.json_data["panelMov"]["reset"][0]
+                self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1) 
+            # Panel Det agarrarlo de imu y encoder  
+            if(self.encoder_angle > 100):
+                data_can = self.json_data["panelDet"]["giro_prominente_derecha"][0]
+                self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
+            elif(self.encoder_angle < -100):
+                data_can = self.json_data["panelDet"]["giro_prominente_izquierda"][0]
+                self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
+
+            # Object Notification agarrarlo de perception
+            if(self.object_key!="" and self.object_key in self.json_data["objectNotification"]):
+                data_can = self.json_data["objectNotification"][self.object_key][0]
+                self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
+                audio = self.json_data["objectNotification"][self.object_key][1]
+                if len(audio)>=1:
                     self.audio_panel.publish(audio_file)
-                elif receivedMsg.data[0] == 0x3:
-                    audio_file = self.json_data["driver_present_audio_mode"][str(receivedMsg.data[1])]
+            # Recognize traffic agarrarlo de perception
+            if(self.traffic_key!="" and self.traffic_key in self.json_data["recognizeTraffic"]):
+                data_can = self.json_data["recognizeTraffic"][self.traffic_key][0]
+                self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
+                audio = self.json_data["recognizeTraffic"][self.traffic_key][1]
+                if len(audio)>=1:
                     self.audio_panel.publish(audio_file)
-
-
-
-                    
-
-
-
+            # Detect Lane agarrarlo de perception
+            if(self.lane_key!="" and self.lane_key in self.json_data["detectLane"]):
+                data_can = self.json_data["recognizeTraffic"][self.lane_key][0]
+                self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
+            
+            # Safety mode 
+            if(self.safety_status!="" and self.safety_status in self.json_data["safety_mode"]):
+                data_can = self.json_data["safety_mode"][self.safety_status][0]
+                self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
+            
+            # Show mode 
+            if(self.show_status!="" and self.show_status in self.json_data["show_mode"]):
+                data_can = self.json_data["show_mode"][self.show_status][0]
+                self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
+            
+            # Publish battery voltage and general messages
+            receivedMsg = self.bus.recv(1)
+            if receivedMsg is not None:
+                if receivedMsg.arbitration_id == self.panel_module_id_rx:
+                    if receivedMsg.data[0] == 0x5:
+                        data_volts =  (receivedMsg.data[1] << 24) | (receivedMsg.data[2] << 16) | (receivedMsg.data[3] << 8) | (0 << 0)
+                        self.battery_voltage.data = self.serializeFloatSingle(data_volts)
+                        self.pub_battery.publish(self.battery_voltage)
+                elif receivedMsg.arbitration_id == self.general_module_id_tx:
+                    if receivedMsg.data[0] == 0x0:
+                        audio_file = self.json_data["emergency_audio_mode"][str(receivedMsg.data[1])]
+                        self.audio_panel.publish(audio_file)
+                    elif receivedMsg.data[0] == 0x2:
+                        audio_file = self.json_data["drive_audio_mode"][str(receivedMsg.data[1])]
+                        self.audio_panel.publish(audio_file)
+                    elif receivedMsg.data[0] == 0x3:
+                        audio_file = self.json_data["driver_present_audio_mode"][str(receivedMsg.data[1])]
+                        self.audio_panel.publish(audio_file)
+        except Exception as error:
+            self.get_logger().debug('Panel has failed')
     
 
 def main(args=None):

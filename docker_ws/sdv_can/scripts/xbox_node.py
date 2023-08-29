@@ -24,6 +24,12 @@ class XboxNode(Node):
         self.encoder_mode = "No_Reset_Encoder"
         self.prev_encoder_btn_state = False
 
+        self.show_mode = "Deactivated"
+        self.prev_show_btn_state = False
+
+        self.safety_mode = "Deactivated"
+        self.prev_safety_btn_state = False
+
         self.controller_connected = False
         self.controller_stop = True
 
@@ -132,6 +138,8 @@ class XboxNode(Node):
         self.drive_mode_pub = self.create_publisher(String, '/sdv/drive_mode', 10) 
         self.emergency_stop_pub = self.create_publisher(String, '/sdv/emergency_stop', 10) 
         self.steering_pub = self.create_publisher(Vector3, '/steering_brake', 10)
+        self.show_mode_pub = self.create_publisher(String, '/sdv/panel/show_mode', 10)
+        self.safety_mode_pub = self.create_publisher(String, '/sdv/panel/safety_mode', 10)
 
         # *------------------* TIMER_CALLBACKS *------------------*
         timer_period = 0.1 #1 second
@@ -306,6 +314,41 @@ class XboxNode(Node):
         self.prev_steer_btn_state = steer_btn
         self.get_logger().info(self.auto_mode)
 
+    def publish_show_mode(self):
+        #Toggle show mode with XBOX controller   
+        show_btn = bool(self.joy_stick.A())
+        if not self.prev_show_btn_state and show_btn:
+            show_mode_pub = String()
+            if self.auto_mode == "Deactivated":
+                #Activate driver pedal
+                show_mode_pub.data = "Activated"
+                self.show_mode_pub.publish(show_mode_pub)
+                self.auto_mode = "Activated"
+            else:
+                #Activate digital potentiometer
+                show_mode_pub.data = "Deactivated"
+                self.show_mode_pub.publish(show_mode_pub)
+                self.auto_mode = "Deactivated"     
+        self.prev_show_btn_state = show_btn
+
+    def publish_safety_mode(self):
+        #Toggle safety mode with XBOX controller   
+        safety_btn = bool(self.joy_stick.A())
+        if not self.prev_safety_btn_state and safety_btn:
+            safety_mode_pub = String()
+            if self.auto_mode == "Deactivated":
+                #Activate driver pedal
+                safety_mode_pub.data = "Activated"
+                self.safety_mode_pub.publish(safety_mode_pub)
+                self.auto_mode = "Activated"
+            else:
+                #Activate digital potentiometer
+                safety_mode_pub.data = "Deactivated"
+                self.safety_mode_pub.publish(safety_mode_pub)
+                self.auto_mode = "Deactivated"     
+        self.prev_safety_btn_state = safety_btn
+
+
     def reset_encoder_ifm(self):
         #Toggle car mode and pedal with XBOX controller   
         encoder_btn = bool(self.joy_stick.Back())
@@ -322,7 +365,6 @@ class XboxNode(Node):
         self.prev_encoder_btn_state = encoder_btn
         self.get_logger().info(self.encoder_mode)
 
-        
     def uint8_to_bool_list(self, num):
         # Convert the number to binary representation and remove the '0b' prefix
         binary_string = bin(num)[2:]

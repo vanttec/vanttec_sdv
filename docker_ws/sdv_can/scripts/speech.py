@@ -55,32 +55,33 @@ class Speech(Node):
 
     def timer_callback(self):
         # Check device bluetooth state and connect
-        self.get_logger().info(f"Trying to connect to: {self.device_name}")
-
-        if not self.check_if_paired(self.device_name):
-            if self.bluetooth_device_pair_connect(self.device_name):
-                self.get_logger().info(f"Successfully paired and connected to {self.device_name}")
-                self.speech_connected = True
-            else:
-                self.get_logger().info(f"Could not find {self.device_name} in nearby devices")
-                self.speech_connected = False
-        else:
-            if not self.check_if_connected(self.device_address):
-                if not self.bluetooth_device_connect(self.device_address):
-                    self.get_logger().info(f"Successfully connected to {self.device_name}")
+        try:
+            self.get_logger().info(f"Trying to connect to: {self.device_name}")
+            if not self.check_if_paired(self.device_name):
+                if self.bluetooth_device_pair_connect(self.device_name):
+                    self.get_logger().info(f"Successfully paired and connected to {self.device_name}")
                     self.speech_connected = True
                 else:
-                    self.get_logger().info(f"Could not connect to {self.device_name}")
+                    self.get_logger().info(f"Could not find {self.device_name} in nearby devices")
                     self.speech_connected = False
             else:
-                self.get_logger().info(f"Already connected to {self.device_name}")
-                self.speech_connected = True
+                if not self.check_if_connected(self.device_address):
+                    if not self.bluetooth_device_connect(self.device_address):
+                        self.get_logger().info(f"Successfully connected to {self.device_name}")
+                        self.speech_connected = True
+                    else:
+                        self.get_logger().info(f"Could not connect to {self.device_name}")
+                        self.speech_connected = False
+                else:
+                    self.get_logger().info(f"Already connected to {self.device_name}")
+                    self.speech_connected = True
 
-        
-        if self.speech_connected and len(self.speech_queue):
-            print(self.speech_queue)
-            self.play_speech(self.package_path + self.sounds[self.speech_queue.pop(0)])
-
+            
+            if self.speech_connected and len(self.speech_queue):
+                print(self.speech_queue)
+                self.play_speech(self.package_path + self.sounds[self.speech_queue.pop(0)])
+        except Exception as error:
+            self.get_logger().info('Speech has failed')
     def check_if_paired(self, device_name):
         try:
             devices = subprocess.check_output(['bluetoothctl', 'paired-devices']).decode('utf-8').splitlines()
