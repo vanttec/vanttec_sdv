@@ -47,6 +47,9 @@ install(PROGRAMS
   scripts/encoder_briter.py
   scripts/xbox_driver.py
   scripts/xbox_node.py
+  scripts/speech.py
+  scripts/panel_modulev2.py
+  scripts/heartbeat_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

@@ -2,15 +2,15 @@
 import rclpy
 from rclpy.node import Node
 import can
-from  std_msgs.msg import BoolMultiArray
+from  std_msgs.msg import ByteMultiArray
 class Heartbeat(Node):
     def __init__(self):
         super().__init__('Heartbit node started')      
         self.timer = self.create_timer(0.1, self.timer_callback)
-        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000, can_filters=filters)
+        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000)
         self.timeout = 3
-        self.module_pub = self.create_publisher(Marker,"/sdv/diagnostics/module_status", 2)
-        self.module_msg = BoolMultiArray()
+        self.module_pub = self.create_publisher(ByteMultiArray,"/sdv/diagnostics/module_status", 2)
+        self.module_msg = ByteMultiArray()
 
         # *------------------* VANTTEC_IDS-TX *------------------*
         #Dict -> key: Module, value:[name,bool if module has died, actual time , prev time]
@@ -24,10 +24,9 @@ class Heartbeat(Node):
 
     def timer_callback(self):
         #Analyse if any module stopped transmitting heartbeat counter
-        print("")
         msg =  self.bus.recv(1)
         if msg is not None:
-            if msg.arbitration_id in module_status:  
+            if msg.arbitration_id in self.module_status:  
                 self.module_status[msg.arbitration_id][2] = self.get_clock().now().to_msg().sec
                 if self.module_status[msg.arbitration_id][2] - self.module_status[msg.arbitration_id][3] >= self.timeout:
                     #Module not activated
@@ -36,7 +35,7 @@ class Heartbeat(Node):
                     #Module activated
                     self.module_status[msg.arbitration_id][1] = True
                 self.module_status[msg.arbitration_id][3] = self.module_status[msg.arbitration_id][2]
-                self.module_msg.data = [value[1] for value in a.values()]
+                self.module_msg.data = [value[1] for value in self.module_status.values()]
                 self.module_pub.publish(self.module_msg)
 
 def main(args=None):
@@ -44,7 +43,7 @@ def main(args=None):
 
     heartbeat = Heartbeat()
     heartbeat.get_logger().info('Heartbeat node started')
-    rclpy.spin(heartbit)
+    rclpy.spin(heartbeat)
     heartbeat.destroy_node()
     rclpy.shutdown()
             
