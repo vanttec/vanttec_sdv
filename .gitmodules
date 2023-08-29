@@ -13,3 +13,6 @@
 [submodule "docker_ws/sdv_perception/sensors/velodyne"]
 	path = docker_ws/sdv_perception/sensors/velodyne
 	url = https://github.com/ros-drivers/velodyne.git
+[submodule "sdv_planner"]
+	path = docker_ws/sdv_planner
+	url = https://github.com/vanttec/sdv_planner_simulation_beetle.git
