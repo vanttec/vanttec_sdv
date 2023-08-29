@@ -16,3 +16,6 @@
 [submodule "sdv_planner"]
 	path = docker_ws/sdv_planner
 	url = https://github.com/vanttec/sdv_planner_simulation_beetle.git
+[submodule "docker_ws/sdv_localization/robot_localization"]
+	path = docker_ws/sdv_localization/robot_localization
+	url = https://github.com/cra-ros-pkg/robot_localization.git
