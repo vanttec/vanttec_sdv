@@ -49,6 +49,12 @@ def generate_launch_description():
             executable='static_transform_publisher',
             name="tf_map_to_odom",
             arguments = ['0', '0', '0', '0', '0', '-3.14159', 'map', 'odom']) #x, y, z, yaw, pitch, roll 
+    
+    start_transform_base_link_vectornav = Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            name="tf_base_link_to_vectornav",
+            arguments = ['0', '0', '-1.9', '0', '0.0', '0.0', 'base_link', 'vectornav'])
 
     # Create the launch description and populate
     ld = LaunchDescription()
@@ -57,4 +63,5 @@ def generate_launch_description():
     ld.add_action(start_odom_pub)
     ld.add_action(vectornav_launch)
     ld.add_action(start_transform_odom_base_link)
+    ld.add_action(start_transform_base_link_vectornav)
     return ld

@@ -22,15 +22,16 @@
 #include "nav_msgs/msg/odometry.hpp"
 #include "nav_msgs/msg/path.hpp"
 #include "tf2_ros/transform_broadcaster.h"
+#include <sbg_device.h> 
 
 
 //ROS2 node class for odometry, NED pose, and velodyne transform - 
-class vnGPSPose : public rclcpp::Node
+class sbgGPSPose : public rclcpp::Node
 {
   
 
 public:
-  vnGPSPose() : Node("vn_gps_pose_node")
+  sbgGPSPose() : Node("sbg_gps_pose_node")
   {
     //Parameter
     declare_parameter<std::vector<double>>("orientation_covariance", orientation_covariance_);
@@ -43,50 +44,31 @@ public:
 
     // Publishers
 
-    pub_odom_ = this->create_publisher<nav_msgs::msg::Odometry>("sdv_localization/odom", 10);
+    pub_odom_ = this->create_publisher<nav_msgs::msg::Odometry>("sdv_localization/sbg_odom", 10);
     vn_velodyne_tf_broafcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
     odom_tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
 
-    pub_ned_pose =  this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("sdv_localization/ned_pose", 10);
-    pub_enu_pose = this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("sdv_localization/enu_pose", 10);
+    pub_ned_pose =  this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("sdv_localization/sbg_ned_pose", 10);
+    pub_enu_pose = this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("sdv_localization/sbg_enu_pose", 10);
     
-    pub_ref_ecef = this->create_publisher<geometry_msgs::msg::Point>("sdv_localization/ref_ecef", 10);
-    pub_ref_ins = this->create_publisher<geometry_msgs::msg::Point>("sdv_localization/ref_ins", 10);
+    pub_ref_ecef = this->create_publisher<geometry_msgs::msg::Point>("sdv_localization/sbg_ref_ecef", 10);
+    pub_ref_ins = this->create_publisher<geometry_msgs::msg::Point>("sdv_localization/sbg_ref_ins", 10);
 
-    pub_ned_path =  this->create_publisher<nav_msgs::msg::Path>("sdv_localizationav/ned_path", 10);
-    pub_enu_path =  this->create_publisher<nav_msgs::msg::Path>("sdv_localizationav/enu_path", 10);
+    pub_ned_path =  this->create_publisher<nav_msgs::msg::Path>("sdv_localizationav/sbg_ned_path", 10);
+    pub_enu_path =  this->create_publisher<nav_msgs::msg::Path>("sdv_localizationav/sbg_enu_path", 10);
 
     
     // Subscribers
     
-    auto sub_vn_common_cb = std::bind(&vnGPSPose::sub_vn_common, this, std::placeholders::_1);
+    auto sub_vn_common_cb = std::bind(&sbgGPSPose::sub_vn_common, this, std::placeholders::_1);
     sub_vn_common_ = this->create_subscription<vectornav_msgs::msg::CommonGroup>(
       "vectornav/raw/common", 10, sub_vn_common_cb);
 
-    auto sub_vn_time_cb = std::bind(&vnGPSPose::sub_vn_time, this, std::placeholders::_1);
-    sub_vn_time_ = this->create_subscription<vectornav_msgs::msg::TimeGroup>(
-      "vectornav/raw/time", 10, sub_vn_time_cb);
-
-    auto sub_vn_imu_cb = std::bind(&vnGPSPose::sub_vn_imu, this, std::placeholders::_1);
+    auto sub_vn_imu_cb = std::bind(&sbgGPSPose::sub_vn_imu, this, std::placeholders::_1);
     sub_vn_imu_ = this->create_subscription<vectornav_msgs::msg::ImuGroup>(
       "vectornav/raw/imu", 10, sub_vn_imu_cb);
 
-    auto sub_vn_gps_cb = std::bind(&vnGPSPose::sub_vn_gps, this, std::placeholders::_1);
-    sub_vn_gps_ = this->create_subscription<vectornav_msgs::msg::GpsGroup>(
-      "vectornav/raw/gps", 10, sub_vn_gps_cb);
 
-    auto sub_vn_attitude_cb =
-      std::bind(&vnGPSPose::sub_vn_attitude, this, std::placeholders::_1);
-    sub_vn_attitude_ = this->create_subscription<vectornav_msgs::msg::AttitudeGroup>(
-      "vectornav/raw/attitude", 10, sub_vn_attitude_cb);
-
-    auto sub_vn_ins_cb = std::bind(&vnGPSPose::sub_vn_ins, this, std::placeholders::_1);
-    sub_vn_ins_ = this->create_subscription<vectornav_msgs::msg::InsGroup>(
-      "vectornav/raw/ins", 10, sub_vn_ins_cb);
-
-    auto sub_vn_gps2_cb = std::bind(&vnGPSPose::sub_vn_gps2, this, std::placeholders::_1);
-    sub_vn_gps2_ = this->create_subscription<vectornav_msgs::msg::GpsGroup>(
-      "vectornav/raw/gps2", 10, sub_vn_gps2_cb);
   }
 
 private:
@@ -138,7 +120,11 @@ private:
         enu_pose_msg.pose.pose.position.z = 0;
 
 
-        ned_pose_msg.pose.pose.orientation = msg_in->quaternion;
+        //Removal of pitch and roll angles, since we're only interested in working in a x,y plane 
+        tf2::Quaternion quaternionTransformNed;
+
+        quaternionTransformNed.setRPY(0, 0, msg_in->yawpitchroll.x);
+        ned_pose_msg.pose.pose.orientation = tf2::toMsg(quaternionTransformNed);
 
         tf2::Quaternion quaternionTransformEnu, quaternionResult;
         //quaternionTransformEnu.setRPY(0, 0, -90);
@@ -178,8 +164,8 @@ private:
         nav_msgs::msg::Odometry odom_msg;
 
         odom_msg.child_frame_id = "odom";
-        odom_msg.header = ned_pose_msg.header;
-        odom_msg.pose = ned_pose_msg.pose;
+        odom_msg.header = enu_pose_msg.header;
+        odom_msg.pose = enu_pose_msg.pose;
         geometry_msgs::msg::Vector3 tempVector3;
         //Switch between Yawpitchroll in NED to ENU format = pitch <-> roll
         tempVector3.x = msg_in->angularrate.x;
@@ -198,17 +184,17 @@ private:
 
         pub_odom_->publish(odom_msg);
 
-        //Transform odom to base_link publish in a NED frame
-        // geometry_msgs::msg::TransformStamped odom2baselink_tf;
+        //Transform odom to base_link publish in a ENU frame
+        geometry_msgs::msg::TransformStamped odom2baselink_tf;
 
-        // odom2baselink_tf.header.frame_id = "odom";
-        // odom2baselink_tf.header.set__stamp(msg_in->header.stamp);
-        // odom2baselink_tf.child_frame_id = "base_link";
-        // odom2baselink_tf.transform.translation.x = ned_pose_msg.pose.pose.position.x;  //
-        // odom2baselink_tf.transform.translation.y = ned_pose_msg.pose.pose.position.y;  //
-        // odom2baselink_tf.transform.translation.z = ned_pose_msg.pose.pose.position.z;  //
-        // odom2baselink_tf.transform.set__rotation(ned_pose_msg.pose.pose.orientation);  //
-        // odom_tf_broadcaster_->sendTransform(odom2baselink_tf);
+        odom2baselink_tf.header.frame_id = "odom";
+        odom2baselink_tf.header.set__stamp(msg_in->header.stamp);
+        odom2baselink_tf.child_frame_id = "base_link";
+        odom2baselink_tf.transform.translation.x = enu_pose_msg.pose.pose.position.x;  //
+        odom2baselink_tf.transform.translation.y = enu_pose_msg.pose.pose.position.y;  //
+        odom2baselink_tf.transform.translation.z = enu_pose_msg.pose.pose.position.z;  //
+        odom2baselink_tf.transform.set__rotation(enu_pose_msg.pose.pose.orientation);  //
+        //odom_tf_broadcaster_->sendTransform(odom2baselink_tf);
         
     }
     else
@@ -445,7 +431,7 @@ private:
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<vnGPSPose>());
+  rclcpp::spin(std::make_shared<sbgGPSPose>());
   rclcpp::shutdown();
   return 0;
 }
