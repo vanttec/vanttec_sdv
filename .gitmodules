@@ -2,8 +2,11 @@
 	path = docker_ws/sdv_can/libs/vanttec_CANLib
 	url = https://github.com/vanttec/vanttec_CANLib.git
 [submodule "docker_ws/sdv_localization/vectornav"]
-	path = docker_ws/sdv_localization/vectornav
+	path = docker_ws/sdv_localization/sensors/vectornav
 	url = https://github.com/dawonn/vectornav.git
 [submodule "docker_ws/sdv_control/libs/vanttec_controllers"]
 	path = docker_ws/sdv_control/libs/vanttec_controllers
 	url = https://github.com/vanttec/vanttec_controllers.git
+[submodule "docker_ws/sdv_localization/sensors/sbg_ros2_driver"]
+	path = docker_ws/sdv_localization/sensors/sbg_ros2_driver
+	url = https://github.com/vanttec/sbg_ros2_driver.git

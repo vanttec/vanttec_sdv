@@ -108,7 +108,7 @@ def generate_launch_description():
    sdv_loc_launch = IncludeLaunchDescription(
       PythonLaunchDescriptionSource([
             PathJoinSubstitution([
-               FindPackageShare('sdv_vectornav'),
+               FindPackageShare('sdv_localization'),
                'launch',
                'sdv_tf.launch.py'
             ])
@@ -141,11 +141,11 @@ def generate_launch_description():
       ),
 
       waypoint_handler,
-      car_control_node,
-      car_guidance_node,
-      tf2_node,
+      # car_control_node,
+      # car_guidance_node,
+      # tf2_node,
       rviz,
       sdv_description_launch,
-      # sdv_loc_launch
+      sdv_loc_launch
       # sdv_can_launch
    ])

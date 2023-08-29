@@ -15,7 +15,7 @@ from launch.conditions import UnlessCondition
 
 def generate_launch_description():
 
-    this_dir = get_package_share_directory('sdv_vectornav')
+    this_dir = get_package_share_directory('sdv_localization')
 
     is_simulation = DeclareLaunchArgument(
       'is_simulation',
@@ -25,7 +25,7 @@ def generate_launch_description():
 
     # Vectornav odometry and path
     start_odom_pub = Node(
-      package='sdv_vectornav', 
+      package='sdv_localization', 
       executable='vn_gps_pose',
       output='screen',
       parameters=[os.path.join(this_dir, 'config', 'vn_gps_node_params.yaml')],
