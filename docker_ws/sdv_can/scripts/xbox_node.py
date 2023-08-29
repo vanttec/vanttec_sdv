@@ -316,7 +316,7 @@ class XboxNode(Node):
 
     def publish_show_mode(self):
         #Toggle show mode with XBOX controller   
-        show_btn = bool(self.joy_stick.A())
+        show_btn = bool(self.joy_stick.B())
         if not self.prev_show_btn_state and show_btn:
             show_mode_pub = String()
             if self.auto_mode == "Deactivated":
@@ -333,7 +333,7 @@ class XboxNode(Node):
 
     def publish_safety_mode(self):
         #Toggle safety mode with XBOX controller   
-        safety_btn = bool(self.joy_stick.A())
+        safety_btn = bool(self.joy_stick.Y())
         if not self.prev_safety_btn_state and safety_btn:
             safety_mode_pub = String()
             if self.auto_mode == "Deactivated":
