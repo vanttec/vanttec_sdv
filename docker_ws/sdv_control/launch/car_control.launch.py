@@ -108,7 +108,7 @@ def generate_launch_description():
    sdv_loc_launch = IncludeLaunchDescription(
       PythonLaunchDescriptionSource([
             PathJoinSubstitution([
-               FindPackageShare('sdv_vectornav'),
+               FindPackageShare('sdv_localization'),
                'launch',
                'sdv_tf.launch.py'
             ])
