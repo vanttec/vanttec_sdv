@@ -3,14 +3,35 @@ import os
 from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
-from launch.substitutions import PathJoinSubstitution
+from launch.actions import IncludeLaunchDescription, LogInfo, DeclareLaunchArgument
+from launch.substitutions import PathJoinSubstitution, LaunchConfiguration
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
+from launch.conditions import IfCondition, UnlessCondition
+
 def generate_launch_description():
+
+   is_sim = DeclareLaunchArgument(
+      'is_simulation',
+      default_value = 'false',
+      description = 'Defines if the application will run in simulation or in real life'
+    )
+   
+   rviz_config = os.path.join(
+      get_package_share_directory('sdv_control'),
+      'launch/rviz_cfg',
+
+      # For real life tests
+      'sdv_anniversary.rviz'
+      # 'sdv_parking_lot_cetec2.rviz'
+      # 'sdv_parking_lot_cetec.rviz'
+
+      # --- For simulations ---
+      # 'sdv_sim_wpnts.rviz'
+   )
 
    car_params = os.path.join(
       get_package_share_directory('sdv_control'),
@@ -18,22 +39,10 @@ def generate_launch_description():
       'car_params.yaml'
    )
 
-   rviz_config = os.path.join(
-      get_package_share_directory('sdv_control'),
-      'launch/rviz_cfg',
-      'sdv_parking_lot_cetec2.rviz'
-      # 'sdv_sim_wpnts.rviz'
-   )
-
-   vn_gps_params = os.path.join(
-      get_package_share_directory('sdv_vectornav'),
-      'config',
-      'vn_gps_node_params.yaml'
-   )
-
    # 'send_buffer_limit': '50000000',
    # 'num_threads': '4'
 
+   # ***** RUN NODES *******
    car_control_node = Node(
       package='sdv_control',
       executable='sdc1_vel_pid_node',
@@ -41,7 +50,7 @@ def generate_launch_description():
       name='sdc1_vel_pid_node',
       parameters=[
                   # {'frequency': LaunchConfiguration('frequency')},
-                  # {'is_simulation': LaunchConfiguration('is_simulation')},
+                  {'is_simulation': LaunchConfiguration('is_simulation')},
                   car_params
                   ]
    )
@@ -53,7 +62,7 @@ def generate_launch_description():
       name='stanley_controller_node',
       parameters=[
                   # {'frequency': LaunchConfiguration('frequency')},
-                  # {'is_simulation': LaunchConfiguration('is_simulation')},
+                  {'is_simulation': LaunchConfiguration('is_simulation')},
                   car_params
                   ]
    )
@@ -66,7 +75,8 @@ def generate_launch_description():
       parameters=[
                   # {'frequency': LaunchConfiguration('frequency')},
                   car_params
-                  ]
+                  ],
+      condition=IfCondition(LaunchConfiguration('is_simulation'))
    )
 
    rviz = Node(
@@ -102,15 +112,40 @@ def generate_launch_description():
                'launch',
                'sdv_tf.launch.py'
             ])
-      ])
+      ]),
+      launch_arguments={'is_simulation': LaunchConfiguration('is_simulation')}.items()
+   )
+
+   sdv_can_launch = IncludeLaunchDescription(
+      PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+               FindPackageShare('sdv_can'),
+               'launch',
+               'can_devices.launch.py'
+            ])
+      ]),
+      condition=UnlessCondition(LaunchConfiguration('is_simulation'))
    )
 
    return LaunchDescription([
+      is_sim,
+
+      # Log the value of is_simulation for debugging purposes
+      LogInfo(
+         condition=IfCondition(LaunchConfiguration('is_simulation')),
+         msg="Running in simulation mode."
+      ),
+      LogInfo(
+         condition=UnlessCondition(LaunchConfiguration('is_simulation')),
+         msg="Running in real robot mode."
+      ),
+
       waypoint_handler,
-      # car_control_node,
+      car_control_node,
       car_guidance_node,
-      # tf2_node,
+      tf2_node,
       rviz,
       sdv_description_launch,
-      sdv_loc_launch
+      # sdv_loc_launch
+      # sdv_can_launch
    ])
