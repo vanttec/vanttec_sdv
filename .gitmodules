@@ -10,3 +10,6 @@
 [submodule "docker_ws/sdv_localization/sensors/sbg_ros2_driver"]
 	path = docker_ws/sdv_localization/sensors/sbg_ros2_driver
 	url = https://github.com/vanttec/sbg_ros2_driver.git
+[submodule "docker_ws/sdv_perception/sensors/velodyne"]
+	path = docker_ws/sdv_perception/sensors/velodyne
+	url = https://github.com/ros-drivers/velodyne.git
