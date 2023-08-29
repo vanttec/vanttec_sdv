@@ -404,6 +404,8 @@ class XboxNode(Node):
         if self.joy_stick.connected():
             self.publish_drive_mode_xbox()
             self.publish_xbox_mode()
+            self.publish_show_mode()
+            self.publish_safety_mode()
             self.analyse_drive_mode()
             self.reset_encoder_ifm()
             if self.xbox_mode == "Xbox_Controller":
