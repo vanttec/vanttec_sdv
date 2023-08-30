@@ -48,6 +48,7 @@ add_executable(vn_gps_pose src/gps_pose.cc)
 # add_executable(diagnostics src/diagnostics.cc)
 # add_executable(vslam_repub src/visual_slam_republisher.cc)
 # add_executable(isaac_awake src/isaac_vslam_awake2.cpp)
+add_executable(sbg_gps_pose src/sbg_gps_pose.cc)
 ament_target_dependencies(vn_gps_pose rclcpp sensor_msgs vectornav_msgs tf2_geometry_msgs nav_msgs)
 # ament_target_dependencies(diagnostics rclcpp sensor_msgs vectornav_msgs tf2_geometry_msgs nav_msgs sdv_localization_msgs)
 # ament_target_dependencies(vslam_repub rclcpp sensor_msgs vectornav_msgs tf2_geometry_msgs nav_msgs sdv_localization_msgs)
@@ -56,6 +57,7 @@ ament_target_dependencies(vn_gps_pose rclcpp sensor_msgs vectornav_msgs tf2_geom
 # add_executable(sbg_gps_pose src/sbg_gps_pose.cc
 #               ../sensors/sbg_ros2_driver/external/sbgECom/src/sbgEComLib.h)
 # ament_target_dependencies(sbg_gps_pose rclcpp sensor_msgs vectornav_msgs tf2_geometry_msgs nav_msgs sbg_driver std_srvs)
+ament_target_dependencies(sbg_gps_pose rclcpp sensor_msgs tf2_geometry_msgs nav_msgs)
 
 target_link_libraries(vn_gps_pose vncxx )
 
@@ -68,7 +70,7 @@ install(TARGETS
   # diagnostics
   # vslam_repub
   # isaac_awake
-  # sbg_gps_pose
+  sbg_gps_pose
   DESTINATION lib/${PROJECT_NAME}
 )
 
