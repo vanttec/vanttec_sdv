@@ -30,7 +30,7 @@ sudo ./create_container_intel.bash
 sudo make sdv.up 
 sudo make sdv.shell
 cd /home/ws/
-git clone --recurse-submodules https://github.com/vanttec/sdv_ros.git
+git clone --recurse-submodules https://github.com/vanttec/vanttec_sdv.git
 cd /home/ws/
 colcon build
 
