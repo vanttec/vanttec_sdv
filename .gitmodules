@@ -19,3 +19,6 @@
 [submodule "docker_ws/sdv_localization/sensors/sbg_ros2_driver"]
 	path = docker_ws/sdv_localization/sensors/sbg_ros2_driver
 	url = https://github.com/SBG-Systems/sbg_ros2_driver.git
+[submodule "docker_ws/sdv_localization/sensors/vectornav"]
+	path = docker_ws/sdv_localization/sensors/vectornav
+	url = https://github.com/dawonn/vectornav.git
