@@ -67,7 +67,7 @@ def generate_launch_description():
         description='Use Extended Kalman Filter to fuse sensors')
     declare_use_simulator_cmd = DeclareLaunchArgument(
         'use_simulator',
-        default_value='true',
+        default_value='false', #change for simulation
         description='Whether to start the simulator')
     declare_use_sim_time_cmd = DeclareLaunchArgument(
         'use_sim_time',
@@ -77,7 +77,7 @@ def generate_launch_description():
         'use_rviz', default_value='true',
         description='Start with RViz if true')
     declare_use_composition_cmd = DeclareLaunchArgument(
-        'use_composition', default_value='False',
+        'use_composition', default_value='False',   #change to test performance
         description='Use composed bringup if True')
     declare_use_respawn_cmd = DeclareLaunchArgument(
         'use_respawn', default_value='False',
@@ -96,8 +96,8 @@ def generate_launch_description():
         'map',
         #default_value=os.path.join(beetle_nav_dir, 'maps', 'Field.yaml'),
         #default_value=os.path.join(sdv_localization, 'maps', 'map.yaml'),
-        #default_value=os.path.join(sdv_localization, 'maps', 'carreta_map.yaml'),
-        default_value=os.path.join(sdv_localization, 'maps', 'aa.yaml'),
+        default_value=os.path.join(sdv_localization, 'maps', 'carreta_map.yaml'),
+        #default_value=os.path.join(sdv_localization, 'maps', 'aa.yaml'),
         description='Full path to map yaml file to load')
     
     declare_log_level_cmd = DeclareLaunchArgument(
