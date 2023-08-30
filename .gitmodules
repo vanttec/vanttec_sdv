@@ -19,3 +19,6 @@
 [submodule "docker_ws/sdv_localization/robot_localization"]
 	path = docker_ws/sdv_localization/robot_localization
 	url = https://github.com/cra-ros-pkg/robot_localization.git
+[submodule "docker_ws/sdv_localization/slam_toolbox"]
+	path = docker_ws/sdv_localization/slam_toolbox
+	url = https://github.com/SteveMacenski/slam_toolbox.git
