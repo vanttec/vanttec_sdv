@@ -18,7 +18,7 @@ if [[ "$@" == *"--net "* ]]; then
 fi
 
 # Settings required for having intel integrated graphics acceleration inside the docker
-DOCKER_GPU_ARGS="--env DISPLAY --env QT_X11_NO_MITSHM=1 --volume=/tmp/.X11-unix:/tmp/.X11-unix:rw --device=/dev/dri:/dev/dri"
+DOCKER_GPU_ARGS="--env DISPLAY --env QT_X11_NO_MITSHM=1 --volume=/tmp/.X11-unix:/tmp/.X11-unix:rw --device=/dev/dri:/dev/dri --device /dev/snd"
 
 DOCKER_COMMAND="docker run"
 
@@ -35,6 +35,13 @@ $DOCKER_COMMAND -it -d\
     -v "$PWD/docker_ws:/home/ws/src" \
     -v "/media/saveasmtz/pacman2/rosbags:/home/ws/src/tests" \
     -v /var/run/docker.sock:/var/run/docker.sock \
+    -v /run/dbus:/run/dbus:ro \
+    -v /etc/asound.conf:/etc/asound.conf:ro \
+    -v /run/dbus/system_bus_socket:/run/dbus/system_bus_socket \
     --name=sdv \
     sdv\
     bash
+
+#-v /usr/lib/x86_64-linux-gnu/alsa-lib:/usr/lib/x86_64-linux-gnu/alsa-lib:ro \
+
+ 

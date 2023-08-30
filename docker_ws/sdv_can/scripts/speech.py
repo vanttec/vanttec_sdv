@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+
 import rclpy
 import subprocess
 from rclpy.node import Node
@@ -21,6 +22,7 @@ class Speech(Node):
 
         # Last requested speech
         self.last_speech = None
+        self.bluetooth_device = False
         
         # Dictionary of possible messages
         self.sounds = {"modo_autonomo" : "/sounds/autonomous_mode.wav", 
@@ -56,32 +58,33 @@ class Speech(Node):
     def timer_callback(self):
         # Check device bluetooth state and connect
         try:
-            self.get_logger().info(f"Trying to connect to: {self.device_name}")
-            if not self.check_if_paired(self.device_name):
-                if self.bluetooth_device_pair_connect(self.device_name):
-                    self.get_logger().info(f"Successfully paired and connected to {self.device_name}")
-                    self.speech_connected = True
-                else:
-                    self.get_logger().info(f"Could not find {self.device_name} in nearby devices")
-                    self.speech_connected = False
-            else:
-                if not self.check_if_connected(self.device_address):
-                    if not self.bluetooth_device_connect(self.device_address):
-                        self.get_logger().info(f"Successfully connected to {self.device_name}")
+            if self.bluetooth_device  == True:
+                self.get_logger().info(f"Trying to connect to: {self.device_name}")
+                if not self.check_if_paired(self.device_name):
+                    if self.bluetooth_device_pair_connect(self.device_name):
+                        self.get_logger().info(f"Successfully paired and connected to {self.device_name}")
                         self.speech_connected = True
                     else:
-                        self.get_logger().info(f"Could not connect to {self.device_name}")
+                        self.get_logger().info(f"Could not find {self.device_name} in nearby devices")
                         self.speech_connected = False
                 else:
-                    self.get_logger().info(f"Already connected to {self.device_name}")
-                    self.speech_connected = True
+                    if not self.check_if_connected(self.device_address):
+                        if not self.bluetooth_device_connect(self.device_address):
+                            self.get_logger().info(f"Successfully connected to {self.device_name}")
+                            self.speech_connected = True
+                        else:
+                            self.get_logger().info(f"Could not connect to {self.device_name}")
+                            self.speech_connected = False
+                    else:
+                        self.get_logger().info(f"Already connected to {self.device_name}")
+                        self.speech_connected = True
 
             
-            if self.speech_connected and len(self.speech_queue):
+            if  self.bluetooth_device ==False or (self.speech_connected and len(self.speech_queue)) :
                 print(self.speech_queue)
                 self.play_speech(self.package_path + self.sounds[self.speech_queue.pop(0)])
         except Exception as error:
-            self.get_logger().info('Speech has failed')
+            self.get_logger().info('Speech has failed'+str(error))
     def check_if_paired(self, device_name):
         try:
             devices = subprocess.check_output(['bluetoothctl', 'paired-devices']).decode('utf-8').splitlines()
@@ -98,21 +101,20 @@ class Speech(Node):
     def bluetooth_device_pair_connect(self, device_name):
         # Get a list of nearby Bluetooth devices
         try:
-            devices  = subprocess.check_output(['hcitool', 'scan']).decode('utf-8').splitlines()
-            for device in devices:
-                # Find the device address based on its name
-                if device_name in device:
-                    self.device_address = device.split()[0]
-                    self.get_logger().info(f"euuu to {device}")
-            if self.device_address:
+            # devices  = subprocess.check_output(['hcitool', 'scan']).decode('utf-8').splitlines()
+            # for device in devices:
+            #     # Find the device address based on its name
+            #     if device_name in device:
+            #         self.device_address = device.split()[0]
+            #         self.get_logger().info(f"euuu to {device}")
+            # if self.device_address:
                 # Pair and connect to the Bluetooth device
-                subprocess.run(['bluetoothctl', 'trust', self.device_address], stdout=subprocess.DEVNULL)
-                
-                subprocess.run(['bluetoothctl', 'connect', self.device_address], stdout=subprocess.DEVNULL)
+            self.device_address = device_name
+            subprocess.run(['bluetoothctl', 'trust', self.device_address], stdout=subprocess.DEVNULL)
+            
+            subprocess.run(['bluetoothctl', 'connect', self.device_address], stdout=subprocess.DEVNULL)
 
-                return True
-            else:
-                return False
+            return True
         except subprocess.CalledProcessError as e:
             return False
 
@@ -131,14 +133,18 @@ class Speech(Node):
         return not subprocess.run(['bluetoothctl', 'connect', device_address], stdout=subprocess.DEVNULL).returncode
 
     def play_speech(self, file_path):
+        # subprocess.run(['aplay', '-D', 'bluealsa', file_path])
         # Use aplay to play speech through the speech output
         subprocess.run(['aplay', file_path], stdout=subprocess.DEVNULL)
-
+        
+# sed -i "s/; enable-shm = yes/enable-shm = no/g" /etc/pulse/daemon.conf
+# sed -i "s/; enable-shm = yes/enable-shm = no/g" /etc/pulse/client.conf
 def main(args=None):
     rclpy.init(args=args)
     
-    node = Speech('JAM Rave Plus')
+    #node = Speech('JAM Rave Plus')
     #node = Speech('WH-CH710')
+    node = Speech('C8:7B:23:95:25:8A')
     rclpy.spin(node)
     
     rclpy.shutdown()
