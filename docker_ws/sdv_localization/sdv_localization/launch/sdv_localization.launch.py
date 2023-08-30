@@ -23,15 +23,8 @@ def generate_launch_description():
       description = 'Defines if the application will run in simulation or in real life'
     )
 
-    # Vectornav odometry and path
-    start_odom_pub = Node(
-      package='sdv_localization', 
-      executable='vn_gps_pose',
-      output='screen',
-      parameters=[os.path.join(this_dir, 'config', 'vn_gps_node_params.yaml')],
-      condition=UnlessCondition(LaunchConfiguration('is_simulation'))
-    )
-
+    # *********** VECTORNAV VN-300 ***********
+    # Vectornav Odometry and Path
     vectornav_launch = IncludeLaunchDescription(
       PythonLaunchDescriptionSource([
             PathJoinSubstitution([
@@ -43,25 +36,64 @@ def generate_launch_description():
       condition=UnlessCondition(LaunchConfiguration('is_simulation'))
    )
     
-    #ODOM is in NED frame since vn measurements are in that configuration, so the rotation from NED to ENU for MAP is necessary
-    start_transform_odom_base_link = Node(
+    vectornav_odom = Node(
+      package='sdv_localization', 
+      executable='vn_gps_pose',
+      output='screen',
+      parameters=[os.path.join(this_dir, 'config', 'vn_gps_node_params.yaml')],
+      condition=UnlessCondition(LaunchConfiguration('is_simulation'))
+    )
+
+    # *********** SBG ELLIPSE-D ***********
+    # SBG Odometry and Path
+    sbg_launch = IncludeLaunchDescription(
+      PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+               FindPackageShare('sbg_driver'),
+               'launch',
+               'sbg_device_launch.py'
+            ])
+      ]),
+      condition=UnlessCondition(LaunchConfiguration('is_simulation'))
+   )
+    
+    # vectornav_odom = Node(
+    #   package='sdv_localization', 
+    #   executable='sbg_gps_pose',
+    #   output='screen',
+    #   parameters=[os.path.join(this_dir, 'config', 'sbg_gps_node_params.yaml')],
+    #   condition=UnlessCondition(LaunchConfiguration('is_simulation'))
+    # )
+
+    # *********** TRANSFORMS ***********
+    
+    # ODOM is in the NED frame since vn measurements are in that configuration
+    tf_odom_base_link = Node(
             package='tf2_ros',
             executable='static_transform_publisher',
             name="tf_map_to_odom",
             arguments = ['0', '0', '0', '0', '0', '-3.14159', 'map', 'odom']) #x, y, z, yaw, pitch, roll 
     
-    start_transform_base_link_vectornav = Node(
+    # tf_base_link_sbg = Node(
+    #         package='tf2_ros',
+    #         executable='static_transform_publisher',
+    #         name="tf_base_link_to_vectornav",
+    #         arguments = ['0', '0', '-1.9', '0', '0.0', '0.0', 'base_link', 'vectornav'])
+
+    tf_base_link_vectornav = Node(
             package='tf2_ros',
             executable='static_transform_publisher',
             name="tf_base_link_to_vectornav",
             arguments = ['0', '0', '-1.9', '0', '0.0', '0.0', 'base_link', 'vectornav'])
 
-    # Create the launch description and populate
+
     ld = LaunchDescription()
 
     ld.add_action(is_simulation)
-    ld.add_action(start_odom_pub)
     ld.add_action(vectornav_launch)
-    ld.add_action(start_transform_odom_base_link)
-    ld.add_action(start_transform_base_link_vectornav)
+    ld.add_action(vectornav_odom)
+    ld.add_action(sbg_launch)
+    # ld.add_action(sbg_odom)
+    ld.add_action(tf_odom_base_link)
+    ld.add_action(tf_base_link_vectornav)
     return ld

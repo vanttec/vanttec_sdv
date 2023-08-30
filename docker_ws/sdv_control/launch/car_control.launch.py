@@ -20,17 +20,22 @@ def generate_launch_description():
       description = 'Defines if the application will run in simulation or in real life'
     )
    
+   # rviz_config = os.path.join(
+   #    get_package_share_directory('sdv_control'),
+   #    'launch/rviz_cfg',
+
+   #    # For simulations
+   #    'sdv_sim_wpnts.rviz'
+   # )
+
    rviz_config = os.path.join(
-      get_package_share_directory('sdv_control'),
+      get_package_share_directory('sdv_localization'),
       'launch/rviz_cfg',
 
       # For real life tests
       'sdv_anniversary.rviz'
       # 'sdv_parking_lot_cetec2.rviz'
       # 'sdv_parking_lot_cetec.rviz'
-
-      # --- For simulations ---
-      # 'sdv_sim_wpnts.rviz'
    )
 
    car_params = os.path.join(
@@ -110,7 +115,7 @@ def generate_launch_description():
             PathJoinSubstitution([
                FindPackageShare('sdv_localization'),
                'launch',
-               'sdv_tf.launch.py'
+               'sdv_localization.launch.py'
             ])
       ]),
       launch_arguments={'is_simulation': LaunchConfiguration('is_simulation')}.items()

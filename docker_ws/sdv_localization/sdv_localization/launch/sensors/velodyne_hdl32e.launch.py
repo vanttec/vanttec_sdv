@@ -42,7 +42,7 @@ import launch_ros.actions
 def generate_launch_description():
     driver_share_dir = ament_index_python.packages.get_package_share_directory('sdv_localization')
     #driver_share_dir = ament_index_python.packages.get_package_share_directory('velodyne_driver')
-    driver_params_file = os.path.join(driver_share_dir, 'config', 'VLP32C-velodyne_driver_node-params.yaml')
+    driver_params_file = os.path.join(driver_share_dir, 'config/velodyne', 'VLP32C-velodyne_driver_node-params.yaml')
     velodyne_driver_node = launch_ros.actions.Node(package='velodyne_driver',
                                                    executable='velodyne_driver_node',
                                                    output='both',
@@ -50,10 +50,10 @@ def generate_launch_description():
 
     convert_share_dir = ament_index_python.packages.get_package_share_directory('sdv_localization')
     #convert_share_dir = ament_index_python.packages.get_package_share_directory('velodyne_pointcloud')
-    convert_params_file = os.path.join(convert_share_dir, 'config', 'VLP32C-velodyne_transform_node-params.yaml')
+    convert_params_file = os.path.join(convert_share_dir, 'config/velodyne', 'VLP32C-velodyne_transform_node-params.yaml')
     with open(convert_params_file, 'r') as f:
         convert_params = yaml.safe_load(f)['velodyne_transform_node']['ros__parameters']
-    convert_params['calibration'] = os.path.join(convert_share_dir, 'config', '32db.yaml')
+    convert_params['calibration'] = os.path.join(convert_share_dir, 'config/velodyne', '32db.yaml')
     velodyne_transform_node = launch_ros.actions.Node(package='velodyne_pointcloud',
                                                       executable='velodyne_transform_node',
                                                       output='both',
@@ -61,7 +61,7 @@ def generate_launch_description():
 
     laserscan_share_dir = ament_index_python.packages.get_package_share_directory('sdv_localization')
     #laserscan_share_dir = ament_index_python.packages.get_package_share_directory('velodyne_laserscan')
-    laserscan_params_file = os.path.join(laserscan_share_dir, 'config', 'default-velodyne_laserscan_node-params.yaml')
+    laserscan_params_file = os.path.join(laserscan_share_dir, 'config/velodyne', 'default-velodyne_laserscan_node-params.yaml')
     velodyne_laserscan_node = launch_ros.actions.Node(package='velodyne_laserscan',
                                                       executable='velodyne_laserscan_node',
                                                       output='both',

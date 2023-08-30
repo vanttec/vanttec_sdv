@@ -13,12 +13,7 @@
 #include "sensor_msgs/msg/temperature.hpp"
 #include "sensor_msgs/msg/time_reference.hpp"
 #include "tf2_geometry_msgs/tf2_geometry_msgs.hpp"
-#include "vectornav_msgs/msg/attitude_group.hpp"
-#include "vectornav_msgs/msg/common_group.hpp"
-#include "vectornav_msgs/msg/gps_group.hpp"
-#include "vectornav_msgs/msg/imu_group.hpp"
-#include "vectornav_msgs/msg/ins_group.hpp"
-#include "vectornav_msgs/msg/time_group.hpp"
+
 #include "nav_msgs/msg/odometry.hpp"
 #include "nav_msgs/msg/path.hpp"
 #include "tf2_ros/transform_broadcaster.h"
@@ -347,7 +342,7 @@ private:
   
 
   //Vars to store data from the INS Common groups
-  uint8_t gps_fix_ = vectornav_msgs::msg::GpsGroup::GPSFIX_NOFIX;
+  // uint8_t gps_fix_ = vectornav_msgs::msg::GpsGroup::GPSFIX_NOFIX;
   geometry_msgs::msg::Vector3 ins_velbody_;
   geometry_msgs::msg::Point ins_posecef_;
   geometry_msgs::msg::Point ins_poslla_;
