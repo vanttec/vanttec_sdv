@@ -48,21 +48,20 @@ public:
     vn_velodyne_tf_broafcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
     odom_tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
 
-    pub_ned_pose =  this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("sdv_localization/sbg_ned_pose", 10);
+    pub_ned_pose = this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("sdv_localization/sbg_ned_pose", 10);
     pub_enu_pose = this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("sdv_localization/sbg_enu_pose", 10);
     
     pub_ref_ecef = this->create_publisher<geometry_msgs::msg::Point>("sdv_localization/sbg_ref_ecef", 10);
-    pub_ref_ins = this->create_publisher<geometry_msgs::msg::Point>("sdv_localization/sbg_ref_ins", 10);
+    pub_ref_ins  = this->create_publisher<geometry_msgs::msg::Point>("sdv_localization/sbg_ref_ins", 10);
 
-    pub_ned_path =  this->create_publisher<nav_msgs::msg::Path>("sdv_localizationav/sbg_ned_path", 10);
-    pub_enu_path =  this->create_publisher<nav_msgs::msg::Path>("sdv_localizationav/sbg_enu_path", 10);
-
+    pub_ned_path = this->create_publisher<nav_msgs::msg::Path>("sdv_localizationav/sbg_ned_path", 10);
+    pub_enu_path = this->create_publisher<nav_msgs::msg::Path>("sdv_localizationav/sbg_enu_path", 10);
     
     // Subscribers
     
-    auto sub_vn_common_cb = std::bind(&sbgGPSPose::sub_vn_common, this, std::placeholders::_1);
-    sub_vn_common_ = this->create_subscription<vectornav_msgs::msg::CommonGroup>(
-      "vectornav/raw/common", 10, sub_vn_common_cb);
+    auto sub_sbg_gps_pos_cb = std::bind(&sbgGPSPose::sub_vn_common, this, std::placeholders::_1);
+    sub_sbg_gps_pos_ = this->create_subscription<sbg_driver::msg::SbgGpsPos>(
+      "sbg/gps_pos", 10, sub_sbg_gps_pos_cb);
 
     auto sub_vn_imu_cb = std::bind(&sbgGPSPose::sub_vn_imu, this, std::placeholders::_1);
     sub_vn_imu_ = this->create_subscription<vectornav_msgs::msg::ImuGroup>(
@@ -378,7 +377,7 @@ private:
   rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr pub_enu_path;
 
   /// Subscribers
-  rclcpp::Subscription<vectornav_msgs::msg::CommonGroup>::SharedPtr sub_vn_common_;
+  rclcpp::Subscription<vectornav_msgs::msg::CommonGroup>::SharedPtr sub_sbg_gps_pos_;
   rclcpp::Subscription<vectornav_msgs::msg::TimeGroup>::SharedPtr sub_vn_time_;
   rclcpp::Subscription<vectornav_msgs::msg::ImuGroup>::SharedPtr sub_vn_imu_;
   rclcpp::Subscription<vectornav_msgs::msg::GpsGroup>::SharedPtr sub_vn_gps_;
