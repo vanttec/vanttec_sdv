@@ -163,13 +163,14 @@ class CarControlNode : public rclcpp::Node
 
         void set_pitch(const vectornav_msgs::msg::CommonGroup::SharedPtr msg_in) //const
         {
-            // model_->setPitch(msg_in->yawpitchroll.y * M_PI / 180);
+            if(this->is_simulation_)
+                model_->setPitch(msg_in->yawpitchroll.y * M_PI / 180);
         }
 
         void set_steering(const std_msgs::msg::Float32& msg) //const
         {
-            // model_->setSteering(msg.data);
-            model_->setSteering(0.0);
+            if(this->is_simulation_)
+                model_->setSteering(msg.data);
         }
 
         void set_drive_mode(const std_msgs::msg::String& msg)
