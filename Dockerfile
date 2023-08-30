@@ -33,6 +33,13 @@ RUN apt-get update -qq && \
     ros-humble-robot-localization \
     ros-humble-foxglove-bridge \
     ros-humble-diagnostic-updater \
+    espeak \ 
+    alsa-utils \ 
+    software-properties-common \
+    ffmpeg \ 
+    bluez \ 
+    portaudio19-dev \
+    pulseaudio-module-bluetooth \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && \
