@@ -8,8 +8,9 @@ def generate_launch_description():
 	# This yaml is a modified copy of the one found in the sbg driver
 	config = os.path.join(
 		get_package_share_directory('sdv_localization'),
-		'config/sbg',
-		'sbg_device_uart_default.yaml'
+		'config',
+		'sbg',
+		'ellipse_D_uart_car.yaml'
 	)
 
 	return LaunchDescription([

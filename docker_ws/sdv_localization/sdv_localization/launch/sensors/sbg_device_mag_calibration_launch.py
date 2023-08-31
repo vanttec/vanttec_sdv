@@ -5,10 +5,10 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
 	config = os.path.join(
-		get_package_share_directory('sbg_driver'),
+		get_package_share_directory('sdv_localization'),
 		'config',
-		'example',
-		'ellipse_E_default.yaml'
+		'sbg',
+		'ellipse_D_uart_car.yaml'
 	)
 
 	return LaunchDescription([
