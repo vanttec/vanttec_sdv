@@ -157,15 +157,15 @@ private:
 
         ned_pose_msg.pose.pose.orientation = msg_in->quaternion;
 
+        // ENU
         enu_pose_msg.header.frame_id = "odom";
         enu_pose_msg.header.set__stamp(msg_in->header.stamp);
 
-        // ENU
         enu_pose_msg.pose.pose.position.x = globalNED[1]; //Change between 
         enu_pose_msg.pose.pose.position.y = globalNED[0]; 
         enu_pose_msg.pose.pose.position.z = 0;
 
-        tf2::Quaternion quaternionTransformEnu, quaternionResult;
+        tf2::Quaternion quaternionResult;
         tf2::convert(msg_in->quaternion, quaternionResult);
         quaternionResult.setZ(-quaternionResult.getZ());
         quaternionResult.normalize();
@@ -175,7 +175,6 @@ private:
         pub_pose->publish(enu_pose_msg);
 
         /* PATH MSGS */
-
         geometry_msgs::msg::PoseStamped pathToAdd;
 
         // NED
@@ -191,7 +190,6 @@ private:
         pathToAdd.header = enu_pose_msg.header;
         enu_path.header = enu_pose_msg.header;
         enu_path.poses.push_back(pathToAdd);
-
         pub_path->publish(enu_path);
 
         /* ODOMETRY MSGS */

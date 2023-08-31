@@ -336,9 +336,6 @@ private:
   const std::vector<double> global_ref_ins_poslla_ = {25.65014586802158, -100.28985364572286}; // Coordenadas entre Biblio y CETEC
   const std::vector<double> global_ref_ins_posecef_ = {-1027768.8799482058, -5661145.344370203, 2744403.2051628013};               
 
-  // Parameter declaration
-  
-  
 
   //Vars to store data from the INS Common groups
   // uint8_t gps_fix_ = vectornav_msgs::msg::GpsGroup::GPSFIX_NOFIX;
