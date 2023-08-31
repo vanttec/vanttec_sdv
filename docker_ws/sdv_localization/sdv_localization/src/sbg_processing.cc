@@ -63,7 +63,7 @@ public:
     
     // Subscribers
     auto sub_sbg_ecef_cb = std::bind(&sbgGPSPose::sub_sbg_ecef, this, std::placeholders::_1);
-    sub_sbg_ecef_ = this->create_subscription<geometry_msgs::msg::PointStamped>("imu/pose_ecef", 10, sub_sbg_ecef_cb);
+    sub_sbg_ecef_ = this->create_subscription<geometry_msgs::msg::PointStamped>("imu/pos_ecef", 10, sub_sbg_ecef_cb);
     
     auto sub_sbg_odom_cb = std::bind(&sbgGPSPose::sub_sbg_odom, this, std::placeholders::_1);
     sub_sbg_odom_ = this->create_subscription<nav_msgs::msg::Odometry>("imu/odometry", 10, sub_sbg_odom_cb);
