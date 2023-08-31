@@ -1,3 +1,23 @@
+/** ----------------------------------------------------------------------------
+ * @file: sbg_processing.cc
+ * @date: August 31, 2023
+ * @author: Rogelio Salais
+ * @author: Sebas Mtz
+ *
+ * @brief: Processing of the SBG Messages is made in this node.
+ *         This node publishes:
+ *          - ODOM
+ *          - A TF Broadcaster
+ *          - POSE
+ *          - INS reference
+ *          - ECEF reference
+ *        The information published depends on the frame used (ENU, NED) from
+ *        the configuration of the vehicle.
+ *        This can be improved to receive from a parameter the desired output frame,
+ *        and the parent and child frame ID's, so they are not hardcoded.
+ * -----------------------------------------------------------------------------
+ **/
+
 #include <chrono>
 #include <functional>
 #include <memory>

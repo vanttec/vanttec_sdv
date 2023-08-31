@@ -28,17 +28,18 @@ def generate_launch_description():
     vectornav_launch = IncludeLaunchDescription(
       PythonLaunchDescriptionSource([
             PathJoinSubstitution([
-               FindPackageShare('vectornav'),
+               FindPackageShare('sdv_localization'),
                'launch',
+               'sensors',
                'vectornav.launch.py'
             ])
       ]),
       condition=UnlessCondition(LaunchConfiguration('is_simulation'))
    )
     
-    vectornav_odom = Node(
+    vn_processing = Node(
       package='sdv_localization', 
-      executable='vn_gps_pose',
+      executable='vn_processing',
       output='screen',
       parameters=[os.path.join(this_dir, 'config', 'vn_gps_node_params.yaml')],
       condition=UnlessCondition(LaunchConfiguration('is_simulation'))
@@ -49,8 +50,9 @@ def generate_launch_description():
     sbg_launch = IncludeLaunchDescription(
       PythonLaunchDescriptionSource([
             PathJoinSubstitution([
-               FindPackageShare('sbg_driver'),
+               FindPackageShare('sdv_localization'),
                'launch',
+               'sensors',
                'sbg_device_launch.py'
             ])
       ]),
@@ -90,9 +92,9 @@ def generate_launch_description():
     ld = LaunchDescription()
 
     ld.add_action(is_simulation)
-    ld.add_action(vectornav_launch)
-    ld.add_action(vectornav_odom)
-    ld.add_action(sbg_launch)
+   #  ld.add_action(vectornav_launch)
+    ld.add_action(vn_processing)
+    # ld.add_action(sbg_launch)
     # ld.add_action(sbg_odom)
     ld.add_action(tf_odom_base_link)
     ld.add_action(tf_base_link_vectornav)
