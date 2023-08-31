@@ -63,7 +63,7 @@ def generate_launch_description():
         'autostart', default_value='true',
         description='Automatically startup the nav2 stack')
     declare_use_ekf_cmd = DeclareLaunchArgument(
-        'use_ekf', default_value='false',
+        'use_ekf', default_value='false', #activate filter
         description='Use Extended Kalman Filter to fuse sensors')
     declare_use_simulator_cmd = DeclareLaunchArgument(
         'use_simulator',

@@ -44,11 +44,11 @@ def generate_launch_description():
    )
     
     #ODOM is in NED frame since vn measurements are in that configuration, so the rotation from NED to ENU for MAP is necessary
-    start_transform_odom_base_link = Node(
+    start_transform_odom_base_link = Node( #modify to map
             package='tf2_ros',
             executable='static_transform_publisher',
             name="tf_map_to_odom",
-            arguments = ['0', '0', '0', '0', '0', '-3.14159', 'map', 'odom']) #x, y, z, yaw, pitch, roll 
+            arguments = ['0', '0', '0', '0', '0', '0', 'odom', 'base_link']) #x, y, z, yaw, pitch, roll 
     
     start_transform_base_link_vectornav = Node(
             package='tf2_ros',

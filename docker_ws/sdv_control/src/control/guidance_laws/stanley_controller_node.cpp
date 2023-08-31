@@ -264,8 +264,8 @@ class CarGuidanceNode : public rclcpp::Node
                 current_yaw_ = this->create_subscription<vectornav_msgs::msg::CommonGroup>("/vectornav/raw/common",
                                     1, std::bind(&CarGuidanceNode::set_yaw, this, std::placeholders::_1));
             }
-            path_to_follow_ = this->create_subscription<nav_msgs::msg::Path>("/car_control/reference_path",
-                                    1, std::bind(&CarGuidanceNode::set_path, this, std::placeholders::_1));
+            path_to_follow_ = this->create_subscription<nav_msgs::msg::Path>("/plan_smoothed",
+                                    1, std::bind(&CarGuidanceNode::set_path, this, std::placeholders::_1)); //-- /plan_smoothed
 
             timer_ = this->create_wall_timer( std::chrono::milliseconds(1000 / frequency),
                                                 std::bind(&CarGuidanceNode::timer_callback, this));
