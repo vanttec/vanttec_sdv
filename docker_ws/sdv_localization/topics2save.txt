@@ -19,3 +19,5 @@ Disable autonomous mode:
 '''
 cansend can0 401#0200
 '''
+
+--remap /imu/data:=/sbg/imu/data /imu/nav_sat_fix:=/sbg/nav_sat_fix /imu/odometry:=/sbg/odom /imu/pos_ecef:=/sbg/pos_ecef

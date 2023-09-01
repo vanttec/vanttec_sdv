@@ -70,12 +70,20 @@ def generate_launch_description():
     # *********** TRANSFORMS ***********
     
     # ODOM is in the NED frame since vn measurements are in that configuration
+   
    tf_odom_base_link = Node(
       package='tf2_ros',
       executable='static_transform_publisher',
+      name="tf_odom_base_link",
+      arguments = ['0', '0', '0', '0', '0', '-3.14159', 'odom', 'base_link']) #x, y, z, yaw, pitch, roll CHECK order
+
+
+   tf_map_odom = Node(
+      package='tf2_ros',
+      executable='static_transform_publisher',
       name="tf_map_to_odom",
-      arguments = ['0', '0', '0', '0', '0', '-3.14159', 'map', 'odom']) #x, y, z, yaw, pitch, roll 
-    
+      arguments = ['0', '0', '0', '0', '0', '-3.14159', 'map', 'odom']) #x, y, z, yaw, pitch, roll CHECK order
+
     # tf_base_link_sbg = Node(
     #         package='tf2_ros',
     #         executable='static_transform_publisher',
@@ -92,15 +100,17 @@ def generate_launch_description():
       package='tf2_ros',
       executable='static_transform_publisher',
       name="tf_vectornav_to_sbg",
-      arguments = ['-0.54', '0', '0', '0', '0.0', '0.0', 'vectornav', 'imu_link'])
+      arguments = ['-0.545', '0', '-1.9', '0', '0.0', '0.0', 'base_link', 'sbg'])
 
    ld = LaunchDescription()
 
    ld.add_action(is_simulation)
-#  ld.add_action(vectornav_launch)
+   ld.add_action(vectornav_launch)
    ld.add_action(vn_processing)
-   # ld.add_action(sbg_launch)
+   ld.add_action(sbg_launch)
    ld.add_action(sbg_processing)
-   ld.add_action(tf_odom_base_link)
+   #ld.add_action(tf_odom_base_link)
    ld.add_action(tf_base_link_vectornav)
+   ld.add_action(tf_vectornav_sbg)
+   ld.add_action(tf_map_odom)
    return ld

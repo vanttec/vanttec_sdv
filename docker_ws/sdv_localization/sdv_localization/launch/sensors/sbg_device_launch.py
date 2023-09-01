@@ -21,14 +21,14 @@ def generate_launch_description():
 			parameters = [config],
 			remappings=[
 				('/imu/data', '/sbg/imu/data'),
-				('/imu/temp', '/sbg/imu/temp'),
-				('/imu/velocity', '/sbg/imu/velocity'),
-				('/imu/mag', '/sbg/imu/mag'),
-				('/imu/pres', '/sbg/imu/pres'),
-				('/imu/pos_ecef', '/sbg/imu/pos_ecef'),
-				('/imu/utc_ref', '/sbg/imu/utc_ref'),
-				('/imu/nav_sat_fix', '/sbg/imu/nav_sat_fix'),
-				('/imu/odometry', '/sbg/imu/odometry'),
+				('/imu/temp', '/sbg/temp'),
+				('/imu/velocity', '/sbg/velocity'),
+				# ('/imu/mag', '/sbg/mag'),
+				('/imu/pres', '/sbg/pres'),
+				('/imu/pos_ecef', '/sbg/pos_ecef'),
+				('/imu/utc_ref', '/sbg/utc_ref'),
+				('/imu/nav_sat_fix', '/sbg/nav_sat_fix'),
+				('/imu/odometry', '/sbg/odom'),
 			]
 		)
 	])

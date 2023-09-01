@@ -18,6 +18,7 @@
 #include <chrono>
 #include <functional>
 #include <memory>
+#include <cmath>
 #include <string>
 
 #include "rclcpp/rclcpp.hpp"
@@ -27,6 +28,9 @@
 
 #include "geometry_msgs/msg/pose_with_covariance_stamped.hpp"
 #include "geometry_msgs/msg/twist_with_covariance_stamped.hpp"
+
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2/LinearMath/Matrix3x3.h>
 
 // #include "sensor_msgs/msg/fluid_pressure.hpp"
 // #include "sensor_msgs/msg/imu.hpp"
@@ -57,32 +61,95 @@ public:
     // Publishers
     odom_tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
 
+    pub_odom_ = this->create_publisher<nav_msgs::msg::Odometry>("sdv_localization/sbg/odom", 10);
+
     // pub_pose =  this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("sdv_localization/sbg/pose", 10);
     
     pub_path =  this->create_publisher<nav_msgs::msg::Path>("sdv_localization/nav/sbg/path", 10);
     
     // Subscribers
     auto sub_sbg_ecef_cb = std::bind(&sbgGPSPose::sub_sbg_ecef, this, std::placeholders::_1);
-    sub_sbg_ecef_ = this->create_subscription<geometry_msgs::msg::PointStamped>("imu/pos_ecef", 10, sub_sbg_ecef_cb);
+    sub_sbg_ecef_ = this->create_subscription<geometry_msgs::msg::PointStamped>("sbg/pos_ecef", 10, sub_sbg_ecef_cb);
     
     auto sub_sbg_odom_cb = std::bind(&sbgGPSPose::sub_sbg_odom, this, std::placeholders::_1);
-    sub_sbg_odom_ = this->create_subscription<nav_msgs::msg::Odometry>("imu/odometry", 10, sub_sbg_odom_cb);
+    sub_sbg_odom_ = this->create_subscription<nav_msgs::msg::Odometry>("sbg/odom", 10, sub_sbg_odom_cb);
+
   }
 
 private:
 
   void sub_sbg_odom(const nav_msgs::msg::Odometry::SharedPtr msg)
   {
-        geometry_msgs::msg::TransformStamped tf;
+    /* ODOMETRY MSGS */
+    nav_msgs::msg::Odometry odom_msg;
 
-        tf.header.frame_id = msg->header.frame_id;
-        tf.header.set__stamp(msg->header.stamp);
-        tf.child_frame_id = msg->child_frame_id;
-        tf.transform.translation.x = msg->pose.pose.position.x;
-        tf.transform.translation.y = msg->pose.pose.position.y;
-        tf.transform.translation.z = msg->pose.pose.position.z;
-        tf.transform.rotation = msg->pose.pose.orientation;
-        odom_tf_broadcaster_->sendTransform(tf);
+    // ENU
+    odom_msg.header = enu_pose_msg.header;
+    odom_msg.child_frame_id = msg->child_frame_id;
+
+    odom_msg.pose.pose.position = enu_pose_msg.pose.pose.position;
+
+    // SBG publishes orientation from 0 to 2*PI, with zero with respect to East
+    tf2::Quaternion quaternion( msg->pose.pose.orientation.x,
+                                msg->pose.pose.orientation.y,
+                                msg->pose.pose.orientation.z, 
+                                msg->pose.pose.orientation.w);
+    tf2::Matrix3x3 mat(quaternion);
+
+    double roll, pitch, yaw;
+
+    mat.getRPY(roll, pitch, yaw);
+    // mat.getEulerYPR(yaw, pitch, roll);
+
+    // std::cout << "yaw = " << yaw * 180 / M_PI << std::endl;
+    // yaw -= M_PI;
+
+    // yaw = fmod(yaw + M_PI, 2 * M_PI) - M_PI; 
+
+    yaw = -yaw;
+
+    // roll = roll + pitch;
+    // pitch = roll - pitch;
+    // roll = roll - pitch;
+    // pitch = -pitch;
+
+    tf2::Quaternion quat;
+    quat.setRPY(0, 0, yaw);
+    // quat.setYPR(yaw, pitch, roll);
+    geometry_msgs::msg::Quaternion q;
+    q.x = quat.x(); 
+    q.y = quat.y();
+    q.z = quat.z();
+    q.w = quat.w();
+
+    tf2::Quaternion quaternion1( q.x,
+                                q.y,
+                                q.z, 
+                                q.w);
+    tf2::Matrix3x3 mat2(quaternion1);
+
+    mat2.getRPY(roll, pitch, yaw);
+
+    std::cout << "SBG" << std::endl;
+    std::cout << "yaw = " << yaw * 180 / M_PI << " pitch = " << pitch * 180 / M_PI << " roll = " << roll * 180 / M_PI<< std::endl;
+
+    // odom_msg.pose.pose.orientation = msg->pose.pose.orientation;
+    odom_msg.pose.pose.orientation = q;
+
+    odom_msg.twist = msg->twist;
+    // Publish Odometry in ENU
+    pub_odom_->publish(odom_msg);
+
+    // geometry_msgs::msg::TransformStamped tf;
+
+    // tf.header.frame_id = msg->header.frame_id;
+    // tf.header.set__stamp(msg->header.stamp);
+    // tf.child_frame_id = msg->child_frame_id;
+    // tf.transform.translation.x = msg->pose.pose.position.x;
+    // tf.transform.translation.y = msg->pose.pose.position.y;
+    // tf.transform.translation.z = msg->pose.pose.position.z;
+    // tf.transform.rotation = msg->pose.pose.orientation;
+    // odom_tf_broadcaster_->sendTransform(tf);
   }
 
   void sub_sbg_ecef(const geometry_msgs::msg::PointStamped::SharedPtr msg_in)
@@ -97,12 +164,6 @@ private:
     //RCLCPP_INFO(get_logger(), "Frame ID: '%s'", msg_in->header.frame_id.c_str());
     // Time Reference (Startup)
 
-    //NED_POSE_Publish
-    geometry_msgs::msg::PoseWithCovarianceStamped ned_pose_msg;
-
-    //ENU_POSE_Publish
-    geometry_msgs::msg::PoseWithCovarianceStamped enu_pose_msg;
-
 
     // if(hasInitialized){
 
@@ -112,7 +173,7 @@ private:
         currECEF[2] = msg_in->point.z;
 
 
-        std::array<double, 3> globalNED = calculateNED(global_ref_ins_posecef_, global_ref_ins_poslla_, currECEF);
+        globalNED = calculateNED(global_ref_ins_posecef_, global_ref_ins_poslla_, currECEF);
 
         //We changed to TF2 standard messages for easier matrix rotation and subtraction
 
@@ -294,6 +355,7 @@ private:
   //
 
   /// Publishers
+  rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr pub_odom_;
   std::unique_ptr<tf2_ros::TransformBroadcaster> odom_tf_broadcaster_;
   // rclcpp::Publisher<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr pub_pose;
   rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr pub_path;
@@ -339,6 +401,15 @@ private:
   //Path message to publish
   nav_msgs::msg::Path ned_path;
   nav_msgs::msg::Path enu_path;
+
+  //NED_POSE_Publish
+  geometry_msgs::msg::PoseWithCovarianceStamped ned_pose_msg;
+
+  //ENU_POSE_Publish
+  geometry_msgs::msg::PoseWithCovarianceStamped enu_pose_msg;
+
+  std::array<double, 3> globalNED;
+
 
 
   // bool hasInitialized = false;

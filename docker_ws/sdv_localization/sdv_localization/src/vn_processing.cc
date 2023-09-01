@@ -165,12 +165,40 @@ private:
         enu_pose_msg.pose.pose.position.y = globalNED[0]; 
         enu_pose_msg.pose.pose.position.z = 0;
 
-        tf2::Quaternion quaternionResult;
-        tf2::convert(msg_in->quaternion, quaternionResult);
-        quaternionResult.setZ(-quaternionResult.getZ());
-        quaternionResult.normalize();
+        tf2::Quaternion quaternion(msg_in->quaternion.x, msg_in->quaternion.y, msg_in->quaternion.z, msg_in->quaternion.w);
+        tf2::Matrix3x3 mat(quaternion);
 
-        enu_pose_msg.pose.pose.orientation = tf2::toMsg(quaternionResult);
+        double roll, pitch, yaw;
+
+        mat.getRPY(roll, pitch, yaw);
+
+        tf2::Quaternion quat;
+        quat.setRPY(0, 0, yaw);
+        // quat.setYPR(yaw, pitch, roll);
+        geometry_msgs::msg::Quaternion q;
+        q.x = quat.x(); 
+        q.y = quat.y();
+        q.z = quat.z();
+        q.w = quat.w();
+
+        tf2::Quaternion quaternion1( q.x,
+                                    q.y,
+                                    q.z, 
+                                    q.w);
+        tf2::Matrix3x3 mat2(quaternion1);
+
+        mat2.getRPY(roll, pitch, yaw);
+
+        std::cout << "Vectornav" << std::endl;
+        std::cout << "yaw = " << yaw * 180 / M_PI << " pitch = " << pitch * 180 / M_PI << " roll = " << roll * 180 / M_PI<< std::endl;
+
+        // tf2::Quaternion quaternionResult;
+        // tf2::convert(msg_in->quaternion, quaternionResult);
+        // quaternionResult.setZ(-quaternionResult.getZ());
+        // quaternionResult.normalize();
+
+        // enu_pose_msg.pose.pose.orientation = tf2::toMsg(quaternionResult);
+        enu_pose_msg.pose.pose.orientation = q;
 
         pub_pose->publish(enu_pose_msg);
 
@@ -197,7 +225,7 @@ private:
 
         // ENU
         odom_msg.header = enu_pose_msg.header;
-        odom_msg.child_frame_id = "base_link";
+        odom_msg.child_frame_id = "vectornav";
         odom_msg.pose = enu_pose_msg.pose;
         geometry_msgs::msg::Vector3 vel;
         //Switch between Yawpitchroll in NED to ENU format = pitch <-> roll
@@ -220,16 +248,16 @@ private:
         /* TRANSFORM BROADCASTER */
 
         //Transform odom to base_link publish in a ENU frame
-        geometry_msgs::msg::TransformStamped tf;
+        // geometry_msgs::msg::TransformStamped tf;
 
-        tf.header.frame_id = "odom";
-        tf.header.set__stamp(msg_in->header.stamp);
-        tf.child_frame_id = "base_link";
-        tf.transform.translation.x = enu_pose_msg.pose.pose.position.x;  //
-        tf.transform.translation.y = enu_pose_msg.pose.pose.position.y;  //
-        tf.transform.translation.z = enu_pose_msg.pose.pose.position.z;  //
-        tf.transform.set__rotation(enu_pose_msg.pose.pose.orientation);  //
-        odom_tf_broadcaster_->sendTransform(tf);
+        // tf.header.frame_id = "odom";
+        // tf.header.set__stamp(msg_in->header.stamp);
+        // tf.child_frame_id = "base_link";
+        // tf.transform.translation.x = enu_pose_msg.pose.pose.position.x;  //
+        // tf.transform.translation.y = enu_pose_msg.pose.pose.position.y;  //
+        // tf.transform.translation.z = enu_pose_msg.pose.pose.position.z;  //
+        // tf.transform.set__rotation(enu_pose_msg.pose.pose.orientation);  //
+        // odom_tf_broadcaster_->sendTransform(tf);
     }
     else
     {
