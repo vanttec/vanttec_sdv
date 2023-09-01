@@ -122,6 +122,8 @@ def generate_launch_description():
         launch_arguments={'use_rviz': use_rviz,
                           'params_file': params_file,
                           'rviz_config_file': rviz_config_file}.items())
+
+    
     bringup_cmd_group = GroupAction([
         Node(
             condition=IfCondition(use_composition),
@@ -131,6 +133,19 @@ def generate_launch_description():
             parameters=[configured_params, {'autostart': autostart}],
             arguments=['--ros-args', '--log-level', log_level],
             output='screen'),
+
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            name='map2maptransform',
+            output='screen',
+            arguments=['0', '0', '0', '0', '0', '0', 'map', 'amcl_map']),
+
+
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                os.path.join(sdv_localization, 'launch', 'map_broadcast.launch.py'))), 
+
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 os.path.join(beetle_nav_dir, 'launch', 'localization.launch.py')),
@@ -142,6 +157,7 @@ def generate_launch_description():
                               'use_respawn': use_respawn,
                               'map': map_yaml_file,
                               'container_name': 'nav2_container'}.items()),
+
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 os.path.join(bringup_dir, 'launch', 'navigation_launch.py')),
@@ -151,7 +167,8 @@ def generate_launch_description():
                               'use_composition': use_composition,
                               'use_respawn': use_respawn,
                               'container_name': 'nav2_container'}.items())])
-
+        
+    
     # Declare event handlers
 
     # Create launch description
@@ -180,5 +197,6 @@ def generate_launch_description():
 
     # Add actions
     ld.add_action(bringup_cmd_group)
-
+    #ld.add_action(start_map2maptransform)
+    #ld.add_action(start_map_amcl_broadcaster)
     return ld
