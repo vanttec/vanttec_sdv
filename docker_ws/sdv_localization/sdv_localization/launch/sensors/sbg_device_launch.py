@@ -23,7 +23,7 @@ def generate_launch_description():
 				('/imu/data', '/sbg/imu/data'),
 				('/imu/temp', '/sbg/temp'),
 				('/imu/velocity', '/sbg/velocity'),
-				('/imu/mag', '/sbg/mag'),
+				# ('/imu/mag', '/sbg/mag'),
 				('/imu/pres', '/sbg/pres'),
 				('/imu/pos_ecef', '/sbg/pos_ecef'),
 				('/imu/utc_ref', '/sbg/utc_ref'),
