@@ -197,7 +197,7 @@ private:
 
         // ENU
         odom_msg.header = enu_pose_msg.header;
-        odom_msg.child_frame_id = "base_link";
+        odom_msg.child_frame_id = "vectornav";
         odom_msg.pose = enu_pose_msg.pose;
         geometry_msgs::msg::Vector3 vel;
         //Switch between Yawpitchroll in NED to ENU format = pitch <-> roll

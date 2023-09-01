@@ -18,6 +18,7 @@
 #include <chrono>
 #include <functional>
 #include <memory>
+#include <cmath>
 #include <string>
 
 #include "rclcpp/rclcpp.hpp"
@@ -27,6 +28,9 @@
 
 #include "geometry_msgs/msg/pose_with_covariance_stamped.hpp"
 #include "geometry_msgs/msg/twist_with_covariance_stamped.hpp"
+
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2/LinearMath/Matrix3x3.h>
 
 // #include "sensor_msgs/msg/fluid_pressure.hpp"
 // #include "sensor_msgs/msg/imu.hpp"
@@ -83,22 +87,53 @@ private:
     odom_msg.header = enu_pose_msg.header;
     odom_msg.child_frame_id = msg->child_frame_id;
 
-    odom_msg.pose = enu_pose_msg.pose;
+    odom_msg.pose.pose.position = enu_pose_msg.pose.pose.position;
+
+    // SBG publishes orientation from 0 to 2*PI, with zero with respect to East
+    tf2::Quaternion quaternion( msg->pose.pose.orientation.x,
+                                msg->pose.pose.orientation.y,
+                                msg->pose.pose.orientation.z, 
+                                msg->pose.pose.orientation.w);
+    tf2::Matrix3x3 mat(quaternion);
+
+    double roll, pitch, yaw;
+
+    mat.getRPY(roll, pitch, yaw);
+
+    // std::cout << "yaw = " << yaw * 180 / M_PI << std::endl;
+    // yaw -= M_PI;
+
+    // yaw = fmod(yaw + M_PI, 2 * M_PI) - M_PI; 
+
+    yaw = -yaw;
+    roll = -roll;
+
+    std::cout << "yaw = " << yaw * 180 / M_PI << " pitch = " << pitch * 180 / M_PI << " roll = " << roll * 180 / M_PI<< std::endl;
+
+    tf2::Quaternion quat;
+    quat.setRPY(roll, pitch, yaw);
+    geometry_msgs::msg::Quaternion q;
+    q.x = quaternion.x();
+    q.y = quaternion.y();
+    q.z = quaternion.z();
+    q.w = quaternion.w();
+
+    odom_msg.pose.pose.orientation = msg->pose.pose.orientation;
 
     odom_msg.twist = msg->twist;
     // Publish Odometry in ENU
     pub_odom_->publish(odom_msg);
 
-    geometry_msgs::msg::TransformStamped tf;
+    // geometry_msgs::msg::TransformStamped tf;
 
-    tf.header.frame_id = msg->header.frame_id;
-    tf.header.set__stamp(msg->header.stamp);
-    tf.child_frame_id = msg->child_frame_id;
-    tf.transform.translation.x = msg->pose.pose.position.x;
-    tf.transform.translation.y = msg->pose.pose.position.y;
-    tf.transform.translation.z = msg->pose.pose.position.z;
-    tf.transform.rotation = msg->pose.pose.orientation;
-    odom_tf_broadcaster_->sendTransform(tf);
+    // tf.header.frame_id = msg->header.frame_id;
+    // tf.header.set__stamp(msg->header.stamp);
+    // tf.child_frame_id = msg->child_frame_id;
+    // tf.transform.translation.x = msg->pose.pose.position.x;
+    // tf.transform.translation.y = msg->pose.pose.position.y;
+    // tf.transform.translation.z = msg->pose.pose.position.z;
+    // tf.transform.rotation = msg->pose.pose.orientation;
+    // odom_tf_broadcaster_->sendTransform(tf);
   }
 
   void sub_sbg_ecef(const geometry_msgs::msg::PointStamped::SharedPtr msg_in)

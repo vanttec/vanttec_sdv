@@ -100,7 +100,7 @@ def generate_launch_description():
       package='tf2_ros',
       executable='static_transform_publisher',
       name="tf_vectornav_to_sbg",
-      arguments = ['-0.545', '0', '0', '0', '0.0', '0.0', 'vectornav', 'sbg'])
+      arguments = ['-0.545', '0', '-1.9', '0', '0.0', '0.0', 'base_link', 'sbg'])
 
    ld = LaunchDescription()
 
