@@ -16,7 +16,7 @@
       #       output frequency.
       #       The frequency can be reduced in order to reduce CPU consumption but
       #       it can lead to miss data frame and less accurate time stamping.
-      frequency: 400
+      frequency: 100
 
     odometry:
       # Enable ROS odometry messages.

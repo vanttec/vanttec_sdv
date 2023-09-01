@@ -99,6 +99,7 @@ private:
     double roll, pitch, yaw;
 
     mat.getRPY(roll, pitch, yaw);
+    // mat.getEulerYPR(yaw, pitch, roll);
 
     // std::cout << "yaw = " << yaw * 180 / M_PI << std::endl;
     // yaw -= M_PI;
@@ -106,19 +107,34 @@ private:
     // yaw = fmod(yaw + M_PI, 2 * M_PI) - M_PI; 
 
     yaw = -yaw;
-    roll = -roll;
 
-    std::cout << "yaw = " << yaw * 180 / M_PI << " pitch = " << pitch * 180 / M_PI << " roll = " << roll * 180 / M_PI<< std::endl;
+    // roll = roll + pitch;
+    // pitch = roll - pitch;
+    // roll = roll - pitch;
+    // pitch = -pitch;
 
     tf2::Quaternion quat;
-    quat.setRPY(roll, pitch, yaw);
+    quat.setRPY(0, 0, yaw);
+    // quat.setYPR(yaw, pitch, roll);
     geometry_msgs::msg::Quaternion q;
-    q.x = quaternion.x();
-    q.y = quaternion.y();
-    q.z = quaternion.z();
-    q.w = quaternion.w();
+    q.x = quat.x(); 
+    q.y = quat.y();
+    q.z = quat.z();
+    q.w = quat.w();
 
-    odom_msg.pose.pose.orientation = msg->pose.pose.orientation;
+    tf2::Quaternion quaternion1( q.x,
+                                q.y,
+                                q.z, 
+                                q.w);
+    tf2::Matrix3x3 mat2(quaternion1);
+
+    mat2.getRPY(roll, pitch, yaw);
+
+    std::cout << "SBG" << std::endl;
+    std::cout << "yaw = " << yaw * 180 / M_PI << " pitch = " << pitch * 180 / M_PI << " roll = " << roll * 180 / M_PI<< std::endl;
+
+    // odom_msg.pose.pose.orientation = msg->pose.pose.orientation;
+    odom_msg.pose.pose.orientation = q;
 
     odom_msg.twist = msg->twist;
     // Publish Odometry in ENU
