@@ -41,6 +41,7 @@ def generate_launch_description():
     world_file = LaunchConfiguration('world_file')
     map_yaml_file = LaunchConfiguration('map')
     log_level = LaunchConfiguration('log_level')
+    second_map_yaml_file=LaunchConfiguration('second_map')
 
     # Rewrite params in files
     param_substitutions = {
@@ -100,9 +101,16 @@ def generate_launch_description():
         #default_value=os.path.join(sdv_localization, 'maps', 'aa.yaml'),
         description='Full path to map yaml file to load')
     
+    declare_second_map_yaml_cmd = DeclareLaunchArgument(
+        'second_map',
+        default_value=os.path.join(sdv_localization, 'maps', 'raw_map.yaml'),
+        description='Full path to map yaml file to load')
+
+
     declare_log_level_cmd = DeclareLaunchArgument(
         'log_level', default_value='info',
         description='log level')
+    
 
     # Define actions
     # start_simulator = IncludeLaunchDescription(
@@ -122,6 +130,23 @@ def generate_launch_description():
         launch_arguments={'use_rviz': use_rviz,
                           'params_file': params_file,
                           'rviz_config_file': rviz_config_file}.items())
+    
+    map_server_planner= Node(
+        package='nav2_map_server',
+        executable='maps_server',
+        name='map_server_planner',
+        parameters=[{'use_sim_time': True, 'yaml_filename':LaunchConfiguration('map')}],
+        output='screen' )
+    
+    map_server_amcl= Node(
+        package='nav2_map_server',
+        executable='maps_server',
+        name='map_server_planner',
+        parameters=[{'use_sim_time': True, 'yaml_filename':LaunchConfiguration('second_map')}],
+        output='screen' )    
+    
+    
+    
     bringup_cmd_group = GroupAction([
         Node(
             condition=IfCondition(use_composition),
@@ -177,8 +202,12 @@ def generate_launch_description():
     # Add conditioned actions
     # ld.add_action(start_simulator)
     ld.add_action(start_robot)
+    ld.add_action(declare_second_map_yaml_cmd)
+    ld.add_action(map_server_planner)
+    ld.add_action(map_server_amcl)
 
+    
     # Add actions
     ld.add_action(bringup_cmd_group)
-
+    
     return ld
