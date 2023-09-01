@@ -74,7 +74,8 @@ def generate_launch_description():
       package='tf2_ros',
       executable='static_transform_publisher',
       name="tf_map_to_odom",
-      arguments = ['0', '0', '0', '0', '0', '-3.14159', 'map', 'odom']) #x, y, z, yaw, pitch, roll 
+      #arguments = ['0', '0', '0', '0', '0', '-3.14159', 'odom', 'base_link']) #x, y, z, yaw, pitch, roll CHECK order
+      arguments = ['0', '0', '0', '0', '0', '-3.14159', 'map', 'odom']) #x, y, z, yaw, pitch, roll CHECK order
     
     # tf_base_link_sbg = Node(
     #         package='tf2_ros',
@@ -97,10 +98,10 @@ def generate_launch_description():
    ld = LaunchDescription()
 
    ld.add_action(is_simulation)
-#  ld.add_action(vectornav_launch)
+   ld.add_action(vectornav_launch)
    ld.add_action(vn_processing)
-   # ld.add_action(sbg_launch)
+   ld.add_action(sbg_launch)
    ld.add_action(sbg_processing)
-   ld.add_action(tf_odom_base_link)
+   #ld.add_action(tf_odom_base_link)
    ld.add_action(tf_base_link_vectornav)
    return ld
