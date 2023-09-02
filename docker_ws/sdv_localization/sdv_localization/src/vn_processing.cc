@@ -181,16 +181,16 @@ private:
         q.z = quat.z();
         q.w = quat.w();
 
-        tf2::Quaternion quaternion1( q.x,
-                                    q.y,
-                                    q.z, 
-                                    q.w);
-        tf2::Matrix3x3 mat2(quaternion1);
+        // tf2::Quaternion quaternion1( q.x,
+        //                             q.y,
+        //                             q.z, 
+        //                             q.w);
+        // tf2::Matrix3x3 mat2(quaternion1);
 
-        mat2.getRPY(roll, pitch, yaw);
+        // mat2.getRPY(roll, pitch, yaw);
 
-        std::cout << "Vectornav" << std::endl;
-        std::cout << "yaw = " << yaw * 180 / M_PI << " pitch = " << pitch * 180 / M_PI << " roll = " << roll * 180 / M_PI<< std::endl;
+        // std::cout << "Vectornav" << std::endl;
+        // std::cout << "yaw = " << yaw * 180 / M_PI << " pitch = " << pitch * 180 / M_PI << " roll = " << roll * 180 / M_PI<< std::endl;
 
         // tf2::Quaternion quaternionResult;
         // tf2::convert(msg_in->quaternion, quaternionResult);
@@ -234,13 +234,13 @@ private:
         vel.z = msg_in->angularrate.y;
         odom_msg.twist.twist.angular = vel;
 
-        // odom_msg.twist.twist.linear = ins_velbody_;
+        odom_msg.twist.twist.linear = ins_velbody_;
 
         //Switch from NED to ENU velocity
-        vel.x = msg_in->velocity.y;
-        vel.y = msg_in->velocity.x;
-        vel.z = -msg_in->velocity.z;
-        odom_msg.twist.twist.linear = vel;
+        // vel.x = msg_in->velocity.y;
+        // vel.y = msg_in->velocity.x;
+        // vel.z = -msg_in->velocity.z;
+        // odom_msg.twist.twist.linear = vel;
 
         // Publish Odometry in ENU
         pub_odom_->publish(odom_msg);

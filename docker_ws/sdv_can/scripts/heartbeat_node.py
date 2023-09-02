@@ -1,16 +1,16 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 import rclpy
 from rclpy.node import Node
 import can
-from  std_msgs.msg import ByteMultiArray
+from  std_msgs.msg import UInt8MultiArray
 class Heartbeat(Node):
     def __init__(self):
-        super().__init__('Heartbit node started')      
+        super().__init__('heartbit_node_started')      
         self.timer = self.create_timer(0.1, self.timer_callback)
         self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000)
         self.timeout = 3
-        self.module_pub = self.create_publisher(ByteMultiArray,"/sdv/diagnostics/module_status", 2)
-        self.module_msg = ByteMultiArray()
+        self.module_pub = self.create_publisher(UInt8MultiArray,"/sdv/diagnostics/module_status", 10)
+        self.module_msg = UInt8MultiArray()
 
         # *------------------* VANTTEC_IDS-TX *------------------*
         #Dict -> key: Module, value:[name,bool if module has died, actual time , prev time]
@@ -35,7 +35,7 @@ class Heartbeat(Node):
                     #Module activated
                     self.module_status[msg.arbitration_id][1] = True
                 self.module_status[msg.arbitration_id][3] = self.module_status[msg.arbitration_id][2]
-                self.module_msg.data = [value[1] for value in self.module_status.values()]
+                self.module_msg.data = [int(value[1]) for value in self.module_status.values()]
                 self.module_pub.publish(self.module_msg)
 
 def main(args=None):

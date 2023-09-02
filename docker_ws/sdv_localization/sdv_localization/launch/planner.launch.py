@@ -133,14 +133,14 @@ def generate_launch_description():
     
     map_server_planner= Node(
         package='nav2_map_server',
-        executable='maps_server',
+        executable='map_server',
         name='map_server_planner',
         parameters=[{'use_sim_time': True, 'yaml_filename':LaunchConfiguration('map')}],
         output='screen' )
     
     map_server_amcl= Node(
         package='nav2_map_server',
-        executable='maps_server',
+        executable='map_server',
         name='map_server_planner',
         parameters=[{'use_sim_time': True, 'yaml_filename':LaunchConfiguration('second_map')}],
         output='screen' )    

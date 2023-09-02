@@ -32,8 +32,9 @@
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2/LinearMath/Matrix3x3.h>
 
+#include "sensor_msgs/msg/imu.hpp"
+
 // #include "sensor_msgs/msg/fluid_pressure.hpp"
-// #include "sensor_msgs/msg/imu.hpp"
 // #include "sensor_msgs/msg/magnetic_field.hpp"
 // #include "sensor_msgs/msg/nav_sat_fix.hpp"
 // #include "sensor_msgs/msg/temperature.hpp"
@@ -41,6 +42,8 @@
 
 #include "nav_msgs/msg/odometry.hpp"
 #include "nav_msgs/msg/path.hpp"
+
+#include <eigen3/Eigen/Dense>
 
 //ROS2 node class for odometry, NED pose, and velodyne transform - 
 class sbgGPSPose : public rclcpp::Node
@@ -68,6 +71,9 @@ public:
     pub_path =  this->create_publisher<nav_msgs::msg::Path>("sdv_localization/nav/sbg/path", 10);
     
     // Subscribers
+    // auto imu_sub_cb_ = std::bind(&sbgGPSPose::sub_sbg_imu, this, std::placeholders::_1);
+    // // imu_sub_ = this->create_subscription<sensor_msgs::msg::Imu>("sbg/imu/data", 10, imu_sub_cb_);
+    
     auto sub_sbg_ecef_cb = std::bind(&sbgGPSPose::sub_sbg_ecef, this, std::placeholders::_1);
     sub_sbg_ecef_ = this->create_subscription<geometry_msgs::msg::PointStamped>("sbg/pos_ecef", 10, sub_sbg_ecef_cb);
     
@@ -77,6 +83,11 @@ public:
   }
 
 private:
+  // void sub_sbg_imu(const sensor::msg::Imu::SharedPtr msg)
+  // {
+
+  // }
+
 
   void sub_sbg_odom(const nav_msgs::msg::Odometry::SharedPtr msg)
   {
@@ -99,44 +110,63 @@ private:
     double roll, pitch, yaw;
 
     mat.getRPY(roll, pitch, yaw);
-    // mat.getEulerYPR(yaw, pitch, roll);
-
-    // std::cout << "yaw = " << yaw * 180 / M_PI << std::endl;
-    // yaw -= M_PI;
-
-    // yaw = fmod(yaw + M_PI, 2 * M_PI) - M_PI; 
-
     yaw = -yaw;
-
-    // roll = roll + pitch;
-    // pitch = roll - pitch;
-    // roll = roll - pitch;
-    // pitch = -pitch;
-
     tf2::Quaternion quat;
     quat.setRPY(0, 0, yaw);
-    // quat.setYPR(yaw, pitch, roll);
     geometry_msgs::msg::Quaternion q;
     q.x = quat.x(); 
     q.y = quat.y();
     q.z = quat.z();
     q.w = quat.w();
 
-    tf2::Quaternion quaternion1( q.x,
-                                q.y,
-                                q.z, 
-                                q.w);
-    tf2::Matrix3x3 mat2(quaternion1);
+    // tf2::Quaternion quaternion1( q.x,
+    //                             q.y,
+    //                             q.z, 
+    //                             q.w);
+    // tf2::Matrix3x3 mat2(quaternion1);
 
-    mat2.getRPY(roll, pitch, yaw);
+    // mat2.getRPY(roll, pitch, yaw);
 
-    std::cout << "SBG" << std::endl;
-    std::cout << "yaw = " << yaw * 180 / M_PI << " pitch = " << pitch * 180 / M_PI << " roll = " << roll * 180 / M_PI<< std::endl;
+    // std::cout << "SBG" << std::endl;
+    // std::cout << "yaw = " << yaw * 180 / M_PI << " pitch = " << pitch * 180 / M_PI << " roll = " << roll * 180 / M_PI<< std::endl;
 
     // odom_msg.pose.pose.orientation = msg->pose.pose.orientation;
     odom_msg.pose.pose.orientation = q;
 
-    odom_msg.twist = msg->twist;
+    Eigen::Matrix3f R = Eigen::Matrix3f::Zero();
+    Eigen::Matrix3f T = Eigen::Matrix3f::Zero();
+    Eigen::MatrixXf J = Eigen::MatrixXf::Zero(6,6);
+
+    Eigen::VectorXf eta_dot = Eigen::MatrixXf::Zero(6,1);
+    Eigen::VectorXf vel_body = Eigen::MatrixXf::Zero(6,1);
+
+    eta_dot << msg->twist.twist.linear.x,
+               msg->twist.twist.linear.y,
+               msg->twist.twist.linear.z,
+               msg->twist.twist.angular.x,
+               msg->twist.twist.angular.y,
+               msg->twist.twist.angular.z;
+
+    R <<    std::cos(yaw)*std::cos(pitch),      -std::sin(yaw)*std::cos(roll) + std::cos(yaw)*std::sin(pitch)*std::sin(roll),     std::sin(yaw)*std::sin(roll) + std::cos(yaw)*std::cos(roll)*std::sin(pitch),
+            std::sin(yaw)*std::cos(pitch),       std::cos(yaw)*std::cos(roll) + std::sin(roll)*std::sin(pitch)*std::sin(yaw),    -std::cos(yaw)*std::sin(roll) + std::sin(pitch)*std::sin(yaw)*std::cos(roll),
+            -std::sin(pitch),                    std::cos(pitch)*std::sin(roll),                                                  std::cos(pitch)*std::cos(roll);
+
+    T <<   1,     std::sin(roll)*std::tan(pitch),  std::cos(roll)*std::tan(pitch),
+            0,     std::cos(roll),                  -std::sin(roll),
+            0,     std::sin(roll)/std::cos(pitch),  std::cos(roll)/std::cos(pitch);
+
+    J << R,                             Eigen::Matrix3f::Zero(3, 3),
+          Eigen::Matrix3f::Zero(3, 3),  T;
+
+    vel_body = J.inverse()*eta_dot;
+
+    odom_msg.twist.twist.linear.x  = -vel_body(0); // for some reason this must be negated to be similar to the vectornav
+    odom_msg.twist.twist.linear.y  = -vel_body(1);
+    odom_msg.twist.twist.linear.z  = -vel_body(2);
+    odom_msg.twist.twist.angular.x = vel_body(3);
+    odom_msg.twist.twist.angular.y = -vel_body(4);
+    odom_msg.twist.twist.angular.z = -vel_body(5);
+    
     // Publish Odometry in ENU
     pub_odom_->publish(odom_msg);
 
@@ -363,6 +393,7 @@ private:
 
   /// Subscribers
   rclcpp::Subscription<geometry_msgs::msg::PointStamped>::SharedPtr sub_sbg_ecef_;
+  // rclcpp::Subscription<geometry_msgs::msg::PointStamped>::SharedPtr imu_sub_;
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr sub_sbg_odom_;
 
 
