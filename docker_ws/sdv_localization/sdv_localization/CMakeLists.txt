@@ -49,6 +49,7 @@ add_executable(vn_processing src/vn_processing.cc)
 # add_executable(vslam_repub src/visual_slam_republisher.cc)
 # add_executable(isaac_awake src/isaac_vslam_awake2.cpp)
 add_executable(sbg_processing src/sbg_processing.cc)
+add_executable(temp_tf_odom_map src/temp_tf_odom_map_pub.cc)
 ament_target_dependencies(vn_processing rclcpp sensor_msgs vectornav_msgs tf2_geometry_msgs nav_msgs)
 # ament_target_dependencies(diagnostics rclcpp sensor_msgs vectornav_msgs tf2_geometry_msgs nav_msgs sdv_localization_msgs)
 # ament_target_dependencies(vslam_repub rclcpp sensor_msgs vectornav_msgs tf2_geometry_msgs nav_msgs sdv_localization_msgs)
@@ -58,6 +59,7 @@ ament_target_dependencies(vn_processing rclcpp sensor_msgs vectornav_msgs tf2_ge
 #               ../sensors/sbg_ros2_driver/external/sbgECom/src/sbgEComLib.h)
 # ament_target_dependencies(sbg_processing rclcpp sensor_msgs vectornav_msgs tf2_geometry_msgs nav_msgs sbg_driver std_srvs)
 ament_target_dependencies(sbg_processing rclcpp sensor_msgs tf2_geometry_msgs nav_msgs)
+ament_target_dependencies(temp_tf_odom_map rclcpp sensor_msgs vectornav_msgs tf2_geometry_msgs nav_msgs)
 
 target_link_libraries(vn_processing vncxx )
 
@@ -71,6 +73,7 @@ install(TARGETS
   # diagnostics
   # vslam_repub
   # isaac_awake
+  temp_tf_odom_map
   DESTINATION lib/${PROJECT_NAME}
 )
 
