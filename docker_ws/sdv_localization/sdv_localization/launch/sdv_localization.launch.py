@@ -107,6 +107,12 @@ def generate_launch_description():
       executable='static_transform_publisher',
       name="tf_base_link_to_velodyne",
       arguments = ['0.45', '0', '2.25', '-0.05', '0.0', '0', 'base_link', 'velodyne'])
+   
+   tf_map_to_scan = Node(
+      package='tf2_ros',
+      executable='static_transform_publisher',
+      name="tf_map_to_scan",
+      arguments = ['0', '0', '0', '0', '0', '0', 'map', 'scan'])
 
    ld = LaunchDescription()
 
@@ -120,4 +126,5 @@ def generate_launch_description():
    ld.add_action(tf_vectornav_sbg)
    ld.add_action(tf_map_odom)
    ld.add_action(tf_base_link_velodyne)
+   ld.add_action(tf_map_to_scan)
    return ld

@@ -99,6 +99,8 @@ def generate_launch_description():
         #default_value=os.path.join(sdv_localization, 'maps', 'map.yaml'),
         #default_value=os.path.join(sdv_localization, 'maps', 'carreta_map.yaml'),
         default_value=os.path.join(sdv_localization, 'maps', 'andres_map.yaml'),
+        #default_value=os.path.join(sdv_localization, 'maps', '3.yaml'),
+
         #default_value=os.path.join(sdv_localization, 'maps', 'aa.yaml'),
         description='Full path to map yaml file to load')
     
@@ -177,6 +179,7 @@ def generate_launch_description():
                               'use_composition': use_composition,
                               'use_respawn': use_respawn,
                               'container_name': 'nav2_container'}.items())])
+    
 
     # Declare event handlers
 
