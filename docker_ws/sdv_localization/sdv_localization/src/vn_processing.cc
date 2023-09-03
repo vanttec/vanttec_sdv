@@ -200,7 +200,7 @@ private:
         // enu_pose_msg.pose.pose.orientation = tf2::toMsg(quaternionResult);
         enu_pose_msg.pose.pose.orientation = q;
 
-        pub_pose->publish(enu_pose_msg);
+        pub_pose->publish(ned_pose_msg);
 
         /* PATH MSGS */
         geometry_msgs::msg::PoseStamped pathToAdd;
@@ -218,7 +218,7 @@ private:
         pathToAdd.header = enu_pose_msg.header;
         enu_path.header = enu_pose_msg.header;
         enu_path.poses.push_back(pathToAdd);
-        pub_path->publish(enu_path);
+        pub_path->publish(ned_path);
 
         /* ODOMETRY MSGS */
         nav_msgs::msg::Odometry odom_msg;
@@ -247,17 +247,17 @@ private:
 
         /* TRANSFORM BROADCASTER */
 
-        //Transform odom to base_link publish in a ENU frame
-        // geometry_msgs::msg::TransformStamped tf;
+        // Transform odom to base_link publish in a ENU frame
+        geometry_msgs::msg::TransformStamped tf;
 
-        // tf.header.frame_id = "odom";
-        // tf.header.set__stamp(msg_in->header.stamp);
-        // tf.child_frame_id = "base_link";
-        // tf.transform.translation.x = enu_pose_msg.pose.pose.position.x;  //
-        // tf.transform.translation.y = enu_pose_msg.pose.pose.position.y;  //
-        // tf.transform.translation.z = enu_pose_msg.pose.pose.position.z;  //
-        // tf.transform.set__rotation(enu_pose_msg.pose.pose.orientation);  //
-        // odom_tf_broadcaster_->sendTransform(tf);
+        tf.header.frame_id = "odom";
+        tf.header.set__stamp(msg_in->header.stamp);
+        tf.child_frame_id = "base_link";
+        tf.transform.translation.x = ned_pose_msg.pose.pose.position.x;  //
+        tf.transform.translation.y = ned_pose_msg.pose.pose.position.y;  //
+        tf.transform.translation.z = ned_pose_msg.pose.pose.position.z;  //
+        tf.transform.set__rotation(ned_pose_msg.pose.pose.orientation);  //
+        odom_tf_broadcaster_->sendTransform(tf);
     }
     else
     {

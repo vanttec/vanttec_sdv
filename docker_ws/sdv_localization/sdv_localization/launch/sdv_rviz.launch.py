@@ -28,7 +28,7 @@ def generate_launch_description():
         # For real life tests
         # 'sdv_anniversary.rviz'
         # 'sdv_parking_lot_cetec2.rviz'
-        'sdv_parking_lot_cetec.rviz'
+        'sdv_anniversary.rviz'
     )
 
     # Vectornav, SBG and TF config

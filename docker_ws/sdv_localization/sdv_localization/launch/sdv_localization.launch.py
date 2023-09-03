@@ -71,11 +71,11 @@ def generate_launch_description():
     
     # ODOM is in the NED frame since vn measurements are in that configuration
    
-   tf_odom_base_link = Node(
-      package='tf2_ros',
-      executable='static_transform_publisher',
-      name="tf_odom_base_link",
-      arguments = ['0', '0', '0', '0', '0', '-3.14159', 'odom', 'base_link']) #x, y, z, yaw, pitch, roll CHECK order
+   # tf_odom_base_link = Node(
+   #    package='tf2_ros',
+   #    executable='static_transform_publisher',
+   #    name="tf_odom_base_link",
+   #    arguments = ['0', '0', '0', '0', '0', '-3.14159', 'odom', 'base_link']) #x, y, z, yaw, pitch, roll CHECK order
 
 
    tf_map_odom = Node(
@@ -107,8 +107,8 @@ def generate_launch_description():
    ld.add_action(is_simulation)
    ld.add_action(vectornav_launch)
    ld.add_action(vn_processing)
-   ld.add_action(sbg_launch)
-   ld.add_action(sbg_processing)
+   #ld.add_action(sbg_launch)
+   #ld.add_action(sbg_processing)
    #ld.add_action(tf_odom_base_link)
    ld.add_action(tf_base_link_vectornav)
    ld.add_action(tf_vectornav_sbg)
