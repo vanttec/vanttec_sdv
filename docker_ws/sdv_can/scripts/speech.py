@@ -37,6 +37,7 @@ class Speech(Node):
                         "on" : "/sounds/on.wav",
                         "off" : "/sounds/off.wav",   
                         "good_morning_sir": "/sounds/good_morning_sir.wav",  
+                        "song_tec" : "/sounds/song_tec.wav",   
                        }
 
         # Get the package path
