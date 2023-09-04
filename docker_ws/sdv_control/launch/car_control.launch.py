@@ -93,7 +93,7 @@ def generate_launch_description():
 
    waypoint_handler = Node(
       package='sdv_control',
-      executable='waypoint_handler.py',
+      executable='waypoint_handler_enu_ned.py',
       namespace="",
       output="screen",
       name='waypoint_handler',
@@ -145,12 +145,12 @@ def generate_launch_description():
          msg="Running in real robot mode."
       ),
 
-      #waypoint_handler,
-      car_control_node,
-      car_guidance_node,
+      waypoint_handler,
+      #car_control_node,
+      #car_guidance_node,
       # tf2_node,
-      rviz,
+      #rviz,
       #sdv_description_launch,
-      sdv_loc_launch
+      #sdv_loc_launch
       # sdv_can_launch
    ])

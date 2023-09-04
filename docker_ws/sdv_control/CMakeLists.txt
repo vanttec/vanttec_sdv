@@ -229,7 +229,7 @@ install(DIRECTORY
 
 # Install Python executables
 install(PROGRAMS
-  scripts/waypoint_handler.py
+  scripts/waypoint_handler_enu_ned.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
