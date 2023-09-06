@@ -72,17 +72,17 @@ def generate_launch_description():
                   ]
    )
 
-   # tf2_node = Node(
-   #    package='sdv_control',
-   #    executable='car_tf2_broadcast_node',
-   #    namespace="",
-   #    name='car_tf2_broadcast_node',
-   #    parameters=[
-   #                # {'frequency': LaunchConfiguration('frequency')},
-   #                car_params
-   #                ],
-   #    condition=IfCondition(LaunchConfiguration('is_simulation'))
-   # )
+   tf2_node = Node(
+      package='sdv_control',
+      executable='car_tf2_broadcast_node',
+      namespace="",
+      name='car_tf2_broadcast_node',
+      parameters=[
+                  # {'frequency': LaunchConfiguration('frequency')},
+                  car_params
+                  ],
+      condition=IfCondition(LaunchConfiguration('is_simulation'))
+   )
 
    rviz = Node(
       package='rviz2',
@@ -146,11 +146,11 @@ def generate_launch_description():
       ),
 
       waypoint_handler,
-      #car_control_node,
-      #car_guidance_node,
-      # tf2_node,
-      #rviz,
-      #sdv_description_launch,
-      #sdv_loc_launch
+      car_control_node,
+      car_guidance_node,
+      tf2_node,
+      rviz,
+      sdv_description_launch,
+      sdv_loc_launch,
       # sdv_can_launch
    ])

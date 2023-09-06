@@ -3,7 +3,7 @@
         "frenado":[[5,16],""], 
         "encendido":[[5,17],""],
         "apagado":[[5,18],""],
-        "estacionario":[[5,19],"joke"],
+        "estacionario":[[5,19],""],
         "aceleracion":[[5,20],""],
         "sin_cambios":[[5,21],""],
         "reset":[[5,10],""]
@@ -13,30 +13,30 @@
         "giro_prominente_izquierda":[[6,17],""],
         "gran_trafico":[[6,18],""],
         "giro_repentino_derecha":[[6,19],""],
-        "giro_repentino_izquierda":[[6,20],""],
+        "giro_repentino_izquierda":[[6,21],""],
         "reset":[[6,10],""]
     },
     "driveMode":{
-        "autonomo":[[7,16],""],
-        "manual":[[7,18],""]
+        "autonomo":[[7,1],""],
+        "manual":[[7,0],""]
     },
-    "reverseSwitch":{
-        "revers2":[[8,16],""],
-        "drive":[[8,17],""]
+    "seat_sensor":{
+        "1":[[22,1],""],
+        "0":[[22,0],""]
     },
     "safetyMode":{
         "on":[[9,16],""],
-        "off":[[9,17],""]
+        "off":[[9,10],""]
     },
     "objectNotification":{
         "close":[[16,16],"nearby_object"],
         "far":[[16,17],"distant_object"],
-        "nothing":[[16,18],""]
+        "nothing":[[16,10],""]
     },
     "recognizeTraffic":{
         "stop":[[17,16],"stop_signal"],
         "pedestrian":[[17,17],"pedestrian_signal"],
-        "nothing":[[17,18],""]
+        "nothing":[[17,10],""]
     },
     "detectLane":{
         "in_lane":[[18,16],""],
@@ -55,12 +55,16 @@
         "1": "good_morning_sir",
         "0": ""
     },
+    "song_audio_mode":{
+        "Activated": "song_tec",
+        "Deactivated": ""
+    },
     "safety_mode":{
-        "Activated": [18,18],
-        "Deactivated": [18,18]
+        "Activated": [9,16],
+        "Deactivated": [9,10]
     },
     "show_mode":{
-        "Activated": [18,18],
-        "Deactivated": [18,18]
+        "Activated": [21,16],
+        "Deactivated": [21,10]
     }
 }

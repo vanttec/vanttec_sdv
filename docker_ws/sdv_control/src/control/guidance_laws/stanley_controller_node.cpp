@@ -58,9 +58,9 @@ class CarGuidanceNode : public rclcpp::Node
         Point p1_;
         Point p2_;
         nav_msgs::msg::Path reference_path_;
-        size_t waypoint_;
+        size_t waypoint_ = 0;
         size_t path_length_;
-        float DISTANCE_VAL_ = 1;                // Meters
+        float DISTANCE_VAL_ = 0.5;                // Meters
         std::string parent_frame_;
 
         rclcpp::TimerBase::SharedPtr timer_;
@@ -98,7 +98,7 @@ class CarGuidanceNode : public rclcpp::Node
         void traverse_path(){
             if(new_path_arrived_) {
                 if(!nearest_waypoint_found_) {
-                    waypoint_ = check_nearest_waypoint();
+                    //waypoint_ = check_nearest_waypoint();
                 }
             }
 
@@ -257,14 +257,14 @@ class CarGuidanceNode : public rclcpp::Node
                 car_velocity_ = this->create_subscription<geometry_msgs::msg::Twist>("/car_simulation/dynamic_model/vel",
                                     1, std::bind(&CarGuidanceNode::set_velocity, this, std::placeholders::_1));
             } else {
-                car_ned_pos_  = this->create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>("sdv_localization/ned_pose",
+                car_ned_pos_  = this->create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>("sdv_localization/vectornav/pose",
                                 1, std::bind(&CarGuidanceNode::set_real_pos, this, std::placeholders::_1));
                 car_velocity_imu_ = this->create_subscription<vectornav_msgs::msg::InsGroup>("/vectornav/raw/ins",
                                     1, std::bind(&CarGuidanceNode::set_velocity_imu, this, std::placeholders::_1));
                 current_yaw_ = this->create_subscription<vectornav_msgs::msg::CommonGroup>("/vectornav/raw/common",
                                     1, std::bind(&CarGuidanceNode::set_yaw, this, std::placeholders::_1));
             }
-            path_to_follow_ = this->create_subscription<nav_msgs::msg::Path>("/plan_smoothed", ///car_control/reference_path
+            path_to_follow_ = this->create_subscription<nav_msgs::msg::Path>("/car_control/reference_path", ///car_control/reference_path
                                     1, std::bind(&CarGuidanceNode::set_path, this, std::placeholders::_1));
 
             timer_ = this->create_wall_timer( std::chrono::milliseconds(1000 / frequency),

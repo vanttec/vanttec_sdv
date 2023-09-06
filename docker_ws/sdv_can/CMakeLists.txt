@@ -14,6 +14,8 @@ find_package(ament_cmake_python REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(sdv_msgs REQUIRED)
+find_package(vectornav_msgs REQUIRED)
 
 add_executable(can_node src/can_node.cpp src/CANTxNode.cpp src/CANRxNode.cpp libs/vanttec_CANLib/platform_specific/vanttec_canlib_linux/CANHandler.cpp)
 target_include_directories(can_node PUBLIC
@@ -50,6 +52,8 @@ install(PROGRAMS
   scripts/speech.py
   scripts/panel_modulev2.py
   scripts/heartbeat_node.py
+  scripts/velocitydata.py
+  scripts/direcciondata.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

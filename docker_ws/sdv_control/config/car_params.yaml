@@ -19,5 +19,6 @@ sdc1_vel_pid_node:
 stanley_controller_node:
   ros__parameters:
     K: 1.0 # drives you to path faster, induces overshoot
-    K_soft: 3.0 # softens overshoot
-    DELTA_SAT: [0.467503, -0.309027] # radians
+    K_soft: 1.5 # softens overshoot
+    # DELTA_SAT: [0.467503, -0.309027] # radians
+    DELTA_SAT: [0.3722,-0.3722] # radians
