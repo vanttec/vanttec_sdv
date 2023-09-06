@@ -41,7 +41,7 @@ def generate_launch_description():
     world_file = LaunchConfiguration('world_file')
     map_yaml_file = LaunchConfiguration('map')
     log_level = LaunchConfiguration('log_level')
-    second_map_yaml_file=LaunchConfiguration('second_map')
+    #second_map_yaml_file=LaunchConfiguration('second_map')
 
     # Rewrite params in files
     param_substitutions = {
@@ -97,14 +97,17 @@ def generate_launch_description():
         'map',
         #default_value=os.path.join(beetle_nav_dir, 'maps', 'Field.yaml'),
         #default_value=os.path.join(sdv_localization, 'maps', 'map.yaml'),
-        default_value=os.path.join(sdv_localization, 'maps', 'carreta_map.yaml'),
+        #default_value=os.path.join(sdv_localization, 'maps', 'carreta_map.yaml'),
+        default_value=os.path.join(sdv_localization, 'maps', 'andres_map.yaml'),
+        #default_value=os.path.join(sdv_localization, 'maps', '3.yaml'),
+
         #default_value=os.path.join(sdv_localization, 'maps', 'aa.yaml'),
         description='Full path to map yaml file to load')
     
-    declare_second_map_yaml_cmd = DeclareLaunchArgument(
-        'second_map',
-        default_value=os.path.join(sdv_localization, 'maps', 'raw_map.yaml'),
-        description='Full path to map yaml file to load')
+    # declare_second_map_yaml_cmd = DeclareLaunchArgument(
+    #     'second_map',
+    #     default_value=os.path.join(sdv_localization, 'maps', 'raw_map.yaml'),
+    #     description='Full path to map yaml file to load')
 
 
     declare_log_level_cmd = DeclareLaunchArgument(
@@ -131,19 +134,19 @@ def generate_launch_description():
                           'params_file': params_file,
                           'rviz_config_file': rviz_config_file}.items())
     
-    map_server_planner= Node(
-        package='nav2_map_server',
-        executable='map_server',
-        name='map_server_planner',
-        parameters=[{'use_sim_time': True, 'yaml_filename':LaunchConfiguration('map')}],
-        output='screen' )
+    # map_server_planner= Node(
+    #     package='nav2_map_server',
+    #     executable='map_server',
+    #     name='map_server_planner',
+    #     parameters=[{'use_sim_time': True, 'yaml_filename':LaunchConfiguration('map')}],
+    #     output='screen' )
     
-    map_server_amcl= Node(
-        package='nav2_map_server',
-        executable='map_server',
-        name='map_server_planner',
-        parameters=[{'use_sim_time': True, 'yaml_filename':LaunchConfiguration('second_map')}],
-        output='screen' )    
+    # map_server_amcl= Node(
+    #     package='nav2_map_server',
+    #     executable='map_server',
+    #     name='map_server_planner',
+    #     parameters=[{'use_sim_time': True, 'yaml_filename':LaunchConfiguration('second_map')}],
+    #     output='screen' )    
     
     
     
@@ -176,6 +179,7 @@ def generate_launch_description():
                               'use_composition': use_composition,
                               'use_respawn': use_respawn,
                               'container_name': 'nav2_container'}.items())])
+    
 
     # Declare event handlers
 
@@ -202,9 +206,9 @@ def generate_launch_description():
     # Add conditioned actions
     # ld.add_action(start_simulator)
     ld.add_action(start_robot)
-    ld.add_action(declare_second_map_yaml_cmd)
-    ld.add_action(map_server_planner)
-    ld.add_action(map_server_amcl)
+    # ld.add_action(declare_second_map_yaml_cmd)
+    # ld.add_action(map_server_planner)
+    # ld.add_action(map_server_amcl)
 
     
     # Add actions

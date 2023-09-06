@@ -93,7 +93,7 @@ def generate_launch_description():
 
    waypoint_handler = Node(
       package='sdv_control',
-      executable='waypoint_handler.py',
+      executable='waypoint_handler_enu_ned.py',
       namespace="",
       output="screen",
       name='waypoint_handler',
