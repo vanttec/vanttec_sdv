@@ -114,10 +114,18 @@ def generate_launch_description():
       name="tf_map_to_scan",
       arguments = ['0', '0', '0', '0', '0', '0', 'map', 'scan'])
 
+   # amcl_path = Node(
+   #    package='sdv_localization', 
+   #    executable='path_amcl',
+   #    name='path_amcl',
+   #    output='screen'
+   # )
+
+   
    ld = LaunchDescription()
 
    ld.add_action(is_simulation)
-   # ld.add_action(vectornav_launch)
+   ld.add_action(vectornav_launch)
    ld.add_action(vn_processing)
    #ld.add_action(sbg_launch)
    #ld.add_action(sbg_processing)
@@ -127,4 +135,5 @@ def generate_launch_description():
    ld.add_action(tf_map_odom)
    ld.add_action(tf_base_link_velodyne)
    ld.add_action(tf_map_to_scan)
+   #ld.add_action(amcl_path)
    return ld

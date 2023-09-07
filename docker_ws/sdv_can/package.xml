@@ -6,7 +6,18 @@
   <description>TODO: Package description</description>
   <maintainer email="sebas.martp@gmail.com">root</maintainer>
   <license>TODO: License declaration</license>
-
+  <depend>sdv_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>diagnostic_msgs</depend>
+  <depend>tf2_ros</depend>
+  <depend>tf2</depend>
+  <depend>pluginlib</depend>
+  <depend>polygon_base</depend>
+  <depend>vectornav_msgs</depend>
+  <depend>rclcpp</depend>
+  <depend>rclpy</depend>
   <buildtool_depend>ament_cmake</buildtool_depend>
   <buildtool_depend>ament_cmake_python</buildtool_depend>
 

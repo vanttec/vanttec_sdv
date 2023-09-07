@@ -218,7 +218,7 @@ private:
         pathToAdd.header = enu_pose_msg.header;
         enu_path.header = enu_pose_msg.header;
         enu_path.poses.push_back(pathToAdd);
-        pub_path->publish(ned_path);
+        pub_path->publish(enu_path);
 
         /* ODOMETRY MSGS */
         nav_msgs::msg::Odometry odom_msg;
