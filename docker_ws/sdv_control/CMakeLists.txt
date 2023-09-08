@@ -53,10 +53,10 @@ set(VANTTEC_CONTROLLER_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/control_laws/PID/first_order/pid.cpp
 
     # ASMC
-    # ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/feedback_linearization/model_based_controllers/SDCs/regulators/vtec_sdc1_asmc.cpp
-    # ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/feedback_linearization/SMC_based/ASMC/first_order/fblin_asmc.cpp
-    # ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/feedback_linearization/base/fb_lin_control.cpp
-    # ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/control_laws/SMC/ASMC/first_order/asmc.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/feedback_linearization/model_based_controllers/SDCs/regulators/vtec_sdc1_asmc.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/feedback_linearization/SMC_based/ASMC/first_order/fblin_asmc.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/feedback_linearization/base/fb_lin_control.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/control_laws/SMC/ASMC/first_order/asmc.cpp
 
     # STANLEY CONTROLLER
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/guidance_laws/stanley_controller.cpp
@@ -155,24 +155,24 @@ target_compile_features(sdc1_vel_pid_node PUBLIC c_std_99 cxx_std_17)  # Require
 
 #   ********************** SDC1 ASMC NODE **********************
 #Add executables
-# add_executable(sdc1_vel_asmc_node 
-#               src/control/regulators/first_order/sdc1_vel_asmc_node.cpp)
-# # Link against required libraries
-# target_link_libraries(sdc1_vel_asmc_node
-#     VANTTEC_CONTROLLERS
-#     # ${rclcpp_LIBRARIES}
-#     # ${std_msgs_LIBRARIES}
-#     # ${sdv_msgs_LIBRARIES}
-#     # ${diagnostic_msgs_LIBRARIES}
-# )
-# # Include directories for project headers and other package headers
-# target_include_directories(sdc1_vel_asmc_node
-#             PUBLIC
-#             $<BUILD_INTERFACE:${VANTTEC_CONTROLLER_PATHS}>
-#             $<BUILD_INTERFACE:${sdv_msgs_INCLUDE_DIRS}>
-#             $<INSTALL_INTERFACE:include>
-# )
-# target_compile_features(sdc1_vel_asmc_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+add_executable(sdc1_vel_asmc_node 
+              src/control/regulators/first_order/sdc1_vel_asmc_node.cpp)
+# Link against required libraries
+target_link_libraries(sdc1_vel_asmc_node
+    VANTTEC_CONTROLLERS
+    # ${rclcpp_LIBRARIES}
+    # ${std_msgs_LIBRARIES}
+    # ${sdv_msgs_LIBRARIES}
+    # ${diagnostic_msgs_LIBRARIES}
+)
+# Include directories for project headers and other package headers
+target_include_directories(sdc1_vel_asmc_node
+            PUBLIC
+            $<BUILD_INTERFACE:${VANTTEC_CONTROLLER_PATHS}>
+            $<BUILD_INTERFACE:${sdv_msgs_INCLUDE_DIRS}>
+            $<INSTALL_INTERFACE:include>
+)
+target_compile_features(sdc1_vel_asmc_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
 #   ********************** SDC1 STANLEY NODE **********************
 #Add executables
@@ -202,7 +202,7 @@ install(TARGETS
   sdc1_simulation_node
   car_tf2_broadcast_node
   sdc1_vel_pid_node
-  # sdc1_vel_asmc_node
+  sdc1_vel_asmc_node
   stanley_controller_node
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
@@ -229,7 +229,7 @@ install(DIRECTORY
 
 # Install Python executables
 install(PROGRAMS
-  scripts/waypoint_handler_enu_ned.py
+  scripts/waypoint_handler.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

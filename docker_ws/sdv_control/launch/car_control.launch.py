@@ -16,27 +16,27 @@ def generate_launch_description():
 
    is_sim = DeclareLaunchArgument(
       'is_simulation',
-      default_value = 'false',
+      default_value = 'true',
       description = 'Defines if the application will run in simulation or in real life'
     )
-   
-   # rviz_config = os.path.join(
-   #    get_package_share_directory('sdv_control'),
-   #    'launch/rviz_cfg',
 
-   #    # For simulations
-   #    'sdv_sim_wpnts.rviz'
-   # )
-
+   # For simulations (config in sdv_control)
    rviz_config = os.path.join(
-      get_package_share_directory('sdv_localization'),
+      get_package_share_directory('sdv_control'),
       'launch/rviz_cfg',
 
-      # For real life tests
-      'sdv_anniversary.rviz'
-      # 'sdv_parking_lot_cetec2.rviz'
-      # 'sdv_parking_lot_cetec.rviz'
+      'sdv_sim_wpnts.rviz'
    )
+
+   # For real life tests (config in sdv_localization)
+   # rviz_config = os.path.join(
+   #    get_package_share_directory('sdv_localization'),
+   #    'launch/rviz_cfg',
+
+   #    # 'sdv_anniversary.rviz'
+   #    # 'sdv_parking_lot_cetec2.rviz'
+   #    # 'sdv_parking_lot_cetec.rviz'
+   # )
 
    car_params = os.path.join(
       get_package_share_directory('sdv_control'),
@@ -48,11 +48,23 @@ def generate_launch_description():
    # 'num_threads': '4'
 
    # ***** RUN NODES *******
-   car_control_node = Node(
+   pid_node = Node(
       package='sdv_control',
       executable='sdc1_vel_pid_node',
       output='screen',
       name='sdc1_vel_pid_node',
+      parameters=[
+                  # {'frequency': LaunchConfiguration('frequency')},
+                  {'is_simulation': LaunchConfiguration('is_simulation')},
+                  car_params
+                  ]
+   )
+
+   asmc_node = Node(
+      package='sdv_control',
+      executable='sdc1_vel_asmc_node',
+      output='screen',
+      name='sdc1_vel_asmc_node',
       parameters=[
                   # {'frequency': LaunchConfiguration('frequency')},
                   {'is_simulation': LaunchConfiguration('is_simulation')},
@@ -93,7 +105,8 @@ def generate_launch_description():
 
    waypoint_handler = Node(
       package='sdv_control',
-      executable='waypoint_handler_enu_ned.py',
+      # executable='waypoint_handler_enu_ned.py',
+      executable='waypoint_handler.py',
       namespace="",
       output="screen",
       name='waypoint_handler',
@@ -146,7 +159,7 @@ def generate_launch_description():
       ),
 
       waypoint_handler,
-      car_control_node,
+      asmc_node,
       car_guidance_node,
       tf2_node,
       rviz,

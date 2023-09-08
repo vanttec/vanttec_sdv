@@ -11,7 +11,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
-from launch.conditions import UnlessCondition
+from launch.conditions import IfCondition, UnlessCondition
 
 def generate_launch_description():
 
@@ -71,18 +71,21 @@ def generate_launch_description():
     
     # ODOM is in the NED frame since vn measurements are in that configuration
    
-   # tf_odom_base_link = Node(
-   #    package='tf2_ros',
-   #    executable='static_transform_publisher',
-   #    name="tf_odom_base_link",
-   #    arguments = ['0', '0', '0', '0', '0', '-3.14159', 'odom', 'base_link']) #x, y, z, yaw, pitch, roll CHECK order
-
+   tf_map_odom_sim = Node(
+      package='tf2_ros',
+      executable='static_transform_publisher',
+      name="tf_odom_base_link",
+      arguments = ['0', '0', '0', '0', '0', '-3.14159', 'map', 'odom'],
+      condition=IfCondition(LaunchConfiguration('is_simulation'))
+   )
 
    tf_map_odom = Node(
       package='tf2_ros',
       executable='static_transform_publisher',
       name="tf_map_to_odom",
-      arguments = ['0', '0', '0', '0', '0', '0', 'map', 'odom']) #x, y, z, yaw, pitch, roll CHECK order
+      arguments = ['0', '0', '0', '0', '0', '0', 'map', 'odom'],
+      condition=UnlessCondition(LaunchConfiguration('is_simulation'))
+   )
 
     # tf_base_link_sbg = Node(
     #         package='tf2_ros',
@@ -94,25 +97,33 @@ def generate_launch_description():
       package='tf2_ros',
       executable='static_transform_publisher',
       name="tf_base_link_to_vectornav",
-      arguments = ['0', '0', '1.9', '0', '0.0', '0.0', 'base_link', 'vectornav'])
+      arguments = ['0', '0', '1.9', '0', '0.0', '0.0', 'base_link', 'vectornav'],
+      condition=UnlessCondition(LaunchConfiguration('is_simulation'))
+   )
 
    tf_vectornav_sbg = Node(
       package='tf2_ros',
       executable='static_transform_publisher',
       name="tf_vectornav_to_sbg",
-      arguments = ['-0.545', '0', '1.9', '0', '0.0', '0.0', 'base_link', 'sbg'])
+      arguments = ['-0.545', '0', '1.9', '0', '0.0', '0.0', 'base_link', 'sbg'],
+      condition=UnlessCondition(LaunchConfiguration('is_simulation'))
+   )
 
    tf_base_link_velodyne = Node(
       package='tf2_ros',
       executable='static_transform_publisher',
       name="tf_base_link_to_velodyne",
-      arguments = ['0.45', '0', '2.25', '-0.05', '0.0', '0', 'base_link', 'velodyne'])
+      arguments = ['0.45', '0', '2.25', '-0.05', '0.0', '0', 'base_link', 'velodyne'],
+      condition=UnlessCondition(LaunchConfiguration('is_simulation'))
+   )
    
    tf_map_to_scan = Node(
       package='tf2_ros',
       executable='static_transform_publisher',
       name="tf_map_to_scan",
-      arguments = ['0', '0', '0', '0', '0', '0', 'map', 'scan'])
+      arguments = ['0', '0', '0', '0', '0', '0', 'map', 'scan'],
+      condition=UnlessCondition(LaunchConfiguration('is_simulation'))
+   )
 
    # amcl_path = Node(
    #    package='sdv_localization', 
@@ -120,7 +131,6 @@ def generate_launch_description():
    #    name='path_amcl',
    #    output='screen'
    # )
-
    
    ld = LaunchDescription()
 
@@ -129,10 +139,10 @@ def generate_launch_description():
    ld.add_action(vn_processing)
    #ld.add_action(sbg_launch)
    #ld.add_action(sbg_processing)
-   #ld.add_action(tf_odom_base_link)
+   ld.add_action(tf_map_odom_sim)
+   ld.add_action(tf_map_odom)
    ld.add_action(tf_base_link_vectornav)
    ld.add_action(tf_vectornav_sbg)
-   ld.add_action(tf_map_odom)
    ld.add_action(tf_base_link_velodyne)
    ld.add_action(tf_map_to_scan)
    #ld.add_action(amcl_path)
