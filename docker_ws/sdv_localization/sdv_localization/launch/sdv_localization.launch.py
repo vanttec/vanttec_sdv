@@ -76,16 +76,16 @@ def generate_launch_description():
       executable='static_transform_publisher',
       name="tf_odom_base_link",
       arguments = ['0', '0', '0', '0', '0', '-3.14159', 'map', 'odom'],
-      condition=IfCondition(LaunchConfiguration('is_simulation'))
-   )
-
-   tf_map_odom = Node(
-      package='tf2_ros',
-      executable='static_transform_publisher',
-      name="tf_map_to_odom",
-      arguments = ['0', '0', '0', '0', '0', '0', 'map', 'odom'],
       condition=UnlessCondition(LaunchConfiguration('is_simulation'))
    )
+
+   # tf_map_odom = Node(
+   #    package='tf2_ros',
+   #    executable='static_transform_publisher',
+   #    name="tf_map_to_odom",
+   #    arguments = ['0', '0', '0', '0', '0', '0', 'map', 'odom'],
+   #    condition=UnlessCondition(LaunchConfiguration('is_simulation'))
+   # )
 
     # tf_base_link_sbg = Node(
     #         package='tf2_ros',
@@ -140,7 +140,7 @@ def generate_launch_description():
    #ld.add_action(sbg_launch)
    #ld.add_action(sbg_processing)
    ld.add_action(tf_map_odom_sim)
-   ld.add_action(tf_map_odom)
+   # ld.add_action(tf_map_odom)
    ld.add_action(tf_base_link_vectornav)
    ld.add_action(tf_vectornav_sbg)
    ld.add_action(tf_base_link_velodyne)

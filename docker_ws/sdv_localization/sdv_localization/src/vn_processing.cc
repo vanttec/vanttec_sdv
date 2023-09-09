@@ -211,22 +211,22 @@ private:
 
         ned_path.header = ned_pose_msg.header;
         ned_path.poses.push_back(pathToAdd);
-        // pub_path->publish(ned_path);
+        pub_path->publish(ned_path);
 
         // ENU
         pathToAdd.pose = enu_pose_msg.pose.pose;
         pathToAdd.header = enu_pose_msg.header;
         enu_path.header = enu_pose_msg.header;
         enu_path.poses.push_back(pathToAdd);
-        pub_path->publish(enu_path);
+        // pub_path->publish(enu_path);
 
         /* ODOMETRY MSGS */
         nav_msgs::msg::Odometry odom_msg;
 
         // ENU
-        odom_msg.header = enu_pose_msg.header;
+        odom_msg.header = ned_pose_msg.header;
         odom_msg.child_frame_id = "vectornav";
-        odom_msg.pose = enu_pose_msg.pose;
+        odom_msg.pose = ned_pose_msg.pose;
         geometry_msgs::msg::Vector3 vel;
         //Switch between Yawpitchroll in NED to ENU format = pitch <-> roll
         vel.x = msg_in->angularrate.x;
@@ -253,10 +253,10 @@ private:
         tf.header.set__stamp(msg_in->header.stamp);
         tf.child_frame_id = "base_link";
         
-        tf.transform.translation.x = enu_pose_msg.pose.pose.position.x;
-        tf.transform.translation.y = enu_pose_msg.pose.pose.position.y;
-        tf.transform.translation.z = enu_pose_msg.pose.pose.position.z;
-        tf.transform.set__rotation(enu_pose_msg.pose.pose.orientation);
+        tf.transform.translation.x = ned_pose_msg.pose.pose.position.x;
+        tf.transform.translation.y = ned_pose_msg.pose.pose.position.y;
+        tf.transform.translation.z = ned_pose_msg.pose.pose.position.z;
+        tf.transform.set__rotation(ned_pose_msg.pose.pose.orientation);
         //tf.transform.translation.x = ned_pose_msg.pose.pose.position.x;
         //tf.transform.translation.y = ned_pose_msg.pose.pose.position.y;
         //tf.transform.translation.z = ned_pose_msg.pose.pose.position.z;

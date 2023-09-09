@@ -41,11 +41,11 @@ class WaypointNode(Node):
             'config',
             # 'sim_waypoints.csv'
             # 'sim_waypoints_simple.csv'
-            # 'parking_waypoints_ned.csv'
+            'parking_waypoints_ned.csv'
             # 'anniversary_waypoints_ned.csv'
             # '80_figure_longer_ned.csv'
             # 'infinity.csv'
-            'circle.csv'
+            # 'circle.csv'
         )
 
         self.path_ = Path()

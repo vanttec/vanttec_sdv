@@ -16,27 +16,27 @@ def generate_launch_description():
 
    is_sim = DeclareLaunchArgument(
       'is_simulation',
-      default_value = 'true',
+      default_value = 'false',
       description = 'Defines if the application will run in simulation or in real life'
     )
 
    # For simulations (config in sdv_control)
-   rviz_config = os.path.join(
-      get_package_share_directory('sdv_control'),
-      'launch/rviz_cfg',
-
-      'sdv_sim_wpnts.rviz'
-   )
-
-   # For real life tests (config in sdv_localization)
    # rviz_config = os.path.join(
-   #    get_package_share_directory('sdv_localization'),
+   #    get_package_share_directory('sdv_control'),
    #    'launch/rviz_cfg',
 
-   #    # 'sdv_anniversary.rviz'
-   #    # 'sdv_parking_lot_cetec2.rviz'
-   #    # 'sdv_parking_lot_cetec.rviz'
+   #    'sdv_sim_wpnts.rviz'
    # )
+
+   # For real life tests (config in sdv_localization)
+   rviz_config = os.path.join(
+      get_package_share_directory('sdv_localization'),
+      'launch/rviz_cfg',
+
+      # 'sdv_anniversary.rviz'
+      # 'sdv_parking_lot_cetec2.rviz'
+      'sdv_parking_lot_cetec.rviz'
+   )
 
    car_params = os.path.join(
       get_package_share_directory('sdv_control'),
@@ -159,7 +159,8 @@ def generate_launch_description():
       ),
 
       waypoint_handler,
-      asmc_node,
+      # asmc_node,
+      pid_node,
       car_guidance_node,
       tf2_node,
       rviz,

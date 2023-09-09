@@ -11,7 +11,6 @@
 #include <stdio.h>
 #include "rclcpp/rclcpp.hpp"
 
-// #include <sdv_control/stanley_controller.hpp>
 #include "controllers/feedback_linearization/model_based_controllers/SDCs/regulators/vtec_sdc1_pid.hpp"
 #include "utils/utils.hpp"
 
