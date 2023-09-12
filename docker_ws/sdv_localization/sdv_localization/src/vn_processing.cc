@@ -65,6 +65,8 @@ public:
     declare_parameter<std::vector<double>>("global_lla_reference", global_ref_ins_poslla_);
     declare_parameter<std::vector<double>>("global_ecef_reference", global_ref_ins_posecef_);
 
+    declare_parameter<std::string>("odometry_source", odom_src_);
+
     // Publishers
     odom_tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
 
@@ -137,7 +139,7 @@ private:
     if(hasInitialized){
 
         RCLCPP_INFO_EXPRESSION(get_logger(), (msg_in->insstatus.mode == msg_in->insstatus.MODE_ALIGNING), "Aligning INS Compass");
-        std::array<double, 3> currECEF;;
+        std::array<double, 3> currECEF;
         currECEF[0] = ins_posecef_.x;
         currECEF[1] = ins_posecef_.y;
         currECEF[2] = ins_posecef_.z;
@@ -147,7 +149,7 @@ private:
         //We changed to TF2 standard messages for easier matrix rotation and subtraction
 
         /* POSE MSGS */
-        // NED
+          // NED
         ned_pose_msg.header.frame_id = "odom";
         ned_pose_msg.header.set__stamp(msg_in->header.stamp);
 
@@ -157,7 +159,7 @@ private:
 
         ned_pose_msg.pose.pose.orientation = msg_in->quaternion;
 
-        // ENU
+          // ENU
         enu_pose_msg.header.frame_id = "odom";
         enu_pose_msg.header.set__stamp(msg_in->header.stamp);
 
@@ -181,21 +183,16 @@ private:
         q.z = quat.z();
         q.w = quat.w();
 
-        tf2::Quaternion quaternion1( q.x,
-                                    q.y,
-                                    q.z, 
-                                    q.w);
-        tf2::Matrix3x3 mat2(quaternion1);
+        // tf2::Quaternion quaternion1( q.x,
+        //                             q.y,
+        //                             q.z, 
+        //                             q.w);
+        // tf2::Matrix3x3 mat2(quaternion1);
 
-        mat2.getRPY(roll, pitch, yaw);
+        // mat2.getRPY(roll, pitch, yaw);
 
-        std::cout << "Vectornav" << std::endl;
-        std::cout << "yaw = " << yaw * 180 / M_PI << " pitch = " << pitch * 180 / M_PI << " roll = " << roll * 180 / M_PI<< std::endl;
-
-        tf2::Quaternion quaternionResult;
-        tf2::convert(msg_in->quaternion, quaternionResult);
-        quaternionResult.setZ(-quaternionResult.getZ());
-        quaternionResult.normalize();
+        // std::cout << "Vectornav" << std::endl;
+        // std::cout << "yaw = " << yaw * 180 / M_PI << " pitch = " << pitch * 180 / M_PI << " roll = " << roll * 180 / M_PI<< std::endl;
 
         // enu_pose_msg.pose.pose.orientation = tf2::toMsg(quaternionResult);
         enu_pose_msg.pose.pose.orientation = q;
@@ -203,27 +200,27 @@ private:
         pub_pose->publish(ned_pose_msg);
 
         /* PATH MSGS */
-        geometry_msgs::msg::PoseStamped pathToAdd;
+        geometry_msgs::msg::PoseStamped pose;
 
-        // NED
-        pathToAdd.pose = ned_pose_msg.pose.pose;
-        pathToAdd.header = ned_pose_msg.header;
+          // NED
+        pose.pose = ned_pose_msg.pose.pose;
+        pose.header = ned_pose_msg.header;
 
         ned_path.header = ned_pose_msg.header;
-        ned_path.poses.push_back(pathToAdd);
+        ned_path.poses.push_back(pose);
         pub_path->publish(ned_path);
 
-        // ENU
-        pathToAdd.pose = enu_pose_msg.pose.pose;
-        pathToAdd.header = enu_pose_msg.header;
+          // ENU
+        pose.pose = enu_pose_msg.pose.pose;
+        pose.header = enu_pose_msg.header;
         enu_path.header = enu_pose_msg.header;
-        enu_path.poses.push_back(pathToAdd);
+        enu_path.poses.push_back(pose);
         // pub_path->publish(enu_path);
 
         /* ODOMETRY MSGS */
         nav_msgs::msg::Odometry odom_msg;
 
-        // ENU
+          // ENU
         odom_msg.header = ned_pose_msg.header;
         odom_msg.child_frame_id = "vectornav";
         odom_msg.pose = ned_pose_msg.pose;
@@ -246,21 +243,24 @@ private:
         pub_odom_->publish(odom_msg);
 
         /* TRANSFORM BROADCASTER */
-        // Transform odom to base_link publish in a ENU frame
         geometry_msgs::msg::TransformStamped tf;
 
         tf.header.frame_id = "odom";
         tf.header.set__stamp(msg_in->header.stamp);
         tf.child_frame_id = "base_link";
         
-        tf.transform.translation.x = ned_pose_msg.pose.pose.position.x;
-        tf.transform.translation.y = ned_pose_msg.pose.pose.position.y;
-        tf.transform.translation.z = ned_pose_msg.pose.pose.position.z;
-        tf.transform.set__rotation(ned_pose_msg.pose.pose.orientation);
-        //tf.transform.translation.x = ned_pose_msg.pose.pose.position.x;
-        //tf.transform.translation.y = ned_pose_msg.pose.pose.position.y;
-        //tf.transform.translation.z = ned_pose_msg.pose.pose.position.z;
-        //tf.transform.set__rotation(ned_pose_msg.pose.pose.orientation);
+        if(odom_src_ == "rl"){
+          tf.transform.translation.x = enu_pose_msg.pose.pose.position.x;
+          tf.transform.translation.y = enu_pose_msg.pose.pose.position.y;
+          tf.transform.translation.z = enu_pose_msg.pose.pose.position.z;
+          tf.transform.set__rotation(enu_pose_msg.pose.pose.orientation);
+        } else {
+          tf.transform.translation.x = ned_pose_msg.pose.pose.position.x;
+          tf.transform.translation.y = ned_pose_msg.pose.pose.position.y;
+          tf.transform.translation.z = ned_pose_msg.pose.pose.position.z;
+          tf.transform.set__rotation(ned_pose_msg.pose.pose.orientation);
+        }
+        
         odom_tf_broadcaster_->sendTransform(tf);
     }
     else
@@ -468,12 +468,11 @@ private:
 
   //Parameters
   const std::vector<double> global_ref_ins_poslla_ = {25.65014586802158, -100.28985364572286}; // Coordenadas entre Biblio y CETEC
-  const std::vector<double> global_ref_ins_posecef_ = {-1027768.8799482058, -5661145.344370203, 2744403.2051628013};    
+  const std::vector<double> global_ref_ins_posecef_ = {-1027768.8799482058, -5661145.344370203, 2744403.2051628013};
+
+  const std::string odom_src_ = "vn";
 
   /// TODO(Dereck): Find default covariance values
-
-  // Parameter declaration
-  
 
   //Vars to store data from the INS Common groups
   uint8_t gps_fix_ = vectornav_msgs::msg::GpsGroup::GPSFIX_NOFIX;

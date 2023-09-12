@@ -1,6 +1,5 @@
 /VnNedPoseNode:
   ros__parameters:
-    use_enu: true
     angular_velocity_covariance:
     - 0.0
     - 0.0

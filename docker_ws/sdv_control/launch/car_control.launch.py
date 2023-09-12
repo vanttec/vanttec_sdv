@@ -21,21 +21,11 @@ def generate_launch_description():
     )
 
    # For simulations (config in sdv_control)
-   # rviz_config = os.path.join(
-   #    get_package_share_directory('sdv_control'),
-   #    'launch/rviz_cfg',
-
-   #    'sdv_sim_wpnts.rviz'
-   # )
-
-   # For real life tests (config in sdv_localization)
    rviz_config = os.path.join(
-      get_package_share_directory('sdv_localization'),
+      get_package_share_directory('sdv_control'),
       'launch/rviz_cfg',
 
-      # 'sdv_anniversary.rviz'
-      # 'sdv_parking_lot_cetec2.rviz'
-      'sdv_parking_lot_cetec.rviz'
+      'sdv_sim_wpnts.rviz'
    )
 
    car_params = os.path.join(
@@ -100,7 +90,8 @@ def generate_launch_description():
       package='rviz2',
       executable='rviz2',
       name='rviz2',
-      arguments=['-d', rviz_config]
+      arguments=['-d', rviz_config],
+      condition=IfCondition(LaunchConfiguration('is_simulation'))
    )
 
    waypoint_handler = Node(
@@ -134,16 +125,16 @@ def generate_launch_description():
       launch_arguments={'is_simulation': LaunchConfiguration('is_simulation')}.items()
    )
 
-   sdv_can_launch = IncludeLaunchDescription(
-      PythonLaunchDescriptionSource([
-            PathJoinSubstitution([
-               FindPackageShare('sdv_can'),
-               'launch',
-               'can_devices.launch.py'
-            ])
-      ]),
-      condition=UnlessCondition(LaunchConfiguration('is_simulation'))
-   )
+   # sdv_can_launch = IncludeLaunchDescription(
+   #    PythonLaunchDescriptionSource([
+   #          PathJoinSubstitution([
+   #             FindPackageShare('sdv_can'),
+   #             'launch',
+   #             'can_devices.launch.py'
+   #          ])
+   #    ]),
+   #    condition=UnlessCondition(LaunchConfiguration('is_simulation'))
+   # )
 
    return LaunchDescription([
       is_sim,
@@ -158,12 +149,12 @@ def generate_launch_description():
          msg="Running in real robot mode."
       ),
 
-      waypoint_handler,
-      # asmc_node,
-      pid_node,
-      car_guidance_node,
-      tf2_node,
       rviz,
+      waypoint_handler,
+      asmc_node,
+      #pid_node,
+      #car_guidance_node,
+      tf2_node,
       sdv_description_launch,
       sdv_loc_launch,
       # sdv_can_launch
