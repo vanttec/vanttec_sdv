@@ -58,6 +58,12 @@ set(VANTTEC_CONTROLLER_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/feedback_linearization/base/fb_lin_control.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/control_laws/SMC/ASMC/first_order/asmc.cpp
 
+    # AITSMC
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/feedback_linearization/model_based_controllers/SDCs/regulators/vtec_sdc1_aitsmc.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/feedback_linearization/SMC_based/AITSMC/first_order/fblin_aitsmc.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/feedback_linearization/base/fb_lin_control.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/control_laws/SMC/AITSMC/first_order/aitsmc.cpp
+
     # STANLEY CONTROLLER
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/guidance_laws/stanley_controller.cpp
     
@@ -174,6 +180,23 @@ target_include_directories(sdc1_vel_asmc_node
 )
 target_compile_features(sdc1_vel_asmc_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
+#   ********************** SDC1 AITSMC NODE **********************
+#Add executables
+add_executable(sdc1_vel_aitsmc_node 
+              src/control/regulators/first_order/sdc1_vel_aitsmc_node.cpp)
+# Link against required libraries
+target_link_libraries(sdc1_vel_aitsmc_node
+    VANTTEC_CONTROLLERS
+)
+# Include directories for project headers and other package headers
+target_include_directories(sdc1_vel_aitsmc_node
+            PUBLIC
+            $<BUILD_INTERFACE:${VANTTEC_CONTROLLER_PATHS}>
+            $<BUILD_INTERFACE:${sdv_msgs_INCLUDE_DIRS}>
+            $<INSTALL_INTERFACE:include>
+)
+target_compile_features(sdc1_vel_aitsmc_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+
 #   ********************** SDC1 STANLEY NODE **********************
 #Add executables
 add_executable(stanley_controller_node 
@@ -203,6 +226,7 @@ install(TARGETS
   car_tf2_broadcast_node
   sdc1_vel_pid_node
   sdc1_vel_asmc_node
+  sdc1_vel_aitsmc_node
   stanley_controller_node
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib

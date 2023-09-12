@@ -1,17 +1,16 @@
 /** ----------------------------------------------------------------------------
  * @file: sdc1_vel_asmc_node.cpp
- * @date: August 13, 2023
- * @author: Sebas Mtz
- * @email: sebas.martp@gmail.com
+ * @date: September 12, 2023
+ * @author: Andres Sanchez
  *
- * @brief: Self-Driving Car 1 velocity asmc node. Based on SDC1 car dyn model.
+ * @brief: Self-Driving Car 1 velocity aitsmc node. Based on SDC1 car dyn model.
  * -----------------------------------------------------------------------------
  **/
 
 #include <stdio.h>
 #include "rclcpp/rclcpp.hpp"
 
-#include "controllers/feedback_linearization/model_based_controllers/SDCs/regulators/vtec_sdc1_asmc.hpp"
+#include "controllers/feedback_linearization/model_based_controllers/SDCs/regulators/vtec_sdc1_aitsmc.hpp"
 #include "utils/utils.hpp"
 
 #include "geometry_msgs/msg/accel.hpp"
@@ -36,8 +35,8 @@ class CarControlNode : public rclcpp::Node
         std::string drive_mode_;
         std::string auto_mode_;
 
-        /* ASMC Params */
-        ASMC_Config config_;
+        /* AITSMC Params */
+        AITSMC_Params params;
         float lambda2_;
 
         uint8_t D_MAX_;
@@ -47,7 +46,7 @@ class CarControlNode : public rclcpp::Node
         float vel_body_x_{0.0};
 
         /* Model Params */
-        std::unique_ptr<VTEC_SDC1_1DOF_ASMC> model_;
+        std::unique_ptr<VTEC_SDC1_1DOF_AITSMC> model_;
         std::vector<double> init_pose_ = {0,0,0};
 
         rclcpp::TimerBase::SharedPtr timer_;
@@ -164,31 +163,37 @@ class CarControlNode : public rclcpp::Node
             //https://roboticsbackend.com/rclcpp-params-tutorial-get-set-ros2-params-with-cpp/
             this->declare_parameter("is_simulation", rclcpp::PARAMETER_BOOL);
             this->declare_parameter("frequency", rclcpp::PARAMETER_INTEGER);    // Super important to get parameters from launch files!!
-            this->declare_parameter("lambda1", rclcpp::PARAMETER_DOUBLE);
-            this->declare_parameter("lambda2", rclcpp::PARAMETER_DOUBLE);
+
+            this->declare_parameter("lambda", rclcpp::PARAMETER_DOUBLE);
+            this->declare_parameter("beta", rclcpp::PARAMETER_DOUBLE);
+
+            this->declare_parameter("K1_init", rclcpp::PARAMETER_DOUBLE);
             this->declare_parameter("K2", rclcpp::PARAMETER_DOUBLE);
             this->declare_parameter("K_alpha", rclcpp::PARAMETER_DOUBLE);
-            this->declare_parameter("K1_init", rclcpp::PARAMETER_DOUBLE);
             this->declare_parameter("K_min", rclcpp::PARAMETER_DOUBLE);
+
             this->declare_parameter("mu", rclcpp::PARAMETER_DOUBLE);
             this->declare_parameter("D_MAX", rclcpp::PARAMETER_INTEGER);
             this->declare_parameter("init_pose", rclcpp::PARAMETER_DOUBLE_ARRAY);
 
+            /* Fill controller configuration */
             frequency = this->get_parameter("frequency").as_int();
             is_simulation_ = this->get_parameter("is_simulation").as_bool();
 
-            config_.lambda = this->get_parameter("lambda1").as_double();
-            lambda2_ = this->get_parameter("lambda2").as_double();
-            config_.K2 = this->get_parameter("K2").as_double();
-            config_.K_alpha = this->get_parameter("K_alpha").as_double();
-            config_.K1_init = this->get_parameter("K1_init").as_double();
-            config_.K_min = this->get_parameter("K_min").as_double();
-            config_.mu = this->get_parameter("mu").as_double();
-            init_pose_ = this->get_parameter("init_pose").as_double_array();
-            config_.u_max = __FLT_MAX__;
-            config_.type = LINEAR_DOF;
+            params.lambda = this->get_parameter("lambda").as_double();
+            params.beta = this->get_parameter("beta").as_double();
 
+            params.K_min = this->get_parameter("K_min").as_double();
+            params.K_alpha = this->get_parameter("K_alpha").as_double();
+            params.K2 = this->get_parameter("K2").as_double();
+            params.K1_init = this->get_parameter("K1_init").as_double();
+
+            params.mu = this->get_parameter("mu").as_double();
             this->get_parameter_or("D_MAX", D_MAX_, static_cast<uint8_t>(180));
+            init_pose_ = this->get_parameter("init_pose").as_double_array();
+
+            params.U_MAX = __FLT_MAX__;
+            params.type = LINEAR_DOF;
 
             sample_time_ = 1.0 / static_cast<float>(frequency);
             
@@ -227,7 +232,7 @@ class CarControlNode : public rclcpp::Node
         ~CarControlNode(){model_.reset();}
 
         void configure(){
-            model_ = std::make_unique<VTEC_SDC1_1DOF_ASMC>(sample_time_, config_, lambda2_, U_MAX_, D_MAX_);
+            model_ = std::make_unique<VTEC_SDC1_1DOF_AITSMC>(sample_time_, params, U_MAX_, D_MAX_);
             std::vector<float> init_pose = {static_cast<float>(init_pose_[0]),
                                             static_cast<float>(init_pose_[1]),
                                             static_cast<float>(init_pose_[2])};
