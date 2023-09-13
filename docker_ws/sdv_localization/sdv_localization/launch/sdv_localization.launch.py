@@ -108,7 +108,7 @@ def generate_launch_description():
          PythonExpression([
             "'",
             LaunchConfiguration('is_simulation'),
-            "' == 'false' and '",
+            "' == 'true' or '",
             LaunchConfiguration('odometry_source'),
             "' == 'vn'"
          ])
