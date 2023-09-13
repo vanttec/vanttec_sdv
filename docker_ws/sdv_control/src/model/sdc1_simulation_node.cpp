@@ -86,12 +86,12 @@ class CarSimulationNode : public rclcpp::Node
 
       sample_time_ = 1.0 / static_cast<float>(frequency);
 
-      car_accel_ = this->create_publisher<geometry_msgs::msg::Accel>("/car_simulation/dynamic_model/accel", 10);
-      car_vel_ = this->create_publisher<geometry_msgs::msg::Twist>("/car_simulation/dynamic_model/vel", 10);
-      car_eta_pose_ = this->create_publisher<sdv_msgs::msg::EtaPose>("/car_simulation/dynamic_model/eta_pose", 10);
+      car_accel_ = this->create_publisher<geometry_msgs::msg::Accel>("/sdc_simulation/dynamic_model/accel", 10);
+      car_vel_ = this->create_publisher<geometry_msgs::msg::Twist>("/sdc_simulation/dynamic_model/vel", 10);
+      car_eta_pose_ = this->create_publisher<sdv_msgs::msg::EtaPose>("/sdc_simulation/dynamic_model/eta_pose", 10);
       diagnostics_publisher_ = this->create_publisher<diagnostic_msgs::msg::DiagnosticStatus>("/diagnostics",10);
 
-      in_subscriber_ = this->create_subscription<std_msgs::msg::UInt8>("/car_simulation/dynamic_model/set_throttle",
+      in_subscriber_ = this->create_subscription<std_msgs::msg::UInt8>("/sdc_simulation/dynamic_model/set_throttle",
                       1, std::bind(&CarSimulationNode::force_callback, this, std::placeholders::_1));
 
       throttle_diag_.name = "Throttle command (D)";

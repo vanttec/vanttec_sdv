@@ -35,7 +35,7 @@ set(LIBRARIES
     VANTTEC_CONTROLLERS
     # sdc1_simulation_node
     # car_tf2_broadcast_node
-    # car_control_node
+    # sdc_control_node
 )
 
 set(VANTTEC_CONTROLLER_SOURCES

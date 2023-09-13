@@ -182,7 +182,7 @@ class CarControlNode : public rclcpp::Node
             auto_mode_ = msg.data;
         }
     public:
-        CarControlNode() : Node("car_control_node")
+        CarControlNode() : Node("sdc_control_node")
         {
             int frequency;
 
@@ -214,18 +214,18 @@ class CarControlNode : public rclcpp::Node
             
             /* Publishers */
             if(is_simulation_){
-                car_accel_ = this->create_publisher<geometry_msgs::msg::Accel>("/car_simulation/dynamic_model/accel", 10);
-                car_vel_ = this->create_publisher<geometry_msgs::msg::Twist>("/car_simulation/dynamic_model/vel", 10);
-                car_eta_pose_ = this->create_publisher<sdv_msgs::msg::EtaPose>("/car_simulation/dynamic_model/eta_pose", 10);
+                car_accel_ = this->create_publisher<geometry_msgs::msg::Accel>("/sdc_simulation/dynamic_model/accel", 10);
+                car_vel_ = this->create_publisher<geometry_msgs::msg::Twist>("/sdc_simulation/dynamic_model/vel", 10);
+                car_eta_pose_ = this->create_publisher<sdv_msgs::msg::EtaPose>("/sdc_simulation/dynamic_model/eta_pose", 10);
             }
-            calc_throttle_ = this->create_publisher<std_msgs::msg::UInt8>("/car_control/control_signal/D",10);
+            calc_throttle_ = this->create_publisher<std_msgs::msg::UInt8>("/sdc_control/control_signal/D",10);
             throttle_diag_pub = this->create_publisher<diagnostic_msgs::msg::DiagnosticStatus>("/diagnostics",10);
-            // car_force_ = this->create_publisher<sdv_msgs::msg::ThrustControl>("/car_control/car_control_node/force",1);
+            // car_force_ = this->create_publisher<sdv_msgs::msg::ThrustControl>("/sdc_control/sdc_control_node/force",1);
 
             /* Subscribers */
-            car_steering_     = this->create_subscription<std_msgs::msg::Float32>("/car_control/control_signal/delta",
+            car_steering_     = this->create_subscription<std_msgs::msg::Float32>("/sdc_control/control_signal/delta",
                                 1, std::bind(&CarControlNode::set_steering, this, std::placeholders::_1));
-            desired_velocity_ = this->create_subscription<std_msgs::msg::Float32>("/car_control/setpoint/velocity",
+            desired_velocity_ = this->create_subscription<std_msgs::msg::Float32>("/sdc_control/setpoint/velocity",
                                 1, std::bind(&CarControlNode::set_reference, this, std::placeholders::_1));
             current_attitude_ = this->create_subscription<vectornav_msgs::msg::CommonGroup>("/vectornav/raw/common",
                                 1, std::bind(&CarControlNode::set_pitch, this, std::placeholders::_1));

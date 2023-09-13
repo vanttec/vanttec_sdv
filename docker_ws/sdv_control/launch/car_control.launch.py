@@ -62,6 +62,18 @@ def generate_launch_description():
                   ]
    )
 
+   aitsmc_node = Node(
+      package='sdv_control',
+      executable='sdc1_vel_aitsmc_node',
+      output='screen',
+      name='sdc1_vel_aitsmc_node',
+      parameters=[
+                  # {'frequency': LaunchConfiguration('frequency')},
+                  {'is_simulation': LaunchConfiguration('is_simulation')},
+                  car_params
+                  ]
+   )
+
    car_guidance_node = Node(
       package='sdv_control',
       executable='stanley_controller_node',
@@ -151,7 +163,8 @@ def generate_launch_description():
 
       rviz,
       waypoint_handler,
-      asmc_node,
+      aitsmc_node,
+      #asmc_node,
       #pid_node,
       #car_guidance_node,
       tf2_node,

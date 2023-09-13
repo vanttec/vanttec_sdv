@@ -10,7 +10,7 @@
 #include <sdv_control/stanley_controller.hpp>
 #include <sdv_control/pid.hpp>
 
-namespace car_controller
+namespace sdc_controller
 {
     class CarController : public stanleycontroller::StanleyController, public pid::PID
     {

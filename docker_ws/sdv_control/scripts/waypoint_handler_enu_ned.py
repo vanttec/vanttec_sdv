@@ -29,8 +29,8 @@ class WaypointNode(Node):
 
         parent_frame = self.get_parameter('parent_frame').value
 
-        self.path_pub_ned_ = self.create_publisher(Path, '/car_control/reference_path_ned', 10)
-        self.path_pub_enu_ = self.create_publisher(Path, '/car_control/reference_path_enu', 10)
+        self.path_pub_ned_ = self.create_publisher(Path, '/sdc_control/reference_path_ned', 10)
+        self.path_pub_enu_ = self.create_publisher(Path, '/sdc_control/reference_path_enu', 10)
 
         timer_period = 0.1
         self.timer = self.create_timer(timer_period, self.timer_callback)

@@ -56,9 +56,9 @@ class CarTf2Broadcast : public rclcpp::Node
 
       this->get_parameter_or("frequency", frequency_, 100);
 
-      car_path_ = this->create_publisher<nav_msgs::msg::Path>("/car_simulation/car_tf_broadcast/car_path", 10);
+      car_path_ = this->create_publisher<nav_msgs::msg::Path>("/sdc_simulation/car_tf_broadcast/car_path", 10);
 
-      car_eta_pose_ = this->create_subscription<sdv_msgs::msg::EtaPose>("/car_simulation/dynamic_model/eta_pose",
+      car_eta_pose_ = this->create_subscription<sdv_msgs::msg::EtaPose>("/sdc_simulation/dynamic_model/eta_pose",
                           1, std::bind(&CarTf2Broadcast::set_sim_pose, this, std::placeholders::_1));
 
       timer_ = this->create_wall_timer(

@@ -30,8 +30,8 @@ class WaypointNode(Node):
 
         parent_frame = self.get_parameter('parent_frame').value
 
-        # self.vel_pub_ = self.create_publisher(Float32, '/car_control/setpoint/velocity', 10)
-        self.path_pub_ = self.create_publisher(Path, '/car_control/reference_path', 10)
+        # self.vel_pub_ = self.create_publisher(Float32, '/sdc_control/setpoint/velocity', 10)
+        self.path_pub_ = self.create_publisher(Path, '/sdc_control/reference_path', 10)
         
         timer_period = 0.1
         self.timer = self.create_timer(timer_period, self.timer_callback)

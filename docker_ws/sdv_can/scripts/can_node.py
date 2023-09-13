@@ -28,12 +28,12 @@ class SDVControlNode(Node):
         # Initialize subscriber
         self.throttle_sub = self.create_subscription(
             UInt8,
-            '/car_control/control_signal/D',
+            '/sdc_control/control_signal/D',
             self.throttle_callback,
             1)
         self.steer_sub = self.create_subscription(
             Float32,
-            '/car_control/control_signal/delta',
+            '/sdc_control/control_signal/delta',
             self.steering_callback,
             1)
 
