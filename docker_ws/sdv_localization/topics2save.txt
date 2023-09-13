@@ -1,6 +1,6 @@
 /vectornav/raw/common /vectornav/raw/time /vectornav/raw/imu /vectornav/raw/gps /vectornav/raw/gps2 /vectornav/raw/attitude /vectornav/raw/ins /ifm_encoder /potentiometer_step
 
-/vectornav/raw/common /vectornav/raw/ins /car_control/control_signal/D /ifm_encoder
+/vectornav/raw/common /vectornav/raw/ins /sdc_control/control_signal/D /ifm_encoder
 
 /vectornav/raw/common /vectornav/raw/ins /ifm_encoder
 

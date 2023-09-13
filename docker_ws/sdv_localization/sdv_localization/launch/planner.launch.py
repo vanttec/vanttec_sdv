@@ -98,7 +98,7 @@ def generate_launch_description():
         #default_value=os.path.join(beetle_nav_dir, 'maps', 'Field.yaml'),
         #default_value=os.path.join(sdv_localization, 'maps', 'map.yaml'),
         #default_value=os.path.join(sdv_localization, 'maps', 'carreta_map.yaml'),
-        default_value=os.path.join(sdv_localization, 'maps', 'carreta_raw_map.yaml'),
+        default_value=os.path.join(sdv_localization, 'maps', 'carreta_map.yaml'),
         #default_value=os.path.join(sdv_localization, 'maps', '3.yaml'),
 
         #default_value=os.path.join(sdv_localization, 'maps', 'aa.yaml'),

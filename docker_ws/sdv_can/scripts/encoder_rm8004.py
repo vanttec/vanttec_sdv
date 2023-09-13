@@ -4,7 +4,7 @@ import can
 import can.interfaces.socketcan as socketcan
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import Int32, Int16, Float64
+from std_msgs.msg import Float32
 from sdv_msgs.msg import Encoder
 
 class RM8004Encoder(Node):
@@ -35,6 +35,7 @@ class RM8004Encoder(Node):
 
         # Publishers
         self.encoder_pub = self.create_publisher(Encoder, '/ifm_encoder', 10)
+        self.steering_pub = self.create_publisher(Float32, '/sdc_state/steering', 10)
 
         timer_period = 0.01 #Seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
@@ -104,6 +105,10 @@ class RM8004Encoder(Node):
                 # self.get_logger().info("Abs angle: %d" %self.encoder_data.abs_angle)
 
                 self.encoder_pub.publish(self.encoder_data)
+
+                delta_angle = Float32()
+                delta_angle.data = self.encoder_data.abs_angle * 0.0454 # degrees
+                self.steering_pub.publish(delta_angle)
 
 def main(args=None):
     rclpy.init(args=args)

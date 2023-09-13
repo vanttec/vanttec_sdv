@@ -60,6 +60,7 @@ class CarControlNode : public rclcpp::Node
         rclcpp::Publisher<std_msgs::msg::UInt8>::SharedPtr calc_throttle_;
 
         /* Subscribers */
+        rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr car_steering_sim_;
         rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr car_steering_;
         rclcpp::Subscription<vectornav_msgs::msg::InsGroup>::SharedPtr current_velocity_;
         rclcpp::Subscription<vectornav_msgs::msg::CommonGroup>::SharedPtr current_attitude_;
@@ -72,49 +73,49 @@ class CarControlNode : public rclcpp::Node
         void timer_callback()
         {
 
-                if(is_simulation_){
+            if(is_simulation_){
 
-                    /* calculate Model States */
-                    model_->calculateModelParams();
+                /* calculate Model States */
+                model_->calculateModelParams();
 
-                    model_->calculateStates();
+                model_->calculateStates();
 
-                    model_->updateNonLinearFunctions();
+                model_->updateNonLinearFunctions();
 
-                    model_->calculateControlSignals();
-                    model_->updateControlSignals();
-                    model_->updateDBSignals(vel_d_);
+                model_->calculateControlSignals();
+                model_->updateControlSignals();
+                model_->updateDBSignals(vel_d_);
 
-                    /* Publish Odometry */
-                    car_accel_->publish(model_->accelerations_);
-                    car_vel_->publish(model_->velocities_);
-                    car_eta_pose_->publish(model_->eta_pose_);
+                /* Publish Odometry */
+                car_accel_->publish(model_->accelerations_);
+                car_vel_->publish(model_->velocities_);
+                car_eta_pose_->publish(model_->eta_pose_);
 
+            } else {
+
+                if(drive_mode_ == "Automatic" && auto_mode_ == "Setpoint_Controller"){
+                    RCLCPP_INFO(this->get_logger(), "Autonomous mode enabled");
+
+                    if(vel_msgs_received_){
+
+                        /* calculate Model States */
+                        model_->calculateModelParams();
+
+                        model_->calculateStates();
+
+                        model_->updateNonLinearFunctions();
+
+                        RCLCPP_INFO(this->get_logger(), "Vectornav vel received");
+                        model_->calculateControlSignals(vel_body_x_);
+                        model_->updateControlSignals();
+                        model_->updateDBSignals(vel_d_);
+                    } else
+                        RCLCPP_INFO(this->get_logger(), "Waiting for vectornav");
                 } else {
-
-                    if(drive_mode_ == "Automatic" && auto_mode_ == "Setpoint_Controller"){
-                        RCLCPP_INFO(this->get_logger(), "Autonomous mode enabled");
-
-                        if(vel_msgs_received_){
-
-                            /* calculate Model States */
-                            model_->calculateModelParams();
-
-                            model_->calculateStates();
-
-                            model_->updateNonLinearFunctions();
-
-                            RCLCPP_INFO(this->get_logger(), "Vectornav vel received");
-                            model_->calculateControlSignals(vel_body_x_);
-                            model_->updateControlSignals();
-                            model_->updateDBSignals(vel_d_);
-                        } else
-                            RCLCPP_INFO(this->get_logger(), "Waiting for vectornav");
-                    } else {
-                        RCLCPP_WARN(this->get_logger(), "Warning: Manual mode enabled");
-                    }
+                    RCLCPP_WARN(this->get_logger(), "Warning: Manual mode enabled");
                 }
-            
+            }
+
 
             /* Publish diagnostics */
             diagnostic_msgs::msg::KeyValue throttle;
@@ -153,7 +154,7 @@ class CarControlNode : public rclcpp::Node
             calc_throttle_->publish(D);
 
         }
-        
+
         void set_reference(const std_msgs::msg::Float32& msg) //const
         {
             vel_d_ = msg.data;
@@ -169,13 +170,17 @@ class CarControlNode : public rclcpp::Node
         void set_pitch(const vectornav_msgs::msg::CommonGroup::SharedPtr msg_in) //const
         {
             if(this->is_simulation_)
-                model_->setPitch(msg_in->yawpitchroll.y * M_PI / 180);
+                model_->setPitch(msg_in->yawpitchroll.y * M_PI / 180.0);
         }
 
         void set_steering(const std_msgs::msg::Float32& msg) //const
         {
-            if(this->is_simulation_)
+            if(this->is_simulation_){
                 model_->setSteering(msg.data);
+            } else {
+                // std::cout << std::to_string(msg.data * M_PI / 180.0) <<std::endl;
+                model_->setSteering(/*msg.data * M_PI / 180.0*/0.0);
+            }
         }
 
         void set_drive_mode(const std_msgs::msg::String& msg)
@@ -230,7 +235,7 @@ class CarControlNode : public rclcpp::Node
             params.controller_type = LINEAR_DOF;
 
             sample_time_ = 1.0 / static_cast<float>(frequency);
-            
+
             /* Publishers */
             if(is_simulation_){
                 car_accel_ = this->create_publisher<geometry_msgs::msg::Accel>("/sdc_simulation/dynamic_model/accel", 10);
@@ -242,8 +247,14 @@ class CarControlNode : public rclcpp::Node
             // car_force_ = this->create_publisher<sdv_msgs::msg::ThrustControl>("/sdc_control/sdc_control_node/force",1);
 
             /* Subscribers */
-            car_steering_     = this->create_subscription<std_msgs::msg::Float32>("/sdc_control/control_signal/delta",
-                                1, std::bind(&CarControlNode::set_steering, this, std::placeholders::_1));
+            if(is_simulation_){
+                car_steering_sim_     = this->create_subscription<std_msgs::msg::Float32>("/sdc_control/control_signal/delta",
+                                    1, std::bind(&CarControlNode::set_steering, this, std::placeholders::_1));
+            } else {
+                car_steering_     = this->create_subscription<std_msgs::msg::Float32>("/sdc_state/steering",
+                                    1, std::bind(&CarControlNode::set_steering, this, std::placeholders::_1));
+            }
+
             desired_velocity_ = this->create_subscription<std_msgs::msg::Float32>("/sdc_control/setpoint/velocity",
                                 1, std::bind(&CarControlNode::set_reference, this, std::placeholders::_1));
             current_attitude_ = this->create_subscription<vectornav_msgs::msg::CommonGroup>("/vectornav/raw/common",
