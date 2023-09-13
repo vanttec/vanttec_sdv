@@ -36,7 +36,7 @@ def generate_launch_description():
 
    odometry_source = DeclareLaunchArgument(
       'odometry_source',
-      default_value = 'vn', # or rl
+      default_value = 'rl', # or rl
       description = 'Defines if the odometry source comes directly from the \
                      vectornav (vn) or from the robot localization pkg (rl)'
    )
@@ -106,11 +106,11 @@ def generate_launch_description():
       # condition=UnlessCondition(LaunchConfiguration('is_simulation'))
       condition=IfCondition(
          PythonExpression([
-            " not '",
+            "'",
             LaunchConfiguration('is_simulation'),
-            "' and '",
+            "' == 'false' and '",
             LaunchConfiguration('odometry_source'),
-            "' == ' vn '"
+            "' == 'vn'"
          ])
       )
    )
@@ -124,11 +124,11 @@ def generate_launch_description():
       # condition=UnlessCondition(LaunchConfiguration('is_simulation'))
       condition=IfCondition(
          PythonExpression([
-            " not '",
+            "'",
             LaunchConfiguration('is_simulation'),
-            "' and '",
+            "' == 'false' and '",
             LaunchConfiguration('odometry_source'),
-            "' == ' rl '"
+            "' == 'rl'"
          ])
       )
    )
@@ -166,11 +166,11 @@ def generate_launch_description():
       # condition=UnlessCondition(LaunchConfiguration('is_simulation'))
       condition=IfCondition(
          PythonExpression([
-            " not '",
+            "'",
             LaunchConfiguration('is_simulation'),
-            "' and '",
+            "' == 'false' and '",
             LaunchConfiguration('odometry_source'),
-            "' == ' rl '"
+            "' == 'rl'"
          ])
       )
    )
@@ -184,7 +184,7 @@ def generate_launch_description():
    ld.add_action(vn_processing)
    #ld.add_action(sbg_launch)
    #ld.add_action(sbg_processing)
-   ld.add_action(rviz)
+   #ld.add_action(rviz)
 
    ld.add_action(tf_map_odom_NED)
    ld.add_action(tf_map_odom_ENU)

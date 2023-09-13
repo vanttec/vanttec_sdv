@@ -1,4 +1,4 @@
-image: andres_map.pgm
+image: carreta_raw_map.pgm
 mode: trinary
 resolution: 0.1
 origin: [-68.1, 77.6, 0]

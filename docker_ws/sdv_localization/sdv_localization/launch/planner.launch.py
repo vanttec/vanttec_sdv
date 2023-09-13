@@ -64,7 +64,7 @@ def generate_launch_description():
         'autostart', default_value='true',
         description='Automatically startup the nav2 stack')
     declare_use_ekf_cmd = DeclareLaunchArgument(
-        'use_ekf', default_value='false',
+        'use_ekf', default_value='true',
         description='Use Extended Kalman Filter to fuse sensors')
     declare_use_simulator_cmd = DeclareLaunchArgument(
         'use_simulator',
@@ -98,7 +98,7 @@ def generate_launch_description():
         #default_value=os.path.join(beetle_nav_dir, 'maps', 'Field.yaml'),
         #default_value=os.path.join(sdv_localization, 'maps', 'map.yaml'),
         #default_value=os.path.join(sdv_localization, 'maps', 'carreta_map.yaml'),
-        default_value=os.path.join(sdv_localization, 'maps', 'andres_map.yaml'),
+        default_value=os.path.join(sdv_localization, 'maps', 'carreta_raw_map.yaml'),
         #default_value=os.path.join(sdv_localization, 'maps', '3.yaml'),
 
         #default_value=os.path.join(sdv_localization, 'maps', 'aa.yaml'),

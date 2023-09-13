@@ -57,15 +57,19 @@ public:
   vnGPSPose() : Node("vn_processing")
   {
     //Parameter
-    declare_parameter<std::vector<double>>("orientation_covariance", orientation_covariance_);
-    declare_parameter<std::vector<double>>("angular_velocity_covariance", angular_velocity_covariance_);
-    declare_parameter<std::vector<double>>("linear_acceleration_covariance", linear_acceleration_covariance_);
-    declare_parameter<std::vector<double>>("magnetic_covariance", magnetic_field_covariance_);
+    this->declare_parameter<std::vector<double>>("orientation_covariance", orientation_covariance_);
+    this->declare_parameter<std::vector<double>>("angular_velocity_covariance", angular_velocity_covariance_);
+    this->declare_parameter<std::vector<double>>("linear_acceleration_covariance", linear_acceleration_covariance_);
+    this->declare_parameter<std::vector<double>>("magnetic_covariance", magnetic_field_covariance_);
 
-    declare_parameter<std::vector<double>>("global_lla_reference", global_ref_ins_poslla_);
-    declare_parameter<std::vector<double>>("global_ecef_reference", global_ref_ins_posecef_);
+    this->declare_parameter<std::vector<double>>("global_lla_reference", global_ref_ins_poslla_);
+    this->declare_parameter<std::vector<double>>("global_ecef_reference", global_ref_ins_posecef_);
 
-    declare_parameter<std::string>("odometry_source", odom_src_);
+    this->declare_parameter("odometry_source", rclcpp::PARAMETER_STRING);
+
+
+    odom_src_ = this->get_parameter("odometry_source").as_string();
+    
 
     // Publishers
     odom_tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
@@ -470,7 +474,7 @@ private:
   const std::vector<double> global_ref_ins_poslla_ = {25.65014586802158, -100.28985364572286}; // Coordenadas entre Biblio y CETEC
   const std::vector<double> global_ref_ins_posecef_ = {-1027768.8799482058, -5661145.344370203, 2744403.2051628013};
 
-  const std::string odom_src_ = "vn";
+  std::string odom_src_ = "vn";
 
   /// TODO(Dereck): Find default covariance values
 
