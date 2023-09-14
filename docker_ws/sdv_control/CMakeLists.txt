@@ -66,6 +66,9 @@ set(VANTTEC_CONTROLLER_SOURCES
 
     # STANLEY CONTROLLER
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/guidance_laws/stanley_controller.cpp
+
+    # LOS CONTROLLER
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/guidance_laws/LOS.cpp
     
 )
 
@@ -218,6 +221,27 @@ target_include_directories(stanley_controller_node
 )
 target_compile_features(stanley_controller_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
+#   ********************** SDC1 LOS NODE **********************
+#Add executables
+add_executable(los_controller_node 
+              src/control/guidance_laws/los_controller_node.cpp)
+# Link against required libraries
+target_link_libraries(los_controller_node
+    VANTTEC_CONTROLLERS
+    # ${rclcpp_LIBRARIES}
+    # ${std_msgs_LIBRARIES}
+    # ${sdv_msgs_LIBRARIES}
+    # ${diagnostic_msgs_LIBRARIES}
+)
+# Include directories for project headers and other package headers
+target_include_directories(los_controller_node
+            PUBLIC
+            $<BUILD_INTERFACE:${VANTTEC_CONTROLLER_PATHS}>
+            $<BUILD_INTERFACE:${sdv_msgs_INCLUDE_DIRS}>
+            $<INSTALL_INTERFACE:include>
+)
+target_compile_features(los_controller_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+
 
 #### Install
 install(TARGETS 
@@ -228,6 +252,7 @@ install(TARGETS
   sdc1_vel_asmc_node
   sdc1_vel_aitsmc_node
   stanley_controller_node
+  los_controller_node
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}

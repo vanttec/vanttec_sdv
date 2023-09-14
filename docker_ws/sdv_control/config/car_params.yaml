@@ -29,13 +29,13 @@ sdc1_vel_asmc_node:
 
 sdc1_vel_aitsmc_node:
   ros__parameters:
-    lambda: 1.0
-    beta: 0.5
-    K2: 1.0
-    K_alpha: 1.0
+    lambda: 2.0
+    beta: 0.9
+    K2: 0.6
+    K_alpha: 0.7
     K1_init: 0.0
-    K_min: 0.0
-    mu: 0.01
+    K_min: 0.001
+    mu: 0.1
     D_MAX: 180
 
 # Stanley Controller Params

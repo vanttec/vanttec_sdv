@@ -153,7 +153,7 @@ def generate_launch_description():
       package='tf2_ros',
       executable='static_transform_publisher',
       name="tf_base_link_to_velodyne",
-      arguments = ['0.45', '0', '2.25', '-0.05', '0.0', '0', 'base_link', 'velodyne'],
+      arguments = ['0.45', '0', '2.25', '-0.05', '0.0', '0.0', 'base_link', 'velodyne'],  #-0.05 y
       condition=UnlessCondition(LaunchConfiguration('is_simulation'))
    )
    

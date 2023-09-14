@@ -166,7 +166,7 @@ def generate_launch_description():
       aitsmc_node,
       #asmc_node,
       # pid_node,
-      #car_guidance_node,
+      # car_guidance_node,
       tf2_node,
       sdv_description_launch,
       sdv_loc_launch,
