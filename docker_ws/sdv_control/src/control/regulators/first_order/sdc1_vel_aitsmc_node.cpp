@@ -50,14 +50,19 @@ class CarControlNode : public rclcpp::Node
         std::vector<double> init_pose_ = {0,0,0};
 
         rclcpp::TimerBase::SharedPtr timer_;
-        diagnostic_msgs::msg::DiagnosticStatus throttle_diag_;
+        // diagnostic_msgs::msg::DiagnosticStatus throttle_diag_;
 
         /* Publishers */
         rclcpp::Publisher<geometry_msgs::msg::Accel>::SharedPtr car_accel_;
         rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr car_vel_;
         rclcpp::Publisher<sdv_msgs::msg::EtaPose>::SharedPtr car_eta_pose_;
-        rclcpp::Publisher<diagnostic_msgs::msg::DiagnosticStatus>::SharedPtr throttle_diag_pub;
+        // rclcpp::Publisher<diagnostic_msgs::msg::DiagnosticStatus>::SharedPtr throttle_diag_pub;
         rclcpp::Publisher<std_msgs::msg::UInt8>::SharedPtr calc_throttle_;
+        rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr control_signal_;
+        rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr K1_;
+        rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr surface_;
+        rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr error_;
+
 
         /* Subscribers */
         rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr car_steering_sim_;
@@ -118,40 +123,27 @@ class CarControlNode : public rclcpp::Node
 
 
             /* Publish diagnostics */
-            diagnostic_msgs::msg::KeyValue throttle;
-            diagnostic_msgs::msg::KeyValue ctrl_signal;
-            diagnostic_msgs::msg::KeyValue K1;
-            diagnostic_msgs::msg::KeyValue surface;
-            diagnostic_msgs::msg::KeyValue error;
 
             // TODO: Check for errors in throttle computation (maybe there are no real values) to update diagnostics
-            throttle_diag_.level = 0;
-
-            throttle.key = "D";
-            throttle.value = std::to_string(model_->D_);
-            throttle_diag_.values.push_back(throttle);
-
-            ctrl_signal.key = "U";
-            ctrl_signal.value = std::to_string(model_->AITSMCLin::u_);
-            throttle_diag_.values.push_back(ctrl_signal);
-
-            K1.key = "K1";
-            K1.value = std::to_string(model_->AITSMCLin::control_law_.K1_);
-            throttle_diag_.values.push_back(K1);
-
-            surface.key = "s";
-            surface.value = std::to_string(model_->AITSMCLin::control_law_.s_);
-            throttle_diag_.values.push_back(surface);
-
-            error.key = "e";
-            error.value = std::to_string(model_->AITSMCLin::control_law_.error_);
-            throttle_diag_.values.push_back(error);
-
-            throttle_diag_pub->publish(throttle_diag_);
+            // throttle_diag_.level = 0;
 
             std_msgs::msg::UInt8 D;
+            std_msgs::msg::Float32 msg;
+
             D.data = model_->D_;
             calc_throttle_->publish(D);
+
+            msg.data = model_->AITSMCLin::u_;
+            control_signal_->publish(msg);
+
+            msg.data = model_->AITSMCLin::control_law_.K1_;
+            K1_->publish(msg);
+
+            msg.data = model_->AITSMCLin::control_law_.s_;
+            surface_->publish(msg);
+
+            msg.data = model_->AITSMCLin::control_law_.error_;
+            error_->publish(msg);
 
         }
 
@@ -243,7 +235,14 @@ class CarControlNode : public rclcpp::Node
                 car_eta_pose_ = this->create_publisher<sdv_msgs::msg::EtaPose>("/sdc_simulation/dynamic_model/eta_pose", 10);
             }
             calc_throttle_ = this->create_publisher<std_msgs::msg::UInt8>("/sdc_control/control_signal/D",10);
-            throttle_diag_pub = this->create_publisher<diagnostic_msgs::msg::DiagnosticStatus>("/diagnostics",10);
+            control_signal_ = this->create_publisher<std_msgs::msg::Float32>("/sdc_control/control_signal/U",10);
+            K1_ = this->create_publisher<std_msgs::msg::Float32>("/sdc_control/control_signal/K1",10);
+            surface_ = this->create_publisher<std_msgs::msg::Float32>("/sdc_control/control_signal/s",10);
+            error_ = this->create_publisher<std_msgs::msg::Float32>("/sdc_control/control_signal/e",10);
+
+
+            // throttle_diag_pub = this->create_publisher<diagnostic_msgs::msg::DiagnosticStatus>("/diagnostics",10);
+
             // car_force_ = this->create_publisher<sdv_msgs::msg::ThrustControl>("/sdc_control/sdc_control_node/force",1);
 
             /* Subscribers */
@@ -253,22 +252,22 @@ class CarControlNode : public rclcpp::Node
             } else {
                 car_steering_     = this->create_subscription<std_msgs::msg::Float32>("/sdc_state/steering",
                                     1, std::bind(&CarControlNode::set_steering, this, std::placeholders::_1));
+                current_attitude_ = this->create_subscription<vectornav_msgs::msg::CommonGroup>("/vectornav/raw/common",
+                                    1, std::bind(&CarControlNode::set_pitch, this, std::placeholders::_1));
+                current_velocity_ = this->create_subscription<vectornav_msgs::msg::InsGroup>("/vectornav/raw/ins",
+                                    1, std::bind(&CarControlNode::save_velocity, this, std::placeholders::_1));
             }
 
             desired_velocity_ = this->create_subscription<std_msgs::msg::Float32>("/sdc_control/setpoint/velocity",
                                 1, std::bind(&CarControlNode::set_reference, this, std::placeholders::_1));
-            current_attitude_ = this->create_subscription<vectornav_msgs::msg::CommonGroup>("/vectornav/raw/common",
-                                1, std::bind(&CarControlNode::set_pitch, this, std::placeholders::_1));
-            current_velocity_ = this->create_subscription<vectornav_msgs::msg::InsGroup>("/vectornav/raw/ins",
-                                1, std::bind(&CarControlNode::save_velocity, this, std::placeholders::_1));
             drive_mode_sub_   = this->create_subscription<std_msgs::msg::String>("/sdv/drive_mode",
                                 1, std::bind(&CarControlNode::set_drive_mode, this, std::placeholders::_1));
             auto_mode_sub_   = this->create_subscription<std_msgs::msg::String>("/sdv/xbox_controller/auto_mode",
                     1, std::bind(&CarControlNode::set_auto_mode, this, std::placeholders::_1));
 
-            throttle_diag_.name = "AITSMC Longitudinal Controller for Throttle Commands (D)";
-            throttle_diag_.message = "Integer in the range of [0, 255] for motor controller";
-            throttle_diag_.hardware_id = "Throttle";
+            // throttle_diag_.name = "AITSMC Longitudinal Controller for Throttle Commands (D)";
+            // throttle_diag_.message = "Integer in the range of [0, 255] for motor controller";
+            // throttle_diag_.hardware_id = "Throttle";
 
             timer_ = this->create_wall_timer( std::chrono::milliseconds(1000 / frequency),
                                                 std::bind(&CarControlNode::timer_callback, this));

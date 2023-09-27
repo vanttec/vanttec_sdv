@@ -1,17 +1,17 @@
 /** ----------------------------------------------------------------------------
- * @file: stanley_controller_node.cpp
+ * @file: los_controller_node.cpp
  * @date: August 17, 2023
  * @author: Sebas Mtz
  * @email: sebas.martp@gmail.com
  *
- * @brief: Stanley Controller node.
+ * @brief: Line-Of-Sight Controller node.
  * -----------------------------------------------------------------------------
  **/
 
 #include <stdio.h>
 #include "rclcpp/rclcpp.hpp"
 
-#include "controllers/guidance_laws/stanley_controller.hpp"
+#include "controllers/guidance_laws/LOS.hpp"
 
 #include "std_msgs/msg/float32.hpp"
 #include "geometry_msgs/msg/twist.hpp"
@@ -38,11 +38,11 @@ class CarGuidanceNode : public rclcpp::Node
         bool path_arrived_{false};
         bool nearest_waypoint_found_{false};
 
-        std::unique_ptr<StanleyController> stanley_;
+        std::unique_ptr<LOS> los_;
 
-        /* Stanley Params */
-        float k_{3};
-        float k_soft_{1};
+        /* LOS Params */
+        float kappa_{3};
+        float KAPPA_MAX_;
         std::vector<double> DELTA_SAT_; // {max, min} steering in rads
         uint8_t precision_{10};
 
@@ -115,13 +115,13 @@ class CarGuidanceNode : public rclcpp::Node
                     RCLCPP_INFO(this->get_logger(), "Traversing path segment : (%f, %f) to (%f, %f)",
                                 p1_.x, p1_.y, p2_.x, p2_.y);
 
-                    stanley_->calculateCrosstrackError(vehicle_pos_, p1_, p2_);
-                    stanley_->setYawAngle(psi_);
-                    stanley_->calculateSteering(vel_, precision_);
-                    delta_.data = stanley_->delta_;
+                    los_->calculateCrosstrackError(vehicle_pos_, p1_, p2_);
+                    los_->setYawAngle(psi_);
+                    los_->calculateSteering(vel_, 0, precision_);
+                    delta_.data = los_->delta_;
                     car_steering_->publish(delta_);
 
-                    if(stanley_->ex_ < DISTANCE_VAL_){
+                    if(los_->ex_ < DISTANCE_VAL_){
                         waypoint_++;
                     }
 
@@ -226,17 +226,21 @@ class CarGuidanceNode : public rclcpp::Node
             //https://roboticsbackend.com/rclcpp-params-tutorial-get-set-ros2-params-with-cpp/
             this->declare_parameter("is_simulation", rclcpp::PARAMETER_BOOL);
             this->declare_parameter("frequency", rclcpp::PARAMETER_INTEGER);    // Super important to get parameters from launch files!!
-            this->declare_parameter("K", rclcpp::PARAMETER_DOUBLE);
-            this->declare_parameter("K_soft", rclcpp::PARAMETER_DOUBLE);
+
+            this->declare_parameter("kappa", rclcpp::PARAMETER_DOUBLE);
+            this->declare_parameter("KAPPA_MAX", rclcpp::PARAMETER_DOUBLE);
             this->declare_parameter("DELTA_SAT", rclcpp::PARAMETER_DOUBLE_ARRAY);
+
             this->declare_parameter("init_pose", rclcpp::PARAMETER_DOUBLE_ARRAY);
-            this->declare_parameter("parent_frame", rclcpp::PARAMETER_STRING);    // Super important to get parameters from launch files!!
+            this->declare_parameter("parent_frame", rclcpp::PARAMETER_STRING);
 
             frequency = this->get_parameter("frequency").as_int();
             is_simulation_ = this->get_parameter("is_simulation").as_bool();
-            k_ = this->get_parameter("K").as_double();
-            k_soft_ = this->get_parameter("K_soft").as_double();
+
+            kappa_ = this->get_parameter("kappa").as_double();
+            KAPPA_MAX_ = this->get_parameter("KAPPA_MAX").as_double();
             DELTA_SAT_ = this->get_parameter("DELTA_SAT").as_double_array();
+
             init_pose_ = this->get_parameter("init_pose").as_double_array();
             parent_frame_ = this->get_parameter("parent_frame").as_string();
             
@@ -276,7 +280,7 @@ class CarGuidanceNode : public rclcpp::Node
 
         void configure(){
             std::vector<float> deltas = {static_cast<float>(DELTA_SAT_[0]),static_cast<float>(DELTA_SAT_[1])};
-            stanley_ = std::make_unique<StanleyController>(deltas, k_, k_soft_);
+            los_ = std::make_unique<LOS>(deltas, kappa_, static_cast<float>(KAPPA_MAX_));
         }
 };
 

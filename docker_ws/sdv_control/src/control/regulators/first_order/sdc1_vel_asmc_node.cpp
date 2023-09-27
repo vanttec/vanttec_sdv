@@ -61,6 +61,7 @@ class CarControlNode : public rclcpp::Node
         rclcpp::Publisher<std_msgs::msg::UInt8>::SharedPtr calc_throttle_;
 
         /* Subscribers */
+        rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr car_steering_sim_;
         rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr car_steering_;
         rclcpp::Subscription<vectornav_msgs::msg::InsGroup>::SharedPtr current_velocity_;
         rclcpp::Subscription<vectornav_msgs::msg::CommonGroup>::SharedPtr current_attitude_;
@@ -136,14 +137,19 @@ class CarControlNode : public rclcpp::Node
         void set_pitch(const vectornav_msgs::msg::CommonGroup::SharedPtr msg_in) //const
         {
             if(this->is_simulation_)
-                model_->setPitch(msg_in->yawpitchroll.y * M_PI / 180);
+                model_->setPitch(msg_in->yawpitchroll.y * M_PI / 180.0);
         }
 
         void set_steering(const std_msgs::msg::Float32& msg) //const
         {
-            if(this->is_simulation_)
+            if(this->is_simulation_){
                 model_->setSteering(msg.data);
+            } else {
+                // std::cout << std::to_string(msg.data * M_PI / 180.0) <<std::endl;
+                model_->setSteering(/*msg.data * M_PI / 180.0*/0.0);
+            }
         }
+
 
         void set_drive_mode(const std_msgs::msg::String& msg)
         {
@@ -203,14 +209,20 @@ class CarControlNode : public rclcpp::Node
             // car_force_ = this->create_publisher<sdv_msgs::msg::ThrustControl>("/sdc_control/sdc_control_node/force",1);
 
             /* Subscribers */
-            car_steering_     = this->create_subscription<std_msgs::msg::Float32>("/sdc_control/control_signal/delta",
-                                1, std::bind(&CarControlNode::set_steering, this, std::placeholders::_1));
+            if(is_simulation_){
+                car_steering_sim_     = this->create_subscription<std_msgs::msg::Float32>("/sdc_control/control_signal/delta",
+                                    1, std::bind(&CarControlNode::set_steering, this, std::placeholders::_1));
+            } else {
+                car_steering_     = this->create_subscription<std_msgs::msg::Float32>("/sdc_state/steering",
+                                    1, std::bind(&CarControlNode::set_steering, this, std::placeholders::_1));
+                current_attitude_ = this->create_subscription<vectornav_msgs::msg::CommonGroup>("/vectornav/raw/common",
+                                    1, std::bind(&CarControlNode::set_pitch, this, std::placeholders::_1));
+                current_velocity_ = this->create_subscription<vectornav_msgs::msg::InsGroup>("/vectornav/raw/ins",
+                                    1, std::bind(&CarControlNode::save_velocity, this, std::placeholders::_1));
+            }
+
             desired_velocity_ = this->create_subscription<std_msgs::msg::Float32>("/sdc_control/setpoint/velocity",
                                 1, std::bind(&CarControlNode::set_reference, this, std::placeholders::_1));
-            current_attitude_ = this->create_subscription<vectornav_msgs::msg::CommonGroup>("/vectornav/raw/common",
-                                1, std::bind(&CarControlNode::set_pitch, this, std::placeholders::_1));
-            current_velocity_ = this->create_subscription<vectornav_msgs::msg::InsGroup>("/vectornav/raw/ins",
-                                1, std::bind(&CarControlNode::save_velocity, this, std::placeholders::_1));
             drive_mode_sub_   = this->create_subscription<std_msgs::msg::String>("/sdv/drive_mode",
                                 1, std::bind(&CarControlNode::set_drive_mode, this, std::placeholders::_1));
             auto_mode_sub_   = this->create_subscription<std_msgs::msg::String>("/sdv/xbox_controller/auto_mode",

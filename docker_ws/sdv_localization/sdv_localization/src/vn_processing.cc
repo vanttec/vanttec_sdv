@@ -82,6 +82,7 @@ public:
     pub_ref_ins = this->create_publisher<geometry_msgs::msg::Point>("sdv_localization/vectornav/ref_ins", 10);
 
     pub_path =  this->create_publisher<nav_msgs::msg::Path>("sdv_localization/nav/vectornav/path", 10);
+    pub_path_enu =  this->create_publisher<nav_msgs::msg::Path>("sdv_localization/nav/vectornav/path_enu", 10);
 
     // Subscribers
     auto sub_vn_common_cb = std::bind(&vnGPSPose::sub_vn_common, this, std::placeholders::_1);
@@ -219,7 +220,7 @@ private:
         pose.header = enu_pose_msg.header;
         enu_path.header = enu_pose_msg.header;
         enu_path.poses.push_back(pose);
-        // pub_path->publish(enu_path);
+        pub_path_enu->publish(enu_path);
 
         /* ODOMETRY MSGS */
         nav_msgs::msg::Odometry odom_msg;
@@ -443,6 +444,7 @@ private:
   rclcpp::Publisher<geometry_msgs::msg::Point>::SharedPtr pub_ref_ins;
   rclcpp::Publisher<geometry_msgs::msg::Point>::SharedPtr pub_ref_ecef;
   rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr pub_path;
+  rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr pub_path_enu;
 
   /// Subscribers
   rclcpp::Subscription<vectornav_msgs::msg::CommonGroup>::SharedPtr sub_vn_common_;
