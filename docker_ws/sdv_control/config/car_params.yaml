@@ -31,8 +31,8 @@ sdc1_vel_aitsmc_node:
   ros__parameters:
     lambda: 2.0
     beta: 0.9
-    K2: 0.6
-    K_alpha: 0.7
+    K2: 0.3
+    K_alpha: 0.5
     K1_init: 0.0
     K_min: 0.001
     mu: 0.1

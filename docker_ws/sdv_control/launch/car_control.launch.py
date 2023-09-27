@@ -18,7 +18,15 @@ def generate_launch_description():
       'is_simulation',
       default_value = 'false',
       description = 'Defines if the application will run in simulation or in real life'
-    )
+   )
+
+   odometry_source = DeclareLaunchArgument(
+      'odometry_source',
+      default_value = 'rl', # or rl
+      description = 'Defines if the odometry source comes directly from the \
+                     vectornav (vn) or from the robot localization pkg (rl)'
+   )
+
 
    # For simulations (config in sdv_control)
    rviz_config = os.path.join(
@@ -46,6 +54,7 @@ def generate_launch_description():
       parameters=[
                   # {'frequency': LaunchConfiguration('frequency')},
                   {'is_simulation': LaunchConfiguration('is_simulation')},
+                  # {'odometry_source': LaunchConfiguration('odometry_source')},
                   car_params
                   ]
    )
@@ -108,7 +117,6 @@ def generate_launch_description():
 
    waypoint_handler = Node(
       package='sdv_control',
-      # executable='waypoint_handler_enu_ned.py',
       executable='waypoint_handler.py',
       namespace="",
       output="screen",
@@ -134,7 +142,8 @@ def generate_launch_description():
                'sdv_localization.launch.py'
             ])
       ]),
-      launch_arguments={'is_simulation': LaunchConfiguration('is_simulation')}.items()
+      launch_arguments={'is_simulation': LaunchConfiguration('is_simulation'),
+                        'odometry_source': LaunchConfiguration('odometry_source')}.items()
    )
 
    # sdv_can_launch = IncludeLaunchDescription(
@@ -150,6 +159,7 @@ def generate_launch_description():
 
    return LaunchDescription([
       is_sim,
+      odometry_source,
 
       # Log the value of is_simulation for debugging purposes
       LogInfo(
