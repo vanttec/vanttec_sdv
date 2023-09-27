@@ -25,12 +25,10 @@ It includes code made for controlling the acceleartion, steering , braking and l
 ![Tutorial][tutorial]
 
 ```sh
-sudo make sdv.build
+git clone --recurse-submodules https://github.com/vanttec/vanttec_sdv.git
 sudo ./create_container_intel.bash
 sudo make sdv.up 
 sudo make sdv.shell
-cd /home/ws/
-git clone --recurse-submodules https://github.com/vanttec/vanttec_sdv.git
 cd /home/ws/
 colcon build
 
