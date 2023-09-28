@@ -7,6 +7,48 @@ from rclpy.node import Node
 from std_msgs.msg import Float32
 from sdv_msgs.msg import Encoder
 
+class NewPrinter(can.Listener):
+    def __init__(self, enc) -> None:
+        self.encoder_data = enc.encoder_data
+        self.enc = enc
+        self.steps = enc.steps
+        self.revolutions = enc.revolutions
+        self.degrees = enc.degrees
+        self.encoder_pub = enc.encoder_pub
+        self.steering_pub = enc.steering_pub
+        self.bit_res = enc.bit_res
+
+    def on_message_received(self, msg) -> None:
+        # process message
+        if msg is not None:
+            if msg.arbitration_id == 0x1A0:     #Si recibe el 0A0, algo est[a] mal
+                coded_msg = msg.data
+                decoded_msg = coded_msg.hex()
+                hex_pos = (decoded_msg[6:7]+decoded_msg[4:6]+decoded_msg[2:4]+decoded_msg[0:2])
+                absolute_pos = int(hex_pos, 16)
+                step = absolute_pos%self.steps
+                
+                # To account when encoder pos is outside the total max steering angle
+
+                # To set to [-angle,+angle] range
+                if absolute_pos > self.bit_res/2: #2^24 /2
+                    absolute_pos = absolute_pos - self.bit_res
+                    step = step - self.steps
+
+                abs_angle = float(self.degrees*absolute_pos/self.revolutions)
+
+                # Results are negative to account for gears
+
+                self.encoder_data.turn = -absolute_pos//self.steps
+                self.encoder_data.abs_angle = -abs_angle
+                self.encoder_data.angle = -float(self.degrees*step/self.steps)
+
+                self.encoder_pub.publish(self.encoder_data)
+
+                delta_angle = Float32()
+                delta_angle.data = self.encoder_data.abs_angle * 0.0454 # degrees
+                self.steering_pub.publish(delta_angle)
+
 class RM8004Encoder(Node):
 
     def __init__(self):
@@ -25,7 +67,9 @@ class RM8004Encoder(Node):
         self.declare_parameter('bitrate', rclpy.Parameter.Type.INTEGER)
 
         channel = self.get_parameter('channel').value
+        # channel = "can0"
         bitrate = self.get_parameter('bitrate').value
+        # bitrate = 125000
 
         self.get_logger().info("%s" %channel)
         self.get_logger().info("%s" %bitrate)
@@ -37,8 +81,8 @@ class RM8004Encoder(Node):
         self.encoder_pub = self.create_publisher(Encoder, '/ifm_encoder', 10)
         self.steering_pub = self.create_publisher(Float32, '/sdc_state/steering', 10)
 
-        timer_period = 0.01 #Seconds
-        self.timer = self.create_timer(timer_period, self.timer_callback)
+        # timer_period = 0.01 #Seconds
+        # self.timer = self.create_timer(timer_period, self.timer_callback)
         
         # CANBus
         filters = [
@@ -68,47 +112,40 @@ class RM8004Encoder(Node):
 
         self.bus.send(start_msg, timeout=1)
 
+        self.listener = NewPrinter(self)
+        self.notifier = can.Notifier(self.bus, [self.listener])
 
-    def timer_callback(self):
-        msg = self.bus.recv(0.05)
-        if msg is not None:
-            if msg.arbitration_id == 0x1A0:     #Si recibe el 0A0, algo est[a] mal
-                coded_msg = msg.data
-                decoded_msg = coded_msg.hex()
-                hex_pos = (decoded_msg[6:7]+decoded_msg[4:6]+decoded_msg[2:4]+decoded_msg[0:2])
-                absolute_pos = int(hex_pos, 16)
-                step = absolute_pos%self.steps
-                
-                # To account when encoder pos is outside the total max steering angle
 
-                # if(abs_angle > self.car_steering_range):
-                #     offset = self.car_steering_range_pos*(absolute_pos//self.steps)
-                #     self.get_logger().info("Offset: %d\n" % offset)
-                #     absolute_pos  = absolute_pos - offset
-
-                # To set to [-angle,+angle] range
-                if absolute_pos > self.bit_res/2: #2^24 /2
-                    absolute_pos = absolute_pos - self.bit_res
-                    step = step - self.steps
-
-                abs_angle = float(self.degrees*absolute_pos/self.revolutions)
-
-                # Results are negative to account for gears
-
-                self.encoder_data.turn = -absolute_pos//self.steps
-                self.encoder_data.abs_angle = -abs_angle
-                self.encoder_data.angle = -float(self.degrees*step/self.steps)
-
-                # self.get_logger().info("Step: %d" %step)
-                # self.get_logger().info("Turn: %d" %self.encoder_data.turn)
-                # self.get_logger().info("Angle: %d" %self.encoder_data.angle)
-                # self.get_logger().info("Abs angle: %d" %self.encoder_data.abs_angle)
-
-                self.encoder_pub.publish(self.encoder_data)
-
-                delta_angle = Float32()
-                delta_angle.data = self.encoder_data.abs_angle * 0.0454 # degrees
-                self.steering_pub.publish(delta_angle)
+    # def timer_callback(self):
+    #     msg = self.bus.recv(0.05)
+    #     if msg is not None:
+    #         if msg.arbitration_id == 0x1A0:     #Si recibe el 0A0, algo est[a] mal
+    #             coded_msg = msg.data
+    #             decoded_msg = coded_msg.hex()
+    #             hex_pos = (decoded_msg[6:7]+decoded_msg[4:6]+decoded_msg[2:4]+decoded_msg[0:2])
+    #             absolute_pos = int(hex_pos, 16)
+    #             step = absolute_pos%self.steps
+    #             
+    #             # To account when encoder pos is outside the total max steering angle
+    #
+    #             # To set to [-angle,+angle] range
+    #             if absolute_pos > self.bit_res/2: #2^24 /2
+    #                 absolute_pos = absolute_pos - self.bit_res
+    #                 step = step - self.steps
+    #
+    #             abs_angle = float(self.degrees*absolute_pos/self.revolutions)
+    #
+    #             # Results are negative to account for gears
+    #
+    #             self.encoder_data.turn = -absolute_pos//self.steps
+    #             self.encoder_data.abs_angle = -abs_angle
+    #             self.encoder_data.angle = -float(self.degrees*step/self.steps)
+    #
+    #             self.encoder_pub.publish(self.encoder_data)
+    #
+    #             delta_angle = Float32()
+    #             delta_angle.data = self.encoder_data.abs_angle * 0.0454 # degrees
+    #             self.steering_pub.publish(delta_angle)
 
 def main(args=None):
     rclpy.init(args=args)
