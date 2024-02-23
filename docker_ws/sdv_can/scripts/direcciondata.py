@@ -12,7 +12,7 @@ class Direccion_mode(Node):
         #Json
         self.panel_module_id_tx = 1040 #hex.410
         self.panel_module_id_rx = 1033 #hex.409
-        file_path = '/home/ws/src/sdv_can/resources/panel_functionalities.json'
+        file_path = '/home/max/sdv/src/vanttec_sdv/docker_ws/sdv_can/resources/panel_functionalities.json'
         self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000)
         self.json_data = self.read_json_file(file_path)
         #Subscription

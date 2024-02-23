@@ -41,14 +41,15 @@ class CarGuidanceNode : public rclcpp::Node
         std::unique_ptr<StanleyController> stanley_;
 
         /* Stanley Params */
-        float k_{3};
-        float k_soft_{1};
+        float k_{2};
+        float k_soft_{1.1};
         std::vector<double> DELTA_SAT_; // {max, min} steering in rads
         uint8_t precision_{10};
 
         /* Control signals */
         float vel_;
         std_msgs::msg::Float32 delta_;
+        std_msgs::msg::Float32 slope_;
 
         /* Vehicle pose */
         std::vector<double> init_pose_ = {0,0,0};
@@ -61,13 +62,15 @@ class CarGuidanceNode : public rclcpp::Node
         nav_msgs::msg::Path reference_path_;
         size_t waypoint_ = 0;
         size_t path_length_;
-        float DISTANCE_VAL_ = 0.5;                // Meters
+        // float DISTANCE_VAL_ = 0.5;                // Meters
+        float DISTANCE_VAL_ = 7;                // Meters
         std::string parent_frame_;
 
         rclcpp::TimerBase::SharedPtr timer_;
 
         /* Publishers */
         rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr car_steering_;
+        rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr path_slope_;
 
         /* Subscribers */
         rclcpp::Subscription<sdv_msgs::msg::EtaPose>::SharedPtr car_eta_pose_;
@@ -112,6 +115,8 @@ class CarGuidanceNode : public rclcpp::Node
                     p2_.x = reference_path_.poses[waypoint_+1].pose.position.x;
                     p2_.y = reference_path_.poses[waypoint_+1].pose.position.y;
 
+                    slope_.data = (p2_.y - p1_.y)/ (p2_.x - p1_.x);
+
                     RCLCPP_INFO(this->get_logger(), "Traversing path segment : (%f, %f) to (%f, %f)",
                                 p1_.x, p1_.y, p2_.x, p2_.y);
 
@@ -120,6 +125,7 @@ class CarGuidanceNode : public rclcpp::Node
                     stanley_->calculateSteering(vel_, precision_);
                     delta_.data = stanley_->delta_;
                     car_steering_->publish(delta_);
+                    path_slope_->publish(slope_);
 
                     if(stanley_->ex_ < DISTANCE_VAL_){
                         waypoint_++;
@@ -244,6 +250,7 @@ class CarGuidanceNode : public rclcpp::Node
             
             /* Publishers */
             car_steering_ = this->create_publisher<std_msgs::msg::Float32>("/sdc_control/control_signal/delta", 1);
+            path_slope_ = this->create_publisher<std_msgs::msg::Float32>("/sdc_control/path_slope", 1);
 
             /* Subscribers */
             

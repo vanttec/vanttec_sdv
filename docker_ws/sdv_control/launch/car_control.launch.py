@@ -16,7 +16,7 @@ def generate_launch_description():
 
    is_sim = DeclareLaunchArgument(
       'is_simulation',
-      default_value = 'false',
+      default_value = 'true',
       description = 'Defines if the application will run in simulation or in real life'
    )
 
@@ -146,16 +146,16 @@ def generate_launch_description():
                         'odometry_source': LaunchConfiguration('odometry_source')}.items()
    )
 
-   # sdv_can_launch = IncludeLaunchDescription(
-   #    PythonLaunchDescriptionSource([
-   #          PathJoinSubstitution([
-   #             FindPackageShare('sdv_can'),
-   #             'launch',
-   #             'can_devices.launch.py'
-   #          ])
-   #    ]),
-   #    condition=UnlessCondition(LaunchConfiguration('is_simulation'))
-   # )
+   sdv_can_launch = IncludeLaunchDescription(
+      PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+               FindPackageShare('sdv_can'),
+               'launch',
+               'can_devices.launch.py'
+            ])
+      ]),
+      condition=UnlessCondition(LaunchConfiguration('is_simulation'))
+   )
 
    return LaunchDescription([
       is_sim,
@@ -173,12 +173,12 @@ def generate_launch_description():
 
       rviz,
       waypoint_handler,
-      aitsmc_node,
+      # aitsmc_node,
       #asmc_node,
-      # pid_node,
-      # car_guidance_node,
+      pid_node,
+      car_guidance_node,
       tf2_node,
       sdv_description_launch,
       sdv_loc_launch,
-      # sdv_can_launch
+      sdv_can_launch,
    ])
