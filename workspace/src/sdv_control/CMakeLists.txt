@@ -18,6 +18,7 @@ find_package(tf2 REQUIRED)
 find_package(diagnostic_msgs REQUIRED)
 find_package(vectornav_msgs REQUIRED)
 find_package(rclpy REQUIRED)
+find_package(Eigen3 REQUIRED)
 
 set(DEPENDENCIES
     sdv_msgs
@@ -38,6 +39,7 @@ set(LIBRARIES
     # sdc_control_node
 )
 
+# TODO  Vanttec_controller should have it's own cmakelists
 set(VANTTEC_CONTROLLER_SOURCES
     # DYNAMIC MODEL
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/dynamic_models/ground_vehicles/car_like/vehicles/vtec_sdc1.cpp
@@ -69,7 +71,7 @@ set(VANTTEC_CONTROLLER_SOURCES
 
     # LOS CONTROLLER
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/controllers/guidance_laws/LOS.cpp
-    
+
 )
 
 set(VANTTEC_CONTROLLER_PATHS
@@ -82,7 +84,7 @@ set(VANTTEC_CONTROLLER_PATHS
 )
 
 #Add cpp library files
-add_library(VANTTEC_CONTROLLERS SHARED 
+add_library(VANTTEC_CONTROLLERS SHARED
     ${VANTTEC_CONTROLLER_SOURCES}
     # ${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_controllers/dynamic_models/ground_vehicles/car_like/vehicles/vtec_sdc1.cpp
 )
@@ -95,13 +97,15 @@ target_include_directories(VANTTEC_CONTROLLERS
   $<INSTALL_INTERFACE:include>
 )
 
+target_link_libraries(VANTTEC_CONTROLLERS Eigen3::Eigen)
+
 ament_target_dependencies(VANTTEC_CONTROLLERS ${DEPENDENCIES})
 
 #target_compile_definitions(sdv_control PRIVATE "sdv_control_BUILDING_LIBRARY")
 
 #   ********************** SDC1 SIMULATION NODE **********************
 #Add executables
-add_executable(sdc1_simulation_node 
+add_executable(sdc1_simulation_node
               src/model/sdc1_simulation_node.cpp)
 # Link against required libraries
 target_link_libraries(sdc1_simulation_node
@@ -122,7 +126,7 @@ target_compile_features(sdc1_simulation_node PUBLIC c_std_99 cxx_std_17)  # Requ
 
 #   ********************** TF2 BROADCAST NODE **********************
 #Add executables
-add_executable(car_tf2_broadcast_node 
+add_executable(car_tf2_broadcast_node
               src/model/car_tf2_broadcast_node.cpp)
 # Link against required libraries
 target_link_libraries(car_tf2_broadcast_node
@@ -143,7 +147,7 @@ target_compile_features(car_tf2_broadcast_node PUBLIC c_std_99 cxx_std_17)  # Re
 
 #   ********************** SDC1 PID NODE **********************
 #Add executables
-add_executable(sdc1_vel_pid_node 
+add_executable(sdc1_vel_pid_node
               src/control/regulators/first_order/sdc1_vel_pid_node.cpp)
 # Link against required libraries
 target_link_libraries(sdc1_vel_pid_node
@@ -164,7 +168,7 @@ target_compile_features(sdc1_vel_pid_node PUBLIC c_std_99 cxx_std_17)  # Require
 
 #   ********************** SDC1 ASMC NODE **********************
 #Add executables
-add_executable(sdc1_vel_asmc_node 
+add_executable(sdc1_vel_asmc_node
               src/control/regulators/first_order/sdc1_vel_asmc_node.cpp)
 # Link against required libraries
 target_link_libraries(sdc1_vel_asmc_node
@@ -185,7 +189,7 @@ target_compile_features(sdc1_vel_asmc_node PUBLIC c_std_99 cxx_std_17)  # Requir
 
 #   ********************** SDC1 AITSMC NODE **********************
 #Add executables
-add_executable(sdc1_vel_aitsmc_node 
+add_executable(sdc1_vel_aitsmc_node
               src/control/regulators/first_order/sdc1_vel_aitsmc_node.cpp)
 # Link against required libraries
 target_link_libraries(sdc1_vel_aitsmc_node
@@ -202,7 +206,7 @@ target_compile_features(sdc1_vel_aitsmc_node PUBLIC c_std_99 cxx_std_17)  # Requ
 
 #   ********************** SDC1 STANLEY NODE **********************
 #Add executables
-add_executable(stanley_controller_node 
+add_executable(stanley_controller_node
               src/control/guidance_laws/stanley_controller_node.cpp)
 # Link against required libraries
 target_link_libraries(stanley_controller_node
@@ -223,7 +227,7 @@ target_compile_features(stanley_controller_node PUBLIC c_std_99 cxx_std_17)  # R
 
 #   ********************** SDC1 LOS NODE **********************
 #Add executables
-add_executable(los_controller_node 
+add_executable(los_controller_node
               src/control/guidance_laws/los_controller_node.cpp)
 # Link against required libraries
 target_link_libraries(los_controller_node
@@ -244,7 +248,7 @@ target_compile_features(los_controller_node PUBLIC c_std_99 cxx_std_17)  # Requi
 
 
 #### Install
-install(TARGETS 
+install(TARGETS
   ${LIBRARIES}
   sdc1_simulation_node
   car_tf2_broadcast_node
@@ -264,7 +268,7 @@ install(DIRECTORY ${VANTTEC_CONTROLLER_PATHS}
   DESTINATION include/${PROJECT_NAME}
 )
 
-install(DIRECTORY launch 
+install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}
 )
 

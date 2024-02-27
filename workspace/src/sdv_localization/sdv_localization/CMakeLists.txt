@@ -17,7 +17,7 @@ endif()
 # endif()
 
 # find dependencies
-# Possibly add for rosdep 
+# Possibly add for rosdep
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -35,7 +35,6 @@ find_package(sbg_driver REQUIRED)
 # find_package(rclpy REQUIRED)
 
 # vncxx
-add_subdirectory(../sensors/vectornav/vectornav/vnproglib-1.2.0.0/cpp build)
 
 # include_directories(
 #   #${catkin_INCLUDE_DIRS}
