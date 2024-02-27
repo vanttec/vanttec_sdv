@@ -25,3 +25,6 @@
 [submodule "ws/isaac_ros_common"]
 	path = ws/isaac_ros_common
 	url = https://github.com/vanttec/isaac_ros_common.git
+[submodule "workspace/src/sdv_lidar"]
+	path = workspace/src/sdv_lidar
+	url = https://github.com/vanttec/sdv_lidar.git
