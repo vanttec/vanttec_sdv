@@ -1,3 +1,6 @@
 .vscode/
 can_devices/
 .metadata
+__pycache__/*
+*.pyc
+.docker_bash_history

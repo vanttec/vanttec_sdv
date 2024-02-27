@@ -193,13 +193,15 @@ fi
 # Run container from image
 print_info "Running $CONTAINER_NAME in $ISAAC_ROS_DEV_DIR"
 docker run -it --rm \
+    -d \
     --privileged \
     --network host \
     ${DOCKER_ARGS[@]} \
     -v $ISAAC_ROS_DEV_DIR:/workspace \
     -v /dev/*:/dev/* \
     -v /etc/localtime:/etc/localtime:ro \
-    --name "$CONTAINER_NAME" \
+    -v $(pwd)/.docker_bash_history:/home/admin/.bash_history \
+    --name "sdv_dev_container" \
     --runtime nvidia \
     --user="admin" \
     --entrypoint /usr/local/bin/scripts/workspace-entrypoint.sh \
