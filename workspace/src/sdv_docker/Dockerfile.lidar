@@ -1,0 +1,7 @@
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+RUN apt-get update && \
+    apt-get install libpcl-dev ros-humble-joint-state-publisher-gui \
+    ros-humble-xacro ros-humble-gazebo-ros-pkgs \
+    ros-humble-pcl-ros ros-humble-vision-msgs
