@@ -60,12 +60,6 @@ ament_target_dependencies(vn_processing rclcpp sensor_msgs vectornav_msgs tf2_ge
 ament_target_dependencies(sbg_processing rclcpp sensor_msgs tf2_geometry_msgs nav_msgs)
 ament_target_dependencies(temp_tf_odom_map rclcpp sensor_msgs vectornav_msgs tf2_geometry_msgs nav_msgs)
 
-target_link_libraries(vn_processing vncxx )
-
-# target_link_libraries(diagnostics vncxx )
-# target_link_libraries(vslam_repub vncxx )
-
-
 install(TARGETS
   vn_processing
   sbg_processing
