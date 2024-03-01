@@ -1,0 +1,1 @@
+yolo task=segment mode=predict model=/home/vanttec/home/vanttec/Downloads/Yolov8s/runs/segment/train4/weights/best.pt  imgsz=640 source=/home/vanttec/home/vanttec/Downloads/Yolov8s/vidtest/carril1.mp4 show=True conf=0.50 save=True 

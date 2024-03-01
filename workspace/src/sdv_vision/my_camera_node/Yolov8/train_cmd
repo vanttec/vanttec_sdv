@@ -1,0 +1,2 @@
+yolo task=segment mode=train epochs=150 data=./RoDev8/dataset/data.yaml model=./yolov8n-seg.pt  imgsz=640 batch=32 
+
