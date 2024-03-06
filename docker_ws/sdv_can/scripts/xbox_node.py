@@ -79,7 +79,8 @@ class XboxNode(Node):
 
         self.steering_wheel_angle = 0
         # max steering = (wheel turns to max steer = 1.7) * (stepper to wheel ratio = 1.5) * 360 degrees
-        self.max_steering = 918 # degrees
+        self.max_steering = 600 # degrees
+        self.min_steering = -400 # degrees
     
         self.steer_task_id_control = 0x00
 
@@ -244,18 +245,20 @@ class XboxNode(Node):
             dire = 0
 
         if dire > 0:
-            if(self.max_steering - self.steering_wheel_angle <= 0):
+            if(self.max_steering <= self.steering_wheel_angle):
                 dire = 0
         elif dire < 0:
-            if(-self.max_steering - self.steering_wheel_angle >= 0):
+            if(self.min_steering >= self.steering_wheel_angle):
                 dire = 0
         
         if dire > 0:
-            dir = 1     # Normal -> CW:0, CCW:1, but inverted due to gears
-        elif dire < 0:
             dir = 0
+        elif dire < 0:
+            dir = 1
         else:
             dir = 2
+        self.get_logger().error(f'dir: {dir}')
+
 
         # self.steering_pub.publish(msg)
         self.bus.send(can.Message(arbitration_id=self.steering_module_id,is_extended_id=False, data=[self.steer_task_id_xbox,int(dir)]), timeout=0.1)

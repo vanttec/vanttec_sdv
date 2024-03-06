@@ -46,7 +46,7 @@ class NewPrinter(can.Listener):
                 self.encoder_pub.publish(self.encoder_data)
 
                 delta_angle = Float32()
-                delta_angle.data = self.encoder_data.abs_angle * 0.0454 # degrees
+                delta_angle.data = self.encoder_data.abs_angle * 0.0658 # degrees
                 self.steering_pub.publish(delta_angle)
 
 class RM8004Encoder(Node):

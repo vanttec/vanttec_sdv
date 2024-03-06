@@ -96,17 +96,18 @@ class SDVControlNode(Node):
         # Steering to steering wheel relation:
         # delta in rads
         # wheel angle in degrees
-        # delta = 0.0454 * wheel / 57.2958
+        # delta = 0.0658 * wheel / 57.2958
 
         # REAL MAX DELTA = 31 degrees = 0.541052 rads
         # REAL MIN DELTA = -22.5 degrees = -0.3926991 rads
 
-        # MAKE SURE THESE STEERING WHEEL VALS ARE THE SAME AS IN THE STEERING PCB!!!!!
-        ERROR_OFFSET = 10
-        MAX_STEERING_WHEEL_ANGLE = 470 - ERROR_OFFSET # degrees
-        MIN_STEERING_WHEEL_ANGLE = -470 + ERROR_OFFSET # degrees
+        delta_to_wheel = 0.0658 / 57.2958 # relationship delta in degrees - wheel in radians
 
-        # ERROR_OFFSET_RAD = 10 / 57.2958
+        # MAKE SURE THESE STEERING WHEEL VALS ARE THE SAME AS IN THE STEERING PCB!!!!!
+        MAX_STEERING_WHEEL_ANGLE = 550 # degrees
+        MIN_STEERING_WHEEL_ANGLE = -360 # degrees
+
+        # ERROR_OFFSET_RAD = 10 / 57.295
 
         # If the difference between consecutive delta angles is too low, do not publish it
         # if(abs(delta.data - self.prev_delta_angle) < ERROR_OFFSET_RAD):
@@ -115,13 +116,13 @@ class SDVControlNode(Node):
         # WHEN delta.data = 0.541052 the result is less than 700, which is the real max steering wheel angle, so it is safe
         delta_angle = delta.data
 
-        if(delta_angle > MAX_STEERING_WHEEL_ANGLE*0.0454/57.2958):
-            delta_angle = MAX_STEERING_WHEEL_ANGLE*0.0454/57.2958
-        else:
-            if(delta_angle < MIN_STEERING_WHEEL_ANGLE*0.0454/57.2958):
-                delta_angle = MIN_STEERING_WHEEL_ANGLE*0.0454/57.2958
 
-        wheel_angle = delta_angle * 57.2958 / 0.0454 # degrees
+        if(delta_angle > MAX_STEERING_WHEEL_ANGLE):
+            delta_angle = MAX_STEERING_WHEEL_ANGLE
+        elif(delta_angle < MIN_STEERING_WHEEL_ANGLE):
+            delta_angle = MIN_STEERING_WHEEL_ANGLE
+
+        wheel_angle = delta_angle / delta_to_wheel # degrees
 
         normalized_wheel_angle = wheel_angle / MAX_STEERING_WHEEL_ANGLE if delta_angle >= 0 else wheel_angle / -MIN_STEERING_WHEEL_ANGLE
 
@@ -141,6 +142,7 @@ class SDVControlNode(Node):
                 else:
                     if self.auto_mode == "Setpoint_Controller":
                         self.get_logger().info("Normalized wheel angle = %f" % normalized_wheel_angle)
+                        self.get_logger().info("In degrees wheel angle = %f" % wheel_angle)
                         if(normalized_wheel_angle != self.wheel_angle):
                             steer_data = bytearray(struct.pack("f", normalized_wheel_angle))
                             #Insert ID so it can select the proper STM32 Task
