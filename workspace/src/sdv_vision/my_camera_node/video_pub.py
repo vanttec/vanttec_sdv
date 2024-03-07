@@ -36,7 +36,7 @@ class VideoPublisher(Node):
     # Create a VideoCapture object
     # The argument '0' gets the default webcam.
     #self.cap = cv2.VideoCapture(0)
-    self.cap = cv2.VideoCapture('/workspace/src/sdv_vision/my_camera_node/carril.mp4')
+    self.cap = cv2.VideoCapture('./vanttec_sdv/workspace/src/sdv_vision/my_camera_node/carril.mp4')
     
     # Used to convert between ROS and OpenCV Videos
     self.br = CvBridge()
@@ -53,9 +53,7 @@ class VideoPublisher(Node):
           
     if ret == True:
       self.publisher_.publish(self.br.cv2_to_imgmsg(frame))
-      self.get_logger().info('Aqui toy')
-    # Display the message on the console
-    self.get_logger().info('Publishing video frame')
+      self.get_logger().info('Publishing video frame')
   
 def main(args=None):
   

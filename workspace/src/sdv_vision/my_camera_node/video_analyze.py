@@ -106,6 +106,7 @@ class ImageSubscriber(Node):
       
     # Used to convert between ROS and OpenCV images
     self.br = CvBridge()
+    self.MODEL_PATH= "/workspace/src/sdv_vision/my_camera_node/Yolov8/weights_train4/best.pt"
   
   def get_className(classNo):
     if classNo==0:
@@ -123,20 +124,12 @@ class ImageSubscriber(Node):
 
     # Convert ROS Image message to OpenCV image
     #model = YOLO("/Yolov8/weights_train4/best.pt")  # segmentation model
-    weights_file_path = "/workspace/src/sdv_vision/my_camera_node/Yolov8/weights_train4/best.pt"
 
     # Initialize the YOLO model with the weights file path
-    model = YOLO(weights_file_path)
+    model = YOLO(self.MODEL_PATH)
 
     # Now you can access the names attribute
     names = model.model.names
-
-    #w, h, fps = (int(cap.get(x)) for x in (cv2.CAP_PROP_FRAME_WIDTH, cv2.CAP_PROP_FRAME_HEIGHT, cv2.CAP_PROP_FPS))
-    h = data.height
-    w = data.width
-    #fps=30
-    #out = cv2.VideoWriter('instance-segmentation-20.avi', cv2.VideoWriter_fourcc(*'MJPG'), fps, (w, h))
-
     
     '''ret, im0 = cap.read()
     if not ret:
