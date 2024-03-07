@@ -49,6 +49,7 @@ RUN apt-get update && \
 # Install python dependencies
 RUN pip install python-can
 RUN pip install setuptools==58.2.0
+RUN pip install ultralytics
 
 RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
 RUN echo "source /home/ws/install/setup.bash" >> /root/.bashrc
