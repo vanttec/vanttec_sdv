@@ -16,6 +16,3 @@ RUN apt-get update \
 
 RUN pip3 install --upgrade pip \ 
     && pip3 install rosbags
-
-USER admin
-RUN echo 'export PATH="$HOME/.local/bin:$PATH"' >> $HOME/.bashrc
