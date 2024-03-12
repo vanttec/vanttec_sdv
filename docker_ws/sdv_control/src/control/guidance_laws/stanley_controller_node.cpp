@@ -48,8 +48,9 @@ class CarGuidanceNode : public rclcpp::Node
 
         /* Control signals */
         float vel_;
-        std_msgs::msg::Float32 delta_;
+        std_msgs::msg::Float32 delta_, steering_setpoint_;
         std_msgs::msg::Float32 slope_;
+        const double delta_to_steer = 57.2958 / 0.0658; // relation delta in rad to steering wheel angle in deg
 
         /* Vehicle pose */
         std::vector<double> init_pose_ = {0,0,0};
@@ -69,7 +70,7 @@ class CarGuidanceNode : public rclcpp::Node
         rclcpp::TimerBase::SharedPtr timer_;
 
         /* Publishers */
-        rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr car_steering_;
+        rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr car_steering_, car_steering_setpoint_;
         rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr path_slope_;
 
         /* Subscribers */
@@ -124,8 +125,10 @@ class CarGuidanceNode : public rclcpp::Node
                     stanley_->setYawAngle(psi_);
                     stanley_->calculateSteering(vel_, precision_);
                     delta_.data = stanley_->delta_;
+                    steering_setpoint_.data = stanley_->delta_ * delta_to_steer;
                     car_steering_->publish(delta_);
                     path_slope_->publish(slope_);
+                    car_steering_setpoint_->publish(steering_setpoint_);
 
                     if(stanley_->ex_ < DISTANCE_VAL_){
                         waypoint_++;
@@ -250,6 +253,7 @@ class CarGuidanceNode : public rclcpp::Node
             
             /* Publishers */
             car_steering_ = this->create_publisher<std_msgs::msg::Float32>("/sdc_control/control_signal/delta", 1);
+            car_steering_setpoint_ = this->create_publisher<std_msgs::msg::Float32>("/sdv/stepper/steering/setpoint", 1);
             path_slope_ = this->create_publisher<std_msgs::msg::Float32>("/sdc_control/path_slope", 1);
 
             /* Subscribers */
