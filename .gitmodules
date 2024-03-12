@@ -40,3 +40,6 @@
 [submodule "workspace/src/drivers/sbg_ros2_driver"]
 	path = workspace/src/drivers/sbg_ros2_driver
 	url = https://github.com/SBG-Systems/sbg_ros2_driver.git
+[submodule "workspace/src/drivers/multisense_ros2"]
+	path = workspace/src/drivers/multisense_ros2
+	url = https://github.com/carnegierobotics/multisense_ros2
