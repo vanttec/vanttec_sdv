@@ -4,6 +4,8 @@
 # Author:
 # - Addison Sears-Collins
 # - https://automaticaddison.com
+
+# FIMSA Project - April 2024
   
 # Import the necessary libraries
 import rclpy # Python library for ROS 2
@@ -11,24 +13,31 @@ from rclpy.node import Node # Handles the creation of nodes
 from sensor_msgs.msg import Image # Image is the message type
 from cv_bridge import CvBridge # Package to convert between ROS and OpenCV Images
 import cv2 # OpenCV library
-import pathlib
 import numpy as np
-from ultralytics import YOLO
-from ultralytics.utils.plotting import Annotator, colors
+import rclpy.qos
+from ultralytics import YOLO # Library to manage YOLO models and results
 
-#MODEL_PATH = ""
 def display_lines(image, lines):
-    line_image = np.zeros_like(image)
-    if lines is not None:
-        for x1, y1, x2, y2 in lines:
-            cv2.line(line_image, (x1, y1), (x2, y2), (255, 0, 0), 10)
-            #DIBUJAR PUNTOS DE COORDENADAS
-    return line_image
+  '''
+  image: image in numpy array format
+  lines: line parameters in terms of pixel coordinates
+
+  return: binary image with lines displayed
+  '''
+  line_image = np.zeros_like(image)
+  if lines is not None:
+      for x1, y1, x2, y2 in lines:
+          cv2.line(line_image, (x1, y1), (x2, y2), (255, 0, 0), 10)
+  return line_image
 
 def make_coordinates(image, line_parameters):
-  #print(line_parameters)
+  '''
+  image: image in numpy array format
+  line_parameters: line parameters in terms of slope and point of intersection
+
+  return: line parameters in terms of two pixel coordinates
+  '''
   if np.isnan(line_parameters).any():
-      #print('No line parameters')
       return np.array([0, 0, 0, 0])
   else:
       slope, intercept = line_parameters
@@ -39,6 +48,9 @@ def make_coordinates(image, line_parameters):
       return np.array([x1, y1, x2, y2])
   
 def average_slope_intercept(image, lines):
+  '''
+  image : 
+  '''
   left_fit = []
   right_fit = []
   for line in lines:
@@ -101,7 +113,7 @@ class ImageSubscriber(Node):
       Image, 
       'video_frames', 
       self.listener_callback, 
-      10)
+      qos_profile=rclpy.qos.qos_profile_sensor_data)
     self.subscription # prevent unused variable warning
       
     # Used to convert between ROS and OpenCV images

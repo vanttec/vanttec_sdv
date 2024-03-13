@@ -1,4 +1,9 @@
 ARG BASE_IMAGE
 FROM ${BASE_IMAGE}
 
-# TODO
+RUN pip install ultralytics lap
+
+# RUN git clone --recursive --branch v0.14.0 https://github.com/pytorch/vision --depth 1 \
+#     && cd vision \
+#     && python3 setup.py install \
+#     && cd .. && rm -r vision
