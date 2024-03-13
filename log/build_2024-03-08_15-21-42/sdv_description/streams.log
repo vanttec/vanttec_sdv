@@ -1,0 +1,16 @@
+[1.358s] Invoking command in '/home/fcanof/vanttec_sdv/build/sdv_description': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/fcanof/vanttec_sdv/workspace/src/sdv_description -DCMAKE_INSTALL_PREFIX=/home/fcanof/vanttec_sdv/install/sdv_description
+[1.421s] -- The C compiler identification is GNU 11.4.0
+[1.506s] -- The CXX compiler identification is GNU 11.4.0
+[1.516s] -- Detecting C compiler ABI info
+[1.609s] -- Detecting C compiler ABI info - done
+[1.621s] -- Check for working C compiler: /usr/bin/cc - skipped
+[1.621s] -- Detecting C compile features
+[1.621s] -- Detecting C compile features - done
+[1.626s] -- Detecting CXX compiler ABI info
+[1.785s] -- Detecting CXX compiler ABI info - done
+[1.797s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[1.798s] -- Detecting CXX compile features
+[1.798s] -- Detecting CXX compile features - done
+[1.801s] -- Found ament_cmake: 1.3.7 (/opt/ros/humble/share/ament_cmake/cmake)
+[2.070s] -- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+[2.202s] -- Found urdf: 2.6.0 (/opt/ros/humble/share/urdf/cmake)

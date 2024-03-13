@@ -1,0 +1,29 @@
+[0.000000] (-) TimerEvent: {}
+[0.000434] (-) JobUnselected: {'identifier': 'isaac_ros_apriltag_interfaces'}
+[0.000504] (-) JobUnselected: {'identifier': 'isaac_ros_bi3d_interfaces'}
+[0.000542] (-) JobUnselected: {'identifier': 'isaac_ros_common'}
+[0.000606] (-) JobUnselected: {'identifier': 'isaac_ros_nitros_bridge_interfaces'}
+[0.000627] (-) JobUnselected: {'identifier': 'isaac_ros_nova_interfaces'}
+[0.000663] (-) JobUnselected: {'identifier': 'isaac_ros_pointcloud_interfaces'}
+[0.000682] (-) JobUnselected: {'identifier': 'isaac_ros_tensor_list_interfaces'}
+[0.000701] (-) JobUnselected: {'identifier': 'isaac_ros_test'}
+[0.000807] (-) JobUnselected: {'identifier': 'lidar3d_clustering'}
+[0.000829] (-) JobUnselected: {'identifier': 'my_camera_node'}
+[0.000852] (-) JobUnselected: {'identifier': 'ros_compatibility'}
+[0.000881] (-) JobUnselected: {'identifier': 'sbg_driver'}
+[0.000900] (-) JobUnselected: {'identifier': 'sdv_control'}
+[0.000917] (-) JobUnselected: {'identifier': 'sdv_description'}
+[0.000993] (-) JobUnselected: {'identifier': 'sdv_launch'}
+[0.001013] (-) JobUnselected: {'identifier': 'sdv_lidar_processing'}
+[0.001045] (-) JobUnselected: {'identifier': 'sdv_localization'}
+[0.001064] (-) JobUnselected: {'identifier': 'sdv_manual_control'}
+[0.001082] (-) JobUnselected: {'identifier': 'sdv_msgs'}
+[0.001163] (-) JobUnselected: {'identifier': 'sdv_robot_description'}
+[0.001227] (-) JobUnselected: {'identifier': 'vectornav'}
+[0.001246] (-) JobUnselected: {'identifier': 'vectornav_msgs'}
+[0.001277] (-) JobUnselected: {'identifier': 'voxel_grid_filter'}
+[0.001298] (sdv_can) JobQueued: {'identifier': 'sdv_can', 'dependencies': OrderedDict([('sdv_msgs', '/home/fcanof/vanttec_sdv/install/sdv_msgs'), ('vectornav_msgs', '/home/fcanof/vanttec_sdv/install/vectornav_msgs')])}
+[0.001380] (sdv_can) JobStarted: {'identifier': 'sdv_can'}
+[0.099936] (-) TimerEvent: {}
+[0.100970] (sdv_can) JobEnded: {'identifier': 'sdv_can', 'rc': 1}
+[0.111624] (-) EventReactorShutdown: {}

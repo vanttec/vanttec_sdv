@@ -1,0 +1,128 @@
+[0.064s] Invoking command in '/home/fcanof/vanttec_sdv/build/sdv_can': AMENT_PREFIX_PATH=/home/fcanof/vanttec_sdv/install/vectornav_msgs:/home/fcanof/vanttec_sdv/install/sdv_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/fcanof/vanttec_sdv/install/vectornav_msgs:/home/fcanof/vanttec_sdv/install/sdv_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/fcanof/vanttec_sdv/install/vectornav_msgs/lib:/home/fcanof/vanttec_sdv/install/sdv_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/fcanof/vanttec_sdv/install/vectornav_msgs/local/lib/python3.10/dist-packages:/home/fcanof/vanttec_sdv/install/sdv_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/fcanof/vanttec_sdv/workspace/src/sdv_can -DCMAKE_INSTALL_PREFIX=/home/fcanof/vanttec_sdv/install/sdv_can
+[0.109s] -- The C compiler identification is GNU 11.4.0
+[0.162s] -- The CXX compiler identification is GNU 11.4.0
+[0.169s] -- Detecting C compiler ABI info
+[0.235s] -- Detecting C compiler ABI info - done
+[0.246s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.246s] -- Detecting C compile features
+[0.247s] -- Detecting C compile features - done
+[0.250s] -- Detecting CXX compiler ABI info
+[0.318s] -- Detecting CXX compiler ABI info - done
+[0.328s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.329s] -- Detecting CXX compile features
+[0.329s] -- Detecting CXX compile features - done
+[0.331s] -- Found ament_cmake: 1.3.7 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.492s] -- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+[0.572s] -- Found rclcpp: 16.0.8 (/opt/ros/humble/share/rclcpp/cmake)
+[0.609s] -- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.614s] -- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.622s] -- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.636s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.654s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.722s] -- Found rmw_implementation_cmake: 6.1.1 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.725s] -- Found rmw_fastrtps_cpp: 6.2.6 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.805s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[0.829s] -- Found FastRTPS: /opt/ros/humble/include  
+[0.871s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.879s] -- Looking for pthread.h
+[0.942s] -- Looking for pthread.h - found
+[0.942s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[1.010s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[1.011s] -- Found Threads: TRUE  
+[1.180s] -- Found geometry_msgs: 4.2.3 (/opt/ros/humble/share/geometry_msgs/cmake)
+[1.226s] -- Found sdv_msgs: 0.0.0 (/home/fcanof/vanttec_sdv/install/sdv_msgs/share/sdv_msgs/cmake)
+[1.359s] -- Found vectornav_msgs: 3.0.0 (/home/fcanof/vanttec_sdv/install/vectornav_msgs/share/vectornav_msgs/cmake)
+[1.507s] -- Found ament_lint_auto: 0.12.10 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[1.582s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[1.582s] -- Configured cppcheck include dirs: $<BUILD_INTERFACE:/home/fcanof/vanttec_sdv/workspace/src/sdv_can/libs/vanttec_CANLib>;$<BUILD_INTERFACE:/home/fcanof/vanttec_sdv/workspace/src/sdv_can/libs/vanttec_CANLib/platform_specific/vanttec_canlib_linux>
+[1.582s] -- Configured cppcheck exclude dirs and/or files: 
+[1.583s] -- Added test 'flake8' to check Python code syntax and style conventions
+[1.585s] -- Added test 'lint_cmake' to check CMake code style
+[1.586s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[1.590s] -- Added test 'uncrustify' to check C / C++ code style
+[1.590s] -- Configured uncrustify additional arguments: 
+[1.591s] -- Added test 'xmllint' to check XML markup files
+[1.592s] -- Configuring done
+[1.603s] -- Generating done
+[1.604s] -- Build files have been written to: /home/fcanof/vanttec_sdv/build/sdv_can
+[1.612s] Invoked command in '/home/fcanof/vanttec_sdv/build/sdv_can' returned '0': AMENT_PREFIX_PATH=/home/fcanof/vanttec_sdv/install/vectornav_msgs:/home/fcanof/vanttec_sdv/install/sdv_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/fcanof/vanttec_sdv/install/vectornav_msgs:/home/fcanof/vanttec_sdv/install/sdv_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/fcanof/vanttec_sdv/install/vectornav_msgs/lib:/home/fcanof/vanttec_sdv/install/sdv_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/fcanof/vanttec_sdv/install/vectornav_msgs/local/lib/python3.10/dist-packages:/home/fcanof/vanttec_sdv/install/sdv_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/fcanof/vanttec_sdv/workspace/src/sdv_can -DCMAKE_INSTALL_PREFIX=/home/fcanof/vanttec_sdv/install/sdv_can
+[1.614s] Invoking command in '/home/fcanof/vanttec_sdv/build/sdv_can': AMENT_PREFIX_PATH=/home/fcanof/vanttec_sdv/install/vectornav_msgs:/home/fcanof/vanttec_sdv/install/sdv_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/fcanof/vanttec_sdv/install/vectornav_msgs:/home/fcanof/vanttec_sdv/install/sdv_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/fcanof/vanttec_sdv/install/vectornav_msgs/lib:/home/fcanof/vanttec_sdv/install/sdv_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/fcanof/vanttec_sdv/install/vectornav_msgs/local/lib/python3.10/dist-packages:/home/fcanof/vanttec_sdv/install/sdv_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/fcanof/vanttec_sdv/build/sdv_can -- -j12 -l12
+[1.658s] [ 20%] [32mBuilding CXX object libs/vanttec_CANLib/CMakeFiles/Vanttec_CANLibLIB.dir/src/Vanttec_CANLib/ByteOrder/inet.cpp.o[0m
+[1.658s] [ 30%] [32mBuilding CXX object libs/vanttec_CANLib/CMakeFiles/Vanttec_CANLibLIB.dir/src/Vanttec_CANLib/CANMessage.cpp.o[0m
+[1.658s] [ 30%] [32mBuilding CXX object libs/vanttec_CANLib/CMakeFiles/Vanttec_CANLibLIB.dir/src/Vanttec_CANLib/Utils/CANDeserialization.cpp.o[0m
+[1.658s] [ 40%] [32mBuilding CXX object libs/vanttec_CANLib/CMakeFiles/Vanttec_CANLibLIB.dir/src/Vanttec_CANLib/Utils/CANSerialization.cpp.o[0m
+[1.725s] [ 50%] [32m[1mLinking CXX static library libVanttec_CANLibLIB.a[0m
+[1.929s] [ 50%] Built target Vanttec_CANLibLIB
+[1.951s] [ 80%] [32mBuilding CXX object CMakeFiles/can_node.dir/src/can_node.cpp.o[0m
+[1.951s] [ 80%] [32mBuilding CXX object CMakeFiles/can_node.dir/src/CANRxNode.cpp.o[0m
+[1.951s] [ 90%] [32mBuilding CXX object CMakeFiles/can_node.dir/src/CANTxNode.cpp.o[0m
+[1.951s] [ 90%] [32mBuilding CXX object CMakeFiles/can_node.dir/libs/vanttec_CANLib/platform_specific/vanttec_canlib_linux/CANHandler.cpp.o[0m
+[4.330s] In file included from [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:5[m[K:
+[4.330s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:44:[m[K [01;31m[Kerror: [m[K‘[01m[KTwist[m[K’ is not a member of ‘[01m[Kgeometry_msgs::msg[m[K’
+[4.330s]    25 |   rclcpp::Subscription<geometry_msgs::msg::[01;31m[KTwist[m[K>::SharedPtr vel_sub;
+[4.330s]       |                                            [01;31m[K^~~~~[m[K
+[4.331s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:49:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[4.331s]    25 |   rclcpp::Subscription<geometry_msgs::msg::Twist[01;31m[K>[m[K::SharedPtr vel_sub;
+[4.331s]       |                                                 [01;31m[K^[m[K
+[4.331s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:49:[m[K [01;31m[Kerror: [m[Ktemplate argument 3 is invalid
+[4.331s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:49:[m[K [01;31m[Kerror: [m[Ktemplate argument 4 is invalid
+[4.331s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:49:[m[K [01;31m[Kerror: [m[Ktemplate argument 5 is invalid
+[4.335s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:52:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ at end of member declaration
+[4.335s]    25 |   rclcpp::Subscription<geometry_msgs::msg::Twist>::[01;31m[KSharedPtr[m[K vel_sub;
+[4.336s]       |                                                    [01;31m[K^~~~~~~~~[m[K
+[4.336s]       |                                                             [32m[K;[m[K
+[4.337s] In file included from [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/can_node.cpp:4[m[K:
+[4.337s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:44:[m[K [01;31m[Kerror: [m[K‘[01m[KTwist[m[K’ is not a member of ‘[01m[Kgeometry_msgs::msg[m[K’
+[4.337s]    25 |   rclcpp::Subscription<geometry_msgs::msg::[01;31m[KTwist[m[K>::SharedPtr vel_sub;
+[4.337s]       |                                            [01;31m[K^~~~~[m[K
+[4.337s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:49:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[4.337s]    25 |   rclcpp::Subscription<geometry_msgs::msg::Twist[01;31m[K>[m[K::SharedPtr vel_sub;
+[4.337s]       |                                                 [01;31m[K^[m[K
+[4.337s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:62:[m[K [01;31m[Kerror: [m[K‘[01m[Kvel_sub[m[K’ does not name a type
+[4.338s]    25 |   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr [01;31m[Kvel_sub[m[K;
+[4.338s]       |                                                              [01;31m[K^~~~~~~[m[K
+[4.338s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:49:[m[K [01;31m[Kerror: [m[Ktemplate argument 3 is invalid
+[4.338s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:49:[m[K [01;31m[Kerror: [m[Ktemplate argument 4 is invalid
+[4.338s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:49:[m[K [01;31m[Kerror: [m[Ktemplate argument 5 is invalid
+[4.338s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:52:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ at end of member declaration
+[4.338s]    25 |   rclcpp::Subscription<geometry_msgs::msg::Twist>::[01;31m[KSharedPtr[m[K vel_sub;
+[4.338s]       |                                                    [01;31m[K^~~~~~~~~[m[K
+[4.338s]       |                                                             [32m[K;[m[K
+[4.339s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:62:[m[K [01;31m[Kerror: [m[K‘[01m[Kvel_sub[m[K’ does not name a type
+[4.339s]    25 |   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr [01;31m[Kvel_sub[m[K;
+[4.339s]       |                                                              [01;31m[K^~~~~~~[m[K
+[4.383s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:[m[K In constructor ‘[01m[KCANTxNode::CANTxNode(const std::shared_ptr<vanttec::CANHandler>&)[m[K’:
+[4.383s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:17:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kvel_sub[m[K’ was not declared in this scope
+[4.383s]    17 |   [01;31m[Kvel_sub[m[K = this->create_subscription<geometry_msgs::msg::Twist>(
+[4.383s]       |   [01;31m[K^~~~~~~[m[K
+[4.383s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:17:59:[m[K [01;31m[Kerror: [m[K‘[01m[KTwist[m[K’ is not a member of ‘[01m[Kgeometry_msgs::msg[m[K’
+[4.383s]    17 |   vel_sub = this->create_subscription<geometry_msgs::msg::[01;31m[KTwist[m[K>(
+[4.383s]       |                                                           [01;31m[K^~~~~[m[K
+[4.384s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:18:55:[m[K [01;31m[Kerror: [m[K‘[01m[KTwist[m[K’ in namespace ‘[01m[Kgeometry_msgs::msg[m[K’ does not name a type
+[4.384s]    18 |       "cmd_vel", 10, [this](const geometry_msgs::msg::[01;31m[KTwist[m[K &msg){
+[4.384s]       |                                                       [01;31m[K^~~~~[m[K
+[4.384s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:[m[K In lambda function:
+[4.384s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:23:9:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K{[m[K’ before ‘[01m[K;[m[K’ token
+[4.384s]    23 |       })[01;31m[K;[m[K
+[4.384s]       |         [01;31m[K^[m[K
+[4.384s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:[m[K In constructor ‘[01m[KCANTxNode::CANTxNode(const std::shared_ptr<vanttec::CANHandler>&)[m[K’:
+[4.384s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:23:9:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K)[m[K’ before ‘[01m[K;[m[K’ token
+[4.384s]    23 |       })[01;31m[K;[m[K
+[4.384s]       |         [01;31m[K^[m[K
+[4.384s]       |         [32m[K)[m[K
+[4.384s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:17:65:[m[K [01;36m[Knote: [m[Kto match this ‘[01m[K([m[K’
+[4.384s]    17 |   vel_sub = this->create_subscription<geometry_msgs::msg::Twist>[01;36m[K([m[K
+[4.384s]       |                                                                 [01;36m[K^[m[K
+[4.400s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:[m[K In member function ‘[01m[Kvoid CANTxNode::steering_callback(const Vector3&)[m[K’:
+[4.400s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:38:12:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kstpr_frame[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+[4.400s]    38 |   uint32_t [01;35m[Kstpr_frame[m[K = 0;
+[4.400s]       |            [01;35m[K^~~~~~~~~~[m[K
+[4.400s] [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:40:12:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Ksteps[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+[4.400s]    40 |   uint16_t [01;35m[Ksteps[m[K = (uint16_t) msg.y;
+[4.400s]       |            [01;35m[K^~~~~[m[K
+[4.847s] gmake[2]: *** [CMakeFiles/can_node.dir/build.make:76: CMakeFiles/can_node.dir/src/can_node.cpp.o] Error 1
+[4.847s] gmake[2]: *** Waiting for unfinished jobs....
+[6.697s] gmake[2]: *** [CMakeFiles/can_node.dir/build.make:90: CMakeFiles/can_node.dir/src/CANTxNode.cpp.o] Error 1
+[6.697s] gmake[1]: *** [CMakeFiles/Makefile2:154: CMakeFiles/can_node.dir/all] Error 2
+[6.697s] gmake: *** [Makefile:146: all] Error 2
+[6.699s] Invoked command in '/home/fcanof/vanttec_sdv/build/sdv_can' returned '2': AMENT_PREFIX_PATH=/home/fcanof/vanttec_sdv/install/vectornav_msgs:/home/fcanof/vanttec_sdv/install/sdv_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/fcanof/vanttec_sdv/install/vectornav_msgs:/home/fcanof/vanttec_sdv/install/sdv_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/fcanof/vanttec_sdv/install/vectornav_msgs/lib:/home/fcanof/vanttec_sdv/install/sdv_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/fcanof/vanttec_sdv/install/vectornav_msgs/local/lib/python3.10/dist-packages:/home/fcanof/vanttec_sdv/install/sdv_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/fcanof/vanttec_sdv/build/sdv_can -- -j12 -l12

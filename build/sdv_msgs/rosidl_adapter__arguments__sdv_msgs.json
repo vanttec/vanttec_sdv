@@ -1,0 +1,20 @@
+{
+  "package_name": "sdv_msgs",
+  "non_idl_tuples": [
+    "/home/fcanof/vanttec_sdv/workspace/src/sdv_msgs:msg/PanelMsg.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/sdv_msgs:msg/XboxMsg.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/sdv_msgs:msg/ThrottleMsg.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/sdv_msgs:msg/CollisionEvent.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/sdv_msgs:msg/LaneInvasionEvent.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/sdv_msgs:msg/Status.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/sdv_msgs:msg/VehicleControl.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/sdv_msgs:msg/VehicleInfo.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/sdv_msgs:msg/VehicleStatus.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/sdv_msgs:msg/VehicleInfoWheel.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/sdv_msgs:msg/GuidanceWaypoints.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/sdv_msgs:msg/EtaPose.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/sdv_msgs:msg/SystemDynamics.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/sdv_msgs:msg/ThrustControl.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/sdv_msgs:msg/Encoder.msg"
+  ]
+}

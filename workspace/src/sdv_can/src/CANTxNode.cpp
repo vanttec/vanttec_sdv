@@ -14,6 +14,15 @@ CANTxNode::CANTxNode(const std::shared_ptr<vanttec::CANHandler> &handler)
 
   this->handler = handler;
 
+  vel_sub = this->create_subscription<geometry_msgs::msg::Twist>(
+      "cmd_vel", 10, [this](const geometry_msgs::msg::Twist &msg){
+        vanttec::CANMessage steerMsg;
+        // steerMsg.id = 1;
+        vanttec::packFloat(steerMsg, 0x01, msg.angular.z);
+        this->handler->update_write();
+        this->handler->write(steerMsg);
+      });
+
   steering_sub = this->create_subscription<geometry_msgs::msg::Vector3>(
       "steering_brake", 10, std::bind(&CANTxNode::steering_callback, this, _1));
       
@@ -41,11 +50,11 @@ void CANTxNode::steering_callback(const geometry_msgs::msg::Vector3 &msg) {
 
 
   // if (msg == lastMotorArray) return;
-  vanttec::CANMessage steerMsg;
-  // steerMsg.id = 1;
-  vanttec::packByte(steerMsg, 0x10, dir);
+  // vanttec::CANMessage steerMsg;
+  // // steerMsg.id = 1;
+  // vanttec::packByte(steerMsg, 0x10, dir);
 
-  handler->write(steerMsg);
+  // handler->write(steerMsg);
 
 /*
   vanttec::CANMessage brakeMsg;

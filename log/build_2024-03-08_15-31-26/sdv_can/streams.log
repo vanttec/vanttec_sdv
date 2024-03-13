@@ -1,0 +1,42 @@
+[0.090s] Invoking command in '/home/fcanof/vanttec_sdv/build/sdv_can': CMAKE_PREFIX_PATH=/home/fcanof/vanttec_sdv/install/vectornav_msgs:/home/fcanof/vanttec_sdv/install/sdv_msgs:/home/fcanof/vanttec_sdv/install/sdv_can:/opt/ros/humble /usr/bin/cmake --build /home/fcanof/vanttec_sdv/build/sdv_can -- -j12 -l12
+[0.133s] [ 50%] Built target Vanttec_CANLibLIB
+[0.148s] [35m[1mConsolidate compiler generated dependencies of target can_node[0m
+[0.175s] [ 60%] [32mBuilding CXX object CMakeFiles/can_node.dir/src/can_node.cpp.o[0m
+[2.989s] [ 70%] [32m[1mLinking CXX executable can_node[0m
+[3.505s] [100%] Built target can_node
+[3.515s] Invoked command in '/home/fcanof/vanttec_sdv/build/sdv_can' returned '0': CMAKE_PREFIX_PATH=/home/fcanof/vanttec_sdv/install/vectornav_msgs:/home/fcanof/vanttec_sdv/install/sdv_msgs:/home/fcanof/vanttec_sdv/install/sdv_can:/opt/ros/humble /usr/bin/cmake --build /home/fcanof/vanttec_sdv/build/sdv_can -- -j12 -l12
+[3.543s] Invoking command in '/home/fcanof/vanttec_sdv/build/sdv_can': CMAKE_PREFIX_PATH=/home/fcanof/vanttec_sdv/install/vectornav_msgs:/home/fcanof/vanttec_sdv/install/sdv_msgs:/home/fcanof/vanttec_sdv/install/sdv_can:/opt/ros/humble /usr/bin/cmake --install /home/fcanof/vanttec_sdv/build/sdv_can
+[3.548s] -- Install configuration: ""
+[3.549s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/launch
+[3.549s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/launch/panel.launch.py
+[3.549s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/launch/can_devices.launch.py
+[3.549s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/config
+[3.549s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/config/can_params.yaml
+[3.549s] -- Installing: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/can_node
+[3.554s] -- Set runtime path of "/home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/can_node" to ""
+[3.554s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/can_node.py
+[3.554s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/encoder_rm8004.py
+[3.554s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/encoder_briter.py
+[3.555s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/xbox_driver.py
+[3.555s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/xbox_node.py
+[3.555s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/speech.py
+[3.555s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/panel_modulev2.py
+[3.555s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/heartbeat_node.py
+[3.555s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/velocitydata.py
+[3.555s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/direcciondata.py
+[3.555s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/ament_index/resource_index/package_run_dependencies/sdv_can
+[3.555s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/ament_index/resource_index/parent_prefix_path/sdv_can
+[3.555s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/environment/ament_prefix_path.sh
+[3.555s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/environment/ament_prefix_path.dsv
+[3.555s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/environment/path.sh
+[3.555s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/environment/path.dsv
+[3.555s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/local_setup.bash
+[3.555s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/local_setup.sh
+[3.556s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/local_setup.zsh
+[3.556s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/local_setup.dsv
+[3.556s] -- Installing: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/package.dsv
+[3.556s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/ament_index/resource_index/packages/sdv_can
+[3.556s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/cmake/sdv_canConfig.cmake
+[3.556s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/cmake/sdv_canConfig-version.cmake
+[3.556s] -- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/package.xml
+[3.557s] Invoked command in '/home/fcanof/vanttec_sdv/build/sdv_can' returned '0': CMAKE_PREFIX_PATH=/home/fcanof/vanttec_sdv/install/vectornav_msgs:/home/fcanof/vanttec_sdv/install/sdv_msgs:/home/fcanof/vanttec_sdv/install/sdv_can:/opt/ros/humble /usr/bin/cmake --install /home/fcanof/vanttec_sdv/build/sdv_can

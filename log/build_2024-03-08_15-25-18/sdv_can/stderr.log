@@ -1,0 +1,68 @@
+In file included from [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:5[m[K:
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:44:[m[K [01;31m[Kerror: [m[K‘[01m[KTwist[m[K’ is not a member of ‘[01m[Kgeometry_msgs::msg[m[K’
+   25 |   rclcpp::Subscription<geometry_msgs::msg::[01;31m[KTwist[m[K>::SharedPtr vel_sub;
+      |                                            [01;31m[K^~~~~[m[K
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:49:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+   25 |   rclcpp::Subscription<geometry_msgs::msg::Twist[01;31m[K>[m[K::SharedPtr vel_sub;
+      |                                                 [01;31m[K^[m[K
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:49:[m[K [01;31m[Kerror: [m[Ktemplate argument 3 is invalid
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:49:[m[K [01;31m[Kerror: [m[Ktemplate argument 4 is invalid
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:49:[m[K [01;31m[Kerror: [m[Ktemplate argument 5 is invalid
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:52:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ at end of member declaration
+   25 |   rclcpp::Subscription<geometry_msgs::msg::Twist>::[01;31m[KSharedPtr[m[K vel_sub;
+      |                                                    [01;31m[K^~~~~~~~~[m[K
+      |                                                             [32m[K;[m[K
+In file included from [01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/can_node.cpp:4[m[K:
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:44:[m[K [01;31m[Kerror: [m[K‘[01m[KTwist[m[K’ is not a member of ‘[01m[Kgeometry_msgs::msg[m[K’
+   25 |   rclcpp::Subscription<geometry_msgs::msg::[01;31m[KTwist[m[K>::SharedPtr vel_sub;
+      |                                            [01;31m[K^~~~~[m[K
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:49:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+   25 |   rclcpp::Subscription<geometry_msgs::msg::Twist[01;31m[K>[m[K::SharedPtr vel_sub;
+      |                                                 [01;31m[K^[m[K
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:62:[m[K [01;31m[Kerror: [m[K‘[01m[Kvel_sub[m[K’ does not name a type
+   25 |   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr [01;31m[Kvel_sub[m[K;
+      |                                                              [01;31m[K^~~~~~~[m[K
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:49:[m[K [01;31m[Kerror: [m[Ktemplate argument 3 is invalid
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:49:[m[K [01;31m[Kerror: [m[Ktemplate argument 4 is invalid
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:49:[m[K [01;31m[Kerror: [m[Ktemplate argument 5 is invalid
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:52:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ at end of member declaration
+   25 |   rclcpp::Subscription<geometry_msgs::msg::Twist>::[01;31m[KSharedPtr[m[K vel_sub;
+      |                                                    [01;31m[K^~~~~~~~~[m[K
+      |                                                             [32m[K;[m[K
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.h:25:62:[m[K [01;31m[Kerror: [m[K‘[01m[Kvel_sub[m[K’ does not name a type
+   25 |   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr [01;31m[Kvel_sub[m[K;
+      |                                                              [01;31m[K^~~~~~~[m[K
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:[m[K In constructor ‘[01m[KCANTxNode::CANTxNode(const std::shared_ptr<vanttec::CANHandler>&)[m[K’:
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:17:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kvel_sub[m[K’ was not declared in this scope
+   17 |   [01;31m[Kvel_sub[m[K = this->create_subscription<geometry_msgs::msg::Twist>(
+      |   [01;31m[K^~~~~~~[m[K
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:17:59:[m[K [01;31m[Kerror: [m[K‘[01m[KTwist[m[K’ is not a member of ‘[01m[Kgeometry_msgs::msg[m[K’
+   17 |   vel_sub = this->create_subscription<geometry_msgs::msg::[01;31m[KTwist[m[K>(
+      |                                                           [01;31m[K^~~~~[m[K
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:18:55:[m[K [01;31m[Kerror: [m[K‘[01m[KTwist[m[K’ in namespace ‘[01m[Kgeometry_msgs::msg[m[K’ does not name a type
+   18 |       "cmd_vel", 10, [this](const geometry_msgs::msg::[01;31m[KTwist[m[K &msg){
+      |                                                       [01;31m[K^~~~~[m[K
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:[m[K In lambda function:
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:23:9:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K{[m[K’ before ‘[01m[K;[m[K’ token
+   23 |       })[01;31m[K;[m[K
+      |         [01;31m[K^[m[K
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:[m[K In constructor ‘[01m[KCANTxNode::CANTxNode(const std::shared_ptr<vanttec::CANHandler>&)[m[K’:
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:23:9:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K)[m[K’ before ‘[01m[K;[m[K’ token
+   23 |       })[01;31m[K;[m[K
+      |         [01;31m[K^[m[K
+      |         [32m[K)[m[K
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:17:65:[m[K [01;36m[Knote: [m[Kto match this ‘[01m[K([m[K’
+   17 |   vel_sub = this->create_subscription<geometry_msgs::msg::Twist>[01;36m[K([m[K
+      |                                                                 [01;36m[K^[m[K
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:[m[K In member function ‘[01m[Kvoid CANTxNode::steering_callback(const Vector3&)[m[K’:
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:38:12:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kstpr_frame[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+   38 |   uint32_t [01;35m[Kstpr_frame[m[K = 0;
+      |            [01;35m[K^~~~~~~~~~[m[K
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:40:12:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Ksteps[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+   40 |   uint16_t [01;35m[Ksteps[m[K = (uint16_t) msg.y;
+      |            [01;35m[K^~~~~[m[K
+gmake[2]: *** [CMakeFiles/can_node.dir/build.make:76: CMakeFiles/can_node.dir/src/can_node.cpp.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+gmake[2]: *** [CMakeFiles/can_node.dir/build.make:90: CMakeFiles/can_node.dir/src/CANTxNode.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:154: CMakeFiles/can_node.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

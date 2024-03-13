@@ -1,0 +1,48 @@
+[ 50%] Built target Vanttec_CANLibLIB
+[35m[1mConsolidate compiler generated dependencies of target can_node[0m
+[ 60%] [32mBuilding CXX object CMakeFiles/can_node.dir/src/CANTxNode.cpp.o[0m
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:[m[K In member function ‘[01m[Kvoid CANTxNode::steering_callback(const Vector3&)[m[K’:
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:38:12:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kstpr_frame[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+   38 |   uint32_t [01;35m[Kstpr_frame[m[K = 0;
+      |            [01;35m[K^~~~~~~~~~[m[K
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:39:11:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kdir[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+   39 |   uint8_t [01;35m[Kdir[m[K = msg.x > 0 ? 1:(msg.x < 0 ? 0:2); // Normal -> CW:0, CCW:1, but inverted due to gears
+      |           [01;35m[K^~~[m[K
+[01m[K/home/fcanof/vanttec_sdv/workspace/src/sdv_can/src/CANTxNode.cpp:40:12:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Ksteps[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+   40 |   uint16_t [01;35m[Ksteps[m[K = (uint16_t) msg.y;
+      |            [01;35m[K^~~~~[m[K
+[ 70%] [32m[1mLinking CXX executable can_node[0m
+[100%] Built target can_node
+-- Install configuration: ""
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/launch
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/launch/panel.launch.py
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/launch/can_devices.launch.py
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/config
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/config/can_params.yaml
+-- Installing: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/can_node
+-- Set runtime path of "/home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/can_node" to ""
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/can_node.py
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/encoder_rm8004.py
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/encoder_briter.py
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/xbox_driver.py
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/xbox_node.py
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/speech.py
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/panel_modulev2.py
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/heartbeat_node.py
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/velocitydata.py
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/lib/sdv_can/direcciondata.py
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/ament_index/resource_index/package_run_dependencies/sdv_can
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/ament_index/resource_index/parent_prefix_path/sdv_can
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/environment/ament_prefix_path.sh
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/environment/path.sh
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/environment/path.dsv
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/local_setup.bash
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/local_setup.sh
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/local_setup.zsh
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/local_setup.dsv
+-- Installing: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/package.dsv
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/ament_index/resource_index/packages/sdv_can
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/cmake/sdv_canConfig.cmake
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/cmake/sdv_canConfig-version.cmake
+-- Up-to-date: /home/fcanof/vanttec_sdv/install/sdv_can/share/sdv_can/package.xml

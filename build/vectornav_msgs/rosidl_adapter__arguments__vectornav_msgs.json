@@ -1,0 +1,17 @@
+{
+  "package_name": "vectornav_msgs",
+  "non_idl_tuples": [
+    "/home/fcanof/vanttec_sdv/workspace/src/drivers/vectornav/vectornav_msgs:msg/AttitudeGroup.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/drivers/vectornav/vectornav_msgs:msg/CommonGroup.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/drivers/vectornav/vectornav_msgs:msg/DOP.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/drivers/vectornav/vectornav_msgs:msg/GpsGroup.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/drivers/vectornav/vectornav_msgs:msg/ImuGroup.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/drivers/vectornav/vectornav_msgs:msg/InsGroup.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/drivers/vectornav/vectornav_msgs:msg/InsStatus.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/drivers/vectornav/vectornav_msgs:msg/TimeGroup.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/drivers/vectornav/vectornav_msgs:msg/TimeStatus.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/drivers/vectornav/vectornav_msgs:msg/TimeUTC.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/drivers/vectornav/vectornav_msgs:msg/VpeStatus.msg",
+    "/home/fcanof/vanttec_sdv/workspace/src/drivers/vectornav/vectornav_msgs:action/MagCal.action"
+  ]
+}

@@ -12,6 +12,7 @@
 #include "std_msgs/msg/float32_multi_array.hpp"
 #include "std_msgs/msg/u_int16.hpp"
 #include "geometry_msgs/msg/vector3.hpp"
+#include "geometry_msgs/msg/twist.hpp"
 
 class CANTxNode : public rclcpp::Node {
  public:
@@ -21,6 +22,8 @@ class CANTxNode : public rclcpp::Node {
  private:
   std::shared_ptr<vanttec::CANHandler> handler{nullptr};
   rclcpp::TimerBase::SharedPtr updateTimer;
+
+  rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr vel_sub;
 
   rclcpp::Subscription<geometry_msgs::msg::Vector3>::SharedPtr steering_sub;
   geometry_msgs::msg::Vector3 lastMotorArray;

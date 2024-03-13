@@ -1,0 +1,5 @@
+[35m[1mConsolidate compiler generated dependencies of target Vanttec_CANLibLIB[0m
+[ 50%] Built target Vanttec_CANLibLIB
+[35m[1mConsolidate compiler generated dependencies of target can_node[0m
+[ 60%] [32mBuilding CXX object CMakeFiles/can_node.dir/src/can_node.cpp.o[0m
+[ 70%] [32mBuilding CXX object CMakeFiles/can_node.dir/src/CANTxNode.cpp.o[0m
