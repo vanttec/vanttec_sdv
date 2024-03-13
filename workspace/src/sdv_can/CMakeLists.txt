@@ -17,15 +17,20 @@ find_package(geometry_msgs REQUIRED)
 find_package(sdv_msgs REQUIRED)
 find_package(vectornav_msgs REQUIRED)
 
-add_executable(can_node src/can_node.cpp src/CANTxNode.cpp src/CANRxNode.cpp libs/vanttec_CANLib/platform_specific/vanttec_canlib_linux/CANHandler.cpp)
-target_include_directories(can_node PUBLIC
+find_package(Boost COMPONENTS system)
+
+add_executable(sdv_can_node src/can_node_sdv.cpp src/can_node_base.cpp)
+target_include_directories(sdv_can_node PUBLIC
+  ${Boost_INCLUDE_DIRS}
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_CANLib>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libs/vanttec_CANLib/platform_specific/vanttec_canlib_linux>
   $<INSTALL_INTERFACE:include>)
-target_compile_features(can_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
-ament_target_dependencies(can_node rclcpp std_msgs geometry_msgs)
+
+target_compile_features(sdv_can_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+ament_target_dependencies(sdv_can_node rclcpp std_msgs geometry_msgs)
+
 add_subdirectory(libs/vanttec_CANLib)
-target_link_libraries(can_node Vanttec_CANLibLIB)
+target_link_libraries(sdv_can_node Vanttec_CANLibLIB Boost::system)
 # include_directories(libs/vanttec_CANLib/platform_specific/vanttec_canlib_linux)
 
 install(DIRECTORY launch 
@@ -39,21 +44,12 @@ install(DIRECTORY
 
 install(
   TARGETS
-  can_node
+  sdv_can_node
   DESTINATION lib/${PROJECT_NAME}/
 )
 
-install(PROGRAMS
-  scripts/can_node.py
-  scripts/encoder_rm8004.py
-  scripts/encoder_briter.py
-  scripts/xbox_driver.py
-  scripts/xbox_node.py
-  scripts/speech.py
-  scripts/panel_modulev2.py
-  scripts/heartbeat_node.py
-  scripts/velocitydata.py
-  scripts/direcciondata.py
+install(DIRECTORY
+  scripts
   DESTINATION lib/${PROJECT_NAME}
 )
 

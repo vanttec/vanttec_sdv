@@ -36,19 +36,7 @@ def generate_launch_description():
       parameters=[can_params]
    )
 
-   xbox_node = Node(
-      package='sdv_can',
-      executable='xbox_node.py',
-      namespace="can_devices",
-      output='screen',
-      name='xbox_node',
-      # Launch the node with root access (GPIO) in a shell
-      prefix=["sudo -E env \"PYTHONPATH=$PYTHONPATH\" \"LD_LIBRARY_PATH=$LD_LIBRARY_PATH\" \"PATH=$PATH\" \"USER=$USER\"  bash -c "],
-      shell=True
-   )
-
    return LaunchDescription([
-      xbox_node,
       can_node,
       encoder_node
    ])
