@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'my_camera_node'
+package_name = 'yolov8_lane_detection'
 
 setup(
     name=package_name,
@@ -21,9 +21,8 @@ setup(
     entry_points={
         'console_scripts': [
             #executable name
-            'vid_publisher = my_camera_node.video_pub:main',
-            'analyze_subscribe = my_camera_node.video_analyze:main'
-            
+            'video_publisher = yolov8_lane_detection.video_pub:main',
+            'lane_detection = yolov8_lane_detection.lane_detection:main'  
         ],
     },
 )
