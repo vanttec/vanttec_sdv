@@ -25,19 +25,18 @@ class VideoPublisher(Node):
     
     # Create the publisher. This publisher will publish an Video
     # to the video_frames topic. The queue size is 10 messages.
-    self.publisher_ = self.create_publisher(Image, 'video_frames', 10)
+    self.publisher_video = self.create_publisher(Image, 'video_frames', 10)
     
     # We will publish a message every 0.1 seconds
     timer_period = 0.05  # seconds
     
     # Create the timer
     self.timer = self.create_timer(timer_period, self.timer_callback)
-    
-    # Create a VideoCapture object
-    # The argument '0' gets the default webcam.
-    #self.cap = cv2.VideoCapture(0)
-    self.cap = cv2.VideoCapture('./vanttec_sdv/workspace/src/sdv_vision/my_camera_node/carril.mp4')
-    
+   
+    # Video Path
+    self.VIDEO_PATH = '/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/yolov8_lane_detection/carril.mp4'
+    self.cap = cv2.VideoCapture(self.VIDEO_PATH)
+
     # Used to convert between ROS and OpenCV Videos
     self.br = CvBridge()
 
@@ -52,8 +51,10 @@ class VideoPublisher(Node):
     ret, frame = self.cap.read()
           
     if ret == True:
-      self.publisher_.publish(self.br.cv2_to_imgmsg(frame))
+      self.publisher_video.publish(self.br.cv2_to_imgmsg(frame))
       self.get_logger().info('Publishing video frame')
+    else:
+      self.get_logger().info('No video frame')
   
 def main(args=None):
   

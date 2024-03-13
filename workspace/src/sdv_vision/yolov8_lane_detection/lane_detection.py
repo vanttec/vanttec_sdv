@@ -109,11 +109,13 @@ class LaneDetection(Node):
     
     # Coordenates publisher - [x_up, y_up, x_down, y_down]
     self.publisher_center_pts= self.create_publisher(Float64MultiArray, '/center_pts', 10)
+    self.publisher_processed_video = self.create_publisher(Image, 'processed_video_frames', 10)
+    
     # Used to convert between ROS and OpenCV images
     self.br = CvBridge()
 
     # YOLO MODEL
-    self.MODEL_PATH= "/vanttec_sdv/workspace/src/sdv_vision/yolov8_lane_detection/Yolov8/weights/best_feb2024_FINSA.pt"
+    self.MODEL_PATH= "/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/yolov8_lane_detection/Yolov8/weights/best_feb2024_FINSA.pt"
     self.MODEL = YOLO(self.MODEL_PATH)
     self.MODEL_NAMES = self.MODEL.model.names
     self.get_logger().info('Model loaded')
@@ -142,7 +144,7 @@ class LaneDetection(Node):
     # Auxiliar images to display
     frame_gray = np.copy(current_frame)
     frame_gray = cv2.cvtColor(frame_gray, cv2.COLOR_BGR2GRAY)
-    combo_combo_image = frame_gray
+    # combo_combo_image = frame_gray
     height,width = current_frame.shape[:2]
     polylines_im = np.zeros((height, width, 1), np.uint8)
 
@@ -159,20 +161,28 @@ class LaneDetection(Node):
           polylines_im[0:450, 0:width] = 0
           lines = cv2.HoughLinesP(polylines_im, 5, np.pi/180, 100, np.array([]), minLineLength=100, maxLineGap=10)
           if lines is not None:
-              averaged_lines = average_slope_intercept(height, lines)
-              if not np.isnan(averaged_lines).any():
-                line_image = display_lines(frame_gray, averaged_lines)
-                combo_image = cv2.addWeighted(frame_gray, 0.8, line_image, 1, 1)
+            averaged_lines = average_slope_intercept(height, lines)
+            if not np.isnan(averaged_lines).any():
+                # line_image = display_lines(im0_gray, averaged_lines)
                 center_points = center_point_finder(500,680,averaged_lines)
-                center_point_image=makePoints(combo_image,center_points)
-                combo_combo_image=cv2.addWeighted(combo_image, 0.8, center_point_image, 1, 1)
+                for x1, y1, x2, y2 in averaged_lines:
+                    # print("display_lines: ",(x1, y1, x2, y2))
+                    cv2.line(frame_gray, (x1, y1), (x2, y2), (255, 0, 0), 10)
+                for x, y in center_points:
+                    cv2.circle(frame_gray, (x,y),1, (255, 0, 0), 5)
+                # combo_image = cv2.addWeighted(im0_gray, 0.8, line_image, 1, 1)
+                # center_point_image=makePoints(combo_image,center_points)
+                # combo_combo_image=cv2.addWeighted(combo_image, 0.8, center_point_image, 1, 1)
                 # Publish center points
                 msg.data = center_points.flatten()
                 self.publisher_center_pts.publish(msg)
-
-    cv2.imshow('result',combo_combo_image)
+            else:
+                msg.data = center_points.flatten()
+                self.publisher_center_pts.publish([0, 0, 0, 0])
+               
+    self.publisher_processed_video.publish(self.br.cv2_to_imgmsg(frame_gray))
+    cv2.imshow('results',frame_gray)
     cv2.waitKey(1)
-
   
 def main(args=None):
   
