@@ -1,1 +1,0 @@
-Invoking command in '/home/fcanof/vanttec_sdv/build/sbg_driver': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/fcanof/vanttec_sdv/workspace/src/drivers/sbg_ros2_driver -DCMAKE_INSTALL_PREFIX=/home/fcanof/vanttec_sdv/install/sbg_driver

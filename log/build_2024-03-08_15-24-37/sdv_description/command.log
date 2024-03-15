@@ -1,1 +1,0 @@
-Invoking command in '/home/fcanof/vanttec_sdv/build/sdv_description': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/fcanof/vanttec_sdv/workspace/src/sdv_description -DCMAKE_INSTALL_PREFIX=/home/fcanof/vanttec_sdv/install/sdv_description

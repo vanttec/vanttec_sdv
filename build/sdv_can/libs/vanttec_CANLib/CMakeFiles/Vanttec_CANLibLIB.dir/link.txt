@@ -1,2 +1,0 @@
-/usr/bin/ar qc libVanttec_CANLibLIB.a CMakeFiles/Vanttec_CANLibLIB.dir/src/Vanttec_CANLib/ByteOrder/inet.cpp.o CMakeFiles/Vanttec_CANLibLIB.dir/src/Vanttec_CANLib/CANMessage.cpp.o CMakeFiles/Vanttec_CANLibLIB.dir/src/Vanttec_CANLib/Utils/CANDeserialization.cpp.o CMakeFiles/Vanttec_CANLibLIB.dir/src/Vanttec_CANLib/Utils/CANSerialization.cpp.o
-/usr/bin/ranlib libVanttec_CANLibLIB.a

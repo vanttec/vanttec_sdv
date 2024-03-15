@@ -17,13 +17,6 @@ from ultralytics import YOLO # Yolov8
 from std_msgs.msg import Float64MultiArray # Enable use of std_msgs/Float64MultiArray message
 
 
-def display_lines(image, lines):
-    line_image = np.zeros_like(image)
-    if lines is not None:
-        for x1, y1, x2, y2 in lines:
-            cv2.line(line_image, (x1, y1), (x2, y2), (255, 0, 0), 10)
-    return line_image
-
 def make_coordinates(img_height, line_parameters):
     if np.isnan(line_parameters).any():
         print('No line parameters')
@@ -56,8 +49,6 @@ def average_slope_intercept(img_height, lines):
     # Mediana
     # left_fit_average = np.median(left_fit, axis=0)
     # right_fit_average = np.median(right_fit, axis=0)
-    print("Left line average",left_fit_average)
-    print("Right line average",right_fit_average)
     left_line = make_coordinates(img_height, left_fit_average)
     right_line = make_coordinates(img_height, right_fit_average)
     return np.array([left_line, right_line])
@@ -66,9 +57,11 @@ def center_point_finder(yPresent,yFuture,lines):
     x_coordinates = []
     for line in lines:
         x1, y1, x2, y2 = line
-        # Calculate slope
-        m = (y2 - y1) / (x2 - x1)
-        # Calculate x coordinate
+         # Calculate slope
+        if(x2==x1):
+            m = 0.001
+        else:
+            m = (y2 - y1) / (x2 - x1)
         x = ((yPresent - y1) / m) + x1
         x=int(x)
         x_coordinates.append(x)
@@ -89,12 +82,6 @@ def center_point_finder(yPresent,yFuture,lines):
     ])
     return(centerPoints)
   
-def makePoints(image, centers):
-  circle_image = np.zeros_like(image)
-  if centers is not None:
-      for x, y in centers:
-          cv2.circle(circle_image, (x,y),1, (0, 255, 0), 5)
-  return circle_image
 
 
 class LaneDetection(Node):
@@ -115,7 +102,8 @@ class LaneDetection(Node):
     self.br = CvBridge()
 
     # YOLO MODEL
-    self.MODEL_PATH= "/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/yolov8_lane_detection/Yolov8/weights/best_feb2024_FINSA.pt"
+    # self.MODEL_PATH= "/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/yolov8_lane_detection/Yolov8/weights/best_feb2024_FINSA.pt"
+    self.MODEL_PATH= "/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/yolov8_lane_detection/Yolov8/weights/best_CampusSeg.pt"
     self.MODEL = YOLO(self.MODEL_PATH)
     self.MODEL_NAMES = self.MODEL.model.names
     self.get_logger().info('Model loaded')
@@ -138,7 +126,7 @@ class LaneDetection(Node):
 
     # Convert ROS Image message to OpenCV image
     current_frame = self.br.imgmsg_to_cv2(data)
-    counter = self.counter + 1
+    # self.counter = self.counter + 1
     msg = Float64MultiArray()
 
     # Auxiliar images to display
@@ -149,40 +137,35 @@ class LaneDetection(Node):
     polylines_im = np.zeros((height, width, 1), np.uint8)
 
     # YOLO predictions
-    results = self.MODEL.predict(current_frame)
-    if counter%2 == 0:    
-      if results[0].masks is not None:
-          clss = results[0].boxes.cls.cpu().tolist()
-          masks = results[0].masks.xy
-          for mask, cls in zip(masks, clss):
-              if mask is not None and self.MODEL_NAMES[int(cls)] == "center":
-                  cv2.polylines(polylines_im, [np.int32(mask)], isClosed=False, color=255, thickness=5)
-          polylines_im[height-205:height, 0:width] = 0
-          polylines_im[0:450, 0:width] = 0
-          lines = cv2.HoughLinesP(polylines_im, 5, np.pi/180, 100, np.array([]), minLineLength=100, maxLineGap=10)
-          if lines is not None:
+    # results = self.MODEL.predict(current_frame,classes=0)
+    results = self.MODEL.predict(current_frame,classes=1)
+    # if self.counter%2 == 0:    
+    if results[0].masks is not None:
+        mask = results[0].masks.xy[0]
+        cv2.polylines(polylines_im, [np.int32(mask)], isClosed=False, color=255, thickness=5)
+        polylines_im[height-205:height, 0:width] = 0
+        polylines_im[0:450, 0:width] = 0
+        cv2.imshow('results',polylines_im)
+        lines = cv2.HoughLinesP(polylines_im, 5, np.pi/180, 100, np.array([]), minLineLength=100, maxLineGap=10)
+        if lines is not None:
             averaged_lines = average_slope_intercept(height, lines)
             if not np.isnan(averaged_lines).any():
-                # line_image = display_lines(im0_gray, averaged_lines)
                 center_points = center_point_finder(500,680,averaged_lines)
                 for x1, y1, x2, y2 in averaged_lines:
-                    # print("display_lines: ",(x1, y1, x2, y2))
                     cv2.line(frame_gray, (x1, y1), (x2, y2), (255, 0, 0), 10)
                 for x, y in center_points:
-                    cv2.circle(frame_gray, (x,y),1, (255, 0, 0), 5)
-                # combo_image = cv2.addWeighted(im0_gray, 0.8, line_image, 1, 1)
-                # center_point_image=makePoints(combo_image,center_points)
-                # combo_combo_image=cv2.addWeighted(combo_image, 0.8, center_point_image, 1, 1)
+                    cv2.circle(frame_gray, (x,y), 1, (255, 0, 0), 5)
+                print(center_points)
                 # Publish center points
-                msg.data = center_points.flatten()
-                self.publisher_center_pts.publish(msg)
-            else:
-                msg.data = center_points.flatten()
-                self.publisher_center_pts.publish([0, 0, 0, 0])
+                # msg.data = center_points.flatten()
+                # self.publisher_center_pts.publish(msg)
+            # else:
+            #     msg.data = center_points.flatten()
+            #     self.publisher_center_pts.publish([0, 0, 0, 0])
                
     self.publisher_processed_video.publish(self.br.cv2_to_imgmsg(frame_gray))
-    cv2.imshow('results',frame_gray)
-    cv2.waitKey(1)
+    # cv2.imshow('results',frame_gray)
+    # cv2.waitKey(1)
   
 def main(args=None):
   
@@ -195,9 +178,6 @@ def main(args=None):
   # Spin the node so the callback function is called.
   rclpy.spin(lane_detection)
   
-  # Destroy the node explicitly
-  # (optional - otherwise it will be done automatically
-  # when the garbage collector destroys the node object)
   lane_detection.destroy_node()
   
   # Shutdown the ROS client library for Python

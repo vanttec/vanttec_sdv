@@ -1,2 +1,0 @@
-Invoking command in '/home/fcanof/vanttec_sdv/build/isaac_ros_common': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/fcanof/vanttec_sdv/workspace/src/isaac_ros_common/isaac_ros_common -DCMAKE_INSTALL_PREFIX=/home/fcanof/vanttec_sdv/install/isaac_ros_common
-Invoked command in '/home/fcanof/vanttec_sdv/build/isaac_ros_common' returned '1': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/fcanof/vanttec_sdv/workspace/src/isaac_ros_common/isaac_ros_common -DCMAKE_INSTALL_PREFIX=/home/fcanof/vanttec_sdv/install/isaac_ros_common
