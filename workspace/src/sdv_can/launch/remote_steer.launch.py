@@ -10,6 +10,10 @@ def generate_launch_description():
             executable='scripts/remote2can.py',
         ),
         Node(
+            package='sdv_can',
+            executable='sdv_can_node',
+        ),
+        Node(
             package='joy',
             executable='joy_node',
         )

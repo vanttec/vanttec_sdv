@@ -6,23 +6,24 @@
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Joy
+from std_msgs.msg import Float64
 
-import can
+import math
 
-class Remote2CAN(Node):
+class RemoteMapping(Node):
 
     def __init__(self):
-        super().__init__('remote_joystick_to_can')
-        self.subscription = self.create_subscription(
+        super().__init__('remote_joystick_mapping_node')
+        self.jsub = self.create_subscription(
             Joy, '/joy', self.convert, 10
         )
-        self.subscription
+        self.jsub
 
-        self.steering_module_id = 0x408
-        self.steer_task_id_xbox = 0x08
+        # no me gustan los yams la verdad jajas
+        self.fpub = self.create_publisher(Float64, "sdv/steering/setpoint", 10)
+        self.fpub
 
-        # TODO cambiar a can1 en la jetson???
-        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000)
+        self.angle_increment = 0.1
 
     def convert(self, msg):
 
@@ -31,34 +32,29 @@ class Remote2CAN(Node):
         #msg.axes - son los valores de los joysticks
         #msg.buttons - son los valores de los botones
 
-        #DEBUG le ponemos un `-` para que la izquierda sea negativo y viceversa 
-        d = -msg.axes[0] # direccion
+        joystick_index = 0
 
-        self.get_logger().debug('joystick: "%d"' % d)
+        #[DEBUG] le ponemos un `-` para que la izquierda sea negativo y viceversa
+        delta = -msg.axes[joystick_index]
+        curr_angle += delta * self.angle_increment
+        curr_angle = max(-3 * math.pi, min(curr_angle, 3 * math.pi))
 
-        if d > 0: # derecha
-            d = 0
-        elif d < 0:
-            d = 1
-        else:
-            d = 2
+        f64_msg = Float64
+        f64_msg.data = curr_angle
 
-        cmsg = can.Message(
-            arbitration_id = self.steering_module_id,
-            is_extended_id = False,
-            data = [ self.steer_task_id_xbox, int(d) ]
-        )
+        self.get_logger().debug('joystick: "%d"' % curr_angle)
 
-        self.bus.send(cmsg, timeout=0.1)
+        self.fpub.publish(f64_msg)
+
 
 def main(args=None):
     rclpy.init(args=args)
 
-    r2c = Remote2CAN()
+    rmn = RemoteMapping()
 
-    rclpy.spin(r2c)
+    rclpy.spin(rmn)
 
-    r2c.destroy_node()
+    rmn.destroy_node()
     rclpy.shutdown()
 
 
