@@ -23,7 +23,11 @@ class RemoteMapping(Node):
         self.fpub = self.create_publisher(Float64, "sdv/steering/setpoint", 10)
         self.fpub
 
-        self.angle_increment = 0.1
+        self.angle_increment = 0.15
+        self.curr_angle = 0.0
+        self.past_angle = 0.0
+
+        self.dropout = 0.01
 
     def convert(self, msg):
 
@@ -36,15 +40,20 @@ class RemoteMapping(Node):
 
         #[DEBUG] le ponemos un `-` para que la izquierda sea negativo y viceversa
         delta = -msg.axes[joystick_index]
-        curr_angle += delta * self.angle_increment
-        curr_angle = max(-3 * math.pi, min(curr_angle, 3 * math.pi))
+        self.curr_angle += delta * self.angle_increment
+        self.curr_angle = max(-3 * math.pi, min(self.curr_angle, 3 * math.pi))
 
-        f64_msg = Float64
-        f64_msg.data = curr_angle
+        if abs(self.curr_angle - self.past_angle) < self.dropout:
+            self.curr_angle = self.past_angle
 
-        self.get_logger().debug('joystick: "%d"' % curr_angle)
+        f64_msg = Float64()
+        f64_msg.data = self.curr_angle
+
+        self.get_logger().debug('joystick: "%d"' % self.curr_angle)
 
         self.fpub.publish(f64_msg)
+
+        self.past_angle = self.curr_angle
 
 
 def main(args=None):
