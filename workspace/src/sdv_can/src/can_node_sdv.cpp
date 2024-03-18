@@ -16,6 +16,9 @@ public:
             }
         );
 
+        steering_angle_pub_ = this->create_publisher<std_msgs::msg::Float64>(
+            "std/steering/position", 10
+        );
     }
 protected:
     void parse_frame(const struct can_frame &frame) override {
@@ -24,14 +27,22 @@ protected:
         msg.len = frame.can_dlc;
         uint8_t vttec_msg_id = vanttec::getId(msg);
         uint32_t can_id = frame.can_id;
-        RCLCPP_INFO(this->get_logger(), "Got message from: %#X", can_id);
+        RCLCPP_INFO(this->get_logger(), "Got message from: %#X  with vttec id: %#X", can_id, vttec_msg_id);
 
-        // TODO Main parsing switch here...
+        if(can_id == 0x410){
+            if(vttec_msg_id == 0x03){
+                std_msgs::msg::Float64 encoder_msg;
+                encoder_msg.data  = vanttec::getFloat(msg);
+                RCLCPP_INFO(this->get_logger(), "Got encoder message: %f", encoder_msg.data);
+                steering_angle_pub_->publish(encoder_msg);
+            }
+        }
     }
 
 private:
     rclcpp::TimerBase::SharedPtr timer_;
     rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr motor_angle_sub_;
+    rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr steering_angle_pub_;
 };
 
 int main(int argc, char * argv[]){
