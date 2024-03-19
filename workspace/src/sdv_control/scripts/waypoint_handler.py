@@ -60,8 +60,9 @@ class WaypointNode(Node):
             # 'sim_waypoints.csv'
             # 'sim_waypoints_simple.csv'
             # 'parking_waypoints_ned.csv'
-            'anniversary_waypoints_ned.csv'
-            # 'sim2.csv'
+            # 'anniversary_waypoints_ned.csv'
+            'sim2.csv'
+            # 'zigzag.csv'
         )
 
         self.path_ = Path()

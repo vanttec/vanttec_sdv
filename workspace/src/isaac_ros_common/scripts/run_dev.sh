@@ -207,6 +207,7 @@ docker run -it --rm \
     --entrypoint /usr/local/bin/scripts/workspace-entrypoint.sh \
     --workdir /workspace \
     --device /dev/ttyUSB0 \
+    --device /dev/input/ \
     $@ \
     $BASE_NAME \
     /bin/bash

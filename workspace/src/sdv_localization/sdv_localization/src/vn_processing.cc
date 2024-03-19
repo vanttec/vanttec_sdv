@@ -70,6 +70,7 @@ public:
 
     odom_src_ = this->get_parameter("odometry_source").as_string();
     
+    double zero_x{0}, zero_y{0};
 
     // Publishers
     odom_tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);

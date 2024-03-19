@@ -13,6 +13,7 @@ find_package(ament_cmake_python REQUIRED)
 # find_package(<dependency> REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(std_srvs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 #find_package(sdv_msgs REQUIRED)
 #find_package(vectornav_msgs REQUIRED)
@@ -27,7 +28,7 @@ target_include_directories(sdv_can_node PUBLIC
   $<INSTALL_INTERFACE:include>)
 
 target_compile_features(sdv_can_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
-ament_target_dependencies(sdv_can_node rclcpp std_msgs geometry_msgs)
+ament_target_dependencies(sdv_can_node rclcpp std_msgs geometry_msgs std_srvs)
 
 add_subdirectory(libs/vanttec_CANLib)
 target_link_libraries(sdv_can_node Vanttec_CANLibLIB Boost::system)
@@ -52,6 +53,13 @@ install(DIRECTORY
   scripts
   DESTINATION lib/${PROJECT_NAME}
 )
+
+# Install Python executables
+install(PROGRAMS
+  scripts/remote2can.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

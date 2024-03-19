@@ -46,7 +46,7 @@ def generate_launch_description():
    vectornav_launch = IncludeLaunchDescription(
       PythonLaunchDescriptionSource([
             PathJoinSubstitution([
-               FindPackageShare('sdv_localization'),
+               FindPackageShare('sdv_launch'),
                'launch',
                'sensors',
                'vectornav.launch.py'
@@ -60,7 +60,7 @@ def generate_launch_description():
       executable='vn_processing',
       output='screen',
       parameters=[
-         os.path.join(this_dir, 'config', 'vectornav', 'vn_proc_params.yaml'),
+         os.path.join('sdv_launch', 'config', 'vectornav', 'vn_proc_params.yaml'),
                      {'odometry_source': LaunchConfiguration('odometry_source')},
          ],
       condition=UnlessCondition(LaunchConfiguration('is_simulation'))
