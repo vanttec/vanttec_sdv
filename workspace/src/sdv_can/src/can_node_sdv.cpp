@@ -9,7 +9,7 @@ public:
         using namespace std::placeholders;
 
         // Send to 0x410 (stepper board), message id: 0x01
-        motor_angle_sub_ = this->create_subscription<std_msgs::msg::Float64>(
+        motor_angle_sub = this->create_subscription<std_msgs::msg::Float64>(
             "/sdv/steering/setpoint", 10, [this](const std_msgs::msg::Float64::SharedPtr msg){
                 RCLCPP_INFO(this->get_logger(), "Setpoint: %f", msg->data);
                 vanttec::CANMessage can_msg;
@@ -18,20 +18,9 @@ public:
             }
         );
 
-        // reset_zero_encoder_sub_ = this->create_subscription<std_msgs::msg::Bool>(
-        //     "/sdv/steering/reset_encoder", 10, [this](const std_msgs::msg::Bool::SharedPtr msg){
-        //         if(msg->data){
-        //             RCLCPP_INFO(this->get_logger(), "Zero: %d", msg->data);
-        //             vanttec::CANMessage can_msg1{0x23,0x03,0x60,0x00,0x00,0x00,0x00,0x80};
-        //             vanttec::CANMessage can_msg2{0x23,0x10,0x10,0x01,0x73,0x61,0x76,0x65};
-        //             send_frame(0x620, can_msg1);
-        //             send_frame(0x620, can_msg2);
-        //         }
-        //     }
-        // );
-        zero_service_ = this->create_service<std_srvs::srv::Empty>("/sdv/steering/reset_encoder", std::bind(&CanNodeSDV::zero_encoder, this, _1, _2));
+        zero_service = this->create_service<std_srvs::srv::Empty>("/sdv/steering/reset_encoder", std::bind(&CanNodeSDV::zero_encoder, this, _1, _2));
 
-        steering_angle_pub_ = this->create_publisher<std_msgs::msg::Float64>(
+        steering_angle_pub = this->create_publisher<std_msgs::msg::Float64>(
             "/sdv/steering/position", 10
         );
     }
@@ -49,7 +38,7 @@ protected:
                 std_msgs::msg::Float64 encoder_msg;
                 encoder_msg.data  = vanttec::getFloat(msg);
                 RCLCPP_WARN(this->get_logger(), "Got encoder message: %f", encoder_msg.data);
-                steering_angle_pub_->publish(encoder_msg);
+                steering_angle_pub->publish(encoder_msg);
             }
         }
     }
@@ -65,10 +54,9 @@ protected:
 
 private:
     rclcpp::TimerBase::SharedPtr timer_;
-    rclcpp::Service<std_srvs::srv::Empty>::SharedPtr zero_service_;
-    rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr motor_angle_sub_;
-    // rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr reset_zero_encoder_sub_;
-    rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr steering_angle_pub_;
+    rclcpp::Service<std_srvs::srv::Empty>::SharedPtr zero_service;
+    rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr motor_angle_sub;
+    rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr steering_angle_pub;
 };
 
 int main(int argc, char * argv[]){
