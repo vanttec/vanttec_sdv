@@ -20,8 +20,8 @@ class RemoteMapping(Node):
         self.jsub
 
         # no me gustan los yams la verdad jajas huh?
-        self.setpoint_pub_ = self.create_publisher(Float64, "/sdv/steering/setpoint", 10)
-        self.setpoint_pub_
+        self.setpoint_pub = self.create_publisher(Float64, "/sdv/steering/setpoint", 10)
+        self.setpoint_pub
         self.setpoint_msg = Float64()
 
         # self.zero_encoder_pub_ = self.create_publisher(Bool, "/sdv/steering/reset_encoder", 10)
@@ -59,7 +59,7 @@ class RemoteMapping(Node):
 
         self.get_logger().info('joystick: "%f"' % self.curr_angle)
 
-        self.setpoint_pub_.publish(self.setpoint_msg)
+        self.setpoint_pub.publish(self.setpoint_msg)
 
         self.past_angle = self.curr_angle
 
