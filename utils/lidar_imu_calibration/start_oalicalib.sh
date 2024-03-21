@@ -1,4 +1,7 @@
 #!/bin/bash
+
+# https://autowarefoundation.github.io/autoware-documentation/release-v1.0_beta/how-to-guides/integrating-autoware/creating-vehicle-and-sensor-model/calibrating-sensors/lidar-imu-calibration/
+
 REPO_PATH="$(pwd)/OA-LICalib"
 git_root_dir=$(git rev-parse --show-toplevel)
 
