@@ -65,7 +65,7 @@ class CarGuidanceNode : public rclcpp::Node
         nav_msgs::msg::Path reference_path_;
         size_t waypoint_ = 0;
         size_t path_length_;
-        float DISTANCE_VAL_ = 1;                // Meters
+        float DISTANCE_VAL_ = 0.5;                // Meters
         // float DISTANCE_VAL_ = 15;                // Meters
         std::string parent_frame_;
 

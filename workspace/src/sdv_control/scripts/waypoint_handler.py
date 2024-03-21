@@ -61,7 +61,8 @@ class WaypointNode(Node):
             # 'sim_waypoints_simple.csv'
             # 'parking_waypoints_ned.csv'
             # 'anniversary_waypoints_ned.csv'
-            'sim2.csv'
+            # 'sim2.csv'
+            'new_waypoints.csv'
             # 'zigzag.csv'
         )
 
