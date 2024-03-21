@@ -7,6 +7,7 @@ import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Joy
 from std_msgs.msg import Float64, Bool
+from sdv_msgs.stv import Uint8
 
 import math
 
@@ -24,6 +25,11 @@ class RemoteMapping(Node):
         self.setpoint_pub
         self.setpoint_msg = Float64()
 
+        self.set_mode_srv = self.create_client(Uint8, '/sdv/steering/set_mode')
+        self.set_mode_srv
+        self.mode_req = Uint8.Request()
+        self.mode_req.data = 1 # manual mode on default
+
         # self.zero_encoder_pub_ = self.create_publisher(Bool, "/sdv/steering/reset_encoder", 10)
         # self.zero_encoder_pub_
         # self.zero_encoder_msg = Bool()
@@ -40,13 +46,15 @@ class RemoteMapping(Node):
     def convert(self, msg):
         #TODO modify dead zones??
 
+        #[DEBUG]
         #msg.axes - son los valores de los joysticks
         #msg.buttons - son los valores de los botones
 
         joystick_axes_index = 0
-        # reset_buttons_index = 6
+        # reset_button_index = 6
+        mode_button_index = ... # TODO
 
-        # Setpoint
+        # -- setpoint -- #
         #[DEBUG] le ponemos un `-` para que la izquierda sea negativo y viceversa
         delta = -msg.axes[joystick_axes_index]
         self.curr_angle += delta * self.angle_increment
@@ -54,17 +62,23 @@ class RemoteMapping(Node):
 
         if abs(self.curr_angle - self.past_angle) < self.dropout:
             self.curr_angle = self.past_angle
-
         self.setpoint_msg.data = self.curr_angle
 
         self.get_logger().info('joystick: "%f"' % self.curr_angle)
-
         self.setpoint_pub.publish(self.setpoint_msg)
 
         self.past_angle = self.curr_angle
 
-        # # Encoder Zero
-        # if msg.buttons[reset_buttons_index]:
+        # -- mode -- #
+        if msg.buttons[mode_button_index]:
+            # [DEBUG] dumb way to toggle between 0 & 1
+            self.mode_req.data = 1 - self.mode_req.data
+
+            future = self.set_mode_srv.call_async(self.mode_req)
+            future.add_done_callback(self.set_mode_done)
+
+        # -- encoder zero -- #
+        # if msg.buttons[reset_button_index]:
         #     self.reset_pressed_count += 1
         # else:
         #     self.reset_pressed_count = 0
@@ -73,6 +87,9 @@ class RemoteMapping(Node):
         # if self.reset_pressed_count >= 10:
         #     self.zero_encoder_msg.data = True
         #     self.get_logger().warning('Resetting Zero in Steering Wheel')
+            
+    def set_mode_done(self):
+        self.get_logger().info('changed mode!')
 
 
 def main(args=None):

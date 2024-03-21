@@ -1,7 +1,8 @@
 #include "can_node_base.h"
 #include "Vanttec_CANLib/CANMessage.h"
 #include <std_msgs/msg/float64.hpp>
-#include "std_srvs/srv/empty.hpp"
+#include <std_srvs/srv/empty.hpp>
+#include "sdv_msgs/srv/uint8.hpp"
 
 class CanNodeSDV : public CanNodeBase {
 public:
@@ -25,6 +26,15 @@ public:
             "/sdv/steering/reset_encoder",
             std::bind(
                 &CanNodeSDV::zero_encoder, this, _1, _2
+            )
+        );
+
+        // [ros] -> [this node] -> [CAN network]
+        // [this node][mode_service] : will send the value of the service as the current mode to CAN 
+        mode_service = this->create_service<sdv_msgs::srv::Uint8>(
+            "/sdv/steering/set_mode",
+            std::bind(
+                &CanNodeSDV::set_mode, this, _1, _2
             )
         );
         
@@ -61,7 +71,7 @@ protected:
     void zero_encoder(const std::shared_ptr<std_srvs::srv::Empty::Request> request,
         std::shared_ptr<std_srvs::srv::Empty::Response> response) {
         
-        RCLCPP_ERROR(this->get_logger(), "Setting encoder to zero");
+        RCLCPP_INFO(this->get_logger(), "setting encoder to zero");
 
         vanttec::CANMessage set_zero_msg{0x23,0x03,0x60,0x00,0x00,0x00,0x00,0x80};
         vanttec::CANMessage store_params_msg{0x23,0x10,0x10,0x01,0x73,0x61,0x76,0x65};
@@ -70,9 +80,22 @@ protected:
         send_frame(0x620, store_params_msg);
     }
 
+    void set_mode(const std::shared_ptr<sdv_msgs::srv::Uint8::Request> request,
+        std::shared_ptr<sdv_msgs::srv::Uint8::Response> response) {
+        
+        uint8_t data = request.get()->data;
+
+        RCLCPP_INFO(this->get_logger(), "setting mode to %d", data);
+
+        vanttec::CANMessage set_mode_msg{0x2, data};
+
+        send_frame(0x410, set_mode_msg);
+    }
+
 private:
     rclcpp::TimerBase::SharedPtr timer_;
     rclcpp::Service<std_srvs::srv::Empty>::SharedPtr zero_service;
+    rclcpp::Service<sdv_msgs::srv::Uint8>::SharedPtr mode_service;
     rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr motor_angle_sub;
     rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr steering_angle_pub;
 };
