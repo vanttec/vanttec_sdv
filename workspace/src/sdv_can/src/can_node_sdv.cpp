@@ -8,7 +8,8 @@ public:
     CanNodeSDV() : CanNodeBase("sdv_can_node"){
         using namespace std::placeholders;
 
-        // Send to 0x410 (stepper board), message id: 0x01
+        // [joystick] -> [this node] -> [stepper pcb] -> [stepper motor]
+        // [this node][motor_angle_sub] : convert FLoat64 to CANMessage and send it
         motor_angle_sub = this->create_subscription<std_msgs::msg::Float64>(
             "/sdv/steering/setpoint", 10, [this](const std_msgs::msg::Float64::SharedPtr msg){
                 RCLCPP_INFO(this->get_logger(), "Setpoint: %f", msg->data);
@@ -18,8 +19,17 @@ public:
             }
         );
 
-        zero_service = this->create_service<std_srvs::srv::Empty>("/sdv/steering/reset_encoder", std::bind(&CanNodeSDV::zero_encoder, this, _1, _2));
-
+        // [ros] -> [this node] -> [stepper pcb] -> [stepper motor]
+        // [this node][zero_service] : if called, send a CAN message to zero the encoder on current position
+        zero_service = this->create_service<std_srvs::srv::Empty>(
+            "/sdv/steering/reset_encoder",
+            std::bind(
+                &CanNodeSDV::zero_encoder, this, _1, _2
+            )
+        );
+        
+        // [britter encoder] -> [CAN] -> [this node] -> [ros]
+        // [this node][steering_angle_pub] : convert encoder's angle to Float64 and publish it
         steering_angle_pub = this->create_publisher<std_msgs::msg::Float64>(
             "/sdv/steering/position", 10
         );
@@ -31,13 +41,18 @@ protected:
         msg.len = frame.can_dlc;
         uint8_t vttec_msg_id = vanttec::getId(msg);
         uint32_t can_id = frame.can_id;
+        
+        auto steady_clock = rclcpp::Clock();
+
         RCLCPP_INFO(this->get_logger(), "Got message from: %#X  with vttec id: %#X", can_id, vttec_msg_id);
 
         if(can_id == 0x407){
             if(vttec_msg_id == 0x03){
                 std_msgs::msg::Float64 encoder_msg;
                 encoder_msg.data  = vanttec::getFloat(msg);
-                RCLCPP_WARN(this->get_logger(), "Got encoder message: %f", encoder_msg.data);
+                
+                RCLCPP_WARN_THROTTLE(this->get_logger(), steady_clock, 1000, "Got encoder message: %f", encoder_msg.data);
+
                 steering_angle_pub->publish(encoder_msg);
             }
         }
@@ -45,11 +60,14 @@ protected:
 
     void zero_encoder(const std::shared_ptr<std_srvs::srv::Empty::Request> request,
         std::shared_ptr<std_srvs::srv::Empty::Response> response) {
+        
         RCLCPP_ERROR(this->get_logger(), "Setting encoder to zero");
-        vanttec::CANMessage can_msg1{0x23,0x03,0x60,0x00,0x00,0x00,0x00,0x80};
-        vanttec::CANMessage can_msg2{0x23,0x10,0x10,0x01,0x73,0x61,0x76,0x65};
-        send_frame(0x620, can_msg1);
-        send_frame(0x620, can_msg2);
+
+        vanttec::CANMessage set_zero_msg{0x23,0x03,0x60,0x00,0x00,0x00,0x00,0x80};
+        vanttec::CANMessage store_params_msg{0x23,0x10,0x10,0x01,0x73,0x61,0x76,0x65};
+
+        send_frame(0x620, set_zero_msg);
+        send_frame(0x620, store_params_msg);
     }
 
 private:
