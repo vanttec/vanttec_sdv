@@ -97,6 +97,7 @@ class LaneDetection(Node):
     # Coordenates publisher - [x_up, y_up, x_down, y_down]
     self.publisher_center_pts= self.create_publisher(Float64MultiArray, '/center_pts', 10)
     self.publisher_processed_video = self.create_publisher(Image, 'processed_video_frames', 10)
+    self.publisher_center_video= self.create_publisher(Image, 'center_video_flag', 10)
     
     # Used to convert between ROS and OpenCV images
     self.br = CvBridge()
@@ -115,8 +116,6 @@ class LaneDetection(Node):
     else:
         self.get_logger().info('No Model selected')
     # YOLO MODEL
-    # self.MODEL_PATH= "/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/yolov8_lane_detection/Yolov8/weights/best_feb2024_FINSA.pt"
-    # self.MODEL_PATH= "/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/yolov8_lane_detection/Yolov8/weights/best_CampusSeg.pt"
     self.MODEL = YOLO(self.MODEL_PATH)
     self.MODEL_NAMES = self.MODEL.model.names
     self.get_logger().info('Model loaded')
@@ -124,7 +123,7 @@ class LaneDetection(Node):
 
     # COUNTER OPTIMIZATION
     self.counter = 0 
-    self.ORG_PT_UP = np.array([0, 0])
+    self.ORG_PT_UP = np.array([596, 500])
 
     
   def listener_callback(self, data):
@@ -142,6 +141,7 @@ class LaneDetection(Node):
     frame_gray = cv2.cvtColor(frame_gray, cv2.COLOR_BGR2GRAY)
     # combo_combo_image = frame_gray
     height,width = current_frame.shape[:2]
+    pt_org = np.array([590, 500])
     polylines_im = np.zeros((height, width, 1), np.uint8)
 
     # YOLO predictions
@@ -162,6 +162,29 @@ class LaneDetection(Node):
                 for x, y in center_points:
                     cv2.circle(frame_gray, (x,y), 1, (255, 0, 0), 5)
                 print(center_points)
+                # POINTS COMPARE
+                error = ((center_points[0][0] - pt_org[0])/pt_org[0])*100
+                error = abs(round(error, 2))
+                print('Error: ' + str(error))
+                if error>=5 and error<10:
+                    color_rect = (179,250,255)
+                    color_path = (0,235,255)
+                    warning_txt = 'Caution'
+                    coords_txt = (540, 310)
+                elif error>=10:
+                    color_rect = (179,179,255)
+                    color_path = (0,0,255)
+                    warning_txt = 'COLLISION RISK'
+                    coords_txt = (480, 310)
+                else:
+                    color_rect = (179,255,219)
+                    color_path = (0,255,0)
+                    warning_txt = 'Aligned'
+                    coords_txt = (540, 310)
+                cv2.rectangle(current_frame, (450,250), (750,350), color_rect, -1)
+                cv2.polylines(current_frame, [np.int32(mask)], isClosed=True, color=color_path, thickness=5) 
+                cv2.putText(current_frame, warning_txt, coords_txt, cv2.FONT_HERSHEY_SIMPLEX, 1, color_path, 2, cv2.LINE_AA)
+                cv2.circle(frame_gray, (pt_org[0],pt_org[1]), 1, (0, 0, 0), 5)
                 # Publish center points
                 # msg.data = center_points.flatten()
                 # self.publisher_center_pts.publish(msg)
@@ -170,8 +193,7 @@ class LaneDetection(Node):
             #     self.publisher_center_pts.publish([0, 0, 0, 0])
                
     self.publisher_processed_video.publish(self.br.cv2_to_imgmsg(frame_gray))
-    # cv2.imshow('results',frame_gray)
-    # cv2.waitKey(1)
+    self.publisher_center_video.publish(self.br.cv2_to_imgmsg(current_frame,'bgr8'))
   
 def main(args=None):
   
