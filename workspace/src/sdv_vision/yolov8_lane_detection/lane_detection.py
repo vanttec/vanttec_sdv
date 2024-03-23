@@ -101,26 +101,34 @@ class LaneDetection(Node):
     # Used to convert between ROS and OpenCV images
     self.br = CvBridge()
 
+    # PRAMETERS
+    self.declare_parameter('model_path','FINSA')
+    model = self.get_parameter('model_path').get_parameter_value().string_value
+    if model == 'FINSA': # FINSA model
+        self.MODEL_PATH= "/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/yolov8_lane_detection/Yolov8/weights/best_feb2024_FINSA.pt"
+        self.MODEL_CLASS = 0
+        self.get_logger().info('Model FINSA selected')
+    elif model == 'campus': # Campus model
+        self.MODEL_PATH= "/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/yolov8_lane_detection/Yolov8/weights/best_CampusSeg.pt"
+        self.MODEL_CLASS = 1
+        self.get_logger().info('Model Campus Segmentation selected')
+    else:
+        self.get_logger().info('No Model selected')
     # YOLO MODEL
     # self.MODEL_PATH= "/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/yolov8_lane_detection/Yolov8/weights/best_feb2024_FINSA.pt"
-    self.MODEL_PATH= "/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/yolov8_lane_detection/Yolov8/weights/best_CampusSeg.pt"
+    # self.MODEL_PATH= "/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/yolov8_lane_detection/Yolov8/weights/best_CampusSeg.pt"
     self.MODEL = YOLO(self.MODEL_PATH)
     self.MODEL_NAMES = self.MODEL.model.names
     self.get_logger().info('Model loaded')
+    self.get_logger().info('Segmentation Class: ' + str(self.MODEL_NAMES[self.MODEL_CLASS]))
 
     # COUNTER OPTIMIZATION
     self.counter = 0 
+    self.ORG_PT_UP = np.array([0, 0])
 
-  def get_className(classNo):
-    if classNo==0:
-      return "Lolo"
-    elif classNo==1:
-      return "Someone else"
     
   def listener_callback(self, data):
-    """
-    Callback function.
-    """
+    
     # Display the message on the console
     self.get_logger().info('Receiving video frame')
 
@@ -137,15 +145,13 @@ class LaneDetection(Node):
     polylines_im = np.zeros((height, width, 1), np.uint8)
 
     # YOLO predictions
-    # results = self.MODEL.predict(current_frame,classes=0)
-    results = self.MODEL.predict(current_frame,classes=1)
-    # if self.counter%2 == 0:    
+    results = self.MODEL.predict(current_frame, classes=self.MODEL_CLASS)
     if results[0].masks is not None:
         mask = results[0].masks.xy[0]
         cv2.polylines(polylines_im, [np.int32(mask)], isClosed=False, color=255, thickness=5)
-        polylines_im[height-205:height, 0:width] = 0
+        polylines_im[height-210:height, 0:width] = 0
         polylines_im[0:450, 0:width] = 0
-        cv2.imshow('results',polylines_im)
+        # cv2.imshow('results',polylines_im)
         lines = cv2.HoughLinesP(polylines_im, 5, np.pi/180, 100, np.array([]), minLineLength=100, maxLineGap=10)
         if lines is not None:
             averaged_lines = average_slope_intercept(height, lines)
