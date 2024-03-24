@@ -133,6 +133,8 @@ class LaneDetection(Node):
 
     # Convert ROS Image message to OpenCV image
     current_frame = self.br.imgmsg_to_cv2(data)
+    masks_img = np.copy(current_frame)
+    masks = np.zeros(current_frame.shape[:2], np.uint8)
     # self.counter = self.counter + 1
     msg = Float64MultiArray()
 
@@ -148,7 +150,8 @@ class LaneDetection(Node):
     results = self.MODEL.predict(current_frame, classes=self.MODEL_CLASS)
     if results[0].masks is not None:
         mask = results[0].masks.xy[0]
-        cv2.polylines(polylines_im, [np.int32(mask)], isClosed=False, color=255, thickness=5)
+        mask = np.int32(mask)
+        cv2.polylines(polylines_im, [mask], isClosed=False, color=255, thickness=5)
         polylines_im[height-210:height, 0:width] = 0
         polylines_im[0:450, 0:width] = 0
         # cv2.imshow('results',polylines_im)
@@ -161,14 +164,15 @@ class LaneDetection(Node):
                     cv2.line(frame_gray, (x1, y1), (x2, y2), (255, 0, 0), 10)
                 for x, y in center_points:
                     cv2.circle(frame_gray, (x,y), 1, (255, 0, 0), 5)
+                cv2.circle(frame_gray, (pt_org[0],pt_org[1]), 1, (0, 0, 0), 5)
                 print(center_points)
                 # POINTS COMPARE
                 error = ((center_points[0][0] - pt_org[0])/pt_org[0])*100
                 error = abs(round(error, 2))
                 print('Error: ' + str(error))
                 if error>=5 and error<10:
-                    color_rect = (179,250,255)
-                    color_path = (0,235,255)
+                    color_rect = (184,249,255)
+                    color_path = (0,188,255)
                     warning_txt = 'Caution'
                     coords_txt = (540, 310)
                 elif error>=10:
@@ -182,9 +186,10 @@ class LaneDetection(Node):
                     warning_txt = 'Aligned'
                     coords_txt = (540, 310)
                 cv2.rectangle(current_frame, (450,250), (750,350), color_rect, -1)
-                cv2.polylines(current_frame, [np.int32(mask)], isClosed=True, color=color_path, thickness=5) 
+                # cv2.polylines(current_frame, [mask], isClosed=True, color=color_path, thickness=5) 
                 cv2.putText(current_frame, warning_txt, coords_txt, cv2.FONT_HERSHEY_SIMPLEX, 1, color_path, 2, cv2.LINE_AA)
-                cv2.circle(frame_gray, (pt_org[0],pt_org[1]), 1, (0, 0, 0), 5)
+                cv2.fillPoly(masks_img, [mask], color_path)
+                current_frame = cv2.addWeighted(current_frame, 0.7, masks_img, 0.3, 0)
                 # Publish center points
                 # msg.data = center_points.flatten()
                 # self.publisher_center_pts.publish(msg)
