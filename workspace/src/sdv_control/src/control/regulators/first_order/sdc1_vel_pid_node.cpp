@@ -97,7 +97,7 @@ class CarControlNode : public rclcpp::Node
 
                 } else {
 
-                    if(drive_mode_ == "Automatic" && auto_mode_ == "Setpoint_Controller"){
+                    if(drive_mode_ == "Automatic"){
                         RCLCPP_INFO(this->get_logger(), "Autonomous mode enabled");
 
                         if(vel_msgs_received_){

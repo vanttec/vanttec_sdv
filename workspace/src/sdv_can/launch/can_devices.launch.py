@@ -10,6 +10,9 @@ def generate_launch_description():
         Node(
             package='sdv_can',
             executable='sdv_can_node',
+            remappings=[
+            ("/sdv/throttle/setpoint", "/sdc_control/control_signal/D"),
+            ]
         ),
         Node(
             package='joy',
