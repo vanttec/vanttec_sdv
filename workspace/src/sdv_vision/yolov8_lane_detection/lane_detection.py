@@ -106,11 +106,11 @@ class LaneDetection(Node):
     self.declare_parameter('model_path','FINSA')
     model = self.get_parameter('model_path').get_parameter_value().string_value
     if model == 'FINSA': # FINSA model
-        self.MODEL_PATH= "/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/yolov8_lane_detection/Yolov8/weights/best_feb2024_FINSA.pt"
+        self.MODEL_PATH= "/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/Yolov8/weights/best_feb2024_FINSA.pt"
         self.MODEL_CLASS = 0
         self.get_logger().info('Model FINSA selected')
     elif model == 'campus': # Campus model
-        self.MODEL_PATH= "/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/yolov8_lane_detection/Yolov8/weights/best_CampusSeg.pt"
+        self.MODEL_PATH= "/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/Yolov8/weights/best_CampusSeg.pt"
         self.MODEL_CLASS = 1
         self.get_logger().info('Model Campus Segmentation selected')
     else:

@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'yolov8_lane_detection'
+package_name = 'sdv_vision'
 
 setup(
     name=package_name,
@@ -22,7 +22,8 @@ setup(
         'console_scripts': [
             #executable name
             'video_publisher = yolov8_lane_detection.video_pub:main',
-            'lane_detection = yolov8_lane_detection.lane_detection:main'  
+            'lane_detection = yolov8_lane_detection.lane_detection:main', 
+            'object_detection = yolov8_object_detection.object_detection:main'   
         ],
     },
 )
