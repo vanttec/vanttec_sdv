@@ -40,7 +40,7 @@ class PersonDistanceDetection(Node):
     self.PERSON_WIDTH = self.get_parameter('person_width').get_parameter_value().double_value
     self.focal_person = 0
     # YOLO MODEL
-    self.MODEL_PATH= "/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/Yolov8/weights/yolov8n-pose.pt"
+    self.MODEL_PATH= "./src/sdv_vision/Yolov8/weights/yolov8n-pose.pt"
     self.MODEL_CLASS = 0 # Person class
     self.MODEL = YOLO(self.MODEL_PATH)
     self.MODEL_NAMES = self.MODEL.model.names
