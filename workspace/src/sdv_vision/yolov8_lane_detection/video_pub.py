@@ -34,7 +34,8 @@ class VideoPublisher(Node):
     self.timer = self.create_timer(timer_period, self.timer_callback)
    
     # Video Path
-    self.VIDEO_PATH = '/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/yolov8_lane_detection/carril.mp4'
+    # self.VIDEO_PATH = '/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/data/test_videos/carril.mp4'
+    self.VIDEO_PATH = '/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/data/test_videos/2_personas.mp4'
     self.cap = cv2.VideoCapture(self.VIDEO_PATH)
 
     # Used to convert between ROS and OpenCV Videos
