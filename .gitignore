@@ -7,3 +7,6 @@ __pycache__/*
 workspace/build
 workspace/install
 workspace/log
+workspace/bags
+workspace/ros1_bags
+data/

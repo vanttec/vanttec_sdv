@@ -136,12 +136,14 @@ if [[ ! -z "${IMAGE_KEY}" ]]; then
     fi
 fi
 
-print_info "Building $BASE_IMAGE_KEY base as image: $BASE_NAME using key $BASE_IMAGE_KEY"
-$ROOT/build_base_image.sh $BASE_IMAGE_KEY $BASE_NAME '' '' ''
+if ping -c 1 1.1.1.1 >/dev/null 2>&1; then
+    print_info "Building $BASE_IMAGE_KEY base as image: $BASE_NAME using key $BASE_IMAGE_KEY"
+    $ROOT/build_base_image.sh $BASE_IMAGE_KEY $BASE_NAME '' '' ''
 
-if [ $? -ne 0 ]; then
-    print_error "Failed to build base image: $BASE_NAME, aborting."
-    exit 1
+    if [ $? -ne 0 ]; then
+        print_error "Failed to build base image: $BASE_NAME, aborting."
+        exit 1
+    fi
 fi
 
 # Map host's display socket to docker
@@ -200,7 +202,8 @@ docker run -it --rm \
     -v $ISAAC_ROS_DEV_DIR:/workspace \
     -v /dev/*:/dev/* \
     -v /etc/localtime:/etc/localtime:ro \
-    -v $(pwd)/.docker_bash_history:/home/admin/.bash_history \
+    -v $ISAAC_ROS_DEV_DIR/../data:/home/admin/data \
+    -v $ISAAC_ROS_DEV_DIR/../.docker_bash_history:/home/admin/.bash_history \
     --name "sdv_dev_container" \
     --runtime nvidia \
     --user="admin" \

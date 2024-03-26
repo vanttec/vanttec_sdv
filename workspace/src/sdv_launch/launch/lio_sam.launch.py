@@ -67,5 +67,11 @@ def generate_launch_description():
             name='lio_sam_mapOptimization',
             parameters=[parameter_file],
             output='screen'
+        ),
+        Node(
+            package='lidar_imu_sync',
+            executable='lidar_imu_fusion_node',
+            name='lidar_imu_fusion_node',
+            output='screen',
         )
     ])
