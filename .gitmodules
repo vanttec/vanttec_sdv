@@ -43,3 +43,6 @@
 [submodule "workspace/src/sdv_yolo"]
 	path = workspace/src/sdv_yolo
 	url = https://github.com/vanttec/sdv_yolo.git
+[submodule "workspace/src/drivers/multisense_ros2"]
+	path = workspace/src/drivers/multisense_ros2
+	url = https://github.com/carnegierobotics/multisense_ros2

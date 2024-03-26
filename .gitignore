@@ -4,7 +4,8 @@ can_devices/
 __pycache__/*
 *.pyc
 .docker_bash_history
-workspace/**/build
-workspace/**/install
-workspace/**/log
+workspace/build
+workspace/install
+workspace/log
 *.mp4
+

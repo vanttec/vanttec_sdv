@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
 
   rclcpp::executors::MultiThreadedExecutor executor;
   executor.add_node(txNode);
-  executor.add_node(rxNode);
+  //executor.add_node(rxNode);
 
   executor.spin();
   rclcpp::shutdown();
