@@ -28,6 +28,7 @@ set(DEPENDENCIES
     nav_msgs
     tf2_ros
     tf2
+    Eigen3
     diagnostic_msgs
     vectornav_msgs
 )

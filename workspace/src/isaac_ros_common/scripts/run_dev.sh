@@ -136,12 +136,14 @@ if [[ ! -z "${IMAGE_KEY}" ]]; then
     fi
 fi
 
-print_info "Building $BASE_IMAGE_KEY base as image: $BASE_NAME using key $BASE_IMAGE_KEY"
-$ROOT/build_base_image.sh $BASE_IMAGE_KEY $BASE_NAME '' '' ''
+if ping -c 1 1.1.1.1 >/dev/null 2>&1; then
+    print_info "Building $BASE_IMAGE_KEY base as image: $BASE_NAME using key $BASE_IMAGE_KEY"
+    $ROOT/build_base_image.sh $BASE_IMAGE_KEY $BASE_NAME '' '' ''
 
-if [ $? -ne 0 ]; then
-    print_error "Failed to build base image: $BASE_NAME, aborting."
-    exit 1
+    if [ $? -ne 0 ]; then
+        print_error "Failed to build base image: $BASE_NAME, aborting."
+        exit 1
+    fi
 fi
 
 # Map host's display socket to docker
@@ -206,8 +208,6 @@ docker run -it --rm \
     --user="admin" \
     --entrypoint /usr/local/bin/scripts/workspace-entrypoint.sh \
     --workdir /workspace \
-    --device /dev/ttyUSB0 \
-    --device /dev/input/ \
     $@ \
     $BASE_NAME \
     /bin/bash
