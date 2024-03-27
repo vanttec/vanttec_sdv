@@ -46,3 +46,9 @@
 [submodule "utils/OA-LICalib"]
 	path = utils/lidar_imu_calibration/OA-LICalib
 	url = https://github.com/leo-drive/OA-LICalib.git
+[submodule "workspace/src/lidar_localization_ros2"]
+	path = workspace/src/lidar_localization_ros2
+	url = https://github.com/rsasaki0109/lidar_localization_ros2.git
+[submodule "workspace/src/ndt_omp_ros2"]
+	path = workspace/src/ndt_omp_ros2
+	url = https://github.com/rsasaki0109/ndt_omp_ros2
