@@ -91,6 +91,7 @@ install(DIRECTORY
 install(PROGRAMS
   scripts/save2csv.py
   scripts/path_amcl.py
+  scripts/waypoint_recorder_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

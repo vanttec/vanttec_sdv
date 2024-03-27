@@ -16,17 +16,16 @@ def generate_launch_description():
 
    is_sim = DeclareLaunchArgument(
       'is_simulation',
-      default_value = 'true',
+      default_value = 'false',
       description = 'Defines if the application will run in simulation or in real life'
    )
 
    odometry_source = DeclareLaunchArgument(
       'odometry_source',
-      default_value = 'rl', # or rl
+      default_value = 'vn',
       description = 'Defines if the odometry source comes directly from the \
                      vectornav (vn) or from the robot localization pkg (rl)'
    )
-
 
    # For simulations (config in sdv_control)
    rviz_config = os.path.join(
@@ -42,10 +41,6 @@ def generate_launch_description():
       'car_params.yaml'
    )
 
-   # 'send_buffer_limit': '50000000',
-   # 'num_threads': '4'
-
-   # ***** RUN NODES *******
    pid_node = Node(
       package='sdv_control',
       executable='sdc1_vel_pid_node',
@@ -112,7 +107,7 @@ def generate_launch_description():
       executable='rviz2',
       name='rviz2',
       arguments=['-d', rviz_config],
-      condition=IfCondition(LaunchConfiguration('is_simulation'))
+      # condition=IfCondition(LaunchConfiguration('is_simulation'))
    )
 
    waypoint_handler = Node(
@@ -122,16 +117,6 @@ def generate_launch_description():
       output="screen",
       name='waypoint_handler',
       parameters=[car_params]
-   )
-
-   sdv_description_launch = IncludeLaunchDescription(
-      PythonLaunchDescriptionSource([
-            PathJoinSubstitution([
-               FindPackageShare('sdv_description'),
-               'launch',
-               'rviz.launch.py'
-            ])
-      ])
    )
 
    sdv_loc_launch = IncludeLaunchDescription(
@@ -146,6 +131,16 @@ def generate_launch_description():
                         'odometry_source': LaunchConfiguration('odometry_source')}.items()
    )
 
+   sdv_description_launch = IncludeLaunchDescription(
+      PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+               FindPackageShare('sdv_description'),
+               'launch',
+               'rviz.launch.py'
+            ])
+      ])
+   )
+
    sdv_can_launch = IncludeLaunchDescription(
       PythonLaunchDescriptionSource([
             PathJoinSubstitution([
@@ -154,7 +149,6 @@ def generate_launch_description():
                'can_devices.launch.py'
             ])
       ]),
-      condition=UnlessCondition(LaunchConfiguration('is_simulation'))
    )
 
    return LaunchDescription([
@@ -174,7 +168,7 @@ def generate_launch_description():
       rviz,
       waypoint_handler,
       # aitsmc_node,
-      #asmc_node,
+      # asmc_node,
       pid_node,
       car_guidance_node,
       tf2_node,

@@ -7,7 +7,7 @@ vectornav:
     # Async Output Type (ASCII)
     AsyncDataOutputType: 0           # VNOFF
     # Async output Frequency (Hz)
-    AsyncDataOutputFrequency: 20
+    AsyncDataOutputFrequency: 100
     # Sync control
     syncInMode: 3                    # SYNCINMODE_COUNT
     syncInEdge: 0                    # SYNCINEDGE_RISING
@@ -27,7 +27,7 @@ vectornav:
     # Binary output register 1
     BO1:
       asyncMode: 3                   # ASYNCMODE_BOTH
-      rateDivisor: 40                # 20 Hz
+      rateDivisor: 100
       commonField: 0x7FFF
       timeField: 0x0000              # TIMEGROUP_NONE
       imuField: 0x0000               # IMUGROUP_NONE
@@ -38,7 +38,7 @@ vectornav:
     # Binary output register 2
     BO2:
       asyncMode: 0                   # ASYNCMODE_NONE
-      rateDivisor: 0
+      rateDivisor: 20
       commonField: 0x0000            # COMMONGROUP_NONE
       timeField: 0x0000              # TIMEGROUP_NONE
       imuField: 0x0000               # IMUGROUP_NONE
@@ -49,7 +49,7 @@ vectornav:
     # Binary output register 3
     BO3:
       asyncMode: 0                   # ASYNCMODE_NONE
-      rateDivisor: 0
+      rateDivisor: 100
       commonField: 0x0000            # COMMONGROUP_NONE
       timeField: 0x0000              # TIMEGROUP_NONE
       imuField: 0x0000               # IMUGROUP_NONE

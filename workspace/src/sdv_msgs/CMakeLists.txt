@@ -23,7 +23,11 @@ set(MSG_FILES
     SystemDynamics.msg
     ThrustControl.msg
     Encoder.msg
-    )
+)
+
+set(SERVICE_FILES
+    Uint8.srv
+)
 
 if(${ROS_VERSION} EQUAL 1)
   cmake_minimum_required(VERSION 2.8.3)
@@ -67,6 +71,11 @@ elseif(${ROS_VERSION} EQUAL 2)
   endforeach()
   set(MSG_FILES ${TEMP_LIST})
 
+  set(TEMP_LIST "")
+  foreach(SRV_FILE ${SERVICE_FILES})
+    list(APPEND TEMP_LIST "srv/${SRV_FILE}")
+  endforeach()
+  set(SERVICE_FILES ${TEMP_LIST})
 
   rosidl_generate_interfaces(
     ${PROJECT_NAME}

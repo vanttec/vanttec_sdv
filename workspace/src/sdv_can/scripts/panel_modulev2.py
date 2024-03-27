@@ -14,8 +14,10 @@ class PanelModule(Node):
         self.panel_module_id_rx = 0x409 #hex.409
         self.general_module_id_tx = 0x403
         self.general_module_id_rx = 0x404 
+      
         # Provide the path to your JSON file
         file_path = '/home/ws/src/sdv_can/resources/panel_functionalities.json'
+        
         # Read the JSON file and store its contents in a dictionary
         self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=125000)
         self.json_data = self.read_json_file(file_path)
@@ -82,7 +84,14 @@ class PanelModule(Node):
             self.song_mode_callback,
             10
         )
-
+    ## AQUI VOY SHO###. ULISES s
+        self.lidar_sub = self.create_subscription(
+            int,
+            '/warning_status', #ahorita buscar
+            self.objectnotification2_callback,
+        )
+    ## AQUI TERMINO SHO ULISES ###
+    
     def serializeFloatSingle(self, binNum: int):
         if not (binNum & ~(1<<31)):
             floatNum = 0
@@ -113,7 +122,16 @@ class PanelModule(Node):
     def show_mode_callback(self, msg):
         self.show_status = msg.data
     def song_mode_callback(self, msg):
-        self.song_status =  msg.data
+        self.song_status =  msg.data 
+    def objectnotification2_callback(self,msg):
+        self.objectnotification2_status = msg.data   
+        ##msg.data nos va a arrojar un numero
+        if msg.data == 1:
+            msg.data = "far"
+        elif msg.data == 2: 
+            msg.data = "close"
+        else:
+            msg.data = "nothing"
     def timer_callback(self):
         try:
             
@@ -124,6 +142,18 @@ class PanelModule(Node):
                 self.audio_file.data =  self.json_data["objectNotification"][self.object_key][1]
                 if len(self.audio_file.data)>=1:
                     self.audio_panel.publish(self.audio_file)
+            
+            #AQUI VOY SHO DE NUEVO. ULISES  ###
+             if(self.objectnotification2_status!="" and self.objectnotification2_status in self .json_data["objectNotification"]):
+                data_can = self.json_data["objectNotification"][self.object_key][0]
+                self.bus.send(can.Message(arbitration_id=self.panel_module_id_tx,is_extended_id=False, data=data_can),timeout=1)
+                self.audio_file.data =  self.json_data["objectNotification"][self.object_key][1]
+            ##CREO QUE AHI ESTA. NOT SURE. ULISLES
+
+            ### AQUI TERMINO SHO
+                             
+            if(self.object_key!="" and self.object_key in self.json_data["ObjectNotification"]):
+                data_can = self
             # Recognize traffic agarrarlo de perception
             if(self.traffic_key!="" and self.traffic_key in self.json_data["recognizeTraffic"]):
                 data_can = self.json_data["recognizeTraffic"][self.traffic_key][0]

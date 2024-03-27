@@ -1,0 +1,18 @@
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+RUN apt-get update && \
+    apt-get install -y \
+    ros-humble-perception-pcl ros-humble-pcl-msgs \
+    ros-humble-vision-opencv ros-humble-xacro && \
+    rm -rf /var/lib/apt/lists
+
+RUN apt-get update \
+    && apt install -y software-properties-common \
+    && add-apt-repository -y ppa:borglab/gtsam-release-4.1 \
+    && apt-get update \
+    && apt install -y libgtsam-dev libgtsam-unstable-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install --upgrade pip \ 
+    && pip3 install rosbags
