@@ -91,6 +91,18 @@
                        x="${chassis_xoff}"/>
   </link>
 
+  <link name="front">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+  </link>
+
+  <joint name="base_to_front" type="fixed">
+    <parent link="base_link"/>
+    <child link="front"/>
+    <origin xyz="1.2 0 0"/>
+  </joint>
+
   <gazebo reference="base_link">
     <material>Gazebo/White</material>
     <gravity>true</gravity>

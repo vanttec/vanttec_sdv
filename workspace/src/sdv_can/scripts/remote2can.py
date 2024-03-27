@@ -7,7 +7,7 @@ import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Joy
 from std_msgs.msg import Float64, Bool
-from sdv_msgs.stv import Uint8
+from sdv_msgs.srv import Uint8
 
 import math
 

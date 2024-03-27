@@ -166,13 +166,15 @@ def generate_launch_description():
       ),
 
       rviz,
-      waypoint_handler,
       # aitsmc_node,
       # asmc_node,
       pid_node,
-      car_guidance_node,
       tf2_node,
       sdv_description_launch,
       sdv_loc_launch,
+      
       sdv_can_launch,
+      
+      # waypoint_handler,
+      # car_guidance_node,
    ])
