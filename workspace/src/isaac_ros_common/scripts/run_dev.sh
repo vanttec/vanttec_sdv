@@ -202,7 +202,8 @@ docker run -it --rm \
     -v $ISAAC_ROS_DEV_DIR:/workspace \
     -v /dev/*:/dev/* \
     -v /etc/localtime:/etc/localtime:ro \
-    -v $(pwd)/.docker_bash_history:/home/admin/.bash_history \
+    -v $ISAAC_ROS_DEV_DIR/../data:/home/admin/data \
+    -v $ISAAC_ROS_DEV_DIR/../.docker_bash_history:/home/admin/.bash_history \
     --name "sdv_dev_container" \
     --runtime nvidia \
     --user="admin" \
