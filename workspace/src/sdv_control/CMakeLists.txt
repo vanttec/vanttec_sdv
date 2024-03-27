@@ -19,6 +19,7 @@ find_package(diagnostic_msgs REQUIRED)
 find_package(vectornav_msgs REQUIRED)
 find_package(rclpy REQUIRED)
 find_package(Eigen3 REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
 
 set(DEPENDENCIES
     sdv_msgs
@@ -31,6 +32,7 @@ set(DEPENDENCIES
     Eigen3
     diagnostic_msgs
     vectornav_msgs
+    tf2_geometry_msgs
 )
 
 set(LIBRARIES

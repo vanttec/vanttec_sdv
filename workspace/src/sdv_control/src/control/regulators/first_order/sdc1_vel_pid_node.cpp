@@ -26,6 +26,9 @@
 #include "sdv_msgs/msg/eta_pose.hpp"
 #include "vectornav_msgs/msg/ins_group.hpp"
 #include "vectornav_msgs/msg/common_group.hpp"
+#include "geometry_msgs/msg/twist_with_covariance_stamped.hpp"
+
+#include "nav_msgs/msg/odometry.hpp"
 
 // #include "std_msgs/msg/float32.hpp"
 
@@ -70,6 +73,7 @@ class CarControlNode : public rclcpp::Node
         rclcpp::Subscription<vectornav_msgs::msg::CommonGroup>::SharedPtr current_attitude_;
         rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr desired_velocity_;
         rclcpp::Subscription<std_msgs::msg::String>::SharedPtr drive_mode_sub_;
+        rclcpp::Subscription<geometry_msgs::msg::TwistWithCovarianceStamped>::SharedPtr imu_velocity_sub_;
         rclcpp::Subscription<std_msgs::msg::String>::SharedPtr auto_mode_sub_;
 
         // rclcpp::Publisher<sdv_msgs::msg::ThrustControl>::SharedPtr car_force_;
@@ -236,8 +240,14 @@ class CarControlNode : public rclcpp::Node
                                     1, std::bind(&CarControlNode::set_steering, this, std::placeholders::_1));
                 current_attitude_ = this->create_subscription<vectornav_msgs::msg::CommonGroup>("/vectornav/raw/common",
                                     1, std::bind(&CarControlNode::set_pitch, this, std::placeholders::_1));
-                current_velocity_ = this->create_subscription<vectornav_msgs::msg::InsGroup>("/vectornav/raw/ins",
-                                    1, std::bind(&CarControlNode::save_velocity, this, std::placeholders::_1));
+                // current_velocity_ = this->create_subscription<vectornav_msgs::msg::InsGroup>("/vectornav/raw/ins",
+                //                     1, std::bind(&CarControlNode::save_velocity, this, std::placeholders::_1));
+
+                imu_velocity_sub_ = this->create_subscription<geometry_msgs::msg::TwistWithCovarianceStamped>("/vectornav/velocity_body",
+                    1, [this](const geometry_msgs::msg::TwistWithCovarianceStamped &msg) { 
+                        this->vel_body_x_ = msg.twist.twist.linear.x;
+                        this->vel_msgs_received_ = true;
+                    });
             }
 
             desired_velocity_ = this->create_subscription<std_msgs::msg::Float32>("/sdc_control/setpoint/velocity",

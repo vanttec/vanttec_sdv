@@ -16,7 +16,7 @@ def generate_launch_description():
 
    is_sim = DeclareLaunchArgument(
       'is_simulation',
-      default_value = 'true',
+      default_value = 'false',
       description = 'Defines if the application will run in simulation or in real life'
    )
 
@@ -173,8 +173,8 @@ def generate_launch_description():
       sdv_description_launch,
       sdv_loc_launch,
       
-      # sdv_can_launch,
+      sdv_can_launch,
       
-      waypoint_handler,
-      car_guidance_node,
+      # waypoint_handler,
+      # car_guidance_node,
    ])

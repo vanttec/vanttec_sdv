@@ -35,8 +35,11 @@
 #include "geometry_msgs/msg/transform_stamped.hpp"
 
 #include "nav_msgs/msg/path.hpp"
+#include "nav_msgs/msg/odometry.hpp"
+#include "geometry_msgs/msg/twist_with_covariance_stamped.hpp"
 
 #include "tf2_ros/transform_listener.h"
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 #include "tf2_ros/buffer.h"
 
 class CarGuidanceNode : public rclcpp::Node
@@ -61,7 +64,7 @@ class CarGuidanceNode : public rclcpp::Node
         uint8_t precision_{10};
 
         /* Control signals */
-        float vel_;
+        double vel_;
         std_msgs::msg::Float32 delta_;
         std_msgs::msg::Float64 steering_setpoint_;
         std_msgs::msg::Float32 slope_;
@@ -70,7 +73,7 @@ class CarGuidanceNode : public rclcpp::Node
         /* Vehicle pose */
         std::vector<double> init_pose_ = {0,0,0};
         Point vehicle_pos_ = {0, 0};
-        float psi_{0};
+        double psi_{0};
 
         /* Path */
         Point p1_;
@@ -106,7 +109,8 @@ class CarGuidanceNode : public rclcpp::Node
         rclcpp::Subscription<sdv_msgs::msg::EtaPose>::SharedPtr car_eta_pose_;
         rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr car_ned_pos_;
         rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr car_velocity_;
-        rclcpp::Subscription<vectornav_msgs::msg::InsGroup>::SharedPtr car_velocity_imu_;
+        // rclcpp::Subscription<vectornav_msgs::msg::InsGroup>::SharedPtr car_velocity_imu_;
+        rclcpp::Subscription<geometry_msgs::msg::TwistWithCovarianceStamped>::SharedPtr imu_velocity_sub_;
         rclcpp::Subscription<vectornav_msgs::msg::CommonGroup>::SharedPtr current_yaw_;
         rclcpp::Subscription<nav_msgs::msg::Path>::SharedPtr path_to_follow_;
 
@@ -151,6 +155,15 @@ class CarGuidanceNode : public rclcpp::Node
                             "front", parent_frame_, ex.what());
                         return;
                     }                    
+
+                    vehicle_pos_.x = transform.transform.translation.x;
+                    vehicle_pos_.y = transform.transform.translation.y;
+
+                    tf2::Quaternion quat;
+                    tf2::fromMsg(transform.transform.rotation, quat);
+                    double roll, pitch;
+                    tf2::Matrix3x3(quat).getRPY(roll, pitch, psi_);                    
+                    
                     // p1_.x = reference_path_.poses[waypoint_].pose.position.x;
                     // p1_.y = reference_path_.poses[waypoint_].pose.position.y;
                     if(waypoint_base_ == -1){
@@ -261,12 +274,12 @@ class CarGuidanceNode : public rclcpp::Node
             return waypoint;
         }
 
-        void set_velocity_imu(const vectornav_msgs::msg::InsGroup::SharedPtr msg_in)
-        {
-            // v_norm = std::sqrt(msg_in->velbody.x * msg_in->velbody.x + msg_in->velbody.y * msg_in->velbody.y);
-            vel_ = msg_in->velbody.x;
-            vel_msgs_received_ = true;
-        }
+        // void set_velocity_imu(const vectornav_msgs::msg::InsGroup::SharedPtr msg_in)
+        // {
+        //     // v_norm = std::sqrt(msg_in->velbody.x * msg_in->velbody.x + msg_in->velbody.y * msg_in->velbody.y);
+        //     vel_ = msg_in->velbody.x;
+        //     vel_msgs_received_ = true;
+        // }
 
         void set_velocity(const geometry_msgs::msg::Twist::SharedPtr msg)
         {
@@ -281,20 +294,20 @@ class CarGuidanceNode : public rclcpp::Node
             psi_ = msg.psi;
         }
 
-        void set_real_pos(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg)
-        {
-            // In NED
-            vehicle_pos_.x = msg->pose.pose.position.x;
-            vehicle_pos_.y = msg->pose.pose.position.y;
-            // psi_ = msg_in->yawpitchroll.x;
-            vehicle_pos_msgs_received_ = true;
-        }
+        // void set_real_pos(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg)
+        // {
+        //     // In NED
+        //     vehicle_pos_.x = msg->pose.pose.position.x;
+        //     vehicle_pos_.y = msg->pose.pose.position.y;
+        //     // psi_ = msg_in->yawpitchroll.x;
+        //     vehicle_pos_msgs_received_ = true;
+        // }
 
-        void set_yaw(const vectornav_msgs::msg::CommonGroup::SharedPtr msg_in)
-        {
-            psi_ = msg_in->yawpitchroll.x * M_PI / 180;
-            vehicle_yaw_msgs_received_ = true;
-        }
+        // void set_yaw(const vectornav_msgs::msg::CommonGroup::SharedPtr msg_in)
+        // {
+        //     psi_ = msg_in->yawpitchroll.x * M_PI / 180;
+        //     vehicle_yaw_msgs_received_ = true;
+        // }
 
         void set_path(const nav_msgs::msg::Path::SharedPtr msg)
         {
@@ -449,12 +462,18 @@ class CarGuidanceNode : public rclcpp::Node
                 car_velocity_ = this->create_subscription<geometry_msgs::msg::Twist>("/sdc_simulation/dynamic_model/vel",
                                     1, std::bind(&CarGuidanceNode::set_velocity, this, std::placeholders::_1));
             } else {
-                car_ned_pos_  = this->create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>("sdv_localization/vectornav/pose",
-                                1, std::bind(&CarGuidanceNode::set_real_pos, this, std::placeholders::_1));
-                car_velocity_imu_ = this->create_subscription<vectornav_msgs::msg::InsGroup>("/vectornav/raw/ins",
-                                    1, std::bind(&CarGuidanceNode::set_velocity_imu, this, std::placeholders::_1));
-                current_yaw_ = this->create_subscription<vectornav_msgs::msg::CommonGroup>("/vectornav/raw/common",
-                                    1, std::bind(&CarGuidanceNode::set_yaw, this, std::placeholders::_1));
+                // car_ned_pos_  = this->create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>("sdv_localization/vectornav/pose",
+                //                 1, std::bind(&CarGuidanceNode::set_real_pos, this, std::placeholders::_1));
+                // car_velocity_imu_ = this->create_subscription<vectornav_msgs::msg::InsGroup>("/vectornav/raw/ins",
+                //                     1, std::bind(&CarGuidanceNode::set_velocity_imu, this, std::placeholders::_1));
+                imu_velocity_sub_ = this->create_subscription<geometry_msgs::msg::TwistWithCovarianceStamped>("/vectornav/velocity_body",
+                    1, [this](const geometry_msgs::msg::TwistWithCovarianceStamped &msg) { 
+                        this->vel_ = msg.twist.twist.linear.x;
+                        this->vel_msgs_received_ = true;
+                    });
+
+                // current_yaw_ = this->create_subscription<vectornav_msgs::msg::CommonGroup>("/vectornav/raw/common",
+                //                     1, std::bind(&CarGuidanceNode::set_yaw, this, std::placeholders::_1));
             }
             path_to_follow_ = this->create_subscription<nav_msgs::msg::Path>("/sdc_control/reference_path", ///sdc_control/reference_path
                                     1, std::bind(&CarGuidanceNode::set_path, this, std::placeholders::_1));
