@@ -122,7 +122,7 @@ class CarGuidanceNode : public rclcpp::Node
                 traverse_path();
 
             } else {
-                if(vel_msgs_received_ && vehicle_pos_msgs_received_ && vehicle_yaw_msgs_received_){
+                if(vel_msgs_received_){
                     RCLCPP_INFO(this->get_logger(), "Vectornav msgs received");
 
                     traverse_path();
@@ -147,12 +147,12 @@ class CarGuidanceNode : public rclcpp::Node
                     geometry_msgs::msg::TransformStamped transform;
                     try {
                         transform = tf_buffer_->lookupTransform(
-                            parent_frame_, "front",
+                            "map", "base_link",
                             tf2::TimePointZero);
                     } catch (const tf2::TransformException & ex) {
                         RCLCPP_INFO(
                             this->get_logger(), "Could not transform %s to %s: %s",
-                            "front", parent_frame_, ex.what());
+                            "base_link", "map", ex.what());
                         return;
                     }                    
 
@@ -162,7 +162,9 @@ class CarGuidanceNode : public rclcpp::Node
                     tf2::Quaternion quat;
                     tf2::fromMsg(transform.transform.rotation, quat);
                     double roll, pitch;
-                    tf2::Matrix3x3(quat).getRPY(roll, pitch, psi_);                    
+                    tf2::Matrix3x3(quat).getRPY(roll, pitch, psi_);
+
+                    // RCLCPP_ERROR(this->get_logger(), "Pose-> x : %f, y: %f, yaw: %f", vehicle_pos_.x, vehicle_pos_.y, psi_);
                     
                     // p1_.x = reference_path_.poses[waypoint_].pose.position.x;
                     // p1_.y = reference_path_.poses[waypoint_].pose.position.y;
@@ -468,8 +470,8 @@ class CarGuidanceNode : public rclcpp::Node
                 //                     1, std::bind(&CarGuidanceNode::set_velocity_imu, this, std::placeholders::_1));
                 imu_velocity_sub_ = this->create_subscription<geometry_msgs::msg::TwistWithCovarianceStamped>("/vectornav/velocity_body",
                     1, [this](const geometry_msgs::msg::TwistWithCovarianceStamped &msg) { 
-                        this->vel_ = msg.twist.twist.linear.x;
-                        this->vel_msgs_received_ = true;
+                        vel_ = msg.twist.twist.linear.x;
+                        vel_msgs_received_ = true;
                     });
 
                 // current_yaw_ = this->create_subscription<vectornav_msgs::msg::CommonGroup>("/vectornav/raw/common",

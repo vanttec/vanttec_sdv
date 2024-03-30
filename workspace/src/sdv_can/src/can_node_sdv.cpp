@@ -30,8 +30,6 @@ public:
                 uint8_t output = msg->data;
                 if(output > 180)
                     output = 180;
-                else if(output < 0)
-                    output = 0;
                 vanttec::packByte(can_msg, 0x05, output);
                 vanttec::packByte(can_msg2, 0x06, 1);
                 vanttec::packByte(mode_can_msg, 0x07, 1);
