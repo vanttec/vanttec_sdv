@@ -52,7 +52,7 @@ class RemoteMapping(Node):
 
         joystick_axes_index = 0
         # reset_button_index = 6
-        mode_button_index = ... # TODO
+        mode_button_index = 6  # TODO
 
         # -- setpoint -- #
         #[DEBUG] le ponemos un `-` para que la izquierda sea negativo y viceversa
