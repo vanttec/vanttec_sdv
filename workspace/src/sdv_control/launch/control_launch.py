@@ -165,7 +165,7 @@ def generate_launch_description():
          msg="Running in real robot mode."
       ),
 
-      rviz,
+      # rviz,
       # aitsmc_node,
       # asmc_node,
       pid_node,
@@ -173,7 +173,7 @@ def generate_launch_description():
       sdv_description_launch,
       sdv_loc_launch,
       
-      sdv_can_launch,
+      # sdv_can_launch,
       
       # waypoint_handler,
       # car_guidance_node,

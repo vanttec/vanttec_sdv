@@ -99,32 +99,36 @@ protected:
     void throttle_watchdog(){
         vanttec::CANMessage pot_enable_msg, stepper_enable_msg; 
 
-        // If throttle message has been received within 100ms
-        //if(is_auto && this->get_clock()->now() - last_throttle_message < rclcpp::Duration(0, 100 * 1e6)){
-        if ( is_auto ) {
-            RCLCPP_INFO(this->get_logger(), "auto enabled.");
-            vanttec::packByte(pot_enable_msg, 0x07, 0x01);
+    //     // If throttle message has been received within 100ms
+    //     //if(is_auto && this->get_clock()->now() - last_throttle_message < rclcpp::Duration(0, 100 * 1e6)){
+    //     if ( is_auto ) {
+    //         RCLCPP_INFO(this->get_logger(), "auto enabled.");
+    //         vanttec::packByte(pot_enable_msg, 0x07, 0x01);
 
-            vanttec::CANMessage enable_motor{0x06, 0x01};
-            send_frame(0x406, enable_motor);
+    //         vanttec::CANMessage enable_motor{0x06, 0x01};
+    //         send_frame(0x406, enable_motor);
 	   	
-	    vanttec::packByte(stepper_enable_msg, 0x02, 0x00);
+	//     vanttec::packByte(stepper_enable_msg, 0x02, 0x00);
 
-        } else {
-            // Disable pot control, enable manual control.
-            vanttec::packByte(pot_enable_msg, 0x07, 0x00);
+    //     } else {
+    //         // Disable pot control, enable manual control.
+    //         vanttec::packByte(pot_enable_msg, 0x07, 0x00);
 
-	    vanttec::packByte(stepper_enable_msg, 0x02, 0x01);
-        }
+	//     vanttec::packByte(stepper_enable_msg, 0x02, 0x01);
+    //     }
 
-        send_frame(0x406, pot_enable_msg);
-	send_frame(0x410, stepper_enable_msg);
+    //     send_frame(0x406, pot_enable_msg);
+	// send_frame(0x410, stepper_enable_msg);
     }
  
     void zero_encoder(const std::shared_ptr<std_srvs::srv::Empty::Request> request,
         std::shared_ptr<std_srvs::srv::Empty::Response> response) {
         
         RCLCPP_INFO(this->get_logger(), "setting encoder to zero");
+
+        // For debugging
+        // cansend can0 620#2303600000000080
+        // cansend can0 620#2310100173617665
         
         vanttec::CANMessage set_zero_msg{0x23,0x03,0x60,0x00,0x00,0x00,0x00,0x80};
         vanttec::CANMessage store_params_msg{0x23,0x10,0x10,0x01,0x73,0x61,0x76,0x65};
