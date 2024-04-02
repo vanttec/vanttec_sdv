@@ -62,6 +62,15 @@ public:
             )
         );
 
+        // [ros] -> [this node] -> [CAN network]
+        // [this node][mode_service] : will send the value of the service as the current mode to CAN 
+        mode_service = this->create_service<sdv_msgs::srv::Uint8>(
+            "/sdv/steering/activate/lightshow",
+            std::bind(
+                &CanNodeSDV::activate_lightshow, this, _1, _2
+            )
+        );
+
         throttle_watchdog_timer_ = this->create_wall_timer(100ms, std::bind(&CanNodeSDV::throttle_watchdog, this));
     }
 protected:
@@ -133,6 +142,21 @@ protected:
         uint8_t data = request.get()->data;
         vanttec::CANMessage set_mode_msg{0x2, is_auto};
         send_frame(0x410, set_mode_msg);
+    }
+
+    void activate_lightshow(const std::shared_ptr<sdv_msgs::srv::Uint8::Request> request,
+        std::shared_ptr<sdv_msgs::srv::Uint8::Response> response) {
+        
+        // Send msg to activate light show to panel board.
+        uint8_t data = request.get()->data;
+
+        if (data == 1) {
+                vanttec::CANMessage set_mode_msg = {0x15, 0x12};
+                send_frame(0x410, set_mode_msg);
+        } else if (data == 0) {
+                vanttec::CANMessage set_mode_msg = {0x15, 0x0A};
+                send_frame(0x410, set_mode_msg);
+        }
     }
 
 private:
