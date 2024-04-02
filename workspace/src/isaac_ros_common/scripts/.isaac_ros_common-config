@@ -1,4 +1,0 @@
-CONFIG_IMAGE_KEY="ros2_humble.yolo.lidar.sdv"
-
-# Relative directory :( Points to ws/sdv_docker
-CONFIG_DOCKER_SEARCH_DIRS=(../../sdv_docker)

@@ -9,6 +9,7 @@ from cv_bridge import CvBridge # Package to convert between ROS and OpenCV Image
 import cv2 # OpenCV library
 from ultralytics import YOLO # Yolov8
 from ultralytics.utils.plotting import Annotator, colors
+from rclpy.qos import QoSProfile, ReliabilityPolicy
 
 def focal_length_finder(measured_distance, real_width, width_in_frame):
     focal_length = (width_in_frame * measured_distance) / real_width
@@ -22,6 +23,9 @@ class PersonDistanceDetection(Node):
   def __init__(self):
     # Initiate the Node class's constructor and give it a name
     super().__init__('person_distance_detection')
+
+    qos_profile = QoSProfile(depth=10, reliability=ReliabilityPolicy.BEST_EFFORT)
+
 
     # PRAMETERS
     self.declare_parameter('detection_mode','calibration') #  Detection mode (calibration or detection)
@@ -45,7 +49,11 @@ class PersonDistanceDetection(Node):
     if self.IMAGE_INPUT == "video": # For testing purposes
         self.subscription = self.create_subscription(Image, '/video_frames', self.listener_callback, 10) # Frames from a video
     elif self.IMAGE_INPUT == "multisense": # For deployment
-        self.subscription = self.create_subscription(Image, '/multisense/color/image_raw', self.listener_callback, 10) # Frames from the multisense camera
+        self.subscription = self.create_subscription(
+        Image,
+        '/multisense/left/image_color',
+        self.listener_callback,
+        qos_profile) # Frames from the multisense camera
     # self.subscription # prevent unused variable warning
     
     # TOPICS - PUBLISHERS
