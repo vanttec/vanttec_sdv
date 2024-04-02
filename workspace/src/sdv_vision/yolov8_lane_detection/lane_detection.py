@@ -14,8 +14,7 @@ import cv2 # OpenCV library
 import pathlib
 import numpy as np
 from ultralytics import YOLO # Yolov8
-from std_msgs.msg import Float64MultiArray # Enable use of std_msgs/Float64MultiArray message
-
+from std_msgs.msg import String, Int32
 
 def make_coordinates(img_height, line_parameters):
     if np.isnan(line_parameters).any():
@@ -89,43 +88,40 @@ class LaneDetection(Node):
     # Initiate the Node class's constructor and give it a name
     super().__init__('lane_detection')
       
-    # Create the subscriber. This subscriber will receive an Image
-    # from the video_frames topic. The queue size is 10 messages.
-    self.subscription = self.create_subscription(Image, 'video_frames', self.listener_callback, 10)
-    self.subscription # prevent unused variable warning
-    
-    # Coordenates publisher - [x_up, y_up, x_down, y_down]
-    self.publisher_center_pts= self.create_publisher(Float64MultiArray, '/center_pts', 10)
-    self.publisher_processed_video = self.create_publisher(Image, 'processed_video_frames', 10)
-    self.publisher_center_video= self.create_publisher(Image, 'center_video_flag', 10)
-    
+    # TOPICS - PUBLISHERS
+    self.publisher_processed_video = self.create_publisher(Image, '/processed_video_frames', 10)
+    self.publisher_center_video= self.create_publisher(Image, '/lane_detection_video', 10)
+    self.pub_flag = self.create_publisher(Int32, '/lane_detection_flag', 10)
     # Used to convert between ROS and OpenCV images
     self.br = CvBridge()
 
     # PRAMETERS
+    self.declare_parameter('image_input','video')
+    self.IMAGE_INPUT = self.get_parameter('image_input').get_parameter_value().string_value
+    if self.IMAGE_INPUT == 'video':
+        self.subscription = self.create_subscription(Image, 'video_frames', self.listener_callback, 10)
+    elif self.IMAGE_INPUT == 'multisense':
+        self.subscription = self.create_subscription(Image, '/multisense/color/image_raw', self.listener_callback, 10)
+
     self.declare_parameter('model_path','FINSA')
     model = self.get_parameter('model_path').get_parameter_value().string_value
     if model == 'FINSA': # FINSA model
-        self.MODEL_PATH= "./src/sdv_vision/Yolov8/weights/best_feb2024_FINSA.pt"
+        self.MODEL_PATH= "/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/Yolov8/weights/best_feb2024_FINSA.pt"
         self.MODEL_CLASS = 0
         self.get_logger().info('Model FINSA selected')
     elif model == 'campus': # Campus model
-        self.MODEL_PATH= "./src/sdv_vision/Yolov8/weights/best_CampusSeg.pt"
+        self.MODEL_PATH= "/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/Yolov8/weights/best_CampusSeg.pt"
         self.MODEL_CLASS = 1
         self.get_logger().info('Model Campus Segmentation selected')
     else:
         self.get_logger().info('No Model selected')
+        
     # YOLO MODEL
     self.MODEL = YOLO(self.MODEL_PATH)
     self.MODEL_NAMES = self.MODEL.model.names
     self.get_logger().info('Model loaded')
     self.get_logger().info('Segmentation Class: ' + str(self.MODEL_NAMES[self.MODEL_CLASS]))
 
-    # COUNTER OPTIMIZATION
-    self.counter = 0 
-    self.ORG_PT_UP = np.array([596, 500])
-
-    
   def listener_callback(self, data):
     
     # Display the message on the console
@@ -134,16 +130,14 @@ class LaneDetection(Node):
     # Convert ROS Image message to OpenCV image
     current_frame = self.br.imgmsg_to_cv2(data)
     masks_img = np.copy(current_frame)
-    masks = np.zeros(current_frame.shape[:2], np.uint8)
-    # self.counter = self.counter + 1
-    msg = Float64MultiArray()
+    detection_flag = Int32()
 
     # Auxiliar images to display
     frame_gray = np.copy(current_frame)
     frame_gray = cv2.cvtColor(frame_gray, cv2.COLOR_BGR2GRAY)
     # combo_combo_image = frame_gray
     height,width = current_frame.shape[:2]
-    pt_org = np.array([590, 500])
+    pt_org = np.array([590, 500]) # SETEAR CON VALORES REALES
     polylines_im = np.zeros((height, width, 1), np.uint8)
 
     # YOLO predictions
@@ -152,14 +146,14 @@ class LaneDetection(Node):
         mask = results[0].masks.xy[0]
         mask = np.int32(mask)
         cv2.polylines(polylines_im, [mask], isClosed=False, color=255, thickness=5)
-        polylines_im[height-210:height, 0:width] = 0
-        polylines_im[0:450, 0:width] = 0
+        polylines_im[height-210:height, 0:width] = 0  # SETEAR CON VALORES REALES
+        polylines_im[0:450, 0:width] = 0  # SETEAR CON VALORES REALES
         # cv2.imshow('results',polylines_im)
         lines = cv2.HoughLinesP(polylines_im, 5, np.pi/180, 100, np.array([]), minLineLength=100, maxLineGap=10)
         if lines is not None:
             averaged_lines = average_slope_intercept(height, lines)
             if not np.isnan(averaged_lines).any():
-                center_points = center_point_finder(500,680,averaged_lines)
+                center_points = center_point_finder(500,680,averaged_lines) # SETEAR CON VALORES REALES
                 for x1, y1, x2, y2 in averaged_lines:
                     cv2.line(frame_gray, (x1, y1), (x2, y2), (255, 0, 0), 10)
                 for x, y in center_points:
@@ -174,32 +168,30 @@ class LaneDetection(Node):
                     color_rect = (184,249,255)
                     color_path = (0,188,255)
                     warning_txt = 'Caution'
+                    detection_flag.data = 2
                     coords_txt = (540, 310)
                 elif error>=10:
                     color_rect = (179,179,255)
                     color_path = (0,0,255)
                     warning_txt = 'COLLISION RISK'
+                    detection_flag.data = 1
                     coords_txt = (480, 310)
                 else:
                     color_rect = (179,255,219)
                     color_path = (0,255,0)
                     warning_txt = 'Aligned'
+                    detection_flag.data = 3
                     coords_txt = (540, 310)
-                cv2.rectangle(current_frame, (450,250), (750,350), color_rect, -1)
+                cv2.rectangle(current_frame, (450,250), (750,350), color_rect, -1)  # SETEAR CON VALORES REALES
                 # cv2.polylines(current_frame, [mask], isClosed=True, color=color_path, thickness=5) 
                 cv2.putText(current_frame, warning_txt, coords_txt, cv2.FONT_HERSHEY_SIMPLEX, 1, color_path, 2, cv2.LINE_AA)
                 cv2.fillPoly(masks_img, [mask], color_path)
                 current_frame = cv2.addWeighted(current_frame, 0.7, masks_img, 0.3, 0)
-                # Publish center points
-                # msg.data = center_points.flatten()
-                # self.publisher_center_pts.publish(msg)
-            # else:
-            #     msg.data = center_points.flatten()
-            #     self.publisher_center_pts.publish([0, 0, 0, 0])
-               
+
     self.publisher_processed_video.publish(self.br.cv2_to_imgmsg(frame_gray))
     self.publisher_center_video.publish(self.br.cv2_to_imgmsg(current_frame,'bgr8'))
-  
+    self.pub_flag.publish(detection_flag)
+
 def main(args=None):
   
   # Initialize the rclpy library

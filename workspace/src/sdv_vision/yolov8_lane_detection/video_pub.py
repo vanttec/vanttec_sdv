@@ -23,8 +23,7 @@ class VideoPublisher(Node):
     # Initiate the Node class's constructor and give it a name
     super().__init__('video_publisher')
     
-    # Create the publisher. This publisher will publish an Video
-    # to the video_frames topic. The queue size is 10 messages.
+    # TOPICS - PUBLISHERS
     self.publisher_video = self.create_publisher(Image, 'video_frames', 10)
     
     # We will publish a message every 0.1 seconds
@@ -34,8 +33,15 @@ class VideoPublisher(Node):
     self.timer = self.create_timer(timer_period, self.timer_callback)
    
     # Video Path
-    # self.VIDEO_PATH = '/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/data/test_videos/carril.mp4'
-    self.VIDEO_PATH = '/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/data/test_videos/2_personas.mp4'
+    self.declare_parameter('input_video','people') #  Detection mode (calibration or detection)
+    self.input_video = self.get_parameter('input_video').get_parameter_value().string_value
+    if self.input_video == "FINSA":
+      self.VIDEO_PATH = '/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/data/test_videos/carril.mp4'
+    elif self.input_video == "people":
+      self.VIDEO_PATH = '/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/data/test_videos/2_personas.mp4'
+    elif self.input_video == "campus":
+      self.VIDEO_PATH = '/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/data/test_videos/2_personas.mp4'
+
     self.cap = cv2.VideoCapture(self.VIDEO_PATH)
 
     # Used to convert between ROS and OpenCV Videos

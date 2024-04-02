@@ -4,9 +4,11 @@
 import rclpy # Python library for ROS 2
 from rclpy.node import Node # Handles the creation of nodes
 from sensor_msgs.msg import Image # Image is the message type
+from std_msgs.msg import String, Int32
 from cv_bridge import CvBridge # Package to convert between ROS and OpenCV Images
 import cv2 # OpenCV library
 from ultralytics import YOLO # Yolov8
+from ultralytics.utils.plotting import Annotator, colors
 
 def focal_length_finder(measured_distance, real_width, width_in_frame):
     focal_length = (width_in_frame * measured_distance) / real_width
@@ -20,27 +22,18 @@ class PersonDistanceDetection(Node):
   def __init__(self):
     # Initiate the Node class's constructor and give it a name
     super().__init__('person_distance_detection')
-      
-    # Create the subscriber. This subscriber will receive an Image
-    # from the video_frames topic. The queue size is 10 messages.
-    self.subscription = self.create_subscription(Image, 'video_frames', self.listener_callback, 10)
-    self.subscription # prevent unused variable warning
-    
-    # Coordenates publisher - [x_up, y_up, x_down, y_down]
-    self.publisher_video= self.create_publisher(Image, '/people_distance_detection', 10)
-    
-    # Used to convert between ROS and OpenCV images
-    self.br = CvBridge()
 
     # PRAMETERS
-    self.declare_parameter('detection_mode','calibration') # Detection mode
+    self.declare_parameter('detection_mode','calibration') #  Detection mode (calibration or detection)
     self.declare_parameter('calibration_distance',2.0) # Distance of calibration in meters (person2camera)
     self.declare_parameter('person_width',0.38) # Distance of person width in meters (shoulder2shoulder)
+    self.declare_parameter('image_input','video') # Usage mode (testing or deployment)
     self.KNOWN_DISTANCE = self.get_parameter('calibration_distance').get_parameter_value().double_value
     self.PERSON_WIDTH = self.get_parameter('person_width').get_parameter_value().double_value
+    self.IMAGE_INPUT = self.get_parameter('image_input').get_parameter_value().string_value
     self.focal_person = 0
     # YOLO MODEL
-    self.MODEL_PATH= "./src/sdv_vision/Yolov8/weights/yolov8n-pose.pt"
+    self.MODEL_PATH= "/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/Yolov8/weights/yolov8n-pose.pt"
     self.MODEL_CLASS = 0 # Person class
     self.MODEL = YOLO(self.MODEL_PATH)
     self.MODEL_NAMES = self.MODEL.model.names
@@ -48,23 +41,39 @@ class PersonDistanceDetection(Node):
     self.get_logger().info('Detection Classes: ' + str(self.MODEL_NAMES[self.MODEL_CLASS]))
 
     
-  def listener_callback(self, data):
+    # TOPICS - SUBSCRIBERS
+    if self.IMAGE_INPUT == "video": # For testing purposes
+        self.subscription = self.create_subscription(Image, '/video_frames', self.listener_callback, 10) # Frames from a video
+    elif self.IMAGE_INPUT == "multisense": # For deployment
+        self.subscription = self.create_subscription(Image, '/multisense/color/image_raw', self.listener_callback, 10) # Frames from the multisense camera
+    # self.subscription # prevent unused variable warning
     
-    mode = self.get_parameter('detection_mode').get_parameter_value().string_value
+    # TOPICS - PUBLISHERS
+    self.publisher_video= self.create_publisher(Image, '/people_distance_detection', 10)
+    self.pub_flag = self.create_publisher(Int32, '/flag_detections', 10)
+    
+    # Used to convert between ROS and OpenCV images
+    self.br = CvBridge()
 
+  def listener_callback(self, data):
+    # PRAMETERS
+    mode = self.get_parameter('detection_mode').get_parameter_value().string_value
+    flag_detection = Int32()
     # Convert ROS Image message to OpenCV image
     current_frame = self.br.imgmsg_to_cv2(data)
-    # Display the message on the console
 
     self.get_logger().info('Receiving video frame')
     self.get_logger().info('Detection Mode: ' + mode)
 
     # YOLO predictions
-    results = self.MODEL.predict(current_frame, classes=self.MODEL_CLASS, show=True, conf = 0.8)
+    results = self.MODEL.predict(current_frame, classes=self.MODEL_CLASS, conf = 0.8)
+    # current_frame = results[0].plot(kpt_line=False,kpt_radius=0)
+    annotator = Annotator(current_frame, line_width=2)
     if results[0].boxes  is not None:
         boxes_w = results[0].boxes.xywh.cpu()
         boxes_xyxy = results[0].boxes.xyxy.cpu()
         keypoints = results[0].keypoints.xy.cpu().numpy()
+        flag_indicators = ()
         for box_w, box_xyxy, keypoint in zip(boxes_w, boxes_xyxy, keypoints):
             shoulder_left_x, _sly = keypoint[5]
             shoulder_right_x, _sry = keypoint[6]
@@ -74,26 +83,32 @@ class PersonDistanceDetection(Node):
             x,y = int(box_xyxy[0]), int(box_xyxy[1]+(person_height-50))
             if mode == "calibration":
                 self.focal_person  = focal_length_finder(self.KNOWN_DISTANCE, self.PERSON_WIDTH, person_width)
-                color_box = (255, 170, 0)
+                color_box = (255, 170, 0) 
                 text = "Calibrating..."
                 rect_length = (x+120, y+25)
+                text_color = (255,255,255)
+                flag_detection.data = 0
                 print(f"Focal length: {self.focal_person}")
             elif mode == "detection":
                 print(f"Focal length: {self.focal_person}")
                 distance = distance_finder(self.focal_person, self.PERSON_WIDTH, person_width)
                 distance = round(float(distance), 3)
-                print(f"Distance: {distance} meters")
-                if distance < 2:
-                    color_box = (179,179,255)
-                if distance >= 2 and distance < 3:
-                    color_box = (184,249,255)
-                if distance >= 3:
-                    color_box = (179,255,219)
-                text = "Distance "+str(distance)+" meters"
+                if distance < 1.5: # Red - Danger zone
+                    color_box = (0,0,167)
+                    text_color = (255,255,255)
+                    flag_detection.data = 1
+                if distance >= 1.5 and distance < 3: # Yellow - Warning zone
+                    color_box = (0,204,235)
+                    flag_detection.data = 2
+                    text_color = (0,0,0)
+                if distance >= 3: # Green - Safe zone
+                    color_box = (0,184,79)
+                    flag_detection.data = 3
+                    text_color = (255,255,255)
+                text = "Person - distance "+str(distance)+" meters"
                 rect_length = (x+192, y+25)
-            cv2.rectangle(current_frame, (x, y-1), rect_length, color_box,-1 )
-            cv2.putText(current_frame, text, (x+10,y+20), cv2.FONT_HERSHEY_SIMPLEX, 0.48, (255,255,255), 1)
-
+            annotator.box_label(box_xyxy, label=text,color=color_box)
+            self.pub_flag.publish(flag_detection)
                
     self.publisher_video.publish(self.br.cv2_to_imgmsg(current_frame,'bgr8'))
   
