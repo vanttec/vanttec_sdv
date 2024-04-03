@@ -24,7 +24,6 @@ class PersonDistanceDetection(Node):
     # Initiate the Node class's constructor and give it a name
     super().__init__('person_distance_detection')
 
-    qos_profile = QoSProfile(depth=10, reliability=ReliabilityPolicy.BEST_EFFORT)
 
 
     # PRAMETERS
@@ -32,10 +31,12 @@ class PersonDistanceDetection(Node):
     self.declare_parameter('calibration_distance',2.0) # Distance of calibration in meters (person2camera)
     self.declare_parameter('person_width',0.38) # Distance of person width in meters (shoulder2shoulder)
     self.declare_parameter('image_input','video') # Usage mode (testing or deployment)
+
     self.KNOWN_DISTANCE = self.get_parameter('calibration_distance').get_parameter_value().double_value
     self.PERSON_WIDTH = self.get_parameter('person_width').get_parameter_value().double_value
     self.IMAGE_INPUT = self.get_parameter('image_input').get_parameter_value().string_value
     self.focal_person = 0
+
     # YOLO MODEL
     self.MODEL_PATH= "/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/Yolov8/weights/yolov8n-pose.pt"
     self.MODEL_CLASS = 0 # Person class
@@ -49,12 +50,8 @@ class PersonDistanceDetection(Node):
     if self.IMAGE_INPUT == "video": # For testing purposes
         self.subscription = self.create_subscription(Image, '/video_frames', self.listener_callback, 10) # Frames from a video
     elif self.IMAGE_INPUT == "multisense": # For deployment
-        self.subscription = self.create_subscription(
-        Image,
-        '/multisense/left/image_color',
-        self.listener_callback,
-        qos_profile) # Frames from the multisense camera
-    # self.subscription # prevent unused variable warning
+        qos_profile = QoSProfile(depth=10, reliability=ReliabilityPolicy.BEST_EFFORT)
+        self.subscription = self.create_subscription(Image,'/multisense/left/image_color', self.listener_callback,qos_profile) # Frames from the multisense camera
     
     # TOPICS - PUBLISHERS
     self.publisher_video= self.create_publisher(Image, '/people_distance_detection', 10)
@@ -77,7 +74,7 @@ class PersonDistanceDetection(Node):
     results = self.MODEL.predict(current_frame, classes=self.MODEL_CLASS, conf = 0.8)
     # current_frame = results[0].plot(kpt_line=False,kpt_radius=0)
     annotator = Annotator(current_frame, line_width=2)
-    if results[0].boxes  is not None:
+    if results[0].boxes is not None:
         boxes_w = results[0].boxes.xywh.cpu()
         boxes_xyxy = results[0].boxes.xyxy.cpu()
         keypoints = results[0].keypoints.xy.cpu().numpy()
@@ -96,11 +93,9 @@ class PersonDistanceDetection(Node):
                 rect_length = (x+120, y+25)
                 text_color = (255,255,255)
                 flag_detection.data = 0
-                print(f"Focal length: {self.focal_person}")
             elif mode == "detection":
-                print(f"Focal length: {self.focal_person}")
                 distance = distance_finder(self.focal_person, self.PERSON_WIDTH, person_width)
-                distance = round(float(distance), 3)
+                distance = round(float(distance), 2)
                 if distance < 1.5: # Red - Danger zone
                     color_box = (0,0,167)
                     text_color = (255,255,255)
@@ -115,7 +110,7 @@ class PersonDistanceDetection(Node):
                     text_color = (255,255,255)
                 text = "Person - distance "+str(distance)+" meters"
                 rect_length = (x+192, y+25)
-            annotator.box_label(box_xyxy, label=text,color=color_box)
+            annotator.box_label(box_xyxy, label=text,color=color_box,txt_color=text_color)
             self.pub_flag.publish(flag_detection)
                
     self.publisher_video.publish(self.br.cv2_to_imgmsg(current_frame,'bgr8'))
