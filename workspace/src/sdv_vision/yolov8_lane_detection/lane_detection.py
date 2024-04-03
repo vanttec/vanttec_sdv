@@ -8,6 +8,7 @@
 # Import the necessary libraries
 import rclpy # Python library for ROS 2
 from rclpy.node import Node # Handles the creation of nodes
+from rclpy.qos import QoSProfile, ReliabilityPolicy
 from sensor_msgs.msg import Image # Image is the message type
 from cv_bridge import CvBridge # Package to convert between ROS and OpenCV Images
 import cv2 # OpenCV library
@@ -101,7 +102,8 @@ class LaneDetection(Node):
     if self.IMAGE_INPUT == 'video':
         self.subscription = self.create_subscription(Image, 'video_frames', self.listener_callback, 10)
     elif self.IMAGE_INPUT == 'multisense':
-        self.subscription = self.create_subscription(Image, '/multisense/color/image_raw', self.listener_callback, 10)
+        qos_profile = QoSProfile(depth=10, reliability=ReliabilityPolicy.BEST_EFFORT)
+        self.subscription = self.create_subscription(Image,'/multisense/left/image_color', self.listener_callback, qos_profile) # Frames from the multisense camera
 
     self.declare_parameter('model_path','FINSA')
     model = self.get_parameter('model_path').get_parameter_value().string_value

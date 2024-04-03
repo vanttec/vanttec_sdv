@@ -3,13 +3,13 @@
 # Import the necessary libraries
 import rclpy # Python library for ROS 2
 from rclpy.node import Node # Handles the creation of nodes
+from rclpy.qos import QoSProfile, ReliabilityPolicy
 from sensor_msgs.msg import Image # Image is the message type
 from std_msgs.msg import String, Int32
 from cv_bridge import CvBridge # Package to convert between ROS and OpenCV Images
 import cv2 # OpenCV library
 from ultralytics import YOLO # Yolov8
 from ultralytics.utils.plotting import Annotator, colors
-from rclpy.qos import QoSProfile, ReliabilityPolicy
 
 def focal_length_finder(measured_distance, real_width, width_in_frame):
     focal_length = (width_in_frame * measured_distance) / real_width
