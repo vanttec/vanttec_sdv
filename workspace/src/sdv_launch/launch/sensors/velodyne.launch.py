@@ -55,7 +55,7 @@ def generate_launch_description():
 
     ld = LaunchDescription()
     ld.add_action(simulation)
-    ld.add_action(tf_base_link_velodyne)
+   #  ld.add_action(tf_base_link_velodyne)
     ld.add_action(velodyne_driver_node)
     ld.add_action(velodyne_transform_node)
     ld.add_action(velodyne_laserscan_node)

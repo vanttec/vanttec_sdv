@@ -49,7 +49,7 @@ class WaypointNode(Node):
         self.waypoints_file_ = os.path.join(
             get_package_share_directory('sdv_control'),
             'config',
-            'new_waypoints.csv'
+            'zf_street.csv'
         )
 
         self.path_ = Path()
@@ -64,6 +64,7 @@ class WaypointNode(Node):
                 pose_stmpd.header.frame_id = parent_frame
                 pose_stmpd.pose.position.x = float(row[0])
                 pose_stmpd.pose.position.y = float(row[1])
+                pose_stmpd.pose.position.z = float(row[2])
         
                 self.path_.poses.append(pose_stmpd)
 

@@ -71,7 +71,7 @@ class RemoteMapping(Node):
             self.curr_angle = self.past_angle
         self.setpoint_msg.data = self.curr_angle
 
-        self.get_logger().info('joystick: "%f"' % self.curr_angle)
+        # self.get_logger().info('joystick: "%f"' % self.curr_angle)
         self.setpoint_pub.publish(self.setpoint_msg)
 
         self.past_angle = self.curr_angle

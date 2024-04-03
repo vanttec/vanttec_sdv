@@ -97,28 +97,28 @@ protected:
     }
 
     void throttle_watchdog(){
-        vanttec::CANMessage pot_enable_msg, stepper_enable_msg; 
+        vanttec::CANMessage pot_enable_msg, steer_enable_msg; 
 
-    //     // If throttle message has been received within 100ms
-    //     //if(is_auto && this->get_clock()->now() - last_throttle_message < rclcpp::Duration(0, 100 * 1e6)){
-    //     if ( is_auto ) {
-    //         RCLCPP_INFO(this->get_logger(), "auto enabled.");
-    //         vanttec::packByte(pot_enable_msg, 0x07, 0x01);
+        // If throttle message has been received within 100ms
+        //if(is_auto && this->get_clock()->now() - last_throttle_message < rclcpp::Duration(0, 100 * 1e6)){
+        if ( is_auto ) {
+            RCLCPP_INFO(this->get_logger(), "auto enabled.");
+            vanttec::packByte(pot_enable_msg, 0x07, 0x01);
 
-    //         vanttec::CANMessage enable_motor{0x06, 0x01};
-    //         send_frame(0x406, enable_motor);
+            vanttec::CANMessage enable_motor{0x06, 0x01};
+            send_frame(0x406, enable_motor);
 	   	
-	//     vanttec::packByte(stepper_enable_msg, 0x02, 0x00);
+	    vanttec::packByte(steer_enable_msg, 0x02, 0x00);
 
-    //     } else {
-    //         // Disable pot control, enable manual control.
-    //         vanttec::packByte(pot_enable_msg, 0x07, 0x00);
+        } else {
+            // Disable pot control, enable manual control.
+            vanttec::packByte(pot_enable_msg, 0x07, 0x00);
 
-	//     vanttec::packByte(stepper_enable_msg, 0x02, 0x01);
-    //     }
+	    vanttec::packByte(steer_enable_msg, 0x02, 0x01);
+        }
 
-    //     send_frame(0x406, pot_enable_msg);
-	// send_frame(0x410, stepper_enable_msg);
+        send_frame(0x406, pot_enable_msg);
+	    send_frame(0x410, steer_enable_msg);
     }
  
     void zero_encoder(const std::shared_ptr<std_srvs::srv::Empty::Request> request,
@@ -143,9 +143,9 @@ protected:
         is_auto = request.get()->data == 1;
         
         // Send auto mode to steering stepper board.
-        uint8_t data = request.get()->data;
-        vanttec::CANMessage set_mode_msg{0x2, is_auto};
-        send_frame(0x410, set_mode_msg);
+        // uint8_t data = request.get()->data;
+        // vanttec::CANMessage set_mode_msg{0x2, is_auto};
+        // send_frame(0x410, set_mode_msg);
     }
 
     void activate_lightshow(const std::shared_ptr<sdv_msgs::srv::Uint8::Request> request,

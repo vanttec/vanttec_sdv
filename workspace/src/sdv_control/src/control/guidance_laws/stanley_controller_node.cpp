@@ -73,6 +73,7 @@ class CarGuidanceNode : public rclcpp::Node
         /* Vehicle pose */
         std::vector<double> init_pose_ = {0,0,0};
         Point vehicle_pos_ = {0, 0};
+        Point pos_z_ = {0,0};
         double psi_{0};
 
         /* Path */
@@ -88,7 +89,7 @@ class CarGuidanceNode : public rclcpp::Node
         nav_msgs::msg::Path smooth_path_;
 
         const float kLookaheadDistance = 8.0;
-        const float kBehindDistance = 4.0;
+        const float kBehindDistance = 8.0;
 
         nav_msgs::msg::Path current_ref_;
 
@@ -174,9 +175,11 @@ class CarGuidanceNode : public rclcpp::Node
                     if(waypoint_base_ == -1){
                         p1_.x = vehicle_pos_.x;
                         p1_.y = vehicle_pos_.y;
+                        pos_z_.x = transform.transform.translation.z - 1.8; // cambiar esto huh
                     } else {
                         p1_.x = smooth_path_.poses[waypoint_base_].pose.position.x;
                         p1_.y = smooth_path_.poses[waypoint_base_].pose.position.y;
+                        pos_z_.x = smooth_path_.poses[waypoint_base_].pose.position.z; // cambiar esto huh
                     }
 
                     // p1_.x = 0.0;
@@ -184,11 +187,14 @@ class CarGuidanceNode : public rclcpp::Node
 
                     p2_.x = smooth_path_.poses[waypoint_].pose.position.x;
                     p2_.y = smooth_path_.poses[waypoint_].pose.position.y;
+                    pos_z_.y = smooth_path_.poses[waypoint_].pose.position.z;
 
                     current_ref_.poses[0].pose.position.x = p1_.x;
                     current_ref_.poses[0].pose.position.y = p1_.y;
+                    current_ref_.poses[0].pose.position.z = pos_z_.x;
                     current_ref_.poses[1].pose.position.x = p2_.x;
                     current_ref_.poses[1].pose.position.y = p2_.y;
+                    current_ref_.poses[1].pose.position.z = pos_z_.y;
 
                     slope_.data = (p2_.y - p1_.y)/ (p2_.x - p1_.x);
 
@@ -239,7 +245,8 @@ class CarGuidanceNode : public rclcpp::Node
 
                             angle_diff = get_angle_diff(transform.transform.translation, 
                                 smooth_path_.poses[i].pose.position);
-                            if(std::fabs(angle_diff) > M_PI_2 && dist > kBehindDistance)
+                            // if(std::fabs(angle_diff) > M_PI_2 && dist > kBehindDistance)
+                            if(std::fabs(angle_diff) > M_PI_2)
                                 min_idx_ = i;
                             i--;
                         }
@@ -255,7 +262,7 @@ class CarGuidanceNode : public rclcpp::Node
                         //         waypoint_++;
                         // }
                             
-                        RCLCPP_INFO(this->get_logger(), "waypoint base %d, waypoint end %d", waypoint_, waypoint_base_);
+                        // RCLCPP_INFO(this->get_logger(), "waypoint base %d, waypoint end %d", waypoint_, waypoint_base_);
                     }
 
                 } else {
