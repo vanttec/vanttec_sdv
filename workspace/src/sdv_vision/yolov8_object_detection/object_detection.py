@@ -51,7 +51,7 @@ class PersonDistanceDetection(Node):
         self.subscription = self.create_subscription(Image, '/video_frames', self.listener_callback, 10) # Frames from a video
     elif self.IMAGE_INPUT == "multisense": # For deployment
         qos_profile = QoSProfile(depth=10, reliability=ReliabilityPolicy.BEST_EFFORT)
-        self.subscription = self.create_subscription(Image,'/multisense/left/image_color', self.listener_callback,qos_profile) # Frames from the multisense camera
+        self.subscription = self.create_subscription(Image,'/multisense/left/image_color', self.listener_callback, qos_profile) # Frames from the multisense camera
     
     # TOPICS - PUBLISHERS
     self.publisher_video= self.create_publisher(Image, '/people_distance_detection', 10)
@@ -78,39 +78,39 @@ class PersonDistanceDetection(Node):
         boxes_w = results[0].boxes.xywh.cpu()
         boxes_xyxy = results[0].boxes.xyxy.cpu()
         keypoints = results[0].keypoints.xy.cpu().numpy()
-        flag_indicators = ()
+        flag_indicators = []
         for box_w, box_xyxy, keypoint in zip(boxes_w, boxes_xyxy, keypoints):
             shoulder_left_x, _sly = keypoint[5]
             shoulder_right_x, _sry = keypoint[6]
             person_width = int(abs(shoulder_left_x - shoulder_right_x))
-            print("Person width: ", person_width)
+            # print("Person width: ", person_width)
             person_height = box_w[3]
             x,y = int(box_xyxy[0]), int(box_xyxy[1]+(person_height-50))
             if mode == "calibration":
                 self.focal_person  = focal_length_finder(self.KNOWN_DISTANCE, self.PERSON_WIDTH, person_width)
                 color_box = (255, 170, 0) 
                 text = "Calibrating..."
-                rect_length = (x+120, y+25)
                 text_color = (255,255,255)
-                flag_detection.data = 0
+                flag_indicators.append(4)
             elif mode == "detection":
                 distance = distance_finder(self.focal_person, self.PERSON_WIDTH, person_width)
                 distance = round(float(distance), 2)
                 if distance < 1.5: # Red - Danger zone
                     color_box = (0,0,167)
                     text_color = (255,255,255)
-                    flag_detection.data = 1
+                    flag_indicators.append(1)
                 if distance >= 1.5 and distance < 3: # Yellow - Warning zone
                     color_box = (0,204,235)
-                    flag_detection.data = 2
                     text_color = (0,0,0)
+                    flag_indicators.append(2)
                 if distance >= 3: # Green - Safe zone
                     color_box = (0,184,79)
-                    flag_detection.data = 3
+                    flag_indicators.append(3)
                     text_color = (255,255,255)
                 text = "Person - distance "+str(distance)+" meters"
-                rect_length = (x+192, y+25)
             annotator.box_label(box_xyxy, label=text,color=color_box,txt_color=text_color)
+        if len(flag_indicators) > 0:
+            flag_detection.data = min(flag_indicators)
             self.pub_flag.publish(flag_detection)
                
     self.publisher_video.publish(self.br.cv2_to_imgmsg(current_frame,'bgr8'))

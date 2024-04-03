@@ -164,13 +164,13 @@ class LaneDetection(Node):
                 error = ((center_points[0][0] - pt_org[0])/pt_org[0])*100
                 error = abs(round(error, 2))
                 print('Error: ' + str(error))
-                if error>=5 and error<10:
+                if error>=9 and error<13:
                     color_rect = (184,249,255)
                     color_path = (0,188,255)
                     warning_txt = 'Caution'
                     detection_flag.data = 2
                     coords_txt = (540, 310)
-                elif error>=10:
+                elif error>=13:
                     color_rect = (179,179,255)
                     color_path = (0,0,255)
                     warning_txt = 'COLLISION RISK'
