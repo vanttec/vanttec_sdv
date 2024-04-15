@@ -1,0 +1,4 @@
+detection_mode : "calibration"
+calibration_distance : 2.0
+person_width : 0.38
+image_input : "multisense"

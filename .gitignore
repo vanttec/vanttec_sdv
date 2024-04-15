@@ -8,4 +8,4 @@ workspace/build
 workspace/install
 workspace/log
 *.mp4
-
+workspace/src/sdv_vision/bags_files

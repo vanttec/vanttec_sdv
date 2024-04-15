@@ -1,3 +1,26 @@
 sudo ip addr add 10.66.171.21 dev en2
 sudo route add -net 10.66.171.0 netmask 255.255.255.0 dev eno2
 ping 10.66.171.21
+
+
+
+TERMINAL 1
+cd vanttec_sdv/scripts
+./multisense.sh
+
+cd vanttec_sdv/workspace
+source install/setup.bash
+ros2 launch multisense_ros multisense_launch.py
+
+Todas las terminales siguientes en: vanttec_sdv/workspace
+TERMINAL OBJECT DETCTION
+ros2 run sdv_vision object_detection --ros-args -p image_input:=multisense
+
+TERMINAL PARAMETERS OBJECT DETECTION
+ros2 param set /people_distance_detection detection_mode detection
+
+TERMINAL VIDEO
+ros2 run sdv_vision video_publisher --ros-args -p input_video:=FINSA
+
+TERMINAL FOXGLOVE
+ros2 launch foxglove_bridge foxglove_bridge_launch.xml

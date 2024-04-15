@@ -1,5 +1,6 @@
 from setuptools import find_packages, setup
-
+import os
+from glob import glob
 package_name = 'sdv_vision'
 
 setup(
@@ -10,6 +11,9 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        (os.path.join('share', package_name), glob(os.path.join('launch', '*.launch.py'))),
+        (os.path.join('share', package_name), glob(os.path.join('Yolov8', 'weights', '*.pt'))),
+        (os.path.join('share', package_name), glob(os.path.join('data', 'test_videos', '*.mp4'))),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -23,7 +27,8 @@ setup(
             #executable name
             'video_publisher = yolov8_lane_detection.video_pub:main',
             'lane_detection = yolov8_lane_detection.lane_detection:main', 
-            'object_detection = yolov8_object_detection.object_detection:main'   
+            'people_distance_detection = yolov8_object_detection.people_distance_detection:main',
+            'video_writer = yolov8_object_detection.video_writer:main'   
         ],
     },
 )

@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
 # Basic ROS 2 program to publish real-time streaming 
-# video from your built-in webcam
-# Author:
-# - Addison Sears-Collins
-# - https://automaticaddison.com
-  
+
 # Import the necessary libraries
 import rclpy # Python Client Library for ROS 2
 from rclpy.node import Node # Handles the creation of nodes
 from sensor_msgs.msg import Image # Video is the message type
+from ament_index_python.packages import get_package_share_directory
+import os
 from cv_bridge import CvBridge # Package to convert between ROS and OpenCV Videos
 import cv2 # OpenCV library
 
@@ -23,46 +21,39 @@ class VideoPublisher(Node):
     # Initiate the Node class's constructor and give it a name
     super().__init__('video_publisher')
     
-    # TOPICS - PUBLISHERS
-    self.publisher_video = self.create_publisher(Image, 'video_frames', 10)
+    package_share_directory = get_package_share_directory('sdv_vision')
     
     # We will publish a message every 0.1 seconds
     timer_period = 0.05  # seconds
-    
     # Create the timer
     self.timer = self.create_timer(timer_period, self.timer_callback)
    
     # Video Path
-    self.declare_parameter('input_video','people') #  Detection mode (calibration or detection)
-    self.input_video = self.get_parameter('input_video').get_parameter_value().string_value
-    if self.input_video == "FINSA":
-      self.VIDEO_PATH = '/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/data/test_videos/carril.mp4'
-    elif self.input_video == "people":
-      self.VIDEO_PATH = '/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/data/test_videos/2_personas.mp4'
-    elif self.input_video == "campus":
-      self.VIDEO_PATH = '/home/fcanof/vanttec_sdv/workspace/src/sdv_vision/data/test_videos/2_personas.mp4'
-
+    self.declare_parameter('video_output','carril.mp4') #  Detection mode (calibration or detection)
+    self.video_output = self.get_parameter('video_output').get_parameter_value().string_value
+    self.VIDEO_PATH = os.path.join(package_share_directory, self.video_output)
     self.cap = cv2.VideoCapture(self.VIDEO_PATH)
 
     # Used to convert between ROS and OpenCV Videos
     self.br = CvBridge()
+
+    # TOPICS - PUBLISHERS
+    self.publisher_video = self.create_publisher(Image, '/video_frames', 10)
 
   def timer_callback(self):
     """
     Callback function.
     This function gets called every 0.1 seconds.
     """
-    # Capture frame-by-frame
-    # This method returns True/False as well
-    # as the video frame.
     ret, frame = self.cap.read()
           
     if ret == True:
-      self.publisher_video.publish(self.br.cv2_to_imgmsg(frame))
-      self.get_logger().info('Publishing video frame')
+      self.publisher_video.publish(self.br.cv2_to_imgmsg(frame,'bgr8'))
+      # self.get_logger().info('Publishing video frame')
     else:
       self.get_logger().info('No video frame')
   
+
 def main(args=None):
   
 
