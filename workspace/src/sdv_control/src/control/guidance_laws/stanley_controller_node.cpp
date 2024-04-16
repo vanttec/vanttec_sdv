@@ -83,12 +83,12 @@ class CarGuidanceNode : public rclcpp::Node
         size_t waypoint_base_ = 0;
         size_t path_length_;
         // float DISTANCE_VAL_ = 0.5;                // Meters
-        float DISTANCE_VAL_ = 8;                // Meters
+        float DISTANCE_VAL_ = 3;                // Meters
         std::string parent_frame_;
         nav_msgs::msg::Path smooth_path_;
 
         const float kLookaheadDistance = 8.0;
-        const float kBehindDistance = 2.0;
+        const float kBehindDistance = 4.0;
 
         nav_msgs::msg::Path current_ref_;
 
@@ -123,7 +123,7 @@ class CarGuidanceNode : public rclcpp::Node
 
             } else {
                 if(vel_msgs_received_){
-                    RCLCPP_INFO(this->get_logger(), "Vectornav msgs received");
+                    // RCLCPP_INFO(this->get_logger(), "Vectornav msgs received");
 
                     traverse_path();
 
@@ -143,6 +143,7 @@ class CarGuidanceNode : public rclcpp::Node
             if(path_arrived_) {
 
                 if(waypoint_ < path_length_-1){
+                    // RCLCPP_INFO(this->get_logger(), "In travel");
 
                     geometry_msgs::msg::TransformStamped transform;
                     try {
@@ -163,6 +164,8 @@ class CarGuidanceNode : public rclcpp::Node
                     tf2::fromMsg(transform.transform.rotation, quat);
                     double roll, pitch;
                     tf2::Matrix3x3(quat).getRPY(roll, pitch, psi_);
+                    psi_ = std::fmod((psi_ + M_PI_2) + M_PI, 2*M_PI) - M_PI;
+
 
                     // RCLCPP_ERROR(this->get_logger(), "Pose-> x : %f, y: %f, yaw: %f", vehicle_pos_.x, vehicle_pos_.y, psi_);
                     
@@ -175,6 +178,9 @@ class CarGuidanceNode : public rclcpp::Node
                         p1_.x = smooth_path_.poses[waypoint_base_].pose.position.x;
                         p1_.y = smooth_path_.poses[waypoint_base_].pose.position.y;
                     }
+
+                    // p1_.x = 0.0;
+                    // p1_.y = 0.0;
 
                     p2_.x = smooth_path_.poses[waypoint_].pose.position.x;
                     p2_.y = smooth_path_.poses[waypoint_].pose.position.y;
@@ -203,6 +209,10 @@ class CarGuidanceNode : public rclcpp::Node
                     double angle_diff{0};
                     double dist{0};
                     // Only check for next waypoint if we have more waypoints.
+
+                    RCLCPP_INFO(this->get_logger(), "angle diff: %f", get_angle_diff(transform.transform.translation, 
+                        smooth_path_.poses[waypoint_].pose.position));
+
                     if(waypoint_ < smooth_path_.poses.size() - 1){
                         // Find farthest point from current posision, limited by lookahead.
                         std::size_t max_idx_ = waypoint_;
@@ -211,10 +221,12 @@ class CarGuidanceNode : public rclcpp::Node
                         for(int i = waypoint_; i < smooth_path_.poses.size(); i++){
                             dist = distance(transform.transform.translation, smooth_path_.poses[i].pose.position);
                             
+                            // RCLCPP_INFO(this->get_logger(), "dist: %f, max_distance_found: %f", dist, max_distance_found_);
                             angle_diff = get_angle_diff(transform.transform.translation, 
                                 smooth_path_.poses[i].pose.position);
 
-                            if(dist < kLookaheadDistance && dist > max_distance_found_ && std::fabs(angle_diff) < 1){
+                            if(dist < kLookaheadDistance && dist > max_distance_found_ && ((i - max_idx_) < 10) && std::fabs(angle_diff) < 1){
+                            // if(dist < kLookaheadDistance && dist > max_distance_found_ && std::fabs(angle_diff) < 1){
                                 max_idx_ = i;
                                 max_distance_found_ = dist;
                             }
@@ -235,8 +247,16 @@ class CarGuidanceNode : public rclcpp::Node
                             waypoint_base_ = -1;
                         else
                             waypoint_base_ = min_idx_;
+
+                        // if(waypoint_base_ == waypoint_){
+                        //     if(waypoint_base_ > 0)
+                        //         waypoint_base_--;
+                        //     else
+                        //         waypoint_++;
+                        // }
                             
-                    }                    
+                        RCLCPP_INFO(this->get_logger(), "waypoint base %d, waypoint end %d", waypoint_, waypoint_base_);
+                    }
 
                 } else {
                     RCLCPP_INFO(this->get_logger(), "Reached the end of the path");
@@ -290,10 +310,10 @@ class CarGuidanceNode : public rclcpp::Node
 
         void set_sim_pose(const sdv_msgs::msg::EtaPose& msg)
         {
-            // In NED
-            vehicle_pos_.x = msg.x;
-            vehicle_pos_.y = msg.y;
-            psi_ = msg.psi;
+            // // In NED
+            // vehicle_pos_.x = msg.x;
+            // vehicle_pos_.y = msg.y;
+            // psi_ = msg.psi;
         }
 
         // void set_real_pos(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg)
@@ -321,7 +341,8 @@ class CarGuidanceNode : public rclcpp::Node
                 reference_path_ = *msg;
                 new_path_arrived_ = true;
                 nearest_waypoint_found_ = false;
-                smooth_path_ = catmull_rom_ify(msg);
+                // smooth_path_ = catmull_rom_ify(msg);
+                smooth_path_ = *msg;
                 path_length_ = smooth_path_.poses.size();
                 
             } else
@@ -335,12 +356,12 @@ class CarGuidanceNode : public rclcpp::Node
             out.header = msg->header;
 
             geometry_msgs::msg::PoseStamped pose_stamped_tmp_;
-            pose_stamped_tmp_.header.frame_id = msg->header.frame_id;
+            pose_stamped_tmp_.header.frame_id = 'map';
 
             Eigen::Vector2f p0, p1, p2, p3, a, b, c, d, m1, m2, p;
             float t, t01, t12, t23, alpha{0.5}, tension{0.0};
 
-            for(int i = 0 ; i < msg->poses.size() - 1 ; i++){
+            for(int i = 1 ; i < msg->poses.size() - 3 ; i++){
                 p1 << msg->poses[i].pose.position.x, msg->poses[i].pose.position.y;
                 p2 << msg->poses[i+1].pose.position.x, msg->poses[i+1].pose.position.y;
                 t12 = pow(distance(p1, p2), alpha);
@@ -400,7 +421,7 @@ class CarGuidanceNode : public rclcpp::Node
 
         float distance(geometry_msgs::msg::Vector3 v, geometry_msgs::msg::Point p){
             // RCLCPP_ERROR(this->get_logger(), "Distance between x : %f, y: %f and x : %f, y: %f ", v.x, v.y, p.x, p.y);
-            return sqrt(pow(v.x - p.x, 2) + pow(v.y - p.y, 2) + pow(v.z - p.z, 2));
+            return sqrt(pow(v.x - p.x, 2) + pow(v.y - p.y, 2));
         }
 
         // needed direction for the transform vector to point towards p
@@ -481,8 +502,8 @@ class CarGuidanceNode : public rclcpp::Node
                                     1, std::bind(&CarGuidanceNode::set_path, this, std::placeholders::_1));
 
             geometry_msgs::msg::PoseStamped pose_stamped_tmp_;
-            pose_stamped_tmp_.header.frame_id = parent_frame_;
-            current_ref_.header.frame_id = parent_frame_;
+            pose_stamped_tmp_.header.frame_id = "map";
+            current_ref_.header.frame_id = "map";
             current_ref_.header.stamp = CarGuidanceNode::now();
             current_ref_.poses.push_back(pose_stamped_tmp_);
             current_ref_.poses.push_back(pose_stamped_tmp_);

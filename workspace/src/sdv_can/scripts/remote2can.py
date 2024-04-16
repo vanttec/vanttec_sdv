@@ -8,6 +8,7 @@ from rclpy.node import Node
 from sensor_msgs.msg import Joy
 from std_msgs.msg import Float64, Bool
 from sdv_msgs.srv import Uint8
+from functools import partial
 
 import math
 
@@ -20,8 +21,8 @@ class RemoteMapping(Node):
         )
         self.jsub
 
-        # no me gustan los yams la verdad jajas huh?
-        self.setpoint_pub = self.create_publisher(Float64, "/sdv/steering/setpoint", 10)
+        # no me gustan los yams la verdad jajas huh? TODO
+        self.setpoint_pub = self.create_publisher(Float64, '/sdv/steering/setpoint', 10)
         self.setpoint_pub
         self.setpoint_msg = Float64()
 
@@ -29,6 +30,11 @@ class RemoteMapping(Node):
         self.set_mode_srv
         self.mode_req = Uint8.Request()
         self.mode_req.data = 1 # manual mode on default
+
+        self.set_lightshow_srv = self.create_client(Uint8, '/sdv/steering/activate/lightshow')
+        self.set_lightshow_srv
+        self.lightshow_req = Uint8.Request()
+        self.lightshow_req.data = 0
 
         # self.zero_encoder_pub_ = self.create_publisher(Bool, "/sdv/steering/reset_encoder", 10)
         # self.zero_encoder_pub_
@@ -52,7 +58,8 @@ class RemoteMapping(Node):
 
         joystick_axes_index = 0
         # reset_button_index = 6
-        mode_button_index = ... # TODO
+        mode_button_index = 6  # TODO
+        light_button_index = 2 # TODO
 
         # -- setpoint -- #
         #[DEBUG] le ponemos un `-` para que la izquierda sea negativo y viceversa
@@ -75,7 +82,13 @@ class RemoteMapping(Node):
             self.mode_req.data = 1 - self.mode_req.data
 
             future = self.set_mode_srv.call_async(self.mode_req)
-            future.add_done_callback(self.set_mode_done)
+            future.add_done_callback( partial(self.callback_done, msg="mode") )
+
+        if msg.buttons[light_button_index]:
+            self.lightshow_req.data = 1 - self.lightshow_req.data
+            
+            future = self.set_lightshow_srv.call_async(self.lightshow_req)
+            future.add_done_callback( partial(self.callback_done, msg="light show") )
 
         # -- encoder zero -- #
         # if msg.buttons[reset_button_index]:
@@ -88,8 +101,8 @@ class RemoteMapping(Node):
         #     self.zero_encoder_msg.data = True
         #     self.get_logger().warning('Resetting Zero in Steering Wheel')
             
-    def set_mode_done(self):
-        self.get_logger().info('changed mode!')
+    def callback_done(self, msg):
+        self.get_logger().info('CAN service called - ' + msg)
 
 
 def main(args=None):

@@ -5,6 +5,9 @@
 #include "sdv_msgs/srv/uint8.hpp"
 #include "std_srvs/srv/empty.hpp"
 #include <algorithm>
+#include <chrono>
+
+using namespace std::chrono_literals;
 
 class CanNodeSDV : public CanNodeBase {
 public:
@@ -24,18 +27,14 @@ public:
 
         throttle_setpoint_sub = this->create_subscription<std_msgs::msg::UInt8>(
             "/sdv/throttle/setpoint", 10, [this](const std_msgs::msg::UInt8::SharedPtr msg){
-                // RCLCPP_INFO(this->get_logger(), "Setpoint: %f", msg->data);
-                vanttec::CANMessage can_msg, can_msg2;
-                vanttec::CANMessage mode_can_msg;
+                last_throttle_message = this->get_clock()->now();
+                vanttec::CANMessage throttle_setpoint_msg;
                 uint8_t output = msg->data;
                 if(output > 180)
                     output = 180;
-                vanttec::packByte(can_msg, 0x05, output);
-                vanttec::packByte(can_msg2, 0x06, 1);
-                vanttec::packByte(mode_can_msg, 0x07, 1);
-                send_frame(0x406, can_msg);
-                send_frame(0x406, can_msg2);
-                send_frame(0x406, mode_can_msg);
+
+                vanttec::packByte(throttle_setpoint_msg, 0x05, output);
+                send_frame(0x406, throttle_setpoint_msg);
             }
         );
 
@@ -62,6 +61,17 @@ public:
                 &CanNodeSDV::set_mode, this, _1, _2
             )
         );
+
+        // [ros] -> [this node] -> [CAN network]
+        // [this node][mode_service] : will send the value of the service as the current mode to CAN 
+        mode_service = this->create_service<sdv_msgs::srv::Uint8>(
+            "/sdv/steering/activate/lightshow",
+            std::bind(
+                &CanNodeSDV::activate_lightshow, this, _1, _2
+            )
+        );
+
+        throttle_watchdog_timer_ = this->create_wall_timer(100ms, std::bind(&CanNodeSDV::throttle_watchdog, this));
     }
 protected:
     void parse_frame(const struct can_frame &frame) override {
@@ -86,10 +96,39 @@ protected:
         }
     }
 
+    void throttle_watchdog(){
+        vanttec::CANMessage pot_enable_msg, stepper_enable_msg; 
+
+    //     // If throttle message has been received within 100ms
+    //     //if(is_auto && this->get_clock()->now() - last_throttle_message < rclcpp::Duration(0, 100 * 1e6)){
+    //     if ( is_auto ) {
+    //         RCLCPP_INFO(this->get_logger(), "auto enabled.");
+    //         vanttec::packByte(pot_enable_msg, 0x07, 0x01);
+
+    //         vanttec::CANMessage enable_motor{0x06, 0x01};
+    //         send_frame(0x406, enable_motor);
+	   	
+	//     vanttec::packByte(stepper_enable_msg, 0x02, 0x00);
+
+    //     } else {
+    //         // Disable pot control, enable manual control.
+    //         vanttec::packByte(pot_enable_msg, 0x07, 0x00);
+
+	//     vanttec::packByte(stepper_enable_msg, 0x02, 0x01);
+    //     }
+
+    //     send_frame(0x406, pot_enable_msg);
+	// send_frame(0x410, stepper_enable_msg);
+    }
+ 
     void zero_encoder(const std::shared_ptr<std_srvs::srv::Empty::Request> request,
         std::shared_ptr<std_srvs::srv::Empty::Response> response) {
         
         RCLCPP_INFO(this->get_logger(), "setting encoder to zero");
+
+        // For debugging
+        // cansend can0 620#2303600000000080
+        // cansend can0 620#2310100173617665
         
         vanttec::CANMessage set_zero_msg{0x23,0x03,0x60,0x00,0x00,0x00,0x00,0x80};
         vanttec::CANMessage store_params_msg{0x23,0x10,0x10,0x01,0x73,0x61,0x76,0x65};
@@ -100,18 +139,35 @@ protected:
 
     void set_mode(const std::shared_ptr<sdv_msgs::srv::Uint8::Request> request,
         std::shared_ptr<sdv_msgs::srv::Uint8::Response> response) {
+
+        is_auto = request.get()->data == 1;
         
+        // Send auto mode to steering stepper board.
         uint8_t data = request.get()->data;
-
-        // RCLCPP_INFO(this->get_logger(), "setting mode to %d", data);
-
-        vanttec::CANMessage set_mode_msg{0x2, data};
-
+        vanttec::CANMessage set_mode_msg{0x2, is_auto};
         send_frame(0x410, set_mode_msg);
     }
 
+    void activate_lightshow(const std::shared_ptr<sdv_msgs::srv::Uint8::Request> request,
+        std::shared_ptr<sdv_msgs::srv::Uint8::Response> response) {
+        
+        // Send msg to activate light show to panel board.
+        uint8_t data = request.get()->data;
+
+        if (data == 1) {
+                vanttec::CANMessage set_mode_msg = {0x15, 0x12};
+                send_frame(0x410, set_mode_msg);
+        } else if (data == 0) {
+                vanttec::CANMessage set_mode_msg = {0x15, 0x0A};
+                send_frame(0x410, set_mode_msg);
+        }
+    }
+
 private:
-    rclcpp::TimerBase::SharedPtr timer_;
+    bool is_auto{false};
+    rclcpp::TimerBase::SharedPtr throttle_watchdog_timer_;
+    rclcpp::Time last_throttle_message;
+
     rclcpp::Service<std_srvs::srv::Empty>::SharedPtr zero_service;
     rclcpp::Service<sdv_msgs::srv::Uint8>::SharedPtr mode_service;
     rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr motor_angle_sub;

@@ -14,7 +14,6 @@ import os
 import csv
 import math 
 import numpy as np
-from scipy.interpolate import CubicSpline
 
 from ament_index_python.packages import get_package_share_directory
 
@@ -34,7 +33,7 @@ class WaypointNode(Node):
 
         self.declare_parameter('parent_frame', rclpy.Parameter.Type.STRING)
 
-        parent_frame = self.get_parameter('parent_frame').value
+        parent_frame = 'map'
         self.err = 0
         self.e_x_acum = 0
         self.e_y_acum = 0
@@ -50,7 +49,7 @@ class WaypointNode(Node):
         self.waypoints_file_ = os.path.join(
             get_package_share_directory('sdv_control'),
             'config',
-            'el_borrego.csv'
+            'new_waypoints.csv'
         )
 
         self.path_ = Path()

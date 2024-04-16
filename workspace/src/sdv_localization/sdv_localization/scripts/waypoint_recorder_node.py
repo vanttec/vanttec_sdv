@@ -12,6 +12,7 @@ from sdv_msgs.msg import Encoder
 from std_msgs.msg import UInt8
 from geometry_msgs.msg import Point
 from geometry_msgs.msg import PoseWithCovarianceStamped
+from nav_msgs.msg import Odometry
 from vectornav_msgs.msg import CommonGroup, InsGroup, ImuGroup
 
 #include "vectornav_msgs/msg/attitude_group.hpp"
@@ -32,7 +33,7 @@ class Waypoint_recorder_node(Node):
         self.y = 0.0
 
         self.last = False
-        self.pose_sub_ = self.create_subscription( PoseWithCovarianceStamped, '/sdv_localization/vectornav/pose',
+        self.pose_sub_ = self.create_subscription( Odometry, '/odom_lidar',
                                                       self.save_pos, 1)
         self.new_rec_sub_ = self.create_subscription( UInt8, '/new_waypoint',
                                                       self.new_rec, 1)
@@ -59,7 +60,7 @@ class Waypoint_recorder_node(Node):
             print("Recording...")
         elif self.writting_permisions == 2:
             print("Writting")
-            with open('/workspace/src/sdv_control/config/new_waypoints.csv', 'w', encoding='UTF8', newline='') as f:
+            with open('/home/max/vanttec_sdv/workspace/src/sdv_control/config/new_waypoints.csv', 'w', encoding='UTF8', newline='') as f:
                 writer = csv.writer(f)
                 writer.writerows(self.waypoint_list_)
 
