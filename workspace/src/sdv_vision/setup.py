@@ -1,6 +1,7 @@
 from setuptools import find_packages, setup
 import os
 from glob import glob
+
 package_name = 'sdv_vision'
 
 setup(
@@ -14,11 +15,12 @@ setup(
         (os.path.join('share', package_name), glob(os.path.join('launch', '*.launch.py'))),
         (os.path.join('share', package_name), glob(os.path.join('Yolov8', 'weights', '*.pt'))),
         (os.path.join('share', package_name), glob(os.path.join('data', 'test_videos', '*.mp4'))),
+        (os.path.join('share', package_name), glob(os.path.join('yolov8_object_detection', '*.yaml'))),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='lolo',
-    maintainer_email='lolo@todo.todo',
+    maintainer='vanttec',
+    maintainer_email='vanttec@tec..mx',
     description='TODO: Package description',
     license='TODO: License declaration',
     tests_require=['pytest'],

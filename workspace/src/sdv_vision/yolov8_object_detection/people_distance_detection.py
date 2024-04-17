@@ -34,6 +34,7 @@ class PeopleDistanceDetection(Node):
   def __init__(self):
     # Initiate the Node class's constructor and give it a name
     super().__init__('people_distance_detection')
+    pkg_share_directory = get_package_share_directory('sdv_vision')
 
     # PARAMETERS
     self.declare_parameter('detection_mode','detection') #  Detection mode (calibration or detection)
@@ -41,12 +42,15 @@ class PeopleDistanceDetection(Node):
     self.declare_parameter('calibration_person_width',0.38) # Distance of person width in meters (shoulder2shoulder)
     self.declare_parameter('model_file','yolov8n-pose.pt') # Model file to use
     self.declare_parameter('caution_distances', [1.5,3.0]) # Distance thresholds for the caution and warning zones. [danger, warning]
-    # self.declare_parameter('image_input','video') # Usage mode (testing or deployment)
 
+    
+    # CALIBRATION VALUES
     self.CALIBRATION_KNOWN_DISTANCE = self.get_parameter('calibration_distance').get_parameter_value().double_value
     self.CALIBRATION_PERSON_WIDTH = self.get_parameter('calibration_person_width').get_parameter_value().double_value
-    # self.IMAGE_INPUT = self.get_parameter('image_input').get_parameter_value().string_value
     self.focal_person = 426.3157894736842
+    self.FOCAL_PATH = os.path.join(pkg_share_directory,'focal_person.yaml')
+
+    # CAUTION DISTANCES
     self.caution_distances = self.get_parameter('caution_distances').get_parameter_value().double_array_value
     
     # TOPICS - SUBSCRIBERS
@@ -55,11 +59,11 @@ class PeopleDistanceDetection(Node):
     # TOPICS - PUBLISHERS
     self.publisher_video= self.create_publisher(Image, '/people_distance_detection_video', 10)
     self.pub_flag = self.create_publisher(Int32, '/people_distance_detections_flag', 10)
+    self.flag_detection = Int32()
 
     # YOLO MODEL
-    package_share_directory = get_package_share_directory('sdv_vision')
     self.MODEL_FILE = self.get_parameter('model_file').get_parameter_value().string_value
-    self.MODEL_PATH= os.path.join(package_share_directory,self.MODEL_FILE)
+    self.MODEL_PATH= os.path.join(pkg_share_directory,self.MODEL_FILE)
     self.MODEL_CLASS = 0 # Person class
     self.MODEL = YOLO(self.MODEL_PATH)
     self.MODEL_NAMES = self.MODEL.model.names
@@ -70,7 +74,10 @@ class PeopleDistanceDetection(Node):
     self.br = CvBridge()
 
   def save_focal_person(self):
-    with open('focal_person.yaml', 'w') as file:
+    '''
+        In the calibration state save the focal person value to a yaml file
+    '''
+    with open(self.FOCAL_PATH, 'w') as file:
         self.get_logger().info(str(self.focal_person))
         yaml.dump({'focal_person': self.focal_person}, file)
         self.get_logger().info('Focal person value saved to focal_person.yaml')
@@ -78,15 +85,14 @@ class PeopleDistanceDetection(Node):
 
   def listener_callback(self, data):
     
-    # PRAMETERS
-    self.caution_distances = self.get_parameter('caution_distances').get_parameter_value().double_array_value
+    # Get the detection mode from the parameter server and convert it to a string value. (calibration or detection)
     mode = self.get_parameter('detection_mode').get_parameter_value().string_value
-    flag_detection = Int32()
+
     # Convert ROS Image message to OpenCV image
     current_frame = self.br.imgmsg_to_cv2(data)
 
     # self.get_logger().info('Receiving video frame')
-    self.get_logger().info('Detection Mode: ' + mode)
+    # self.get_logger().info('Detection Mode: ' + mode)
 
     # YOLO predictions
     results = self.MODEL.predict(current_frame, classes=self.MODEL_CLASS, conf = 0.8)
@@ -123,9 +129,10 @@ class PeopleDistanceDetection(Node):
                     flag_indicators.append(3)
                 text = f"Person - distance {distance} meters"
             annotator.box_label(box_xyxy, label=text,color=color_box,txt_color=(text_color))
+            
         if len(flag_indicators) > 0:
-            flag_detection.data = min(flag_indicators)
-            self.pub_flag.publish(flag_detection)
+            self.flag_detection.data = min(flag_indicators)
+            self.pub_flag.publish(self.flag_detection)
 
     self.publisher_video.publish(self.br.cv2_to_imgmsg(current_frame,'bgr8'))
   

@@ -3,6 +3,7 @@
     The nodes launched are: 
         - video_publisher (2 instances)
         - lane_detection
+        - people_distance_detections
 '''
 from launch import LaunchDescription
 from launch_ros.actions import Node
