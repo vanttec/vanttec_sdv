@@ -129,7 +129,7 @@ class PeopleDistanceDetection(Node):
                     flag_indicators.append(3)
                 text = f"Person - distance {distance} meters"
             annotator.box_label(box_xyxy, label=text,color=color_box,txt_color=(text_color))
-            
+        
         if len(flag_indicators) > 0:
             self.flag_detection.data = min(flag_indicators)
             self.pub_flag.publish(self.flag_detection)
