@@ -2,7 +2,6 @@
 
 This package, ```sdv_vision```, provides functionality for sdv assistance, including lane detection, people distance detection, and video publishing for testing purposes.
 
-TODO: DEMO VIDEO
 
 ![vision_dashboard](https://github.com/vanttec/vanttec_sdv/blob/features/vision/workspace/src/sdv_vision/git_imgs/vision_dashboard.png)
 
@@ -95,9 +94,9 @@ ros2 run autonomous_vehicle_assistance video_pub
 
 | Name             | Description                                                                |
 | ----------------- | ------------------------------------------------------------------ |
-| _lane_detection_ | Determines the vehicle's lane state. |
-| _people_distance_detection_ | Detects people and assesses their distance from the vehicle. |
-| _video_pub_ | Publishes video frames for testing. |
+| [_lane_detection_](https://github.com/vanttec/vanttec_sdv/blob/features/vision/workspace/src/sdv_vision/yolov8_lane_detection/lane_detection.py) | Determines the vehicle's lane state. |
+| [_people_distance_detection_](https://github.com/vanttec/vanttec_sdv/blob/features/vision/workspace/src/sdv_vision/yolov8_object_detection/people_distance_detection.py) | Detects people and assesses their distance from the vehicle. |
+| [_video_pub_](https://github.com/vanttec/vanttec_sdv/blob/features/vision/workspace/src/sdv_vision/yolov8_lane_detection/video_pub.py) | Publishes video frames for testing. |
 
 
 ## Parameters
@@ -151,13 +150,13 @@ ros2 run autonomous_vehicle_assistance video_pub
 | `/video_frames` | `sensor_msgs/Image` | Frames from the video stream to be published. | Publisher |
 
 ## Launch Files
-### vision_testing.launch.py
+### [vision_testing.launch.py](https://github.com/vanttec/vanttec_sdv/blob/features/vision/workspace/src/sdv_vision/launch/vision_testing.launch.py)
 This file is used to launch the vision nodes for testing purposes. The nodes launched are:
 - video_publisher (2 instances)
 - lane_detection
 - people_distance_detections
 
-### vision.launch.py
+### [vision.launch.py](https://github.com/vanttec/vanttec_sdv/blob/features/vision/workspace/src/sdv_vision/launch/vision.launch.py)
 This launch file is designed to initiate the vision-related nodes for real-time execution in the system, assuming an incoming image stream from the Multisense camera. The nodes launched are:
 - lane_detection
 - people_distance_detections
