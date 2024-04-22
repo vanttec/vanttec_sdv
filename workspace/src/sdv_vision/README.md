@@ -2,9 +2,7 @@
 
 This package, ```sdv_vision```, provides functionality for sdv assistance, including lane detection, people distance detection, and video publishing for testing purposes.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Sl-Uy3MtKDY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-
+![vision_dashboard](https://github.com/vanttec/vanttec_sdv/blob/features/vision/workspace/src/sdv_vision/git_imgs/vision_dashboard.png)
 
 ## Installation
 
