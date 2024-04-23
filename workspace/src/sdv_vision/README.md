@@ -50,7 +50,7 @@ cd vanttec_sdv/workspace/src/sdv_vision/
 sudo ./multisense.sh
 ```
 
-**Terminal 3** : Launch the ```vision.launch.py```
+**Terminal 3** : Launch the ```vision.launch.py``` (note: this launch is not finished yet)
 
 ```bash
 ros2 launch sdv_vision vision.launch.py
@@ -154,7 +154,7 @@ This file is used to launch the vision nodes for testing purposes. The nodes lau
 - lane_detection
 - people_distance_detections
 
-### [vision.launch.py](https://github.com/vanttec/vanttec_sdv/blob/features/vision/workspace/src/sdv_vision/launch/vision.launch.py)
+### [vision.launch.py](https://github.com/vanttec/vanttec_sdv/blob/features/vision/workspace/src/sdv_vision/launch/vision.launch.py) (note: this launch is not finished yet)
 This launch file is designed to initiate the vision-related nodes for real-time execution in the system, assuming an incoming image stream from the Multisense camera. The nodes launched are:
 - lane_detection
 - people_distance_detections
