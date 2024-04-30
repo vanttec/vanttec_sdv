@@ -44,18 +44,18 @@ ros2 launch sdv_vision vision_testing.launch.py
 ### Deploy with Multisense
 
 **Terminal 2** : Camera setup
-
+We use a sh file that configures 
 ```bash
 cd vanttec_sdv/workspace/src/sdv_vision/
 sudo ./multisense.sh
 ```
+
 
 **Terminal 3** : Launch the ```vision.launch.py``` (note: this launch is not finished yet)
 
 ```bash
 ros2 launch sdv_vision vision.launch.py
 ```
-
 
 ## Usage
 
