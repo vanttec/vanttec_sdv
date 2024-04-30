@@ -44,7 +44,7 @@ ros2 launch sdv_vision vision_testing.launch.py
 ### Deploy with Multisense
 
 **Terminal 2** : Camera setup
-We use a sh file that configures 
+We use a [bash script](https://github.com/vanttec/vanttec_sdv/blob/features/vision/workspace/src/sdv_vision/multisense.sh) that configures the network interface where the Multisense Ethernet is connected (Jetson, personal laptop, etc) with the IP address of the camera ```10.66.171.20```.
 ```bash
 cd vanttec_sdv/workspace/src/sdv_vision/
 sudo ./multisense.sh
