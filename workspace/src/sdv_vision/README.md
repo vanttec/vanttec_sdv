@@ -6,6 +6,8 @@ This package, ```sdv_vision```, provides functionality for sdv assistance, inclu
 
 ## Installation
 
+### Cloning the repo
+
 To install this package, clone the ``` vanttec_sdv ``` repository (include the submodules), go to the vision branch and build it using colcon build:
 
 ```bash
@@ -14,6 +16,10 @@ cd vanttec_sdv/workspace
 git checkout features/vision
 colcon build --symlink-install
 ```
+### Download Foxglove
+
+Follow the newt Tutorial to install [Foxglove]: (https://foxglove.dev/download)
+
 ## Deployment
 
 Requirements, to be located in ```vanttec_sdv/workspace``` and source every terminal.
