@@ -27,6 +27,8 @@ def focal_length_finder(measured_distance, real_width, width_in_frame):
     return focal_length
 
 def distance_finder(focal_length, real_width, width_in_frame):
+    if width_in_frame == 0:
+        return 0
     distance = (real_width * focal_length) / width_in_frame
     return distance
 
@@ -97,7 +99,7 @@ class PeopleDistanceDetection(Node):
     # YOLO predictions
     results = self.MODEL.predict(current_frame, classes=self.MODEL_CLASS, conf = 0.8)
     annotator = Annotator(current_frame, line_width=2)
-    if results[0].boxes is not None:
+    if results[0]!=0:
         boxes_xyxy = results[0].boxes.xyxy.cpu()
         keypoints = results[0].keypoints.xy.cpu().numpy()
         flag_indicators = []

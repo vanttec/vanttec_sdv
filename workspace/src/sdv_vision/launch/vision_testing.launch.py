@@ -34,7 +34,7 @@ def generate_launch_description():
             executable='video_publisher',
             name='video_object',
             parameters=[{
-                "video_output" : '2_personas.mp4',
+                "video_output" : '3_personas.mp4',
             }],
             remappings=[
                 ('/video_frames', '/people_video_frames'),
