@@ -58,7 +58,7 @@ We use a bash script [multisense.sh](https://github.com/vanttec/vanttec_sdv/blob
 **Important!** The identifier (ID) of the network interface may vary depending on the specific device being used. You can determine the correct ID by using the `ifconfig` command, which provides information about network interfaces currently available on the system.
 
 ```bash
-cd vanttec_sdv/workspace/src/sdv_vision/
+cd vanttec_sdv/workspace
 sudo ./multisense.sh
 ```
 
