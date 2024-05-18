@@ -9,7 +9,7 @@ This package, ```sdv_vision```, provides functionality for sdv assistance, inclu
 ### Cloning the repo
 
 To install this package, clone the ``` vanttec_sdv ``` repository (include the submodules), go to the vision branch and build it using colcon build:
-Make sure that your token have all the permissions to clone submodules.
+Make sure that your Git-hub token have all the permissions to clone submodules.
 
 
 ```bash
@@ -53,7 +53,7 @@ ros2 launch sdv_vision vision_testing.launch.py
 
 **Terminal 2** : Camera setup
 
-We use a bash script [multisense.sh](https://github.com/vanttec/vanttec_sdv/blob/features/vision/workspace/src/sdv_vision/multisense.sh) that configures the network interface where the Multisense Ethernet is connected (Jetson, personal laptop, etc) with the IP address of the camera ```10.66.171.20```.
+We use a bash script [multisense.sh](https://github.com/vanttec/vanttec_sdv/blob/features/vision/workspace/multisense.sh) that configures the network interface where the Multisense Ethernet is connected (Jetson, personal laptop, etc) with the IP address of the camera ```10.66.171.20```.
 
 **Important!** The identifier (ID) of the network interface may vary depending on the specific device being used. You can determine the correct ID by using the `ifconfig` command, which provides information about network interfaces currently available on the system.
 
