@@ -9,6 +9,8 @@ This package, ```sdv_vision```, provides functionality for sdv assistance, inclu
 ### Cloning the repo
 
 To install this package, clone the ``` vanttec_sdv ``` repository (include the submodules), go to the vision branch and build it using colcon build:
+Make sure that your token have all the permissions to clone submodules.
+
 
 ```bash
 git clone --recurse-submodules -b features/vision https://github.com/vanttec/vanttec_sdv.git 
