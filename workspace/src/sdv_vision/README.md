@@ -55,7 +55,7 @@ ros2 launch sdv_vision vision_testing.launch.py
 
 We use a bash script [multisense.sh](https://github.com/vanttec/vanttec_sdv/blob/features/vision/workspace/multisense.sh) that configures the network interface where the Multisense Ethernet is connected (Jetson, personal laptop, etc) with the IP address of the camera ```10.66.171.20```.
 
-**Important!** The identifier (ID) of the network interface may vary depending on the specific device being used. You can determine the correct ID by using the `ifconfig` command, which provides information about network interfaces currently available on the system.
+**Important!** The identifier (ID) of the network interface may vary depending on the specific device being used. Follow the next [tutorial](https://github.com/vanttec/vanttec_sdv/blob/features/vision/workspace) to setup the multisense camera.
 
 ```bash
 cd vanttec_sdv/workspace
