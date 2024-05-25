@@ -37,7 +37,7 @@ class PathPublisherNode(Node):
         self.path_.header.frame_id = parent_frame
         self.path_.header.stamp = self.get_clock().now().to_msg()
 
-        for i in range(20):
+        for i in range(100):
             pose_stmpd = PoseStamped()
             pose_stmpd.header.frame_id = parent_frame
             pose_stmpd.pose.position.x = i * 0.6
