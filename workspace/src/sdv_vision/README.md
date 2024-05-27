@@ -22,11 +22,12 @@ colcon build --symlink-install
 
 1.  Follow the newt Tutorial to install [Foxglove Studio (Desktop App)](https://foxglove.dev/download)
 2.  Then install the [foxglove_bridge](https://docs.foxglove.dev/docs/connecting-to-data/ros-foxglove-bridge/) module.
-   ```bash
+```bash
 sudo apt install ros-$ROS_DISTRO-foxglove-bridge # We are using humble ROS DISTRO
 ```
-3. Source ROS2 Humble
-   ```bash
+
+3.   Source ROS2 Humble
+```bash
 source /opt/ros/humble/setup.bash
 ```
 
@@ -52,11 +53,11 @@ For the next step, there are two ways to deploy the results.
 
 For this launch make sure that you have the testing videos in the ``` sdv_vision ``` package:
 1.   Go to the package:
-   ```bash
+```bash
 cd vanttec_sdv/worksapce/src/sdv_vision
 ```
 2.   Create the next directory:
-   ```bash
+```bash
 mkdir data/test_videos
 cd data/test_videos
 ```
