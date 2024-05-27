@@ -20,7 +20,11 @@ colcon build --symlink-install
 ```
 ### Download Foxglove
 
-Follow the newt Tutorial to install [Foxglove]: (https://foxglove.dev/download)
+1.  Follow the newt Tutorial to install [Foxglove Studio (Desktop App)](https://foxglove.dev/download)
+2.  Then install the [foxglove_bridge](https://docs.foxglove.dev/docs/connecting-to-data/ros-foxglove-bridge/) module.
+   ```bash
+sudo apt install ros-$ROS_DISTRO-foxglove-bridge # We are using humble ROS DISTRO
+```
 
 ## Deployment
 
@@ -55,7 +59,9 @@ ros2 launch sdv_vision vision_testing.launch.py
 
 We use a bash script [multisense.sh](https://github.com/vanttec/vanttec_sdv/blob/features/vision/workspace/multisense.sh) that configures the network interface where the Multisense Ethernet is connected (Jetson, personal laptop, etc) with the IP address of the camera ```10.66.171.20```.
 
-**Important!** The identifier (ID) of the network interface may vary depending on the specific device being used. Follow the next [tutorial](https://github.com/vanttec/vanttec_sdv/blob/features/vision/workspace) to setup the multisense camera.
+**Important!** The identifier (ID) of the network interface may vary depending on the specific device being used. 
+
+*   Follow the next [tutorial](https://github.com/vanttec/vanttec_sdv/blob/features/vision/workspace) to setup the multisense camera.
 
 ```bash
 cd vanttec_sdv/workspace
