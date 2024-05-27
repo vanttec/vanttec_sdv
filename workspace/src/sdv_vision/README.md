@@ -25,6 +25,10 @@ colcon build --symlink-install
    ```bash
 sudo apt install ros-$ROS_DISTRO-foxglove-bridge # We are using humble ROS DISTRO
 ```
+3. Source ROS2 Humble
+   ```bash
+source /opt/ros/humble/setup.bash
+```
 
 ## Deployment
 
@@ -38,7 +42,6 @@ source install/setup.bash
 
 Open the Foxglove Studio, click ```Open connection```, then click  ```open```. Then launch Foxglove.
 
-
 ```bash
 ros2 launch foxglove_bridge foxglove_bridge_launch.xml
 ```
@@ -46,6 +49,18 @@ ros2 launch foxglove_bridge foxglove_bridge_launch.xml
 For the next step, there are two ways to deploy the results.
 
 ### Testing with video frames
+
+For this launch make sure that you have the testing videos in the ``` sdv_vision ``` package:
+1.   Go to the package:
+   ```bash
+cd vanttec_sdv/worksapce/src/sdv_vision
+```
+2.   Create the next directory:
+   ```bash
+mkdir data/test_videos
+cd data/test_videos
+```
+3.   Download this [videos](https://drive.google.com/drive/u/1/folders/1bKMGEO-NkqKBBVFGOiimhTYIhManUnJt) at this directory
 
 **Terminal 2** : Launch the ```vision_testing.launch.py```
 
