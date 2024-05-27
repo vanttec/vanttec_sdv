@@ -35,6 +35,7 @@ class RemoteMapping(Node):
         self.set_lightshow_srv
         self.lightshow_req = Uint8.Request()
         self.lightshow_req.data = 0
+        self.light_back = True
 
         # self.zero_encoder_pub_ = self.create_publisher(Bool, "/sdv/steering/reset_encoder", 10)
         # self.zero_encoder_pub_
@@ -59,7 +60,7 @@ class RemoteMapping(Node):
         joystick_axes_index = 0
         # reset_button_index = 6
         mode_button_index = 6  # TODO
-        light_button_index = 2 # TODO
+        light_button_index = 3 # boton Y
 
         # -- setpoint -- #
         #[DEBUG] le ponemos un `-` para que la izquierda sea negativo y viceversa
@@ -82,13 +83,23 @@ class RemoteMapping(Node):
             self.mode_req.data = 1 - self.mode_req.data
 
             future = self.set_mode_srv.call_async(self.mode_req)
-            future.add_done_callback( partial(self.callback_done, msg="mode") )
 
-        if msg.buttons[light_button_index]:
+            future.add_done_callback( self.callback_done )
+
+        # self.get_logger().info( str(msg.buttons[light_button_index]) )
+
+        if msg.buttons[light_button_index] == 1:
+            if self.light_back == False:
+                return
+            
             self.lightshow_req.data = 1 - self.lightshow_req.data
             
             future = self.set_lightshow_srv.call_async(self.lightshow_req)
-            future.add_done_callback( partial(self.callback_done, msg="light show") )
+            future.add_done_callback( self.callback_done )
+            self.light_back = False
+
+        if msg.buttons[light_button_index] == 0:
+            self.light_back = True
 
         # -- encoder zero -- #
         # if msg.buttons[reset_button_index]:
@@ -102,7 +113,7 @@ class RemoteMapping(Node):
         #     self.get_logger().warning('Resetting Zero in Steering Wheel')
             
     def callback_done(self, msg):
-        self.get_logger().info('CAN service called - ' + msg)
+        self.get_logger().info('CAN service called')
 
 
 def main(args=None):
