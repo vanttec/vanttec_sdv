@@ -96,8 +96,8 @@ class LaneDetection(Node):
 
     # TOPICS - SUBSCRIBERS
     qos_profile = QoSProfile(depth=10, reliability=ReliabilityPolicy.BEST_EFFORT)
-    self.subscription = self.create_subscription(Image,'/lane_video_frames', self.listener_callback, qos_profile) # Frames from the multisense camera
-    # self.subscription = self.create_subscription(Image,'/multisense/left/image_color', self.listener_callback, qos_profile) # Frames from the multisense camera
+    # self.subscription = self.create_subscription(Image,'/lane_video_frames', self.listener_callback, qos_profile) # Frames from the multisense camera
+    self.subscription = self.create_subscription(Image,'/multisense/left/image_color', self.listener_callback, qos_profile) # Frames from the multisense camera
 
     # TOPICS - PUBLISHERS
     self.pub_processed_video = self.create_publisher(Image, '/processed_video_frames', 10)

@@ -56,7 +56,9 @@ class PeopleDistanceDetection(Node):
     self.caution_distances = self.get_parameter('caution_distances').get_parameter_value().double_array_value
     
     # TOPICS - SUBSCRIBERS
-    self.subscription = self.create_subscription(Image, '/people_video_frames', self.listener_callback, 10) # Frames from a video stream
+    # self.subscription = self.create_subscription(Image, '/people_video_frames', self.listener_callback, 10) # Frames from a video stream
+    qos_profile = QoSProfile(depth=10, reliability=ReliabilityPolicy.BEST_EFFORT)
+    self.subscription = self.create_subscription(Image,'/multisense/left/image_color', self.listener_callback, qos_profile) # Frames from the multisense camera
     
     # TOPICS - PUBLISHERS
     self.publisher_video= self.create_publisher(Image, '/people_distance_detection_video', 10)
@@ -129,12 +131,20 @@ class PeopleDistanceDetection(Node):
                 elif distance >= self.caution_distances[1]: # Green - Safe zone
                     color_box = (0,184,79)
                     flag_indicators.append(3)
-                text = f"Person - distance {distance} meters"
+                # text = f"Person - distance {distance} meters"
+                text = f"Pedestrian"
             annotator.box_label(box_xyxy, label=text,color=color_box,txt_color=(text_color))
         
         if len(flag_indicators) > 0:
             self.flag_detection.data = min(flag_indicators)
             self.pub_flag.publish(self.flag_detection)
+        else:
+            self.flag_detection.data = -1
+            self.pub_flag.publish(self.flag_detection)
+
+    else:
+        self.flag_detection.data = -1
+        self.pub_flag.publish(self.flag_detection)
 
     self.publisher_video.publish(self.br.cv2_to_imgmsg(current_frame,'bgr8'))
   
