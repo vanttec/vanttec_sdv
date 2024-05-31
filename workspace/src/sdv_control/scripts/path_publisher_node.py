@@ -23,26 +23,38 @@ class PathPublisherNode(Node):
 
         parent_frame = 'odom'
 
-        self.path_pub_ = self.create_publisher(Path, "/sdv/guidance/reference_path", 10)
+        self.path_pub_ = self.create_publisher(Path, "/sdv/guidance/key_waypoints", 10)
 
         self.timer = self.create_timer(1, self.timer_callback)
 
-        # self.waypoints_file_ = os.path.join(
-        #     get_package_share_directory('usv_control'),
-        #     'config',
-        #     'example.csv'
-        # )
+        self.waypoints_file_ = os.path.join(
+            get_package_share_directory('sdv_control'),
+            'config',
+            'sim3.csv'
+        )
 
         self.path_ = Path()
         self.path_.header.frame_id = parent_frame
         self.path_.header.stamp = self.get_clock().now().to_msg()
 
-        for i in range(100):
-            pose_stmpd = PoseStamped()
-            pose_stmpd.header.frame_id = parent_frame
-            pose_stmpd.pose.position.x = i * 0.6
-            pose_stmpd.pose.position.y = 10 * math.sin(i / 10)
-            self.path_.poses.append(pose_stmpd)
+        # # Static Path
+        # for i in range(5):
+        #     pose_stmpd = PoseStamped()
+        #     pose_stmpd.header.frame_id = parent_frame
+        #     pose_stmpd.pose.position.x = i * 1.
+        #     pose_stmpd.pose.position.y = math.sin(i)
+        #     self.path_.poses.append(pose_stmpd)
+
+        # CSV Path
+        with open(self.waypoints_file_, 'r') as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            for row in csv_reader:
+                pose_stmpd = PoseStamped()
+                pose_stmpd.header.frame_id = parent_frame
+                pose_stmpd.pose.position.x = float(row[0]) + 80.67
+                pose_stmpd.pose.position.y = float(row[1]) + 80.97
+                self.path_.poses.append(pose_stmpd)
+                print(row[0], row[1])
 
     def timer_callback(self):
         self.path_pub_.publish(self.path_)

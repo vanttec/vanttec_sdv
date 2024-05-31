@@ -54,6 +54,8 @@ public:
   SdvKinematicSim(const SdvKinematicSimParams &params) {
     params_ = params;
 
+    state_(Yaw) = M_PI; // TODO: Set parameter in config file
+
     initialize_delay_queue();
   }
 

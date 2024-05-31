@@ -47,7 +47,6 @@ def generate_launch_description():
       remappings=[
          ("/sdv/velocity/desired_setpoint", "/sdv/velocity/setpoint"),
       ]
-      
    )
 
    kinematic_node = Node(
@@ -60,11 +59,18 @@ def generate_launch_description():
       ]
    )
 
+   foxglove_bridge = Node(
+      name="foxglove_bridge",
+      package="foxglove_bridge",
+      executable="foxglove_bridge")
+
    return LaunchDescription([
       rviz,
       pid_node,   
       kinematic_node,   
       stanley_node,
+
+      foxglove_bridge,
       
       # waypoint_handler,
       # car_guidance_node,
