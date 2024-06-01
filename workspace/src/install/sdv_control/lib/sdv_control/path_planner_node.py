@@ -1,146 +1,115 @@
 #!/usr/bin/env python3
 
-''' ----------------------------------------------------------------------------
- * @file: waypoints_publisher_node.py
- * @date: May 31, 2024
- * @author: Max Pacheco
- * @author: Juan Félix
- * @brief: Node to publish waypoints as a WaypointVector
- * -----------------------------------------------------------------------------
-'''
+import os
+import csv
+import math 
+import numpy as np
+from scipy.interpolate import CubicSpline
+
+from ament_index_python.packages import get_package_share_directory
 
 import rclpy
 from rclpy.node import Node
 
-import numpy as np
-from scipy.interpolate import CubicSpline
-
 from nav_msgs.msg import Path
-from std_msgs.msg import Float32MultiArray
-from geometry_msgs.msg import PoseStamped
-from sdv_msgs.msg import WaypointVector
+from geometry_msgs.msg import Point, PoseStamped, Vector3, Pose
+from std_msgs.msg import Float32, Float64MultiArray, Header, ColorRGBA
+from visualization_msgs.msg import Marker, MarkerArray
+
+def get_curv_list(cs1, cs2, t):
+    x_, y_ = cs1(t, nu=1), cs2(t, nu=1)
+    x__, y__ = cs1(t, nu=2), cs2(t, nu=2)
+    return (x_ * y__ - y_ * x__) / (x_**2 + y_**2)**1.5
+
+def get_color(k):
+    if abs(k) < 0.05:
+        return ColorRGBA(r = 0.0, g = 1.0, b = 0.0, a = 1.0)
+    elif abs(k) > 0.2:
+        return ColorRGBA(r = 1.0, g = 0.0, b = 0.0, a = 1.0)
+    else:
+        return ColorRGBA(r = 1.0, g = 1.0, b = 0.0, a = 1.0)
+
+def get_vel_setpoint(k):
+    if abs(k) < 0.05: # almost straight
+        return 1.0
+    elif abs(k) > 0.2: # most curved
+        return 0.2
+    else: # in the middle
+        return 0.6
 
 class PathPlannerNode(Node):
 
     def __init__(self):
-
         super().__init__('path_planner_node')
 
-        QUEUE_SIZE = 10
-        TIME_PERIOD = 1
+        self.parent_frame = 'odom'
 
-        # Definitions for path publishing
+        self.wp_sub_ = self.create_subscription(
+            Path, '/sdv/guidance/key_waypoints', self.wp_callback, 10
+        )
+        self.path_pub_ = self.create_publisher(Path, "/sdv/guidance/reference_path", 10)
+        # self.curvature_arr_pub_ = self.create_publisher(Float64MultiArray, "/sdv/guidance/path_curvature", 10)
+        self.curvature_markers_pub_ = self.create_publisher(MarkerArray, "/sdv/guidance/curvature_markers", 10)
 
-        self.parent_frame_ = 'odom'
+        self.timer = self.create_timer(1, self.timer_callback)
+
         self.path_ = Path()
-        self.path_.header.frame_id = self.parent_frame_
+        self.path_.header.frame_id = self.parent_frame
         self.path_.header.stamp = self.get_clock().now().to_msg()
-        self.path_.poses.clear()
 
-        self.path_pub_ = self.create_publisher(Path, '/sdv/guidance/reference_path', QUEUE_SIZE)
-
-        # Definitions for curvature publishing
-
-        self.curvature_array_ = Float32MultiArray()
-        self.curvature_pub_ = self.create_publisher(Float32MultiArray, "/sdv/guidance/path_curvature", QUEUE_SIZE)
-
-        # Timer for publishing
-
-        self.timer_ = self.create_timer(TIME_PERIOD, self.timer_callback)
-
-        # Waypoints subscriber
-
-        self.waypoints_sub_ = self.create_subscription(WaypointVector, '/sdv/guidance/key_waypoints', self.waypoint_callback, QUEUE_SIZE)
+        # self.curvature_arr = Float64MultiArray()
+        self.path_ = Path()
+        self.path_.header.frame_id = self.parent_frame
+        self.path_.header.stamp = self.get_clock().now().to_msg()
+        self.curvature_markers = MarkerArray()
 
     def timer_callback(self):
-
-        self.path_.header.stamp = self.get_clock().now().to_msg()
         self.path_pub_.publish(self.path_)
-        self.curvature_pub_.publish(self.curvature_array_)
+        # self.curvature_arr_pub_.publish(self.curvature_arr)
+        self.curvature_markers_pub_.publish(self.curvature_markers)
 
-    def waypoint_callback(self, msg):
-        
-        # Once waypoints are received, they are interpolated
-        # The result is appended to the path, which is periodically published
-        # Curvature is also calculated
+    def wp_callback(self, msg):
+        self.interpol(msg)
 
-        self.interpolate_waypoints(msg)
+    def interpol(self, raw_msg):
+        self.path_.poses.clear()
+        self.curvature_markers.markers.clear()
+        # self.curvature_arr.data = []
 
-    def interpolate_waypoints(self, data):
+        x = []
+        y = []
+        for i in raw_msg.poses:
+            x.append(i.pose.position.x)
+            y.append(i.pose.position.y)
 
-        # Arrays of x and y waypoints coordinates
+        t = np.linspace(0, 1, len(x))
+        t2 = np.linspace(0, 1, len(x) * 100)
+        cs1 = CubicSpline(t, np.array(x))
+        cs2 = CubicSpline(t, np.array(y))
+        k = get_curv_list(cs1, cs2, t2)
 
-        x = np.asarray(data.x_list)
-        y = np.asarray(data.y_list)
-
-        # Ensure that there are enough waypoints for interpolation
-
-        if x.size < 2 or y.size < 2:
-            self.get_logger().warn("Not enough waypoints for interpolation.")
-
-        # Define an arbitrary parameter to parametrize the curve
-
-        path_t = np.linspace(0, 1, x.size)
-
-        # Create Cubic Spline objects
-
-        cs_x = CubicSpline(path_t, x)
-        cs_y = CubicSpline(path_t, y)
-
-        # Define values for the arbitrary parameter over which
-        # x and y will be interpolated
-
-        NUM_INTERPOLATION_POINTS = 5000
-
-        t = np.linspace(np.min(path_t), np.max(path_t), NUM_INTERPOLATION_POINTS)
-
-        # Interpolate along t
-        # r[:, 0] -> Interpolated X coordinates
-        # r[:, 1] -> Interpolated Y coordinates
-
-        r = np.column_stack((cs_x(t), cs_y(t)))
-
-        self.path_.poses.clear()    # Clear previous poses
-
-        # Modify path
-
-        for i in range(NUM_INTERPOLATION_POINTS):
-
+        for i in range(len(t2)):
             pose_stmpd = PoseStamped()
-            
-            pose_stmpd.header.frame_id = self.parent_frame_
-            pose_stmpd.pose.position.x = r[i, 0]
-            pose_stmpd.pose.position.y = r[i, 1]
+            pose_stmpd.pose.position.x = cs1(t2[i]) * 1.
+            pose_stmpd.pose.position.y = cs2(t2[i]) * 1.
+            pose_stmpd.pose.orientation.w = get_vel_setpoint(k[i])
             self.path_.poses.append(pose_stmpd)
 
-        # Calculate curvature
+            temp_marker = Marker(header = Header(
+                frame_id = self.parent_frame), id = i, type = 2, action = 0,
+                pose = pose_stmpd.pose,
+                scale = Vector3(x = .1, y = .1, z = .1),
+                color = get_color(k[i]),
+                text = str(k[i]))
+            self.curvature_markers.markers.append(temp_marker)
         
-        curvature = self.calculate_curvature(cs_x, cs_y, t)
-        self.curvature_array_.data = curvature.tolist()
-
-    def calculate_curvature(self, spline_x, spline_y, t):
-
-        # Calculate curvature using second derivative of the spline
-
-        dx_dt = spline_x(t, 1)
-        d2x_dt2 = spline_x(t, 2)
-        dy_dt = spline_y(t, 1)
-        d2y_dt2 = spline_y(t, 2)
-
-        numerator = dx_dt * d2y_dt2 - dy_dt * d2x_dt2
-        denominator = (dx_dt ** 2 + dy_dt ** 2) ** (3 / 2)
-
-        curvature = np.divide(numerator, denominator)
-
-        return curvature
-
+        # self.curvature_arr.data = list(k)
+    
 def main(args=None):
-
     rclpy.init(args=args)
 
     path_planner_node = PathPlannerNode()
     rclpy.spin(path_planner_node)
-
     path_planner_node.destroy_node()
     rclpy.shutdown()
 

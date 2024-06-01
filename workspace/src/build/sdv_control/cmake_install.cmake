@@ -114,6 +114,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/sdv_control" TYPE PROGRAM FILES
     "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control/scripts/path_publisher_node.py"
     "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control/scripts/path_planner_node.py"
+    "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control/scripts/path_planner_node_2.py"
     "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control/scripts/waypoints_publisher_node.py"
     )
 endif()
