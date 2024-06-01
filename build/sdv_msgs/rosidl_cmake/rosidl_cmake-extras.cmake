@@ -1,0 +1,4 @@
+# generated from rosidl_cmake/cmake/rosidl_cmake-extras.cmake.in
+
+set(sdv_msgs_IDL_FILES "msg/State.idl;msg/PanelMsg.idl;msg/XboxMsg.idl;msg/ThrottleMsg.idl;msg/CollisionEvent.idl;msg/LaneInvasionEvent.idl;msg/Status.idl;msg/VehicleControl.idl;msg/VehicleInfo.idl;msg/VehicleStatus.idl;msg/VehicleInfoWheel.idl;msg/GuidanceWaypoints.idl;msg/EtaPose.idl;msg/SystemDynamics.idl;msg/ThrustControl.idl;msg/Encoder.idl;srv/Uint8.idl")
+set(sdv_msgs_INTERFACE_FILES "msg/State.msg;msg/PanelMsg.msg;msg/XboxMsg.msg;msg/ThrottleMsg.msg;msg/CollisionEvent.msg;msg/LaneInvasionEvent.msg;msg/Status.msg;msg/VehicleControl.msg;msg/VehicleInfo.msg;msg/VehicleStatus.msg;msg/VehicleInfoWheel.msg;msg/GuidanceWaypoints.msg;msg/EtaPose.msg;msg/SystemDynamics.msg;msg/ThrustControl.msg;msg/Encoder.msg;srv/Uint8.srv;srv/Uint8_Request.msg;srv/Uint8_Response.msg")

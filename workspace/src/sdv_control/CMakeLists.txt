@@ -78,7 +78,10 @@ install(DIRECTORY
 install(PROGRAMS
   scripts/path_publisher_node.py
   scripts/path_planner_node.py
+<<<<<<< HEAD
   scripts/waypoints_publisher_node.py
+=======
+>>>>>>> a6010b0558c404fdf97a6348dd7f2b620f847837
   DESTINATION lib/${PROJECT_NAME}
 )
 

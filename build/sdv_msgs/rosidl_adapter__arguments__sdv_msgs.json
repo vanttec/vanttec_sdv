@@ -1,0 +1,22 @@
+{
+  "package_name": "sdv_msgs",
+  "non_idl_tuples": [
+    "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_msgs:msg/State.msg",
+    "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_msgs:msg/PanelMsg.msg",
+    "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_msgs:msg/XboxMsg.msg",
+    "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_msgs:msg/ThrottleMsg.msg",
+    "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_msgs:msg/CollisionEvent.msg",
+    "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_msgs:msg/LaneInvasionEvent.msg",
+    "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_msgs:msg/Status.msg",
+    "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_msgs:msg/VehicleControl.msg",
+    "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_msgs:msg/VehicleInfo.msg",
+    "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_msgs:msg/VehicleStatus.msg",
+    "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_msgs:msg/VehicleInfoWheel.msg",
+    "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_msgs:msg/GuidanceWaypoints.msg",
+    "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_msgs:msg/EtaPose.msg",
+    "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_msgs:msg/SystemDynamics.msg",
+    "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_msgs:msg/ThrustControl.msg",
+    "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_msgs:msg/Encoder.msg",
+    "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_msgs:srv/Uint8.srv"
+  ]
+}

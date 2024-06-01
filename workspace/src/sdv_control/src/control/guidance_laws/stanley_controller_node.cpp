@@ -161,6 +161,8 @@ class StanleyControllerNode : public rclcpp::Node
                     car_steering_setpoint_pub_->publish(steering_setpoint_);
                     current_ref_pub_->publish(current_ref_);
 
+                    velocity_setpoint_.data = smooth_path_.poses[waypoint_].pose.orientation.w;
+
                     // Find waypoint indexes
                     double angle_diff{0};
                     double dist{0};
@@ -204,8 +206,6 @@ class StanleyControllerNode : public rclcpp::Node
                     RCLCPP_INFO(this->get_logger(), "wp: %d", 
                     waypoint_
                     );
-
-                    velocity_setpoint_.data = 1;
 
                 } else {
                     RCLCPP_INFO(this->get_logger(), "Reached the end of the path");

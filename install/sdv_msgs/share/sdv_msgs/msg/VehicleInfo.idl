@@ -1,0 +1,47 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from sdv_msgs/msg/VehicleInfo.msg
+// generated code does not contain a copyright notice
+
+#include "geometry_msgs/msg/Vector3.idl"
+#include "sdv_msgs/msg/VehicleInfoWheel.idl"
+
+module sdv_msgs {
+  module msg {
+    @verbatim (language="comment", text=
+      "Copyright (c) 2019 Intel Corporation." "\n"
+      "" "\n"
+      "This work is licensed under the terms of the MIT license." "\n"
+      "For a copy, see <https://opensource.org/licenses/MIT>.")
+    struct VehicleInfo {
+      uint32 id;
+
+      string type;
+
+      string rolename;
+
+      sequence<sdv_msgs::msg::VehicleInfoWheel> wheels;
+
+      float max_rpm;
+
+      float moi;
+
+      float damping_rate_full_throttle;
+
+      float damping_rate_zero_throttle_clutch_engaged;
+
+      float damping_rate_zero_throttle_clutch_disengaged;
+
+      boolean use_gear_autobox;
+
+      float gear_switch_time;
+
+      float clutch_strength;
+
+      float mass;
+
+      float drag_coefficient;
+
+      geometry_msgs::msg::Vector3 center_of_mass;
+    };
+  };
+};

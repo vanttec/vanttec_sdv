@@ -1,0 +1,24 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from sdv_msgs/msg/ThrottleMsg.msg
+// generated code does not contain a copyright notice
+
+#include "std_msgs/msg/Float64.idl"
+#include "std_msgs/msg/Int16.idl"
+
+module sdv_msgs {
+  module msg {
+    struct ThrottleMsg {
+      std_msgs::msg::Float64 maxvel;
+
+      std_msgs::msg::Float64 pot;
+
+      std_msgs::msg::Int16 increase_maxvel;
+
+      std_msgs::msg::Int16 decrease_maxvel;
+
+      std_msgs::msg::Int16 car_mode;
+
+      std_msgs::msg::Int16 pot_mode;
+    };
+  };
+};
