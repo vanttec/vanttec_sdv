@@ -1,0 +1,827 @@
+[0.000000] (-) TimerEvent: {}
+[0.001048] (-) JobUnselected: {'identifier': 'isaac_ros_apriltag_interfaces'}
+[0.001360] (-) JobUnselected: {'identifier': 'isaac_ros_bi3d_interfaces'}
+[0.001971] (-) JobUnselected: {'identifier': 'isaac_ros_common'}
+[0.003729] (-) JobUnselected: {'identifier': 'isaac_ros_nitros_bridge_interfaces'}
+[0.003893] (-) JobUnselected: {'identifier': 'isaac_ros_nova_interfaces'}
+[0.003944] (-) JobUnselected: {'identifier': 'isaac_ros_pointcloud_interfaces'}
+[0.003973] (-) JobUnselected: {'identifier': 'isaac_ros_tensor_list_interfaces'}
+[0.004000] (-) JobUnselected: {'identifier': 'isaac_ros_test'}
+[0.004027] (-) JobUnselected: {'identifier': 'lidar3d_clustering'}
+[0.004050] (-) JobUnselected: {'identifier': 'lidar_ground_getter'}
+[0.004084] (-) JobUnselected: {'identifier': 'lidar_imu_sync'}
+[0.004114] (-) JobUnselected: {'identifier': 'lidar_path_to_odom'}
+[0.004146] (-) JobUnselected: {'identifier': 'lio_sam'}
+[0.004181] (-) JobUnselected: {'identifier': 'ros_compatibility'}
+[0.004203] (-) JobUnselected: {'identifier': 'sdv_can'}
+[0.004222] (-) JobUnselected: {'identifier': 'sdv_control'}
+[0.004239] (-) JobUnselected: {'identifier': 'sdv_description'}
+[0.004256] (-) JobUnselected: {'identifier': 'sdv_launch'}
+[0.004274] (-) JobUnselected: {'identifier': 'sdv_lidar_processing'}
+[0.004302] (-) JobUnselected: {'identifier': 'sdv_localization'}
+[0.004326] (-) JobUnselected: {'identifier': 'sdv_manual_control'}
+[0.004349] (-) JobUnselected: {'identifier': 'sdv_msgs'}
+[0.004372] (-) JobUnselected: {'identifier': 'sdv_robot_description'}
+[0.004394] (-) JobUnselected: {'identifier': 'vectornav'}
+[0.004420] (-) JobUnselected: {'identifier': 'voxel_grid_filter'}
+[0.004447] (-) JobUnselected: {'identifier': 'waypoints_niagara_creator'}
+[0.004476] (-) JobUnselected: {'identifier': 'waypoints_niagara_loader'}
+[0.004510] (vectornav_msgs) JobQueued: {'identifier': 'vectornav_msgs', 'dependencies': OrderedDict()}
+[0.004545] (vectornav_msgs) JobStarted: {'identifier': 'vectornav_msgs'}
+[0.019458] (vectornav_msgs) JobProgress: {'identifier': 'vectornav_msgs', 'progress': 'cmake'}
+[0.019848] (vectornav_msgs) Command: {'cmd': ['/usr/bin/cmake', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/drivers/vectornav/vectornav_msgs', '-DCMAKE_INSTALL_PREFIX=/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs'], 'cwd': '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/vectornav_msgs', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'fectec151'), ('LC_TIME', 'es_MX.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/fectec151'), ('OLDPWD', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'es_MX.UTF-8'), ('MANAGERPID', '2229'), ('SYSTEMD_EXEC_PID', '2620'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('TERMINATOR_DBUS_NAME', 'net.tenshu.Terminator25ef4b219e3b005583550f2b0f9f990c3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '44034'), ('NVM_DIR', '/home/fectec151/.nvm'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'fectec151'), ('JOURNAL_STREAM', '8:26278'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'fectec151'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('HISTCONTROL', 'ignoredups'), ('PATH', '/opt/ros/humble/bin:/home/fectec151/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/fec-pc:@/tmp/.ICE-unix/2419,unix/fec-pc:/tmp/.ICE-unix/2419'), ('INVOCATION_ID', 'ac81952abfe74ec08d13dc9e8ce9f7c6'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'es_MX.UTF-8'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('HISTSIZE', '1000'), ('TERMINATOR_DBUS_PATH', '/net/tenshu/Terminator2'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('IBUS_DISABLE_SNOOPER', '1'), ('LC_TELEPHONE', 'es_MX.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.FT5QO2'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'es_MX.UTF-8'), ('TERMINATOR_UUID', 'urn:uuid:4688da2d-54b5-446e-b751-78bc2f3171e8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'es_MX.UTF-8'), ('LC_IDENTIFICATION', 'es_MX.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/vectornav_msgs'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('NVM_CD_FLAGS', ''), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'es_MX.UTF-8'), ('LC_PAPER', 'es_MX.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('NVM_RC_VERSION', ''), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[0.099367] (vectornav_msgs) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.099860] (-) TimerEvent: {}
+[0.176684] (vectornav_msgs) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.185787] (vectornav_msgs) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.200000] (-) TimerEvent: {}
+[0.258636] (vectornav_msgs) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.269405] (vectornav_msgs) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.269744] (vectornav_msgs) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.270370] (vectornav_msgs) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.275635] (vectornav_msgs) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.300126] (-) TimerEvent: {}
+[0.382089] (vectornav_msgs) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.393836] (vectornav_msgs) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.394286] (vectornav_msgs) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.395232] (vectornav_msgs) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.398763] (vectornav_msgs) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.8 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[0.400236] (-) TimerEvent: {}
+[0.501868] (-) TimerEvent: {}
+[0.602315] (-) TimerEvent: {}
+[0.620736] (vectornav_msgs) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter \n'}
+[0.702452] (-) TimerEvent: {}
+[0.736165] (vectornav_msgs) StdoutLine: {'line': b'-- Found geometry_msgs: 4.2.3 (/opt/ros/humble/share/geometry_msgs/cmake)\n'}
+[0.802589] (-) TimerEvent: {}
+[0.803011] (vectornav_msgs) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[0.809214] (vectornav_msgs) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[0.822582] (vectornav_msgs) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[0.846195] (vectornav_msgs) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.876202] (vectornav_msgs) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[0.902732] (-) TimerEvent: {}
+[1.003196] (-) TimerEvent: {}
+[1.088836] (vectornav_msgs) StdoutLine: {'line': b'-- Found rosidl_default_generators: 1.2.0 (/opt/ros/humble/share/rosidl_default_generators/cmake)\n'}
+[1.100196] (vectornav_msgs) StderrLine: {'line': b'\x1b[0mGrabbing messages action/MagCal.action\x1b[0m\n'}
+[1.103271] (-) TimerEvent: {}
+[1.203598] (-) TimerEvent: {}
+[1.304014] (-) TimerEvent: {}
+[1.404459] (-) TimerEvent: {}
+[1.505065] (-) TimerEvent: {}
+[1.605364] (-) TimerEvent: {}
+[1.705738] (-) TimerEvent: {}
+[1.754891] (vectornav_msgs) StdoutLine: {'line': b'-- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)\n'}
+[1.805881] (-) TimerEvent: {}
+[1.906327] (-) TimerEvent: {}
+[2.006996] (-) TimerEvent: {}
+[2.108004] (-) TimerEvent: {}
+[2.208598] (-) TimerEvent: {}
+[2.308982] (-) TimerEvent: {}
+[2.409732] (-) TimerEvent: {}
+[2.510162] (-) TimerEvent: {}
+[2.548472] (vectornav_msgs) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[2.610285] (-) TimerEvent: {}
+[2.710707] (-) TimerEvent: {}
+[2.811088] (-) TimerEvent: {}
+[2.821967] (vectornav_msgs) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[2.865451] (vectornav_msgs) StdoutLine: {'line': b'-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.6") \n'}
+[2.867986] (vectornav_msgs) StdoutLine: {'line': b'-- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)\n'}
+[2.908902] (vectornav_msgs) StdoutLine: {'line': b'-- Found PythonLibs: /usr/lib/x86_64-linux-gnu/libpython3.10.so (found suitable version "3.10.12", minimum required is "3.5") \n'}
+[2.909290] (vectornav_msgs) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[2.909468] (vectornav_msgs) StdoutLine: {'line': b'-- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10\n'}
+[2.909621] (vectornav_msgs) StdoutLine: {'line': b'-- Using PYTHON_LIBRARIES: /usr/lib/x86_64-linux-gnu/libpython3.10.so\n'}
+[2.911207] (-) TimerEvent: {}
+[2.962344] (vectornav_msgs) StdoutLine: {'line': b'-- Found PythonExtra: .so  \n'}
+[3.011406] (-) TimerEvent: {}
+[3.082946] (vectornav_msgs) StdoutLine: {'line': b'-- Configuring done\n'}
+[3.111561] (-) TimerEvent: {}
+[3.185802] (vectornav_msgs) StdoutLine: {'line': b'-- Generating done\n'}
+[3.189946] (vectornav_msgs) StdoutLine: {'line': b'-- Build files have been written to: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/vectornav_msgs\n'}
+[3.206079] (vectornav_msgs) CommandEnded: {'returncode': 0}
+[3.207117] (vectornav_msgs) JobProgress: {'identifier': 'vectornav_msgs', 'progress': 'build'}
+[3.208655] (vectornav_msgs) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/vectornav_msgs', '--', '-j12', '-l12'], 'cwd': '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/vectornav_msgs', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'fectec151'), ('LC_TIME', 'es_MX.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/fectec151'), ('OLDPWD', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'es_MX.UTF-8'), ('MANAGERPID', '2229'), ('SYSTEMD_EXEC_PID', '2620'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('TERMINATOR_DBUS_NAME', 'net.tenshu.Terminator25ef4b219e3b005583550f2b0f9f990c3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '44034'), ('NVM_DIR', '/home/fectec151/.nvm'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'fectec151'), ('JOURNAL_STREAM', '8:26278'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'fectec151'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('HISTCONTROL', 'ignoredups'), ('PATH', '/opt/ros/humble/bin:/home/fectec151/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/fec-pc:@/tmp/.ICE-unix/2419,unix/fec-pc:/tmp/.ICE-unix/2419'), ('INVOCATION_ID', 'ac81952abfe74ec08d13dc9e8ce9f7c6'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'es_MX.UTF-8'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('HISTSIZE', '1000'), ('TERMINATOR_DBUS_PATH', '/net/tenshu/Terminator2'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('IBUS_DISABLE_SNOOPER', '1'), ('LC_TELEPHONE', 'es_MX.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.FT5QO2'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'es_MX.UTF-8'), ('TERMINATOR_UUID', 'urn:uuid:4688da2d-54b5-446e-b751-78bc2f3171e8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'es_MX.UTF-8'), ('LC_IDENTIFICATION', 'es_MX.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/vectornav_msgs'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('NVM_CD_FLAGS', ''), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'es_MX.UTF-8'), ('LC_PAPER', 'es_MX.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('NVM_RC_VERSION', ''), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[3.211628] (-) TimerEvent: {}
+[3.266683] (vectornav_msgs) StdoutLine: {'line': b'[  1%] \x1b[34m\x1b[1mGenerating C code for ROS interfaces\x1b[0m\n'}
+[3.284653] (vectornav_msgs) StdoutLine: {'line': b'[  1%] \x1b[34m\x1b[1mGenerating C++ code for ROS interfaces\x1b[0m\n'}
+[3.297435] (vectornav_msgs) StdoutLine: {'line': b'[  1%] Built target ament_cmake_python_copy_vectornav_msgs\n'}
+[3.311764] (-) TimerEvent: {}
+[3.412210] (-) TimerEvent: {}
+[3.512797] (-) TimerEvent: {}
+[3.613428] (-) TimerEvent: {}
+[3.713929] (-) TimerEvent: {}
+[3.726480] (vectornav_msgs) StdoutLine: {'line': b'running egg_info\n'}
+[3.727388] (vectornav_msgs) StdoutLine: {'line': b'creating vectornav_msgs.egg-info\n'}
+[3.727714] (vectornav_msgs) StdoutLine: {'line': b'writing vectornav_msgs.egg-info/PKG-INFO\n'}
+[3.727960] (vectornav_msgs) StdoutLine: {'line': b'writing dependency_links to vectornav_msgs.egg-info/dependency_links.txt\n'}
+[3.728162] (vectornav_msgs) StdoutLine: {'line': b'writing top-level names to vectornav_msgs.egg-info/top_level.txt\n'}
+[3.728491] (vectornav_msgs) StdoutLine: {'line': b"writing manifest file 'vectornav_msgs.egg-info/SOURCES.txt'\n"}
+[3.731325] (vectornav_msgs) StdoutLine: {'line': b"reading manifest file 'vectornav_msgs.egg-info/SOURCES.txt'\n"}
+[3.731862] (vectornav_msgs) StdoutLine: {'line': b"writing manifest file 'vectornav_msgs.egg-info/SOURCES.txt'\n"}
+[3.772116] (vectornav_msgs) StdoutLine: {'line': b'[  1%] Built target ament_cmake_python_build_vectornav_msgs_egg\n'}
+[3.814058] (-) TimerEvent: {}
+[3.914561] (-) TimerEvent: {}
+[4.015050] (-) TimerEvent: {}
+[4.115705] (-) TimerEvent: {}
+[4.216099] (-) TimerEvent: {}
+[4.316508] (-) TimerEvent: {}
+[4.416932] (-) TimerEvent: {}
+[4.517348] (-) TimerEvent: {}
+[4.617945] (-) TimerEvent: {}
+[4.718283] (-) TimerEvent: {}
+[4.818759] (-) TimerEvent: {}
+[4.919182] (-) TimerEvent: {}
+[5.019781] (-) TimerEvent: {}
+[5.120226] (-) TimerEvent: {}
+[5.220651] (-) TimerEvent: {}
+[5.321138] (-) TimerEvent: {}
+[5.421624] (-) TimerEvent: {}
+[5.522101] (-) TimerEvent: {}
+[5.622546] (-) TimerEvent: {}
+[5.722967] (-) TimerEvent: {}
+[5.823370] (-) TimerEvent: {}
+[5.923784] (-) TimerEvent: {}
+[6.024211] (-) TimerEvent: {}
+[6.125024] (-) TimerEvent: {}
+[6.225593] (-) TimerEvent: {}
+[6.246676] (vectornav_msgs) StdoutLine: {'line': b'[  1%] Built target vectornav_msgs__cpp\n'}
+[6.260806] (vectornav_msgs) StdoutLine: {'line': b'[  1%] \x1b[34m\x1b[1mGenerating C++ type support for eProsima Fast-RTPS\x1b[0m\n'}
+[6.262640] (vectornav_msgs) StdoutLine: {'line': b'[  2%] \x1b[34m\x1b[1mGenerating C++ introspection for ROS interfaces\x1b[0m\n'}
+[6.265659] (vectornav_msgs) StdoutLine: {'line': b'[  3%] \x1b[34m\x1b[1mGenerating C++ type support dispatch for ROS interfaces\x1b[0m\n'}
+[6.325718] (-) TimerEvent: {}
+[6.426166] (-) TimerEvent: {}
+[6.526930] (-) TimerEvent: {}
+[6.536678] (vectornav_msgs) StdoutLine: {'line': b'[  3%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_c.dir/rosidl_generator_c/vectornav_msgs/msg/detail/gps_group__functions.c.o\x1b[0m\n'}
+[6.537348] (vectornav_msgs) StdoutLine: {'line': b'[  5%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_c.dir/rosidl_generator_c/vectornav_msgs/msg/detail/imu_group__functions.c.o\x1b[0m\n'}
+[6.537821] (vectornav_msgs) StdoutLine: {'line': b'[  6%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_c.dir/rosidl_generator_c/vectornav_msgs/msg/detail/ins_group__functions.c.o\x1b[0m\n'}
+[6.539860] (vectornav_msgs) StdoutLine: {'line': b'[  6%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_c.dir/rosidl_generator_c/vectornav_msgs/msg/detail/attitude_group__functions.c.o\x1b[0m\n'}
+[6.540327] (vectornav_msgs) StdoutLine: {'line': b'[  8%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_c.dir/rosidl_generator_c/vectornav_msgs/msg/detail/dop__functions.c.o\x1b[0m\n'}
+[6.540569] (vectornav_msgs) StdoutLine: {'line': b'[  8%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_c.dir/rosidl_generator_c/vectornav_msgs/msg/detail/common_group__functions.c.o\x1b[0m\n'}
+[6.549079] (vectornav_msgs) StdoutLine: {'line': b'[  9%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_c.dir/rosidl_generator_c/vectornav_msgs/msg/detail/ins_status__functions.c.o\x1b[0m\n'}
+[6.557558] (vectornav_msgs) StdoutLine: {'line': b'[ 10%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_c.dir/rosidl_generator_c/vectornav_msgs/msg/detail/time_group__functions.c.o\x1b[0m\n'}
+[6.558312] (vectornav_msgs) StdoutLine: {'line': b'[ 11%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_c.dir/rosidl_generator_c/vectornav_msgs/msg/detail/time_status__functions.c.o\x1b[0m\n'}
+[6.627075] (-) TimerEvent: {}
+[6.690753] (vectornav_msgs) StdoutLine: {'line': b'[ 11%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_c.dir/rosidl_generator_c/vectornav_msgs/msg/detail/time_utc__functions.c.o\x1b[0m\n'}
+[6.692221] (vectornav_msgs) StdoutLine: {'line': b'[ 12%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_c.dir/rosidl_generator_c/vectornav_msgs/msg/detail/vpe_status__functions.c.o\x1b[0m\n'}
+[6.705434] (vectornav_msgs) StdoutLine: {'line': b'[ 13%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_c.dir/rosidl_generator_c/vectornav_msgs/action/detail/mag_cal__functions.c.o\x1b[0m\n'}
+[6.727203] (-) TimerEvent: {}
+[6.827946] (-) TimerEvent: {}
+[6.928370] (-) TimerEvent: {}
+[6.999246] (vectornav_msgs) StdoutLine: {'line': b'[ 14%] \x1b[32m\x1b[1mLinking C shared library libvectornav_msgs__rosidl_generator_c.so\x1b[0m\n'}
+[7.028522] (-) TimerEvent: {}
+[7.129256] (-) TimerEvent: {}
+[7.166068] (vectornav_msgs) StdoutLine: {'line': b'[ 14%] Built target vectornav_msgs__rosidl_generator_c\n'}
+[7.184049] (vectornav_msgs) StdoutLine: {'line': b'[ 15%] \x1b[34m\x1b[1mGenerating C introspection for ROS interfaces\x1b[0m\n'}
+[7.191480] (vectornav_msgs) StdoutLine: {'line': b'[ 16%] \x1b[34m\x1b[1mGenerating C type support dispatch for ROS interfaces\x1b[0m\n'}
+[7.196545] (vectornav_msgs) StdoutLine: {'line': b'[ 17%] \x1b[34m\x1b[1mGenerating C type support for eProsima Fast-RTPS\x1b[0m\n'}
+[7.229376] (-) TimerEvent: {}
+[7.329833] (-) TimerEvent: {}
+[7.430286] (-) TimerEvent: {}
+[7.530739] (-) TimerEvent: {}
+[7.631428] (-) TimerEvent: {}
+[7.733295] (-) TimerEvent: {}
+[7.835811] (-) TimerEvent: {}
+[7.938324] (-) TimerEvent: {}
+[8.040824] (-) TimerEvent: {}
+[8.144289] (-) TimerEvent: {}
+[8.246609] (-) TimerEvent: {}
+[8.348811] (-) TimerEvent: {}
+[8.450032] (-) TimerEvent: {}
+[8.552601] (-) TimerEvent: {}
+[8.654549] (-) TimerEvent: {}
+[8.754951] (-) TimerEvent: {}
+[8.855438] (-) TimerEvent: {}
+[8.955874] (-) TimerEvent: {}
+[9.056529] (-) TimerEvent: {}
+[9.156976] (-) TimerEvent: {}
+[9.257442] (-) TimerEvent: {}
+[9.357876] (-) TimerEvent: {}
+[9.458324] (-) TimerEvent: {}
+[9.558805] (-) TimerEvent: {}
+[9.659322] (-) TimerEvent: {}
+[9.759767] (-) TimerEvent: {}
+[9.860276] (-) TimerEvent: {}
+[9.888379] (vectornav_msgs) StdoutLine: {'line': b'[ 18%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/vectornav_msgs/msg/dop__type_support.cpp.o\x1b[0m\n'}
+[9.888783] (vectornav_msgs) StdoutLine: {'line': b'[ 19%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/vectornav_msgs/msg/attitude_group__type_support.cpp.o\x1b[0m\n'}
+[9.910412] (vectornav_msgs) StdoutLine: {'line': b'[ 20%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/vectornav_msgs/msg/common_group__type_support.cpp.o\x1b[0m\n'}
+[9.917773] (vectornav_msgs) StdoutLine: {'line': b'[ 21%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/vectornav_msgs/msg/gps_group__type_support.cpp.o\x1b[0m\n'}
+[9.940092] (vectornav_msgs) StdoutLine: {'line': b'[ 21%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/vectornav_msgs/msg/imu_group__type_support.cpp.o\x1b[0m\n'}
+[9.960432] (-) TimerEvent: {}
+[10.004163] (vectornav_msgs) StdoutLine: {'line': b'[ 22%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/vectornav_msgs/msg/ins_status__type_support.cpp.o\x1b[0m\n'}
+[10.006845] (vectornav_msgs) StdoutLine: {'line': b'[ 23%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/vectornav_msgs/msg/ins_group__type_support.cpp.o\x1b[0m\n'}
+[10.060553] (-) TimerEvent: {}
+[10.160974] (-) TimerEvent: {}
+[10.261433] (-) TimerEvent: {}
+[10.361857] (-) TimerEvent: {}
+[10.462306] (-) TimerEvent: {}
+[10.562940] (-) TimerEvent: {}
+[10.574394] (vectornav_msgs) StdoutLine: {'line': b'[ 24%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/vectornav_msgs/msg/time_group__type_support.cpp.o\x1b[0m\n'}
+[10.663083] (-) TimerEvent: {}
+[10.763983] (-) TimerEvent: {}
+[10.798499] (vectornav_msgs) StdoutLine: {'line': b'[ 25%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/vectornav_msgs/msg/time_status__type_support.cpp.o\x1b[0m\n'}
+[10.845283] (vectornav_msgs) StdoutLine: {'line': b'[ 26%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/vectornav_msgs/msg/time_utc__type_support.cpp.o\x1b[0m\n'}
+[10.864132] (-) TimerEvent: {}
+[10.964722] (-) TimerEvent: {}
+[11.052975] (vectornav_msgs) StdoutLine: {'line': b'[ 26%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/vectornav_msgs/msg/vpe_status__type_support.cpp.o\x1b[0m\n'}
+[11.057050] (vectornav_msgs) StdoutLine: {'line': b'[ 27%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/vectornav_msgs/action/mag_cal__type_support.cpp.o\x1b[0m\n'}
+[11.064861] (-) TimerEvent: {}
+[11.128480] (vectornav_msgs) StdoutLine: {'line': b'[ 27%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/vectornav_msgs/msg/detail/attitude_group__type_support.cpp.o\x1b[0m\n'}
+[11.143370] (vectornav_msgs) StdoutLine: {'line': b'[ 28%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/vectornav_msgs/msg/detail/dop__type_support.cpp.o\x1b[0m\n'}
+[11.161463] (vectornav_msgs) StdoutLine: {'line': b'[ 29%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/vectornav_msgs/msg/detail/common_group__type_support.cpp.o\x1b[0m\n'}
+[11.165029] (-) TimerEvent: {}
+[11.255177] (vectornav_msgs) StdoutLine: {'line': b'[ 30%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/vectornav_msgs/msg/detail/gps_group__type_support.cpp.o\x1b[0m\n'}
+[11.265361] (-) TimerEvent: {}
+[11.366351] (-) TimerEvent: {}
+[11.468011] (-) TimerEvent: {}
+[11.571800] (-) TimerEvent: {}
+[11.672303] (-) TimerEvent: {}
+[11.727461] (vectornav_msgs) StdoutLine: {'line': b'[ 31%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/vectornav_msgs/msg/detail/imu_group__type_support.cpp.o\x1b[0m\n'}
+[11.730360] (vectornav_msgs) StdoutLine: {'line': b'[ 32%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/vectornav_msgs/msg/detail/ins_group__type_support.cpp.o\x1b[0m\n'}
+[11.772520] (-) TimerEvent: {}
+[11.863258] (vectornav_msgs) StdoutLine: {'line': b'[ 33%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/vectornav_msgs/msg/attitude_group__type_support.cpp.o\x1b[0m\n'}
+[11.872663] (-) TimerEvent: {}
+[11.973587] (-) TimerEvent: {}
+[12.042874] (vectornav_msgs) StdoutLine: {'line': b'[ 33%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/vectornav_msgs/msg/common_group__type_support.cpp.o\x1b[0m\n'}
+[12.073704] (-) TimerEvent: {}
+[12.170061] (vectornav_msgs) StdoutLine: {'line': b'[ 33%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/vectornav_msgs/msg/detail/ins_status__type_support.cpp.o\x1b[0m\n'}
+[12.173842] (-) TimerEvent: {}
+[12.198283] (vectornav_msgs) StdoutLine: {'line': b'[ 34%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/vectornav_msgs/msg/dop__type_support.cpp.o\x1b[0m\n'}
+[12.257101] (vectornav_msgs) StdoutLine: {'line': b'[ 35%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/vectornav_msgs/msg/detail/time_group__type_support.cpp.o\x1b[0m\n'}
+[12.273963] (-) TimerEvent: {}
+[12.321454] (vectornav_msgs) StdoutLine: {'line': b'[ 36%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/vectornav_msgs/msg/detail/time_status__type_support.cpp.o\x1b[0m\n'}
+[12.345981] (vectornav_msgs) StdoutLine: {'line': b'[ 37%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/vectornav_msgs/msg/gps_group__type_support.cpp.o\x1b[0m\n'}
+[12.374100] (-) TimerEvent: {}
+[12.440764] (vectornav_msgs) StdoutLine: {'line': b'[ 38%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/vectornav_msgs/msg/detail/dds_fastrtps/attitude_group__type_support.cpp.o\x1b[0m\n'}
+[12.474256] (-) TimerEvent: {}
+[12.478776] (vectornav_msgs) StdoutLine: {'line': b'[ 39%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/vectornav_msgs/msg/imu_group__type_support.cpp.o\x1b[0m\n'}
+[12.536382] (vectornav_msgs) StdoutLine: {'line': b'[ 40%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/vectornav_msgs/msg/detail/time_utc__type_support.cpp.o\x1b[0m\n'}
+[12.574395] (-) TimerEvent: {}
+[12.590093] (vectornav_msgs) StdoutLine: {'line': b'[ 41%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/vectornav_msgs/msg/ins_group__type_support.cpp.o\x1b[0m\n'}
+[12.672074] (vectornav_msgs) StdoutLine: {'line': b'[ 42%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/vectornav_msgs/msg/detail/vpe_status__type_support.cpp.o\x1b[0m\n'}
+[12.674518] (-) TimerEvent: {}
+[12.775085] (-) TimerEvent: {}
+[12.776506] (vectornav_msgs) StdoutLine: {'line': b'[ 43%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/vectornav_msgs/msg/ins_status__type_support.cpp.o\x1b[0m\n'}
+[12.875216] (-) TimerEvent: {}
+[12.943890] (vectornav_msgs) StdoutLine: {'line': b'[ 44%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/vectornav_msgs/action/detail/mag_cal__type_support.cpp.o\x1b[0m\n'}
+[12.944281] (vectornav_msgs) StdoutLine: {'line': b'[ 45%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/vectornav_msgs/msg/time_status__type_support.cpp.o\x1b[0m\n'}
+[12.975355] (-) TimerEvent: {}
+[12.979834] (vectornav_msgs) StdoutLine: {'line': b'[ 45%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/vectornav_msgs/msg/time_group__type_support.cpp.o\x1b[0m\n'}
+[13.002532] (vectornav_msgs) StdoutLine: {'line': b'[ 46%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/vectornav_msgs/msg/detail/attitude_group__type_support_c.cpp.o\x1b[0m\n'}
+[13.030914] (vectornav_msgs) StdoutLine: {'line': b'[ 47%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/vectornav_msgs/msg/time_utc__type_support.cpp.o\x1b[0m\n'}
+[13.075489] (-) TimerEvent: {}
+[13.091671] (vectornav_msgs) StdoutLine: {'line': b'[ 48%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/vectornav_msgs/msg/vpe_status__type_support.cpp.o\x1b[0m\n'}
+[13.119037] (vectornav_msgs) StdoutLine: {'line': b'[ 49%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/vectornav_msgs/action/mag_cal__type_support.cpp.o\x1b[0m\n'}
+[13.130577] (vectornav_msgs) StdoutLine: {'line': b'[ 50%] \x1b[32m\x1b[1mLinking CXX shared library libvectornav_msgs__rosidl_typesupport_cpp.so\x1b[0m\n'}
+[13.174415] (vectornav_msgs) StdoutLine: {'line': b'[ 51%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/vectornav_msgs/msg/detail/common_group__type_support_c.cpp.o\x1b[0m\n'}
+[13.175581] (-) TimerEvent: {}
+[13.216679] (vectornav_msgs) StdoutLine: {'line': b'[ 52%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/vectornav_msgs/msg/detail/dds_fastrtps/common_group__type_support.cpp.o\x1b[0m\n'}
+[13.221945] (vectornav_msgs) StdoutLine: {'line': b'[ 53%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/vectornav_msgs/msg/detail/dds_fastrtps/dop__type_support.cpp.o\x1b[0m\n'}
+[13.232843] (vectornav_msgs) StdoutLine: {'line': b'[ 53%] Built target vectornav_msgs__rosidl_typesupport_cpp\n'}
+[13.266671] (vectornav_msgs) StdoutLine: {'line': b'[ 53%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/vectornav_msgs/msg/detail/dop__type_support_c.cpp.o\x1b[0m\n'}
+[13.275741] (-) TimerEvent: {}
+[13.373930] (vectornav_msgs) StdoutLine: {'line': b'[ 54%] \x1b[32m\x1b[1mLinking CXX shared library libvectornav_msgs__rosidl_typesupport_c.so\x1b[0m\n'}
+[13.375828] (-) TimerEvent: {}
+[13.476418] (-) TimerEvent: {}
+[13.527956] (vectornav_msgs) StdoutLine: {'line': b'[ 55%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/vectornav_msgs/msg/detail/gps_group__type_support_c.cpp.o\x1b[0m\n'}
+[13.556186] (vectornav_msgs) StdoutLine: {'line': b'[ 56%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/vectornav_msgs/msg/detail/attitude_group__type_support.c.o\x1b[0m\n'}
+[13.573793] (vectornav_msgs) StdoutLine: {'line': b'[ 57%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/vectornav_msgs/msg/detail/imu_group__type_support_c.cpp.o\x1b[0m\n'}
+[13.576556] (-) TimerEvent: {}
+[13.594797] (vectornav_msgs) StdoutLine: {'line': b'[ 58%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/vectornav_msgs/msg/detail/common_group__type_support.c.o\x1b[0m\n'}
+[13.644391] (vectornav_msgs) StdoutLine: {'line': b'[ 58%] Built target vectornav_msgs__rosidl_typesupport_c\n'}
+[13.676709] (-) TimerEvent: {}
+[13.694264] (vectornav_msgs) StdoutLine: {'line': b'[ 59%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/vectornav_msgs/msg/detail/dop__type_support.c.o\x1b[0m\n'}
+[13.759398] (vectornav_msgs) StdoutLine: {'line': b'[ 59%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/vectornav_msgs/msg/detail/gps_group__type_support.c.o\x1b[0m\n'}
+[13.776850] (-) TimerEvent: {}
+[13.792316] (vectornav_msgs) StdoutLine: {'line': b'[ 60%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/vectornav_msgs/msg/detail/imu_group__type_support.c.o\x1b[0m\n'}
+[13.837896] (vectornav_msgs) StdoutLine: {'line': b'[ 61%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/vectornav_msgs/msg/detail/ins_group__type_support.c.o\x1b[0m\n'}
+[13.876998] (-) TimerEvent: {}
+[13.879976] (vectornav_msgs) StdoutLine: {'line': b'[ 62%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/vectornav_msgs/msg/detail/ins_status__type_support.c.o\x1b[0m\n'}
+[13.926969] (vectornav_msgs) StdoutLine: {'line': b'[ 63%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/vectornav_msgs/msg/detail/ins_group__type_support_c.cpp.o\x1b[0m\n'}
+[13.927463] (vectornav_msgs) StdoutLine: {'line': b'[ 64%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/vectornav_msgs/msg/detail/time_group__type_support.c.o\x1b[0m\n'}
+[13.945506] (vectornav_msgs) StdoutLine: {'line': b'[ 65%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/vectornav_msgs/msg/detail/time_status__type_support.c.o\x1b[0m\n'}
+[13.957038] (vectornav_msgs) StdoutLine: {'line': b'[ 66%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/vectornav_msgs/msg/detail/dds_fastrtps/gps_group__type_support.cpp.o\x1b[0m\n'}
+[13.964927] (vectornav_msgs) StdoutLine: {'line': b'[ 67%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/vectornav_msgs/msg/detail/dds_fastrtps/imu_group__type_support.cpp.o\x1b[0m\n'}
+[13.977289] (-) TimerEvent: {}
+[14.019030] (vectornav_msgs) StdoutLine: {'line': b'[ 68%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/vectornav_msgs/msg/detail/time_utc__type_support.c.o\x1b[0m\n'}
+[14.040912] (vectornav_msgs) StdoutLine: {'line': b'[ 68%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/vectornav_msgs/msg/detail/vpe_status__type_support.c.o\x1b[0m\n'}
+[14.080293] (-) TimerEvent: {}
+[14.106757] (vectornav_msgs) StdoutLine: {'line': b'[ 69%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/vectornav_msgs/action/detail/mag_cal__type_support.c.o\x1b[0m\n'}
+[14.180455] (-) TimerEvent: {}
+[14.206341] (vectornav_msgs) StdoutLine: {'line': b'[ 70%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/vectornav_msgs/msg/detail/ins_status__type_support_c.cpp.o\x1b[0m\n'}
+[14.225986] (vectornav_msgs) StdoutLine: {'line': b'[ 71%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/vectornav_msgs/msg/detail/time_group__type_support_c.cpp.o\x1b[0m\n'}
+[14.282515] (-) TimerEvent: {}
+[14.333602] (vectornav_msgs) StdoutLine: {'line': b'[ 71%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/vectornav_msgs/msg/detail/time_status__type_support_c.cpp.o\x1b[0m\n'}
+[14.382673] (-) TimerEvent: {}
+[14.483573] (-) TimerEvent: {}
+[14.518680] (vectornav_msgs) StdoutLine: {'line': b'[ 72%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/vectornav_msgs/msg/detail/time_utc__type_support_c.cpp.o\x1b[0m\n'}
+[14.543744] (vectornav_msgs) StdoutLine: {'line': b'[ 73%] \x1b[32m\x1b[1mLinking C shared library libvectornav_msgs__rosidl_typesupport_introspection_c.so\x1b[0m\n'}
+[14.573381] (vectornav_msgs) StdoutLine: {'line': b'[ 74%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/vectornav_msgs/msg/detail/vpe_status__type_support_c.cpp.o\x1b[0m\n'}
+[14.583700] (-) TimerEvent: {}
+[14.681785] (vectornav_msgs) StdoutLine: {'line': b'[ 74%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/vectornav_msgs/msg/detail/dds_fastrtps/ins_group__type_support.cpp.o\x1b[0m\n'}
+[14.683826] (-) TimerEvent: {}
+[14.750284] (vectornav_msgs) StdoutLine: {'line': b'[ 74%] Built target vectornav_msgs__rosidl_typesupport_introspection_c\n'}
+[14.766318] (vectornav_msgs) StdoutLine: {'line': b'[ 75%] \x1b[32m\x1b[1mLinking CXX shared library libvectornav_msgs__rosidl_typesupport_introspection_cpp.so\x1b[0m\n'}
+[14.783963] (-) TimerEvent: {}
+[14.794784] (vectornav_msgs) StdoutLine: {'line': b'[ 76%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/vectornav_msgs/msg/detail/dds_fastrtps/ins_status__type_support.cpp.o\x1b[0m\n'}
+[14.798696] (vectornav_msgs) StdoutLine: {'line': b'[ 77%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/vectornav_msgs/msg/detail/dds_fastrtps/time_group__type_support.cpp.o\x1b[0m\n'}
+[14.884095] (-) TimerEvent: {}
+[14.962764] (vectornav_msgs) StdoutLine: {'line': b'[ 78%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/vectornav_msgs/action/detail/mag_cal__type_support_c.cpp.o\x1b[0m\n'}
+[14.984250] (-) TimerEvent: {}
+[15.000883] (vectornav_msgs) StdoutLine: {'line': b'[ 79%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/vectornav_msgs/msg/detail/dds_fastrtps/time_status__type_support.cpp.o\x1b[0m\n'}
+[15.058609] (vectornav_msgs) StdoutLine: {'line': b'[ 80%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/vectornav_msgs/msg/detail/dds_fastrtps/time_utc__type_support.cpp.o\x1b[0m\n'}
+[15.084375] (-) TimerEvent: {}
+[15.141271] (vectornav_msgs) StdoutLine: {'line': b'[ 80%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/vectornav_msgs/action/detail/dds_fastrtps/mag_cal__type_support.cpp.o\x1b[0m\n'}
+[15.157811] (vectornav_msgs) StdoutLine: {'line': b'[ 80%] Built target vectornav_msgs__rosidl_typesupport_introspection_cpp\n'}
+[15.184533] (-) TimerEvent: {}
+[15.191171] (vectornav_msgs) StdoutLine: {'line': b'[ 81%] \x1b[32mBuilding CXX object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/vectornav_msgs/msg/detail/dds_fastrtps/vpe_status__type_support.cpp.o\x1b[0m\n'}
+[15.284690] (-) TimerEvent: {}
+[15.385607] (-) TimerEvent: {}
+[15.486420] (-) TimerEvent: {}
+[15.587262] (-) TimerEvent: {}
+[15.688120] (-) TimerEvent: {}
+[15.788879] (-) TimerEvent: {}
+[15.889365] (-) TimerEvent: {}
+[15.989810] (-) TimerEvent: {}
+[16.090687] (-) TimerEvent: {}
+[16.191336] (-) TimerEvent: {}
+[16.291848] (-) TimerEvent: {}
+[16.335661] (vectornav_msgs) StdoutLine: {'line': b'[ 82%] \x1b[32m\x1b[1mLinking CXX shared library libvectornav_msgs__rosidl_typesupport_fastrtps_c.so\x1b[0m\n'}
+[16.391980] (-) TimerEvent: {}
+[16.408562] (vectornav_msgs) StdoutLine: {'line': b'[ 83%] \x1b[32m\x1b[1mLinking CXX shared library libvectornav_msgs__rosidl_typesupport_fastrtps_cpp.so\x1b[0m\n'}
+[16.474419] (vectornav_msgs) StdoutLine: {'line': b'[ 83%] Built target vectornav_msgs__rosidl_typesupport_fastrtps_c\n'}
+[16.492123] (-) TimerEvent: {}
+[16.528568] (vectornav_msgs) StdoutLine: {'line': b'[ 83%] Built target vectornav_msgs__rosidl_typesupport_fastrtps_cpp\n'}
+[16.564526] (vectornav_msgs) StdoutLine: {'line': b'[ 83%] Built target vectornav_msgs\n'}
+[16.592298] (-) TimerEvent: {}
+[16.600084] (vectornav_msgs) StdoutLine: {'line': b'[ 84%] \x1b[34m\x1b[1mGenerating Python code for ROS interfaces\x1b[0m\n'}
+[16.692438] (-) TimerEvent: {}
+[16.792893] (-) TimerEvent: {}
+[16.893334] (-) TimerEvent: {}
+[16.993810] (-) TimerEvent: {}
+[17.094256] (-) TimerEvent: {}
+[17.194694] (-) TimerEvent: {}
+[17.295120] (-) TimerEvent: {}
+[17.395545] (-) TimerEvent: {}
+[17.496032] (-) TimerEvent: {}
+[17.596497] (-) TimerEvent: {}
+[17.697022] (-) TimerEvent: {}
+[17.797440] (-) TimerEvent: {}
+[17.897829] (-) TimerEvent: {}
+[17.998537] (-) TimerEvent: {}
+[18.098862] (-) TimerEvent: {}
+[18.199272] (-) TimerEvent: {}
+[18.299717] (-) TimerEvent: {}
+[18.400149] (-) TimerEvent: {}
+[18.500552] (-) TimerEvent: {}
+[18.600943] (-) TimerEvent: {}
+[18.701372] (-) TimerEvent: {}
+[18.801792] (-) TimerEvent: {}
+[18.902259] (-) TimerEvent: {}
+[19.002660] (-) TimerEvent: {}
+[19.103235] (-) TimerEvent: {}
+[19.203764] (-) TimerEvent: {}
+[19.304179] (-) TimerEvent: {}
+[19.404616] (-) TimerEvent: {}
+[19.505067] (-) TimerEvent: {}
+[19.605511] (-) TimerEvent: {}
+[19.705945] (-) TimerEvent: {}
+[19.806396] (-) TimerEvent: {}
+[19.907030] (-) TimerEvent: {}
+[20.007408] (-) TimerEvent: {}
+[20.107757] (-) TimerEvent: {}
+[20.208317] (-) TimerEvent: {}
+[20.308709] (-) TimerEvent: {}
+[20.409214] (-) TimerEvent: {}
+[20.509629] (-) TimerEvent: {}
+[20.610073] (-) TimerEvent: {}
+[20.710550] (-) TimerEvent: {}
+[20.811010] (-) TimerEvent: {}
+[20.911566] (-) TimerEvent: {}
+[21.012002] (-) TimerEvent: {}
+[21.112430] (-) TimerEvent: {}
+[21.212881] (-) TimerEvent: {}
+[21.313472] (-) TimerEvent: {}
+[21.413889] (-) TimerEvent: {}
+[21.514366] (-) TimerEvent: {}
+[21.614797] (-) TimerEvent: {}
+[21.715233] (-) TimerEvent: {}
+[21.815620] (-) TimerEvent: {}
+[21.871130] (vectornav_msgs) StdoutLine: {'line': b'[ 84%] Built target vectornav_msgs__py\n'}
+[21.909998] (vectornav_msgs) StdoutLine: {'line': b'[ 87%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_py.dir/rosidl_generator_py/vectornav_msgs/msg/_ins_group_s.c.o\x1b[0m\n'}
+[21.911650] (vectornav_msgs) StdoutLine: {'line': b'[ 87%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_py.dir/rosidl_generator_py/vectornav_msgs/msg/_common_group_s.c.o\x1b[0m\n'}
+[21.911941] (vectornav_msgs) StdoutLine: {'line': b'[ 88%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_py.dir/rosidl_generator_py/vectornav_msgs/msg/_gps_group_s.c.o\x1b[0m\n'}
+[21.912082] (vectornav_msgs) StdoutLine: {'line': b'[ 88%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_py.dir/rosidl_generator_py/vectornav_msgs/msg/_dop_s.c.o\x1b[0m\n'}
+[21.912198] (vectornav_msgs) StdoutLine: {'line': b'[ 89%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_py.dir/rosidl_generator_py/vectornav_msgs/msg/_ins_status_s.c.o\x1b[0m\n'}
+[21.912371] (vectornav_msgs) StdoutLine: {'line': b'[ 89%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_py.dir/rosidl_generator_py/vectornav_msgs/msg/_attitude_group_s.c.o\x1b[0m\n'}
+[21.916402] (vectornav_msgs) StdoutLine: {'line': b'[ 90%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_py.dir/rosidl_generator_py/vectornav_msgs/msg/_time_group_s.c.o\x1b[0m\n'}
+[21.916672] (-) TimerEvent: {}
+[21.925837] (vectornav_msgs) StdoutLine: {'line': b'[ 91%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_py.dir/rosidl_generator_py/vectornav_msgs/msg/_imu_group_s.c.o\x1b[0m\n'}
+[21.941394] (vectornav_msgs) StdoutLine: {'line': b'[ 92%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_py.dir/rosidl_generator_py/vectornav_msgs/msg/_time_status_s.c.o\x1b[0m\n'}
+[22.016851] (-) TimerEvent: {}
+[22.117358] (-) TimerEvent: {}
+[22.161141] (vectornav_msgs) StdoutLine: {'line': b'[ 93%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_py.dir/rosidl_generator_py/vectornav_msgs/action/_mag_cal_s.c.o\x1b[0m\n'}
+[22.168718] (vectornav_msgs) StdoutLine: {'line': b'[ 94%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_py.dir/rosidl_generator_py/vectornav_msgs/msg/_vpe_status_s.c.o\x1b[0m\n'}
+[22.185095] (vectornav_msgs) StdoutLine: {'line': b'[ 94%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_generator_py.dir/rosidl_generator_py/vectornav_msgs/msg/_time_utc_s.c.o\x1b[0m\n'}
+[22.217496] (-) TimerEvent: {}
+[22.318201] (-) TimerEvent: {}
+[22.418665] (-) TimerEvent: {}
+[22.459040] (vectornav_msgs) StdoutLine: {'line': b'[ 95%] \x1b[32m\x1b[1mLinking C shared library rosidl_generator_py/vectornav_msgs/libvectornav_msgs__rosidl_generator_py.so\x1b[0m\n'}
+[22.518802] (-) TimerEvent: {}
+[22.542482] (vectornav_msgs) StdoutLine: {'line': b'[ 95%] Built target vectornav_msgs__rosidl_generator_py\n'}
+[22.573987] (vectornav_msgs) StdoutLine: {'line': b'[ 95%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/vectornav_msgs/_vectornav_msgs_s.ep.rosidl_typesupport_c.c.o\x1b[0m\n'}
+[22.578104] (vectornav_msgs) StdoutLine: {'line': b'[ 96%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/vectornav_msgs/_vectornav_msgs_s.ep.rosidl_typesupport_introspection_c.c.o\x1b[0m\n'}
+[22.579482] (vectornav_msgs) StdoutLine: {'line': b'[ 97%] \x1b[32mBuilding C object CMakeFiles/vectornav_msgs__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/vectornav_msgs/_vectornav_msgs_s.ep.rosidl_typesupport_fastrtps_c.c.o\x1b[0m\n'}
+[22.618945] (-) TimerEvent: {}
+[22.719486] (-) TimerEvent: {}
+[22.820092] (-) TimerEvent: {}
+[22.856953] (vectornav_msgs) StdoutLine: {'line': b'[ 98%] \x1b[32m\x1b[1mLinking C shared library rosidl_generator_py/vectornav_msgs/vectornav_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so\x1b[0m\n'}
+[22.920220] (-) TimerEvent: {}
+[22.920606] (vectornav_msgs) StdoutLine: {'line': b'[ 99%] \x1b[32m\x1b[1mLinking C shared library rosidl_generator_py/vectornav_msgs/vectornav_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so\x1b[0m\n'}
+[22.921585] (vectornav_msgs) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking C shared library rosidl_generator_py/vectornav_msgs/vectornav_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so\x1b[0m\n'}
+[22.939505] (vectornav_msgs) StdoutLine: {'line': b'[100%] Built target vectornav_msgs__rosidl_typesupport_introspection_c__pyext\n'}
+[23.020346] (-) TimerEvent: {}
+[23.024225] (vectornav_msgs) StdoutLine: {'line': b'[100%] Built target vectornav_msgs__rosidl_typesupport_fastrtps_c__pyext\n'}
+[23.031527] (vectornav_msgs) StdoutLine: {'line': b'[100%] Built target vectornav_msgs__rosidl_typesupport_c__pyext\n'}
+[23.057913] (vectornav_msgs) CommandEnded: {'returncode': 0}
+[23.120458] (-) TimerEvent: {}
+[23.220823] (-) TimerEvent: {}
+[23.321458] (-) TimerEvent: {}
+[23.422294] (-) TimerEvent: {}
+[23.497059] (vectornav_msgs) JobProgress: {'identifier': 'vectornav_msgs', 'progress': 'install'}
+[23.522431] (-) TimerEvent: {}
+[23.531157] (vectornav_msgs) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/vectornav_msgs'], 'cwd': '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/vectornav_msgs', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'fectec151'), ('LC_TIME', 'es_MX.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/fectec151'), ('OLDPWD', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'es_MX.UTF-8'), ('MANAGERPID', '2229'), ('SYSTEMD_EXEC_PID', '2620'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('TERMINATOR_DBUS_NAME', 'net.tenshu.Terminator25ef4b219e3b005583550f2b0f9f990c3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '44034'), ('NVM_DIR', '/home/fectec151/.nvm'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'fectec151'), ('JOURNAL_STREAM', '8:26278'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'fectec151'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('HISTCONTROL', 'ignoredups'), ('PATH', '/opt/ros/humble/bin:/home/fectec151/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/fec-pc:@/tmp/.ICE-unix/2419,unix/fec-pc:/tmp/.ICE-unix/2419'), ('INVOCATION_ID', 'ac81952abfe74ec08d13dc9e8ce9f7c6'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'es_MX.UTF-8'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('HISTSIZE', '1000'), ('TERMINATOR_DBUS_PATH', '/net/tenshu/Terminator2'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('IBUS_DISABLE_SNOOPER', '1'), ('LC_TELEPHONE', 'es_MX.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.FT5QO2'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'es_MX.UTF-8'), ('TERMINATOR_UUID', 'urn:uuid:4688da2d-54b5-446e-b751-78bc2f3171e8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'es_MX.UTF-8'), ('LC_IDENTIFICATION', 'es_MX.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/vectornav_msgs'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('NVM_CD_FLAGS', ''), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'es_MX.UTF-8'), ('LC_PAPER', 'es_MX.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('NVM_RC_VERSION', ''), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[23.548789] (vectornav_msgs) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[23.549508] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/ament_index/resource_index/rosidl_interfaces/vectornav_msgs\n'}
+[23.549920] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs\n'}
+[23.550161] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg\n'}
+[23.550419] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/ins_group.h\n'}
+[23.550651] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/time_utc.h\n'}
+[23.550841] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/ins_status.h\n'}
+[23.551092] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/common_group.h\n'}
+[23.551421] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/imu_group.h\n'}
+[23.551650] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/rosidl_generator_c__visibility_control.h\n'}
+[23.551956] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/attitude_group.h\n'}
+[23.552281] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/dop.h\n'}
+[23.552397] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/gps_group.h\n'}
+[23.552537] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/time_group.h\n'}
+[23.552628] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/time_status.h\n'}
+[23.552749] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail\n'}
+[23.552867] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_group__struct.h\n'}
+[23.552977] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/gps_group__functions.c\n'}
+[23.553193] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_status__struct.h\n'}
+[23.553371] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/imu_group__functions.h\n'}
+[23.553571] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/vpe_status__functions.h\n'}
+[23.553784] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/imu_group__type_support.h\n'}
+[23.554034] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_status__functions.h\n'}
+[23.554188] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_status__functions.h\n'}
+[23.554423] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_utc__functions.h\n'}
+[23.554711] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/common_group__type_support.h\n'}
+[23.555081] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/dop__functions.h\n'}
+[23.555296] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/gps_group__functions.h\n'}
+[23.555605] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/gps_group__type_support.h\n'}
+[23.555871] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_utc__type_support.h\n'}
+[23.556086] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_group__struct.h\n'}
+[23.556417] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/attitude_group__struct.h\n'}
+[23.556692] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_group__type_support.h\n'}
+[23.556964] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/attitude_group__functions.c\n'}
+[23.557226] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/gps_group__struct.h\n'}
+[23.557539] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_group__functions.c\n'}
+[23.557814] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_group__type_support.h\n'}
+[23.558156] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_status__functions.c\n'}
+[23.558416] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_group__functions.h\n'}
+[23.558680] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/common_group__functions.c\n'}
+[23.558938] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/vpe_status__functions.c\n'}
+[23.559200] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_group__functions.c\n'}
+[23.559429] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_status__struct.h\n'}
+[23.572036] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_utc__functions.c\n'}
+[23.572358] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/vpe_status__type_support.h\n'}
+[23.572533] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_status__type_support.h\n'}
+[23.572684] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/dop__type_support.h\n'}
+[23.572828] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_status__type_support.h\n'}
+[23.572971] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_status__functions.c\n'}
+[23.573131] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/imu_group__functions.c\n'}
+[23.573275] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_group__functions.h\n'}
+[23.573416] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/dop__struct.h\n'}
+[23.573568] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_utc__struct.h\n'}
+[23.573711] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/vpe_status__struct.h\n'}
+[23.573876] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/dop__functions.c\n'}
+[23.574020] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/attitude_group__functions.h\n'}
+[23.574165] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/common_group__functions.h\n'}
+[23.574310] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/common_group__struct.h\n'}
+[23.574451] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/imu_group__struct.h\n'}
+[23.574593] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/attitude_group__type_support.h\n'}
+[23.574736] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/vpe_status.h\n'}
+[23.574901] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action\n'}
+[23.575055] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/detail\n'}
+[23.575205] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/detail/mag_cal__struct.h\n'}
+[23.575346] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/detail/mag_cal__type_support.h\n'}
+[23.575491] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/detail/mag_cal__functions.h\n'}
+[23.575631] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/detail/mag_cal__functions.c\n'}
+[23.575772] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/mag_cal.h\n'}
+[23.575913] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/environment/library_path.sh\n'}
+[23.576056] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/environment/library_path.dsv\n'}
+[23.576201] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib/libvectornav_msgs__rosidl_generator_c.so\n'}
+[23.576339] (vectornav_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib/libvectornav_msgs__rosidl_generator_c.so" to ""\n'}
+[23.576494] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs\n'}
+[23.576634] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg\n'}
+[23.576777] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/rosidl_typesupport_fastrtps_c__visibility_control.h\n'}
+[23.576920] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail\n'}
+[23.577073] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/common_group__rosidl_typesupport_fastrtps_c.h\n'}
+[23.577218] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_status__rosidl_typesupport_fastrtps_c.h\n'}
+[23.577362] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_group__rosidl_typesupport_fastrtps_c.h\n'}
+[23.577502] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/attitude_group__rosidl_typesupport_fastrtps_c.h\n'}
+[23.577641] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/dop__rosidl_typesupport_fastrtps_c.h\n'}
+[23.577780] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_group__rosidl_typesupport_fastrtps_c.h\n'}
+[23.577919] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/vpe_status__rosidl_typesupport_fastrtps_c.h\n'}
+[23.578056] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/gps_group__rosidl_typesupport_fastrtps_c.h\n'}
+[23.578193] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/imu_group__rosidl_typesupport_fastrtps_c.h\n'}
+[23.578367] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_utc__rosidl_typesupport_fastrtps_c.h\n'}
+[23.578510] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_status__rosidl_typesupport_fastrtps_c.h\n'}
+[23.578649] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action\n'}
+[23.578787] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/detail\n'}
+[23.578927] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/detail/mag_cal__rosidl_typesupport_fastrtps_c.h\n'}
+[23.579077] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib/libvectornav_msgs__rosidl_typesupport_fastrtps_c.so\n'}
+[23.579216] (vectornav_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib/libvectornav_msgs__rosidl_typesupport_fastrtps_c.so" to ""\n'}
+[23.579356] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs\n'}
+[23.579493] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg\n'}
+[23.579635] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/ins_group.hpp\n'}
+[23.580386] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/imu_group.hpp\n'}
+[23.580617] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/dop.hpp\n'}
+[23.580833] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/ins_status.hpp\n'}
+[23.581055] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/time_utc.hpp\n'}
+[23.581251] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/time_group.hpp\n'}
+[23.581392] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/common_group.hpp\n'}
+[23.581537] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/time_status.hpp\n'}
+[23.581680] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/attitude_group.hpp\n'}
+[23.581927] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail\n'}
+[23.582412] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/gps_group__traits.hpp\n'}
+[23.582755] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_utc__traits.hpp\n'}
+[23.583002] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/dop__traits.hpp\n'}
+[23.583220] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_status__traits.hpp\n'}
+[23.583486] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/gps_group__struct.hpp\n'}
+[23.583765] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_utc__struct.hpp\n'}
+[23.583996] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/imu_group__traits.hpp\n'}
+[23.584254] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/attitude_group__struct.hpp\n'}
+[23.584401] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_group__traits.hpp\n'}
+[23.584620] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/common_group__traits.hpp\n'}
+[23.584821] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_group__builder.hpp\n'}
+[23.585025] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/dop__builder.hpp\n'}
+[23.585225] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_status__traits.hpp\n'}
+[23.585428] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/dop__struct.hpp\n'}
+[23.585652] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/gps_group__builder.hpp\n'}
+[23.585867] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/attitude_group__builder.hpp\n'}
+[23.586145] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_status__builder.hpp\n'}
+[23.586362] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_status__struct.hpp\n'}
+[23.586510] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_utc__builder.hpp\n'}
+[23.586701] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/vpe_status__struct.hpp\n'}
+[23.586845] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/vpe_status__traits.hpp\n'}
+[23.586987] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_group__traits.hpp\n'}
+[23.587128] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_status__builder.hpp\n'}
+[23.587287] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_status__struct.hpp\n'}
+[23.587433] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/vpe_status__builder.hpp\n'}
+[23.587580] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_group__builder.hpp\n'}
+[23.587969] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/common_group__struct.hpp\n'}
+[23.588766] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/imu_group__struct.hpp\n'}
+[23.589213] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/imu_group__builder.hpp\n'}
+[23.589495] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_group__struct.hpp\n'}
+[23.590089] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/attitude_group__traits.hpp\n'}
+[23.590372] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_group__struct.hpp\n'}
+[23.590543] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/common_group__builder.hpp\n'}
+[23.590705] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/gps_group.hpp\n'}
+[23.590950] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/vpe_status.hpp\n'}
+[23.591184] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action\n'}
+[23.591318] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/mag_cal.hpp\n'}
+[23.591584] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/detail\n'}
+[23.592520] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/detail/mag_cal__struct.hpp\n'}
+[23.592691] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/detail/mag_cal__traits.hpp\n'}
+[23.593040] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/detail/mag_cal__builder.hpp\n'}
+[23.593289] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs\n'}
+[23.593464] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg\n'}
+[23.593628] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h\n'}
+[23.593792] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail\n'}
+[23.593948] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/gps_group__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[23.594109] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/dop__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[23.594273] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/dds_fastrtps\n'}
+[23.594435] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/vpe_status__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[23.594591] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_group__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[23.594744] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_utc__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[23.594909] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_status__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[23.595070] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/imu_group__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[23.595409] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_group__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[23.595598] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/attitude_group__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[23.595751] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/common_group__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[23.595995] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_status__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[23.596330] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action\n'}
+[23.596498] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/detail\n'}
+[23.596728] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/detail/dds_fastrtps\n'}
+[23.596953] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/detail/mag_cal__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[23.597168] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib/libvectornav_msgs__rosidl_typesupport_fastrtps_cpp.so\n'}
+[23.597314] (vectornav_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib/libvectornav_msgs__rosidl_typesupport_fastrtps_cpp.so" to ""\n'}
+[23.597531] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs\n'}
+[23.597761] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg\n'}
+[23.597962] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h\n'}
+[23.598169] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail\n'}
+[23.598372] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/common_group__type_support.c\n'}
+[23.598538] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/imu_group__type_support.c\n'}
+[23.598729] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_status__type_support.c\n'}
+[23.598938] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/common_group__rosidl_typesupport_introspection_c.h\n'}
+[23.599147] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_group__rosidl_typesupport_introspection_c.h\n'}
+[23.599346] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/vpe_status__rosidl_typesupport_introspection_c.h\n'}
+[23.599560] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_status__rosidl_typesupport_introspection_c.h\n'}
+[23.599752] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/gps_group__rosidl_typesupport_introspection_c.h\n'}
+[23.599896] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_status__rosidl_typesupport_introspection_c.h\n'}
+[23.600086] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_utc__type_support.c\n'}
+[23.600311] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/imu_group__rosidl_typesupport_introspection_c.h\n'}
+[23.600516] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/gps_group__type_support.c\n'}
+[23.600684] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_group__type_support.c\n'}
+[23.600896] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/dop__type_support.c\n'}
+[23.601112] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_group__rosidl_typesupport_introspection_c.h\n'}
+[23.601492] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/dop__rosidl_typesupport_introspection_c.h\n'}
+[23.601678] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_utc__rosidl_typesupport_introspection_c.h\n'}
+[23.601803] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/attitude_group__type_support.c\n'}
+[23.601995] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/attitude_group__rosidl_typesupport_introspection_c.h\n'}
+[23.602103] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_group__type_support.c\n'}
+[23.602248] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_status__type_support.c\n'}
+[23.602357] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/vpe_status__type_support.c\n'}
+[23.602474] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action\n'}
+[23.602593] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/detail\n'}
+[23.602711] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/detail/mag_cal__type_support.c\n'}
+[23.602826] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/detail/mag_cal__rosidl_typesupport_introspection_c.h\n'}
+[23.603022] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib/libvectornav_msgs__rosidl_typesupport_introspection_c.so\n'}
+[23.603165] (vectornav_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib/libvectornav_msgs__rosidl_typesupport_introspection_c.so" to ""\n'}
+[23.603262] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib/libvectornav_msgs__rosidl_typesupport_c.so\n'}
+[23.603355] (vectornav_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib/libvectornav_msgs__rosidl_typesupport_c.so" to ""\n'}
+[23.603442] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs\n'}
+[23.603531] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg\n'}
+[23.603623] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail\n'}
+[23.603719] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/vpe_status__rosidl_typesupport_introspection_cpp.hpp\n'}
+[23.604084] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/dop__rosidl_typesupport_introspection_cpp.hpp\n'}
+[23.604441] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_group__type_support.cpp\n'}
+[23.604723] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/attitude_group__rosidl_typesupport_introspection_cpp.hpp\n'}
+[23.604835] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/vpe_status__type_support.cpp\n'}
+[23.604935] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/imu_group__rosidl_typesupport_introspection_cpp.hpp\n'}
+[23.605112] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_group__rosidl_typesupport_introspection_cpp.hpp\n'}
+[23.605302] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_utc__rosidl_typesupport_introspection_cpp.hpp\n'}
+[23.605417] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_group__type_support.cpp\n'}
+[23.606520] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/dop__type_support.cpp\n'}
+[23.606682] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/gps_group__type_support.cpp\n'}
+[23.606797] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/common_group__rosidl_typesupport_introspection_cpp.hpp\n'}
+[23.606935] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_status__rosidl_typesupport_introspection_cpp.hpp\n'}
+[23.607035] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/gps_group__rosidl_typesupport_introspection_cpp.hpp\n'}
+[23.607120] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_status__type_support.cpp\n'}
+[23.607197] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_group__rosidl_typesupport_introspection_cpp.hpp\n'}
+[23.607256] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_status__rosidl_typesupport_introspection_cpp.hpp\n'}
+[23.607315] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/common_group__type_support.cpp\n'}
+[23.607384] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/ins_status__type_support.cpp\n'}
+[23.607449] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/imu_group__type_support.cpp\n'}
+[23.607510] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/attitude_group__type_support.cpp\n'}
+[23.607570] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/msg/detail/time_utc__type_support.cpp\n'}
+[23.607629] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action\n'}
+[23.607703] (vectornav_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/detail\n'}
+[23.607767] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/detail/mag_cal__type_support.cpp\n'}
+[23.607835] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/include/vectornav_msgs/vectornav_msgs/action/detail/mag_cal__rosidl_typesupport_introspection_cpp.hpp\n'}
+[23.607895] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib/libvectornav_msgs__rosidl_typesupport_introspection_cpp.so\n'}
+[23.607955] (vectornav_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib/libvectornav_msgs__rosidl_typesupport_introspection_cpp.so" to ""\n'}
+[23.608014] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib/libvectornav_msgs__rosidl_typesupport_cpp.so\n'}
+[23.608082] (vectornav_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib/libvectornav_msgs__rosidl_typesupport_cpp.so" to ""\n'}
+[23.608142] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/environment/pythonpath.sh\n'}
+[23.608199] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/environment/pythonpath.dsv\n'}
+[23.608259] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs-3.0.0-py3.10.egg-info\n'}
+[23.608318] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs-3.0.0-py3.10.egg-info/PKG-INFO\n'}
+[23.608379] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs-3.0.0-py3.10.egg-info/top_level.txt\n'}
+[23.608549] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs-3.0.0-py3.10.egg-info/SOURCES.txt\n'}
+[23.608699] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs-3.0.0-py3.10.egg-info/dependency_links.txt\n'}
+[23.609065] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs\n'}
+[23.609462] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/libvectornav_msgs__rosidl_generator_py.so\n'}
+[23.610030] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/vectornav_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so\n'}
+[23.610322] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg\n'}
+[23.610542] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_time_status_s.c\n'}
+[23.611009] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_ins_status.py\n'}
+[23.611192] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_dop_s.c\n'}
+[23.611313] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_time_utc_s.c\n'}
+[23.612068] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_imu_group.py\n'}
+[23.612364] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_ins_status_s.c\n'}
+[23.612543] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_attitude_group_s.c\n'}
+[23.612738] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/__init__.py\n'}
+[23.612958] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_time_group.py\n'}
+[23.613237] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_attitude_group.py\n'}
+[23.613452] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_time_group_s.c\n'}
+[23.613629] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_imu_group_s.c\n'}
+[23.613834] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_ins_group_s.c\n'}
+[23.613945] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_vpe_status_s.c\n'}
+[23.614109] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_gps_group_s.c\n'}
+[23.614260] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_gps_group.py\n'}
+[23.614376] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_time_status.py\n'}
+[23.614523] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_common_group_s.c\n'}
+[23.614658] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_vpe_status.py\n'}
+[23.614787] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_ins_group.py\n'}
+[23.614878] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_time_utc.py\n'}
+[23.614966] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_common_group.py\n'}
+[23.615216] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_dop.py\n'}
+[23.615380] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/__init__.py\n'}
+[23.615485] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/_vectornav_msgs_s.ep.rosidl_typesupport_c.c\n'}
+[23.615749] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/_vectornav_msgs_s.ep.rosidl_typesupport_fastrtps_c.c\n'}
+[23.616169] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/vectornav_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so\n'}
+[23.616471] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/_vectornav_msgs_s.ep.rosidl_typesupport_introspection_c.c\n'}
+[23.616823] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/vectornav_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so\n'}
+[23.617151] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/action\n'}
+[23.617347] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/action/_mag_cal_s.c\n'}
+[23.618399] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/action/__init__.py\n'}
+[23.618650] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/action/_mag_cal.py\n'}
+[23.622563] (-) TimerEvent: {}
+[23.723033] (-) TimerEvent: {}
+[23.749236] (vectornav_msgs) StdoutLine: {'line': b"Listing '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs'...\n"}
+[23.749555] (vectornav_msgs) StdoutLine: {'line': b"Compiling '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/__init__.py'...\n"}
+[23.749701] (vectornav_msgs) StdoutLine: {'line': b"Listing '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/action'...\n"}
+[23.749811] (vectornav_msgs) StdoutLine: {'line': b"Compiling '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/action/__init__.py'...\n"}
+[23.749915] (vectornav_msgs) StdoutLine: {'line': b"Compiling '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/action/_mag_cal.py'...\n"}
+[23.750008] (vectornav_msgs) StdoutLine: {'line': b"Listing '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg'...\n"}
+[23.750113] (vectornav_msgs) StdoutLine: {'line': b"Compiling '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/__init__.py'...\n"}
+[23.750211] (vectornav_msgs) StdoutLine: {'line': b"Compiling '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_attitude_group.py'...\n"}
+[23.750309] (vectornav_msgs) StdoutLine: {'line': b"Compiling '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_common_group.py'...\n"}
+[23.750440] (vectornav_msgs) StdoutLine: {'line': b"Compiling '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_dop.py'...\n"}
+[23.750541] (vectornav_msgs) StdoutLine: {'line': b"Compiling '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_gps_group.py'...\n"}
+[23.750634] (vectornav_msgs) StdoutLine: {'line': b"Compiling '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_imu_group.py'...\n"}
+[23.750725] (vectornav_msgs) StdoutLine: {'line': b"Compiling '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_ins_group.py'...\n"}
+[23.750820] (vectornav_msgs) StdoutLine: {'line': b"Compiling '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_ins_status.py'...\n"}
+[23.750915] (vectornav_msgs) StdoutLine: {'line': b"Compiling '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_time_group.py'...\n"}
+[23.751006] (vectornav_msgs) StdoutLine: {'line': b"Compiling '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_time_status.py'...\n"}
+[23.751098] (vectornav_msgs) StdoutLine: {'line': b"Compiling '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_time_utc.py'...\n"}
+[23.751191] (vectornav_msgs) StdoutLine: {'line': b"Compiling '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/msg/_vpe_status.py'...\n"}
+[23.760772] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/vectornav_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so\n'}
+[23.762275] (vectornav_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/vectornav_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so" to ""\n'}
+[23.763321] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/vectornav_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so\n'}
+[23.764585] (vectornav_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/vectornav_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so" to ""\n'}
+[23.765501] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/vectornav_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so\n'}
+[23.766848] (vectornav_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages/vectornav_msgs/vectornav_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so" to ""\n'}
+[23.767482] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib/libvectornav_msgs__rosidl_generator_py.so\n'}
+[23.769082] (vectornav_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib/libvectornav_msgs__rosidl_generator_py.so" to ""\n'}
+[23.769838] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/AttitudeGroup.idl\n'}
+[23.770665] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/CommonGroup.idl\n'}
+[23.771450] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/DOP.idl\n'}
+[23.772201] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/GpsGroup.idl\n'}
+[23.772972] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/ImuGroup.idl\n'}
+[23.773804] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/InsGroup.idl\n'}
+[23.774552] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/InsStatus.idl\n'}
+[23.775317] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/TimeGroup.idl\n'}
+[23.776095] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/TimeStatus.idl\n'}
+[23.776860] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/TimeUTC.idl\n'}
+[23.777604] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/VpeStatus.idl\n'}
+[23.778443] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/action/MagCal.idl\n'}
+[23.779169] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/AttitudeGroup.msg\n'}
+[23.779900] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/CommonGroup.msg\n'}
+[23.780649] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/DOP.msg\n'}
+[23.781400] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/GpsGroup.msg\n'}
+[23.782106] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/ImuGroup.msg\n'}
+[23.783116] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/InsGroup.msg\n'}
+[23.783840] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/InsStatus.msg\n'}
+[23.784532] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/TimeGroup.msg\n'}
+[23.785288] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/TimeStatus.msg\n'}
+[23.786077] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/TimeUTC.msg\n'}
+[23.786842] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/msg/VpeStatus.msg\n'}
+[23.787620] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/action/MagCal.action\n'}
+[23.788455] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/ament_index/resource_index/package_run_dependencies/vectornav_msgs\n'}
+[23.789353] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/ament_index/resource_index/parent_prefix_path/vectornav_msgs\n'}
+[23.790143] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/environment/ament_prefix_path.sh\n'}
+[23.790886] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/environment/ament_prefix_path.dsv\n'}
+[23.791634] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/environment/path.sh\n'}
+[23.792316] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/environment/path.dsv\n'}
+[23.792971] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/local_setup.bash\n'}
+[23.793669] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/local_setup.sh\n'}
+[23.794331] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/local_setup.zsh\n'}
+[23.795016] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/local_setup.dsv\n'}
+[23.795750] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/package.dsv\n'}
+[23.796571] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/ament_index/resource_index/packages/vectornav_msgs\n'}
+[23.797443] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/export_vectornav_msgs__rosidl_generator_cExport.cmake\n'}
+[23.798208] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/export_vectornav_msgs__rosidl_generator_cExport-noconfig.cmake\n'}
+[23.798983] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/export_vectornav_msgs__rosidl_typesupport_fastrtps_cExport.cmake\n'}
+[23.799736] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/export_vectornav_msgs__rosidl_typesupport_fastrtps_cExport-noconfig.cmake\n'}
+[23.800512] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/export_vectornav_msgs__rosidl_generator_cppExport.cmake\n'}
+[23.801341] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/export_vectornav_msgs__rosidl_typesupport_fastrtps_cppExport.cmake\n'}
+[23.802077] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/export_vectornav_msgs__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake\n'}
+[23.802810] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/vectornav_msgs__rosidl_typesupport_introspection_cExport.cmake\n'}
+[23.803538] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/vectornav_msgs__rosidl_typesupport_introspection_cExport-noconfig.cmake\n'}
+[23.804201] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/vectornav_msgs__rosidl_typesupport_cExport.cmake\n'}
+[23.804514] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/vectornav_msgs__rosidl_typesupport_cExport-noconfig.cmake\n'}
+[23.804846] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/vectornav_msgs__rosidl_typesupport_introspection_cppExport.cmake\n'}
+[23.805210] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/vectornav_msgs__rosidl_typesupport_introspection_cppExport-noconfig.cmake\n'}
+[23.805525] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/vectornav_msgs__rosidl_typesupport_cppExport.cmake\n'}
+[23.806032] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/vectornav_msgs__rosidl_typesupport_cppExport-noconfig.cmake\n'}
+[23.806251] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/export_vectornav_msgs__rosidl_generator_pyExport.cmake\n'}
+[23.806473] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/export_vectornav_msgs__rosidl_generator_pyExport-noconfig.cmake\n'}
+[23.806756] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/rosidl_cmake-extras.cmake\n'}
+[23.807035] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[23.807319] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[23.807569] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[23.807888] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/ament_cmake_export_targets-extras.cmake\n'}
+[23.808203] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake\n'}
+[23.808488] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake\n'}
+[23.808765] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/vectornav_msgsConfig.cmake\n'}
+[23.808976] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake/vectornav_msgsConfig-version.cmake\n'}
+[23.809273] (vectornav_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/package.xml\n'}
+[23.812880] (vectornav_msgs) CommandEnded: {'returncode': 0}
+[23.824553] (-) TimerEvent: {}
+[23.925780] (-) TimerEvent: {}
+[24.026606] (-) TimerEvent: {}
+[24.127128] (-) TimerEvent: {}
+[24.227589] (-) TimerEvent: {}
+[24.263972] (vectornav_msgs) JobEnded: {'identifier': 'vectornav_msgs', 'rc': 0}
+[24.265074] (-) EventReactorShutdown: {}

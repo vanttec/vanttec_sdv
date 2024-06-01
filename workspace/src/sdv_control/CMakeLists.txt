@@ -77,6 +77,8 @@ install(DIRECTORY
 # Install Python executables
 install(PROGRAMS
   scripts/path_publisher_node.py
+  scripts/path_planner_node.py
+  scripts/waypoints_publisher_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

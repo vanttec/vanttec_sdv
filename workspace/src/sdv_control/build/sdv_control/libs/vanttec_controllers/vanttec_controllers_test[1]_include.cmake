@@ -1,0 +1,5 @@
+if(EXISTS "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control/build/sdv_control/libs/vanttec_controllers/vanttec_controllers_test[1]_tests.cmake")
+  include("/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control/build/sdv_control/libs/vanttec_controllers/vanttec_controllers_test[1]_tests.cmake")
+else()
+  add_test(vanttec_controllers_test_NOT_BUILT vanttec_controllers_test_NOT_BUILT)
+endif()

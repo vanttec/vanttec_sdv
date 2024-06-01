@@ -1,0 +1,590 @@
+[0.000000] (-) TimerEvent: {}
+[0.000632] (-) JobUnselected: {'identifier': 'isaac_ros_apriltag_interfaces'}
+[0.000771] (-) JobUnselected: {'identifier': 'isaac_ros_bi3d_interfaces'}
+[0.000819] (-) JobUnselected: {'identifier': 'isaac_ros_common'}
+[0.000870] (-) JobUnselected: {'identifier': 'isaac_ros_nitros_bridge_interfaces'}
+[0.001057] (-) JobUnselected: {'identifier': 'isaac_ros_nova_interfaces'}
+[0.001129] (-) JobUnselected: {'identifier': 'isaac_ros_pointcloud_interfaces'}
+[0.001233] (-) JobUnselected: {'identifier': 'isaac_ros_tensor_list_interfaces'}
+[0.001340] (-) JobUnselected: {'identifier': 'isaac_ros_test'}
+[0.001389] (-) JobUnselected: {'identifier': 'lidar3d_clustering'}
+[0.001482] (-) JobUnselected: {'identifier': 'lidar_ground_getter'}
+[0.001509] (-) JobUnselected: {'identifier': 'lidar_imu_sync'}
+[0.001593] (-) JobUnselected: {'identifier': 'lidar_path_to_odom'}
+[0.001612] (-) JobUnselected: {'identifier': 'lio_sam'}
+[0.001628] (-) JobUnselected: {'identifier': 'ros_compatibility'}
+[0.001644] (-) JobUnselected: {'identifier': 'sdv_can'}
+[0.001660] (-) JobUnselected: {'identifier': 'sdv_control'}
+[0.001678] (-) JobUnselected: {'identifier': 'sdv_description'}
+[0.001701] (-) JobUnselected: {'identifier': 'sdv_launch'}
+[0.001717] (-) JobUnselected: {'identifier': 'sdv_lidar_processing'}
+[0.001734] (-) JobUnselected: {'identifier': 'sdv_localization'}
+[0.001749] (-) JobUnselected: {'identifier': 'sdv_manual_control'}
+[0.001763] (-) JobUnselected: {'identifier': 'sdv_robot_description'}
+[0.001778] (-) JobUnselected: {'identifier': 'vectornav'}
+[0.001794] (-) JobUnselected: {'identifier': 'vectornav_msgs'}
+[0.001809] (-) JobUnselected: {'identifier': 'voxel_grid_filter'}
+[0.001823] (-) JobUnselected: {'identifier': 'waypoints_niagara_creator'}
+[0.001838] (-) JobUnselected: {'identifier': 'waypoints_niagara_loader'}
+[0.001858] (sdv_msgs) JobQueued: {'identifier': 'sdv_msgs', 'dependencies': OrderedDict()}
+[0.001882] (sdv_msgs) JobStarted: {'identifier': 'sdv_msgs'}
+[0.011622] (sdv_msgs) JobProgress: {'identifier': 'sdv_msgs', 'progress': 'cmake'}
+[0.012627] (sdv_msgs) JobProgress: {'identifier': 'sdv_msgs', 'progress': 'build'}
+[0.013751] (sdv_msgs) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_msgs', '--', '-j12', '-l12'], 'cwd': '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_msgs', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'fectec151'), ('LC_TIME', 'es_MX.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/fectec151'), ('OLDPWD', '/home/fectec151/Downloads/Projects/vanttec_sdv'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'es_MX.UTF-8'), ('MANAGERPID', '2151'), ('SYSTEMD_EXEC_PID', '2505'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('TERMINATOR_DBUS_NAME', 'net.tenshu.Terminator25ef4b219e3b005583550f2b0f9f990c3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '30840'), ('NVM_DIR', '/home/fectec151/.nvm'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('COLCON_PREFIX_PATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'fectec151'), ('JOURNAL_STREAM', '8:31498'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'fectec151'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('HISTCONTROL', 'ignoredups'), ('PATH', '/opt/ros/humble/bin:/home/fectec151/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/fec-pc:@/tmp/.ICE-unix/2303,unix/fec-pc:/tmp/.ICE-unix/2303'), ('INVOCATION_ID', '8e2895da35924a5b97381964329a2156'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'es_MX.UTF-8'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('HISTSIZE', '1000'), ('TERMINATOR_DBUS_PATH', '/net/tenshu/Terminator2'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('IBUS_DISABLE_SNOOPER', '1'), ('LC_TELEPHONE', 'es_MX.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.P32AO2'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'es_MX.UTF-8'), ('TERMINATOR_UUID', 'urn:uuid:92cad240-5dc7-44ef-b646-d541f3465e17'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'es_MX.UTF-8'), ('LC_IDENTIFICATION', 'es_MX.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_msgs'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('NVM_CD_FLAGS', ''), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'es_MX.UTF-8'), ('LC_PAPER', 'es_MX.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('NVM_RC_VERSION', ''), ('CMAKE_PREFIX_PATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs:/opt/ros/humble')]), 'shell': False}
+[0.065538] (sdv_msgs) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.8 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[0.099297] (-) TimerEvent: {}
+[0.199729] (-) TimerEvent: {}
+[0.266004] (sdv_msgs) StdoutLine: {'line': b'-- Found rosidl_default_generators: 1.2.0 (/opt/ros/humble/share/rosidl_default_generators/cmake)\n'}
+[0.268955] (sdv_msgs) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.275524] (sdv_msgs) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[0.299887] (-) TimerEvent: {}
+[0.336543] (sdv_msgs) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[0.393775] (sdv_msgs) StdoutLine: {'line': b'-- Found geometry_msgs: 4.2.3 (/opt/ros/humble/share/geometry_msgs/cmake)\n'}
+[0.400004] (-) TimerEvent: {}
+[0.500396] (-) TimerEvent: {}
+[0.600816] (-) TimerEvent: {}
+[0.701304] (-) TimerEvent: {}
+[0.801711] (-) TimerEvent: {}
+[0.902152] (-) TimerEvent: {}
+[1.002640] (-) TimerEvent: {}
+[1.103235] (-) TimerEvent: {}
+[1.205111] (-) TimerEvent: {}
+[1.210576] (sdv_msgs) StdoutLine: {'line': b'-- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)\n'}
+[1.305242] (-) TimerEvent: {}
+[1.405783] (-) TimerEvent: {}
+[1.506165] (-) TimerEvent: {}
+[1.608477] (-) TimerEvent: {}
+[1.637016] (sdv_msgs) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[1.708591] (-) TimerEvent: {}
+[1.808979] (-) TimerEvent: {}
+[1.909418] (-) TimerEvent: {}
+[2.009901] (-) TimerEvent: {}
+[2.110329] (-) TimerEvent: {}
+[2.172417] (sdv_msgs) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[2.210471] (-) TimerEvent: {}
+[2.213594] (sdv_msgs) StdoutLine: {'line': b'-- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)\n'}
+[2.252446] (sdv_msgs) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[2.252763] (sdv_msgs) StdoutLine: {'line': b'-- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10\n'}
+[2.252943] (sdv_msgs) StdoutLine: {'line': b'-- Using PYTHON_LIBRARIES: /usr/lib/x86_64-linux-gnu/libpython3.10.so\n'}
+[2.309350] (sdv_msgs) StdoutLine: {'line': b'-- Configuring done\n'}
+[2.310565] (-) TimerEvent: {}
+[2.410949] (-) TimerEvent: {}
+[2.416856] (sdv_msgs) StdoutLine: {'line': b'-- Generating done\n'}
+[2.421891] (sdv_msgs) StdoutLine: {'line': b'-- Build files have been written to: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_msgs\n'}
+[2.468038] (sdv_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target sdv_msgs__rosidl_generator_c\x1b[0m\n'}
+[2.480689] (sdv_msgs) StdoutLine: {'line': b'[  0%] Built target sdv_msgs__cpp\n'}
+[2.492755] (sdv_msgs) StdoutLine: {'line': b'[ 12%] Built target sdv_msgs__rosidl_generator_c\n'}
+[2.494738] (sdv_msgs) StdoutLine: {'line': b'[ 12%] Built target ament_cmake_python_copy_sdv_msgs\n'}
+[2.498076] (sdv_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target sdv_msgs__rosidl_typesupport_cpp\x1b[0m\n'}
+[2.499504] (sdv_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target sdv_msgs__rosidl_typesupport_introspection_cpp\x1b[0m\n'}
+[2.503282] (sdv_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target sdv_msgs__rosidl_typesupport_fastrtps_cpp\x1b[0m\n'}
+[2.511086] (-) TimerEvent: {}
+[2.513404] (sdv_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target sdv_msgs__rosidl_typesupport_c\x1b[0m\n'}
+[2.514611] (sdv_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target sdv_msgs__rosidl_typesupport_introspection_c\x1b[0m\n'}
+[2.516512] (sdv_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target sdv_msgs__rosidl_typesupport_fastrtps_c\x1b[0m\n'}
+[2.535053] (sdv_msgs) StdoutLine: {'line': b'[ 24%] Built target sdv_msgs__rosidl_typesupport_cpp\n'}
+[2.536046] (sdv_msgs) StdoutLine: {'line': b'[ 36%] Built target sdv_msgs__rosidl_typesupport_c\n'}
+[2.545209] (sdv_msgs) StdoutLine: {'line': b'[ 48%] Built target sdv_msgs__rosidl_typesupport_introspection_c\n'}
+[2.547502] (sdv_msgs) StdoutLine: {'line': b'[ 60%] Built target sdv_msgs__rosidl_typesupport_introspection_cpp\n'}
+[2.561164] (sdv_msgs) StdoutLine: {'line': b'[ 75%] Built target sdv_msgs__rosidl_typesupport_fastrtps_c\n'}
+[2.561587] (sdv_msgs) StdoutLine: {'line': b'[ 84%] Built target sdv_msgs__rosidl_typesupport_fastrtps_cpp\n'}
+[2.596106] (sdv_msgs) StdoutLine: {'line': b'[ 84%] Built target sdv_msgs\n'}
+[2.611215] (-) TimerEvent: {}
+[2.632867] (sdv_msgs) StdoutLine: {'line': b'[ 85%] Built target sdv_msgs__py\n'}
+[2.652366] (sdv_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target sdv_msgs__rosidl_generator_py\x1b[0m\n'}
+[2.691441] (sdv_msgs) StdoutLine: {'line': b'[ 96%] Built target sdv_msgs__rosidl_generator_py\n'}
+[2.706268] (sdv_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target sdv_msgs__rosidl_typesupport_introspection_c__pyext\x1b[0m\n'}
+[2.708023] (sdv_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target sdv_msgs__rosidl_typesupport_c__pyext\x1b[0m\n'}
+[2.708333] (sdv_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target sdv_msgs__rosidl_typesupport_fastrtps_c__pyext\x1b[0m\n'}
+[2.711322] (-) TimerEvent: {}
+[2.725886] (sdv_msgs) StdoutLine: {'line': b'[ 98%] Built target sdv_msgs__rosidl_typesupport_introspection_c__pyext\n'}
+[2.732157] (sdv_msgs) StdoutLine: {'line': b'[100%] Built target sdv_msgs__rosidl_typesupport_fastrtps_c__pyext\n'}
+[2.732442] (sdv_msgs) StdoutLine: {'line': b'[100%] Built target sdv_msgs__rosidl_typesupport_c__pyext\n'}
+[2.811461] (-) TimerEvent: {}
+[2.910780] (sdv_msgs) StdoutLine: {'line': b'running egg_info\n'}
+[2.911534] (-) TimerEvent: {}
+[2.912366] (sdv_msgs) StdoutLine: {'line': b'writing sdv_msgs.egg-info/PKG-INFO\n'}
+[2.912815] (sdv_msgs) StdoutLine: {'line': b'writing dependency_links to sdv_msgs.egg-info/dependency_links.txt\n'}
+[2.913181] (sdv_msgs) StdoutLine: {'line': b'writing top-level names to sdv_msgs.egg-info/top_level.txt\n'}
+[2.919191] (sdv_msgs) StdoutLine: {'line': b"reading manifest file 'sdv_msgs.egg-info/SOURCES.txt'\n"}
+[2.920923] (sdv_msgs) StdoutLine: {'line': b"writing manifest file 'sdv_msgs.egg-info/SOURCES.txt'\n"}
+[2.969704] (sdv_msgs) StdoutLine: {'line': b'[100%] Built target ament_cmake_python_build_sdv_msgs_egg\n'}
+[3.001812] (sdv_msgs) CommandEnded: {'returncode': 0}
+[3.011700] (-) TimerEvent: {}
+[3.112166] (-) TimerEvent: {}
+[3.212805] (-) TimerEvent: {}
+[3.313268] (-) TimerEvent: {}
+[3.413659] (-) TimerEvent: {}
+[3.514087] (-) TimerEvent: {}
+[3.614566] (-) TimerEvent: {}
+[3.636106] (sdv_msgs) JobProgress: {'identifier': 'sdv_msgs', 'progress': 'install'}
+[3.652362] (sdv_msgs) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_msgs'], 'cwd': '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_msgs', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'fectec151'), ('LC_TIME', 'es_MX.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/fectec151'), ('OLDPWD', '/home/fectec151/Downloads/Projects/vanttec_sdv'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'es_MX.UTF-8'), ('MANAGERPID', '2151'), ('SYSTEMD_EXEC_PID', '2505'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('TERMINATOR_DBUS_NAME', 'net.tenshu.Terminator25ef4b219e3b005583550f2b0f9f990c3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '30840'), ('NVM_DIR', '/home/fectec151/.nvm'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('COLCON_PREFIX_PATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'fectec151'), ('JOURNAL_STREAM', '8:31498'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'fectec151'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('HISTCONTROL', 'ignoredups'), ('PATH', '/opt/ros/humble/bin:/home/fectec151/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/fec-pc:@/tmp/.ICE-unix/2303,unix/fec-pc:/tmp/.ICE-unix/2303'), ('INVOCATION_ID', '8e2895da35924a5b97381964329a2156'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'es_MX.UTF-8'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('HISTSIZE', '1000'), ('TERMINATOR_DBUS_PATH', '/net/tenshu/Terminator2'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('IBUS_DISABLE_SNOOPER', '1'), ('LC_TELEPHONE', 'es_MX.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.P32AO2'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'es_MX.UTF-8'), ('TERMINATOR_UUID', 'urn:uuid:92cad240-5dc7-44ef-b646-d541f3465e17'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'es_MX.UTF-8'), ('LC_IDENTIFICATION', 'es_MX.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_msgs'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('NVM_CD_FLAGS', ''), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'es_MX.UTF-8'), ('LC_PAPER', 'es_MX.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('NVM_RC_VERSION', ''), ('CMAKE_PREFIX_PATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs:/opt/ros/humble')]), 'shell': False}
+[3.667353] (sdv_msgs) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[3.667900] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/ament_index/resource_index/rosidl_interfaces/sdv_msgs\n'}
+[3.668242] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs\n'}
+[3.668540] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv\n'}
+[3.668743] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/detail\n'}
+[3.668873] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/detail/uint8__functions.h\n'}
+[3.669327] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/detail/uint8__functions.c\n'}
+[3.669496] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/detail/uint8__struct.h\n'}
+[3.669675] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/detail/uint8__type_support.h\n'}
+[3.669789] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/uint8.h\n'}
+[3.669897] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg\n'}
+[3.670006] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/vehicle_status.h\n'}
+[3.670114] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/vehicle_info.h\n'}
+[3.670221] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/lane_invasion_event.h\n'}
+[3.670329] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/vehicle_control.h\n'}
+[3.670436] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/waypoint_vector.h\n'}
+[3.670567] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/encoder.h\n'}
+[3.670676] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/state.h\n'}
+[3.670983] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/panel_msg.h\n'}
+[3.671138] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/throttle_msg.h\n'}
+[3.671309] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/rosidl_generator_c__visibility_control.h\n'}
+[3.671422] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/xbox_msg.h\n'}
+[3.671533] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/vehicle_info_wheel.h\n'}
+[3.671709] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/collision_event.h\n'}
+[3.671943] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/eta_pose.h\n'}
+[3.672051] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/guidance_waypoints.h\n'}
+[3.672225] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/status.h\n'}
+[3.672330] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/system_dynamics.h\n'}
+[3.672433] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/thrust_control.h\n'}
+[3.672535] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail\n'}
+[3.672635] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/waypoint_vector__struct.h\n'}
+[3.672734] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_status__functions.c\n'}
+[3.672834] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/thrust_control__functions.h\n'}
+[3.672992] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/xbox_msg__functions.c\n'}
+[3.673117] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/waypoint_vector__functions.h\n'}
+[3.673219] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_status__functions.h\n'}
+[3.673325] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info__struct.h\n'}
+[3.673494] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/collision_event__functions.h\n'}
+[3.673603] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/throttle_msg__functions.c\n'}
+[3.673710] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/encoder__functions.c\n'}
+[3.673944] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/system_dynamics__functions.h\n'}
+[3.674115] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_control__struct.h\n'}
+[3.674225] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_control__functions.c\n'}
+[3.674430] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/xbox_msg__functions.h\n'}
+[3.674560] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/throttle_msg__type_support.h\n'}
+[3.674674] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/lane_invasion_event__struct.h\n'}
+[3.674783] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/collision_event__struct.h\n'}
+[3.674890] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/status__functions.c\n'}
+[3.675046] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info__functions.h\n'}
+[3.675162] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/eta_pose__functions.h\n'}
+[3.675307] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/lane_invasion_event__functions.h\n'}
+[3.675418] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/thrust_control__struct.h\n'}
+[3.675526] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info_wheel__struct.h\n'}
+[3.675635] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/system_dynamics__functions.c\n'}
+[3.675739] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/panel_msg__struct.h\n'}
+[3.675881] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/state__type_support.h\n'}
+[3.675997] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/state__functions.h\n'}
+[3.676112] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info_wheel__type_support.h\n'}
+[3.676223] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/guidance_waypoints__struct.h\n'}
+[3.676419] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/status__type_support.h\n'}
+[3.676759] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info_wheel__functions.c\n'}
+[3.676955] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_control__type_support.h\n'}
+[3.677333] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info_wheel__functions.h\n'}
+[3.677437] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/panel_msg__functions.h\n'}
+[3.677516] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/eta_pose__struct.h\n'}
+[3.677592] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/waypoint_vector__type_support.h\n'}
+[3.677669] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/thrust_control__functions.c\n'}
+[3.677744] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/panel_msg__type_support.h\n'}
+[3.677815] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_status__struct.h\n'}
+[3.677882] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/status__functions.h\n'}
+[3.677947] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/state__functions.c\n'}
+[3.678010] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/guidance_waypoints__type_support.h\n'}
+[3.678081] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/status__struct.h\n'}
+[3.678224] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/lane_invasion_event__functions.c\n'}
+[3.678296] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/collision_event__type_support.h\n'}
+[3.678356] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/state__struct.h\n'}
+[3.678417] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/lane_invasion_event__type_support.h\n'}
+[3.678483] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info__functions.c\n'}
+[3.678547] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/xbox_msg__type_support.h\n'}
+[3.678608] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/eta_pose__functions.c\n'}
+[3.678708] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_control__functions.h\n'}
+[3.679047] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/throttle_msg__struct.h\n'}
+[3.679115] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/encoder__struct.h\n'}
+[3.679184] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/throttle_msg__functions.h\n'}
+[3.679250] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/guidance_waypoints__functions.c\n'}
+[3.679314] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/eta_pose__type_support.h\n'}
+[3.679377] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info__type_support.h\n'}
+[3.679650] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/waypoint_vector__functions.c\n'}
+[3.679743] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/system_dynamics__type_support.h\n'}
+[3.679843] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/encoder__type_support.h\n'}
+[3.680000] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/xbox_msg__struct.h\n'}
+[3.680448] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/guidance_waypoints__functions.h\n'}
+[3.680612] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/panel_msg__functions.c\n'}
+[3.680729] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/system_dynamics__struct.h\n'}
+[3.680861] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/thrust_control__type_support.h\n'}
+[3.680983] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_status__type_support.h\n'}
+[3.681230] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/collision_event__functions.c\n'}
+[3.681318] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/encoder__functions.h\n'}
+[3.681417] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/environment/library_path.sh\n'}
+[3.681658] (sdv_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/environment/library_path.dsv\n'}
+[3.681883] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/lib/libsdv_msgs__rosidl_generator_c.so\n'}
+[3.681986] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs\n'}
+[3.682094] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv\n'}
+[3.682257] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/detail\n'}
+[3.682368] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/detail/uint8__rosidl_typesupport_fastrtps_c.h\n'}
+[3.682475] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg\n'}
+[3.682671] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/rosidl_typesupport_fastrtps_c__visibility_control.h\n'}
+[3.682822] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail\n'}
+[3.682929] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_control__rosidl_typesupport_fastrtps_c.h\n'}
+[3.683035] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info_wheel__rosidl_typesupport_fastrtps_c.h\n'}
+[3.683139] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/waypoint_vector__rosidl_typesupport_fastrtps_c.h\n'}
+[3.683242] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/thrust_control__rosidl_typesupport_fastrtps_c.h\n'}
+[3.683346] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/guidance_waypoints__rosidl_typesupport_fastrtps_c.h\n'}
+[3.683562] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/xbox_msg__rosidl_typesupport_fastrtps_c.h\n'}
+[3.683665] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/state__rosidl_typesupport_fastrtps_c.h\n'}
+[3.683765] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/collision_event__rosidl_typesupport_fastrtps_c.h\n'}
+[3.683901] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/eta_pose__rosidl_typesupport_fastrtps_c.h\n'}
+[3.684007] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_status__rosidl_typesupport_fastrtps_c.h\n'}
+[3.684121] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/throttle_msg__rosidl_typesupport_fastrtps_c.h\n'}
+[3.684286] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/lane_invasion_event__rosidl_typesupport_fastrtps_c.h\n'}
+[3.684465] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/panel_msg__rosidl_typesupport_fastrtps_c.h\n'}
+[3.684572] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/system_dynamics__rosidl_typesupport_fastrtps_c.h\n'}
+[3.684817] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/status__rosidl_typesupport_fastrtps_c.h\n'}
+[3.684957] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/encoder__rosidl_typesupport_fastrtps_c.h\n'}
+[3.685178] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info__rosidl_typesupport_fastrtps_c.h\n'}
+[3.685290] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/lib/libsdv_msgs__rosidl_typesupport_fastrtps_c.so\n'}
+[3.685396] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs\n'}
+[3.685500] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv\n'}
+[3.685604] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/detail\n'}
+[3.685709] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/detail/uint8__rosidl_typesupport_introspection_c.h\n'}
+[3.685819] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/detail/uint8__type_support.c\n'}
+[3.685925] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg\n'}
+[3.686032] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h\n'}
+[3.686138] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail\n'}
+[3.686276] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/status__rosidl_typesupport_introspection_c.h\n'}
+[3.686515] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_status__type_support.c\n'}
+[3.686623] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/state__type_support.c\n'}
+[3.686728] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info_wheel__type_support.c\n'}
+[3.686834] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/status__type_support.c\n'}
+[3.686973] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/waypoint_vector__type_support.c\n'}
+[3.687076] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/collision_event__type_support.c\n'}
+[3.687172] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/eta_pose__type_support.c\n'}
+[3.687277] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/lane_invasion_event__rosidl_typesupport_introspection_c.h\n'}
+[3.687420] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/encoder__rosidl_typesupport_introspection_c.h\n'}
+[3.687523] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/guidance_waypoints__rosidl_typesupport_introspection_c.h\n'}
+[3.687616] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/eta_pose__rosidl_typesupport_introspection_c.h\n'}
+[3.687715] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_control__rosidl_typesupport_introspection_c.h\n'}
+[3.687861] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info__type_support.c\n'}
+[3.687979] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/encoder__type_support.c\n'}
+[3.688086] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_status__rosidl_typesupport_introspection_c.h\n'}
+[3.688225] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/xbox_msg__rosidl_typesupport_introspection_c.h\n'}
+[3.688330] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/waypoint_vector__rosidl_typesupport_introspection_c.h\n'}
+[3.688436] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/thrust_control__rosidl_typesupport_introspection_c.h\n'}
+[3.688559] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/xbox_msg__type_support.c\n'}
+[3.688742] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/throttle_msg__type_support.c\n'}
+[3.688849] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/lane_invasion_event__type_support.c\n'}
+[3.688980] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/panel_msg__rosidl_typesupport_introspection_c.h\n'}
+[3.689047] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/panel_msg__type_support.c\n'}
+[3.689130] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_control__type_support.c\n'}
+[3.689231] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info_wheel__rosidl_typesupport_introspection_c.h\n'}
+[3.689324] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/system_dynamics__type_support.c\n'}
+[3.689420] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/state__rosidl_typesupport_introspection_c.h\n'}
+[3.689517] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/thrust_control__type_support.c\n'}
+[3.689771] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/collision_event__rosidl_typesupport_introspection_c.h\n'}
+[3.689848] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info__rosidl_typesupport_introspection_c.h\n'}
+[3.689931] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/throttle_msg__rosidl_typesupport_introspection_c.h\n'}
+[3.690032] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/system_dynamics__rosidl_typesupport_introspection_c.h\n'}
+[3.690097] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/guidance_waypoints__type_support.c\n'}
+[3.690162] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/lib/libsdv_msgs__rosidl_typesupport_introspection_c.so\n'}
+[3.690227] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/lib/libsdv_msgs__rosidl_typesupport_c.so\n'}
+[3.690349] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs\n'}
+[3.690418] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv\n'}
+[3.690506] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/uint8.hpp\n'}
+[3.690684] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/detail\n'}
+[3.690802] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/detail/uint8__builder.hpp\n'}
+[3.690989] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/detail/uint8__traits.hpp\n'}
+[3.691062] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/detail/uint8__struct.hpp\n'}
+[3.691133] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg\n'}
+[3.691337] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/xbox_msg.hpp\n'}
+[3.691404] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/status.hpp\n'}
+[3.691487] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/vehicle_info_wheel.hpp\n'}
+[3.691566] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/thrust_control.hpp\n'}
+[3.691664] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/vehicle_info.hpp\n'}
+[3.691730] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/throttle_msg.hpp\n'}
+[3.691795] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/vehicle_control.hpp\n'}
+[3.691858] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/guidance_waypoints.hpp\n'}
+[3.691921] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/lane_invasion_event.hpp\n'}
+[3.692013] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/system_dynamics.hpp\n'}
+[3.692116] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/collision_event.hpp\n'}
+[3.692219] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/state.hpp\n'}
+[3.692323] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/waypoint_vector.hpp\n'}
+[3.692459] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail\n'}
+[3.692525] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/status__builder.hpp\n'}
+[3.692590] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/panel_msg__traits.hpp\n'}
+[3.692651] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_status__builder.hpp\n'}
+[3.692740] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/collision_event__traits.hpp\n'}
+[3.692839] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/encoder__struct.hpp\n'}
+[3.692966] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/throttle_msg__struct.hpp\n'}
+[3.693092] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/status__traits.hpp\n'}
+[3.693196] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/eta_pose__builder.hpp\n'}
+[3.693268] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info_wheel__builder.hpp\n'}
+[3.693349] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/thrust_control__traits.hpp\n'}
+[3.693435] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/xbox_msg__builder.hpp\n'}
+[3.693537] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/system_dynamics__builder.hpp\n'}
+[3.693636] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info_wheel__traits.hpp\n'}
+[3.693738] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/throttle_msg__builder.hpp\n'}
+[3.693835] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/waypoint_vector__struct.hpp\n'}
+[3.693931] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/state__traits.hpp\n'}
+[3.694028] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/panel_msg__struct.hpp\n'}
+[3.694126] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info_wheel__struct.hpp\n'}
+[3.694227] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_status__traits.hpp\n'}
+[3.694338] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/collision_event__builder.hpp\n'}
+[3.694443] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/eta_pose__traits.hpp\n'}
+[3.694541] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/status__struct.hpp\n'}
+[3.694639] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/guidance_waypoints__struct.hpp\n'}
+[3.694736] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/system_dynamics__struct.hpp\n'}
+[3.694832] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/waypoint_vector__traits.hpp\n'}
+[3.694952] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/state__builder.hpp\n'}
+[3.695048] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/lane_invasion_event__builder.hpp\n'}
+[3.695150] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_control__builder.hpp\n'}
+[3.695252] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/xbox_msg__traits.hpp\n'}
+[3.695347] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/waypoint_vector__builder.hpp\n'}
+[3.695447] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/guidance_waypoints__traits.hpp\n'}
+[3.695557] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info__struct.hpp\n'}
+[3.695662] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/guidance_waypoints__builder.hpp\n'}
+[3.695764] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/state__struct.hpp\n'}
+[3.695865] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_control__traits.hpp\n'}
+[3.695958] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/lane_invasion_event__struct.hpp\n'}
+[3.696020] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_control__struct.hpp\n'}
+[3.696083] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/lane_invasion_event__traits.hpp\n'}
+[3.696149] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/xbox_msg__struct.hpp\n'}
+[3.696210] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_status__struct.hpp\n'}
+[3.696270] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/encoder__traits.hpp\n'}
+[3.696331] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/encoder__builder.hpp\n'}
+[3.696391] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info__builder.hpp\n'}
+[3.696451] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/collision_event__struct.hpp\n'}
+[3.696511] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info__traits.hpp\n'}
+[3.696571] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/thrust_control__builder.hpp\n'}
+[3.696631] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/throttle_msg__traits.hpp\n'}
+[3.696708] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/system_dynamics__traits.hpp\n'}
+[3.696767] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/panel_msg__builder.hpp\n'}
+[3.696823] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/thrust_control__struct.hpp\n'}
+[3.696881] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/eta_pose__struct.hpp\n'}
+[3.696984] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/panel_msg.hpp\n'}
+[3.697059] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/eta_pose.hpp\n'}
+[3.697121] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/encoder.hpp\n'}
+[3.697181] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/vehicle_status.hpp\n'}
+[3.697239] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs\n'}
+[3.697302] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv\n'}
+[3.697361] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/detail\n'}
+[3.697418] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/detail/dds_fastrtps\n'}
+[3.697476] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/detail/uint8__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[3.697534] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg\n'}
+[3.697591] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h\n'}
+[3.697646] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail\n'}
+[3.697703] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/panel_msg__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[3.697759] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/eta_pose__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[3.697815] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/dds_fastrtps\n'}
+[3.697875] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[3.697931] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/system_dynamics__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[3.697993] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/collision_event__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[3.698048] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/encoder__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[3.698110] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_control__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[3.698167] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/state__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[3.698222] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/xbox_msg__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[3.698279] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/thrust_control__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[3.698336] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/guidance_waypoints__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[3.698396] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/waypoint_vector__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[3.698453] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/status__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[3.698524] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/lane_invasion_event__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[3.698584] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/throttle_msg__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[3.698645] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info_wheel__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[3.698702] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_status__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[3.698760] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/lib/libsdv_msgs__rosidl_typesupport_fastrtps_cpp.so\n'}
+[3.698818] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs\n'}
+[3.698874] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv\n'}
+[3.698930] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/detail\n'}
+[3.698995] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/detail/uint8__type_support.cpp\n'}
+[3.699056] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/srv/detail/uint8__rosidl_typesupport_introspection_cpp.hpp\n'}
+[3.699119] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg\n'}
+[3.699175] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail\n'}
+[3.699233] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/panel_msg__type_support.cpp\n'}
+[3.699290] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info_wheel__type_support.cpp\n'}
+[3.699345] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/guidance_waypoints__type_support.cpp\n'}
+[3.699401] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_status__type_support.cpp\n'}
+[3.699458] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_status__rosidl_typesupport_introspection_cpp.hpp\n'}
+[3.699515] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info__rosidl_typesupport_introspection_cpp.hpp\n'}
+[3.699573] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_control__rosidl_typesupport_introspection_cpp.hpp\n'}
+[3.699630] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/lane_invasion_event__rosidl_typesupport_introspection_cpp.hpp\n'}
+[3.699690] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/thrust_control__rosidl_typesupport_introspection_cpp.hpp\n'}
+[3.699749] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/collision_event__type_support.cpp\n'}
+[3.699805] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/throttle_msg__type_support.cpp\n'}
+[3.699865] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/system_dynamics__rosidl_typesupport_introspection_cpp.hpp\n'}
+[3.699921] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/eta_pose__rosidl_typesupport_introspection_cpp.hpp\n'}
+[3.699990] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/eta_pose__type_support.cpp\n'}
+[3.700059] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/lane_invasion_event__type_support.cpp\n'}
+[3.700115] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/state__type_support.cpp\n'}
+[3.700172] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info_wheel__rosidl_typesupport_introspection_cpp.hpp\n'}
+[3.700235] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/throttle_msg__rosidl_typesupport_introspection_cpp.hpp\n'}
+[3.700291] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/xbox_msg__rosidl_typesupport_introspection_cpp.hpp\n'}
+[3.700347] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/waypoint_vector__type_support.cpp\n'}
+[3.700402] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/system_dynamics__type_support.cpp\n'}
+[3.700458] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/encoder__rosidl_typesupport_introspection_cpp.hpp\n'}
+[3.700514] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/xbox_msg__type_support.cpp\n'}
+[3.700570] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/status__type_support.cpp\n'}
+[3.700626] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/encoder__type_support.cpp\n'}
+[3.700682] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/waypoint_vector__rosidl_typesupport_introspection_cpp.hpp\n'}
+[3.700738] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_control__type_support.cpp\n'}
+[3.700794] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/collision_event__rosidl_typesupport_introspection_cpp.hpp\n'}
+[3.700851] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/thrust_control__type_support.cpp\n'}
+[3.700927] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/vehicle_info__type_support.cpp\n'}
+[3.701017] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/guidance_waypoints__rosidl_typesupport_introspection_cpp.hpp\n'}
+[3.701085] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/status__rosidl_typesupport_introspection_cpp.hpp\n'}
+[3.701146] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/panel_msg__rosidl_typesupport_introspection_cpp.hpp\n'}
+[3.701205] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/include/sdv_msgs/sdv_msgs/msg/detail/state__rosidl_typesupport_introspection_cpp.hpp\n'}
+[3.701299] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/lib/libsdv_msgs__rosidl_typesupport_introspection_cpp.so\n'}
+[3.701412] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/lib/libsdv_msgs__rosidl_typesupport_cpp.so\n'}
+[3.701521] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/environment/pythonpath.sh\n'}
+[3.701639] (sdv_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/environment/pythonpath.dsv\n'}
+[3.701702] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs-0.0.0-py3.10.egg-info\n'}
+[3.701765] (sdv_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs-0.0.0-py3.10.egg-info/PKG-INFO\n'}
+[3.701825] (sdv_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs-0.0.0-py3.10.egg-info/top_level.txt\n'}
+[3.701884] (sdv_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs-0.0.0-py3.10.egg-info/SOURCES.txt\n'}
+[3.701941] (sdv_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs-0.0.0-py3.10.egg-info/dependency_links.txt\n'}
+[3.702001] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs\n'}
+[3.702064] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/sdv_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so\n'}
+[3.702160] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/_sdv_msgs_s.ep.rosidl_typesupport_c.c\n'}
+[3.702247] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/srv\n'}
+[3.702334] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/srv/_uint8.py\n'}
+[3.702422] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/srv/__init__.py\n'}
+[3.702510] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/srv/_uint8_s.c\n'}
+[3.702601] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/sdv_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so\n'}
+[3.702680] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg\n'}
+[3.702756] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_guidance_waypoints_s.c\n'}
+[3.702824] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_vehicle_info_wheel.py\n'}
+[3.702883] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_vehicle_info.py\n'}
+[3.702951] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_vehicle_status_s.c\n'}
+[3.703020] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_panel_msg_s.c\n'}
+[3.703091] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_status_s.c\n'}
+[3.703149] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_waypoint_vector.py\n'}
+[3.703206] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_collision_event.py\n'}
+[3.703264] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_vehicle_status.py\n'}
+[3.703331] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_panel_msg.py\n'}
+[3.703390] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_guidance_waypoints.py\n'}
+[3.703455] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/__init__.py\n'}
+[3.703514] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_lane_invasion_event_s.c\n'}
+[3.703572] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_vehicle_control.py\n'}
+[3.703630] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_vehicle_control_s.c\n'}
+[3.703716] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_system_dynamics_s.c\n'}
+[3.703787] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_waypoint_vector_s.c\n'}
+[3.703847] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_encoder.py\n'}
+[3.703906] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_thrust_control_s.c\n'}
+[3.703966] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_throttle_msg_s.c\n'}
+[3.704025] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_status.py\n'}
+[3.704092] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_lane_invasion_event.py\n'}
+[3.704161] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_vehicle_info_s.c\n'}
+[3.704218] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_eta_pose.py\n'}
+[3.704275] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_eta_pose_s.c\n'}
+[3.704336] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_state.py\n'}
+[3.704393] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_throttle_msg.py\n'}
+[3.704451] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_encoder_s.c\n'}
+[3.704512] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_xbox_msg.py\n'}
+[3.704571] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_thrust_control.py\n'}
+[3.704629] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_collision_event_s.c\n'}
+[3.704687] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_system_dynamics.py\n'}
+[3.704749] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_xbox_msg_s.c\n'}
+[3.704834] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_state_s.c\n'}
+[3.704957] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg/_vehicle_info_wheel_s.c\n'}
+[3.705027] (sdv_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/__init__.py\n'}
+[3.705089] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/_sdv_msgs_s.ep.rosidl_typesupport_fastrtps_c.c\n'}
+[3.705159] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/_sdv_msgs_s.ep.rosidl_typesupport_introspection_c.c\n'}
+[3.705221] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/libsdv_msgs__rosidl_generator_py.so\n'}
+[3.705281] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/sdv_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so\n'}
+[3.714686] (-) TimerEvent: {}
+[3.741864] (sdv_msgs) StdoutLine: {'line': b"Listing '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs'...\n"}
+[3.742149] (sdv_msgs) StdoutLine: {'line': b"Compiling '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/__init__.py'...\n"}
+[3.742282] (sdv_msgs) StdoutLine: {'line': b"Listing '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/msg'...\n"}
+[3.742382] (sdv_msgs) StdoutLine: {'line': b"Listing '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/srv'...\n"}
+[3.773206] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/sdv_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so\n'}
+[3.773456] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/sdv_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so\n'}
+[3.774349] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages/sdv_msgs/sdv_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so\n'}
+[3.774692] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/lib/libsdv_msgs__rosidl_generator_py.so\n'}
+[3.784912] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/State.idl\n'}
+[3.785066] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/PanelMsg.idl\n'}
+[3.785181] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/XboxMsg.idl\n'}
+[3.785288] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/ThrottleMsg.idl\n'}
+[3.785388] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/CollisionEvent.idl\n'}
+[3.785493] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/LaneInvasionEvent.idl\n'}
+[3.785594] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/Status.idl\n'}
+[3.785702] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/VehicleControl.idl\n'}
+[3.785806] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/VehicleInfo.idl\n'}
+[3.785915] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/VehicleStatus.idl\n'}
+[3.786017] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/VehicleInfoWheel.idl\n'}
+[3.786144] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/GuidanceWaypoints.idl\n'}
+[3.786525] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/EtaPose.idl\n'}
+[3.786633] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/SystemDynamics.idl\n'}
+[3.786730] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/ThrustControl.idl\n'}
+[3.786840] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/Encoder.idl\n'}
+[3.786954] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/WaypointVector.idl\n'}
+[3.787057] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/srv/Uint8.idl\n'}
+[3.787155] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/State.msg\n'}
+[3.787251] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/PanelMsg.msg\n'}
+[3.787350] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/XboxMsg.msg\n'}
+[3.787446] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/ThrottleMsg.msg\n'}
+[3.787551] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/CollisionEvent.msg\n'}
+[3.787654] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/LaneInvasionEvent.msg\n'}
+[3.787759] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/Status.msg\n'}
+[3.787860] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/VehicleControl.msg\n'}
+[3.787959] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/VehicleInfo.msg\n'}
+[3.788062] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/VehicleStatus.msg\n'}
+[3.788183] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/VehicleInfoWheel.msg\n'}
+[3.788287] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/GuidanceWaypoints.msg\n'}
+[3.788389] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/EtaPose.msg\n'}
+[3.788493] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/SystemDynamics.msg\n'}
+[3.788596] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/ThrustControl.msg\n'}
+[3.788697] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/Encoder.msg\n'}
+[3.788791] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/msg/WaypointVector.msg\n'}
+[3.788888] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/srv/Uint8.srv\n'}
+[3.789037] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/srv/Uint8_Request.msg\n'}
+[3.789145] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/srv/Uint8_Response.msg\n'}
+[3.789260] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/ament_index/resource_index/package_run_dependencies/sdv_msgs\n'}
+[3.789358] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/ament_index/resource_index/parent_prefix_path/sdv_msgs\n'}
+[3.789462] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/environment/ament_prefix_path.sh\n'}
+[3.789571] (sdv_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/environment/ament_prefix_path.dsv\n'}
+[3.789674] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/environment/path.sh\n'}
+[3.789776] (sdv_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/environment/path.dsv\n'}
+[3.789882] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/local_setup.bash\n'}
+[3.789982] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/local_setup.sh\n'}
+[3.790082] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/local_setup.zsh\n'}
+[3.790183] (sdv_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/local_setup.dsv\n'}
+[3.790299] (sdv_msgs) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/package.dsv\n'}
+[3.790401] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/ament_index/resource_index/packages/sdv_msgs\n'}
+[3.790506] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/export_sdv_msgs__rosidl_generator_cExport.cmake\n'}
+[3.790607] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/export_sdv_msgs__rosidl_generator_cExport-noconfig.cmake\n'}
+[3.790707] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/export_sdv_msgs__rosidl_typesupport_fastrtps_cExport.cmake\n'}
+[3.790811] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/export_sdv_msgs__rosidl_typesupport_fastrtps_cExport-noconfig.cmake\n'}
+[3.790913] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/sdv_msgs__rosidl_typesupport_introspection_cExport.cmake\n'}
+[3.791016] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/sdv_msgs__rosidl_typesupport_introspection_cExport-noconfig.cmake\n'}
+[3.791121] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/sdv_msgs__rosidl_typesupport_cExport.cmake\n'}
+[3.791223] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/sdv_msgs__rosidl_typesupport_cExport-noconfig.cmake\n'}
+[3.791324] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/export_sdv_msgs__rosidl_generator_cppExport.cmake\n'}
+[3.791433] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/export_sdv_msgs__rosidl_typesupport_fastrtps_cppExport.cmake\n'}
+[3.791542] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/export_sdv_msgs__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake\n'}
+[3.791650] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/sdv_msgs__rosidl_typesupport_introspection_cppExport.cmake\n'}
+[3.791753] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/sdv_msgs__rosidl_typesupport_introspection_cppExport-noconfig.cmake\n'}
+[3.791858] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/sdv_msgs__rosidl_typesupport_cppExport.cmake\n'}
+[3.791959] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/sdv_msgs__rosidl_typesupport_cppExport-noconfig.cmake\n'}
+[3.792062] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/export_sdv_msgs__rosidl_generator_pyExport.cmake\n'}
+[3.792177] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/export_sdv_msgs__rosidl_generator_pyExport-noconfig.cmake\n'}
+[3.792280] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/rosidl_cmake-extras.cmake\n'}
+[3.792382] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[3.792484] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[3.792581] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[3.792680] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/ament_cmake_export_targets-extras.cmake\n'}
+[3.792782] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake\n'}
+[3.792911] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake\n'}
+[3.793021] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/sdv_msgsConfig.cmake\n'}
+[3.793124] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake/sdv_msgsConfig-version.cmake\n'}
+[3.793239] (sdv_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/package.xml\n'}
+[3.793344] (sdv_msgs) CommandEnded: {'returncode': 0}
+[3.814829] (-) TimerEvent: {}
+[3.915320] (-) TimerEvent: {}
+[4.015692] (-) TimerEvent: {}
+[4.116155] (-) TimerEvent: {}
+[4.216595] (-) TimerEvent: {}
+[4.317052] (-) TimerEvent: {}
+[4.417611] (-) TimerEvent: {}
+[4.451882] (sdv_msgs) JobEnded: {'identifier': 'sdv_msgs', 'rc': 0}
+[4.452782] (-) EventReactorShutdown: {}

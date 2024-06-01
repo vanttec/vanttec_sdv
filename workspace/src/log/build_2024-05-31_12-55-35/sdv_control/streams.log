@@ -1,0 +1,117 @@
+[0.018s] Invoking command in '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control': CMAKE_PREFIX_PATH=/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control:/opt/ros/humble /usr/bin/cmake --build /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control -- -j12 -l12
+[0.082s] [ 11%] Built target vanttec_controllers
+[0.086s] [ 22%] Built target gtest
+[0.126s] [ 33%] Built target gmock
+[0.127s] [ 44%] Built target gtest_main
+[0.130s] [ 55%] Built target vel_pid_node
+[0.139s] [ 66%] Built target sdv_kinematic_sim
+[0.141s] [ 77%] Built target stanley_controller_node
+[0.158s] [ 88%] Built target vanttec_controllers_test
+[0.160s] [100%] Built target gmock_main
+[0.172s] Invoked command in '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control' returned '0': CMAKE_PREFIX_PATH=/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control:/opt/ros/humble /usr/bin/cmake --build /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control -- -j12 -l12
+[0.236s] Invoking command in '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control': CMAKE_PREFIX_PATH=/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control:/opt/ros/humble /usr/bin/cmake --install /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control
+[0.245s] -- Install configuration: ""
+[0.245s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/sdv_control/vel_pid_node
+[0.246s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/sdv_control/stanley_controller_node
+[0.246s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/sdv_control/sdv_kinematic_sim
+[0.247s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config
+[0.247s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/waypoints_carreta.csv
+[0.247s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/anniversary_waypoints_ned.csv
+[0.247s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/car_params.yaml
+[0.247s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/zigzag.csv
+[0.247s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/el_borrego.csv
+[0.247s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/zf_street.csv
+[0.248s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/new_waypoints_3.csv
+[0.248s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/zf_parking.csv
+[0.248s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/sim2.csv
+[0.248s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/sim_waypoints.csv
+[0.248s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/sim_params.yaml
+[0.248s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/parking_waypoints_ned.csv
+[0.248s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/zf_estacionamiento.csv
+[0.248s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/new_waypoints_1.csv
+[0.248s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/launch
+[0.248s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/launch/model_launch.py
+[0.249s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/launch/rviz_cfg
+[0.249s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/launch/rviz_cfg/sdv_sim_wpnts.rviz
+[0.249s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/launch/control_launch.py
+[0.249s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/launch/guidance_launch.py
+[0.249s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/launch/sim_launch.py
+[0.249s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/rviz
+[0.249s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/rviz/sim.rviz
+[0.249s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/sdv_control/path_publisher_node.py
+[0.250s] -- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/sdv_control/path_planner_node.py
+[0.250s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/ament_index/resource_index/package_run_dependencies/sdv_control
+[0.250s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/ament_index/resource_index/parent_prefix_path/sdv_control
+[0.250s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/environment/ament_prefix_path.sh
+[0.250s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/environment/ament_prefix_path.dsv
+[0.250s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/environment/path.sh
+[0.250s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/environment/path.dsv
+[0.250s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/local_setup.bash
+[0.250s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/local_setup.sh
+[0.250s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/local_setup.zsh
+[0.250s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/local_setup.dsv
+[0.251s] -- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/package.dsv
+[0.251s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/ament_index/resource_index/packages/sdv_control
+[0.251s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/cmake/sdv_controlConfig.cmake
+[0.251s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/cmake/sdv_controlConfig-version.cmake
+[0.251s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/package.xml
+[0.251s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include
+[0.251s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock
+[0.251s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/gmock-nice-strict.h
+[0.252s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/gmock-actions.h
+[0.252s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/gmock-more-actions.h
+[0.252s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/gmock-function-mocker.h
+[0.252s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/gmock.h
+[0.252s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/gmock-cardinalities.h
+[0.252s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/gmock-more-matchers.h
+[0.252s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/gmock-matchers.h
+[0.252s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/gmock-spec-builders.h
+[0.252s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/internal
+[0.252s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/internal/gmock-internal-utils.h
+[0.252s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/internal/custom
+[0.253s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/internal/custom/README.md
+[0.253s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/internal/custom/gmock-matchers.h
+[0.253s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/internal/custom/gmock-port.h
+[0.253s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/internal/custom/gmock-generated-actions.h
+[0.253s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/internal/gmock-port.h
+[0.253s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/internal/gmock-pp.h
+[0.253s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/libgmock.a
+[0.253s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/libgmock_main.a
+[0.253s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/pkgconfig/gmock.pc
+[0.253s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/pkgconfig/gmock_main.pc
+[0.253s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/cmake/GTest/GTestTargets.cmake
+[0.253s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/cmake/GTest/GTestTargets-noconfig.cmake
+[0.254s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/cmake/GTest/GTestConfigVersion.cmake
+[0.254s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/cmake/GTest/GTestConfig.cmake
+[0.254s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include
+[0.254s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest
+[0.254s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest_pred_impl.h
+[0.254s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest-matchers.h
+[0.254s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest.h
+[0.254s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest-typed-test.h
+[0.254s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest-message.h
+[0.254s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest-printers.h
+[0.254s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest_prod.h
+[0.254s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest-death-test.h
+[0.254s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest-param-test.h
+[0.255s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest-test-part.h
+[0.255s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal
+[0.255s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/gtest-type-util.h
+[0.255s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/gtest-port-arch.h
+[0.255s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/gtest-internal.h
+[0.255s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/gtest-port.h
+[0.255s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/gtest-string.h
+[0.256s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/gtest-param-util.h
+[0.257s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/gtest-filepath.h
+[0.257s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/custom
+[0.257s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/custom/gtest.h
+[0.257s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/custom/gtest-printers.h
+[0.258s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/custom/gtest-port.h
+[0.258s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/custom/README.md
+[0.259s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/gtest-death-test-internal.h
+[0.259s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest-spi.h
+[0.259s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/libgtest.a
+[0.260s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/libgtest_main.a
+[0.260s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/pkgconfig/gtest.pc
+[0.260s] -- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/pkgconfig/gtest_main.pc
+[0.261s] Invoked command in '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control' returned '0': CMAKE_PREFIX_PATH=/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control:/opt/ros/humble /usr/bin/cmake --install /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control
