@@ -9,18 +9,36 @@
 
 using namespace std::chrono_literals;
 
+#define STEER_MOTOR_ID 0x00
+#define BRAKE_MOTOR_ID 0x01
+
 class CanNodeSDV : public CanNodeBase {
 public:
     CanNodeSDV() : CanNodeBase("sdv_can_node"){
         using namespace std::placeholders;
 
-        // [joystick] -> [this node] -> [stepper pcb] -> [stepper motor]
-        // [this node][motor_angle_sub] : convert FLoat64 to CANMessage and send it
-        motor_angle_sub = this->create_subscription<std_msgs::msg::Float64>(
+        // [control] -> [this node] -> [stepper pcb] -> [steer stepper motor]
+        // [this node][steer_motor_angle_sub] : convert FLoat64 to CANMessage and send it
+        steer_motor_angle_sub = this->create_subscription<std_msgs::msg::Float64>(
             "/sdv/steering/setpoint", 10, [this](const std_msgs::msg::Float64::SharedPtr msg){
                 // RCLCPP_INFO(this->get_logger(), "Setpoint: %f", msg->data);
+                uint8_t base_msg_id = (STEER_MOTOR_ID & 0b11) << 6;
+
                 vanttec::CANMessage can_msg;
-                vanttec::packFloat(can_msg, 0x01, msg->data);
+                vanttec::packFloat(can_msg, base_msg_id | 0x01, msg->data);
+                send_frame(0x410, can_msg);
+            }
+        );
+
+        // [control] -> [this node] -> [stepper pcb] -> [brake stepper motor]
+        // [this node][brake_motor_angle_sub] : convert FLoat64 to CANMessage and send it
+        brake_motor_angle_sub = this->create_subscription<std_msgs::msg::Float64>(
+            "/sdv/braking/setpoint", 10, [this](const std_msgs::msg::Float64::SharedPtr msg){
+                // RCLCPP_INFO(this->get_logger(), "Setpoint: %f", msg->data);
+                uint8_t base_msg_id = (BRAKE_MOTOR_ID & 0b11) << 6;
+
+                vanttec::CANMessage can_msg;
+                vanttec::packFloat(can_msg, base_msg_id | 0x01, msg->data);
                 send_frame(0x410, can_msg);
             }
         );
@@ -170,7 +188,8 @@ private:
 
     rclcpp::Service<std_srvs::srv::Empty>::SharedPtr zero_service;
     rclcpp::Service<sdv_msgs::srv::Uint8>::SharedPtr mode_service;
-    rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr motor_angle_sub;
+    rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr steer_motor_angle_sub;
+    rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr brake_motor_angle_sub;
     rclcpp::Subscription<std_msgs::msg::UInt8>::SharedPtr throttle_setpoint_sub;
     rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr steering_angle_pub;
 };
