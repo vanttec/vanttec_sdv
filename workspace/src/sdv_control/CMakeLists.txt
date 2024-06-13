@@ -62,10 +62,19 @@ target_compile_features(sdv_kinematic_sim PUBLIC c_std_99 cxx_std_17)
 ament_target_dependencies(sdv_kinematic_sim ${DEPENDENCIES})
 target_link_libraries(sdv_kinematic_sim vanttec_controllers)
 
+add_executable(velocity_regulator_node src/control/regulators/first_order/velocity_regulator_node.cpp)
+target_include_directories(velocity_regulator_node PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include> libs/vanttec_controllers)
+target_compile_features(velocity_regulator_node PUBLIC c_std_99 cxx_std_17)
+ament_target_dependencies(velocity_regulator_node ${DEPENDENCIES})
+target_link_libraries(velocity_regulator_node vanttec_controllers)
+
 install(TARGETS 
   vel_pid_node
   stanley_controller_node
   sdv_kinematic_sim
+  velocity_regulator_node
   DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY 

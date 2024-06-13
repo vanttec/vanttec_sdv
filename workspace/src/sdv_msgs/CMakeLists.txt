@@ -12,6 +12,7 @@ find_package(geometry_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 
 rosidl_generate_interfaces(sdv_msgs
+  "msg/PerceptionMode.msg"
   "msg/State.msg"
   "msg/PanelMsg.msg"
   "msg/XboxMsg.msg"

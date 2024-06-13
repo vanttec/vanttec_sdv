@@ -44,9 +44,6 @@ def generate_launch_description():
       package='sdv_control',
       executable='stanley_controller_node',
       parameters=[sim_params],
-      remappings=[
-         ("/sdv/velocity/desired_setpoint", "/sdv/velocity/setpoint"),
-      ]
    )
 
    kinematic_node = Node(
