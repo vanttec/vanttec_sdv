@@ -30,29 +30,25 @@ public:
             }
         );
 
-        // [control] -> [this node] -> [stepper pcb] -> [brake stepper motor]
-        // [this node][brake_motor_angle_sub] : convert FLoat64 to CANMessage and send it
-        brake_motor_angle_sub = this->create_subscription<std_msgs::msg::Float64>(
-            "/sdv/braking/setpoint", 10, [this](const std_msgs::msg::Float64::SharedPtr msg){
-                // RCLCPP_INFO(this->get_logger(), "Setpoint: %f", msg->data);
-                uint8_t base_msg_id = (BRAKE_MOTOR_ID & 0b11) << 6;
-
-                vanttec::CANMessage can_msg;
-                vanttec::packFloat(can_msg, base_msg_id | 0x01, msg->data);
-                send_frame(0x410, can_msg);
-            }
-        );
-
-        throttle_setpoint_sub = this->create_subscription<std_msgs::msg::UInt8>(
-            "/sdv/throttle/setpoint", 10, [this](const std_msgs::msg::UInt8::SharedPtr msg){
+        // [control] -> [this node] -> [throttle/brake pcb] -> [throttle/brake stepper motor]
+        // [this node][throttle_setpoint_sub] : convert FLoat64 to CANMessage and send it
+        throttle_setpoint_sub = this->create_subscription<std_msgs::msg::Float64>(
+            "/sdv/velocity/throttle", 10, [this](const std_msgs::msg::Float64::SharedPtr msg){
                 last_throttle_message = this->get_clock()->now();
-                vanttec::CANMessage throttle_setpoint_msg;
-                uint8_t output = msg->data;
-                if(output > 180)
-                    output = 180;
+                vanttec::CANMessage can_msg;
+                double output = std::clamp(msg->data, -1., 1.);
 
-                vanttec::packByte(throttle_setpoint_msg, 0x05, output);
-                send_frame(0x406, throttle_setpoint_msg);
+                if(output > this->max_throttle_threshold) {
+                    // Throttle
+                    vanttec::packByte(can_msg, 0x05, (int)(output*180)); // TODO: Change positive throttle canmsg to float too
+                    send_frame(0x406, can_msg);
+
+                } else if(output < this->min_throttle_threshold) {
+                    // Brake
+                    uint8_t base_msg_id = (BRAKE_MOTOR_ID & 0b11) << 6;
+                    vanttec::packFloat(can_msg, base_msg_id | 0x01, msg->data);
+                    send_frame(0x410, can_msg);
+                }
             }
         );
 
@@ -115,31 +111,30 @@ protected:
     }
 
     void throttle_watchdog(){
-// cansend can0 410#0200
-// cansend can0 406#0701
-// cansend can0 406#0601
-        // vanttec::CANMessage pot_enable_msg, steer_enable_msg; 
+        // cansend can0 410#0200
+        // cansend can0 406#0701
+        // cansend can0 406#0601
+        vanttec::CANMessage pot_enable_msg, steer_enable_msg; 
 
-        // // If throttle message has been received within 100ms
-        // //if(is_auto && this->get_clock()->now() - last_throttle_message < rclcpp::Duration(0, 100 * 1e6)){
-        // if ( is_auto ) {
-        //     RCLCPP_INFO(this->get_logger(), "auto enabled.");
-        //     vanttec::packByte(pot_enable_msg, 0x07, 0x01);
+        // If throttle message has been received within 100ms
+        //if(is_auto && this->get_clock()->now() - last_throttle_message < rclcpp::Duration(0, 100 * 1e6)){
+        if ( is_auto ) {
+            RCLCPP_INFO(this->get_logger(), "auto enabled.");
 
-        //     vanttec::CANMessage enable_motor{0x06, 0x01};
-        //     send_frame(0x406, enable_motor);
+            vanttec::CANMessage enable_motor{0x06, 0x01};
+            send_frame(0x406, enable_motor);
 	   	
-	    // vanttec::packByte(steer_enable_msg, 0x02, 0x00);
+            vanttec::packByte(pot_enable_msg, 0x07, 0x01);
+            vanttec::packByte(steer_enable_msg, 0x02, 0x00);
 
-        // } else {
-        //     // Disable pot control, enable manual control.
-        //     vanttec::packByte(pot_enable_msg, 0x07, 0x00);
+        } else {
+            // Disable pot control, enable manual control.
+            vanttec::packByte(pot_enable_msg, 0x07, 0x00);
+            vanttec::packByte(steer_enable_msg, 0x02, 0x01);
+        }
 
-	    // vanttec::packByte(steer_enable_msg, 0x02, 0x01);
-        // }
-
-        // send_frame(0x406, pot_enable_msg);
-	    // send_frame(0x410, steer_enable_msg);
+        send_frame(0x406, pot_enable_msg);
+	    send_frame(0x410, steer_enable_msg);
     }
  
     void zero_encoder(const std::shared_ptr<std_srvs::srv::Empty::Request> request,
@@ -205,6 +200,8 @@ protected:
 
 private:
     bool is_auto{false};
+    double min_throttle_threshold{-0.05};
+    double max_throttle_threshold{0.05};
     rclcpp::TimerBase::SharedPtr throttle_watchdog_timer_;
     rclcpp::Time last_throttle_message;
 
