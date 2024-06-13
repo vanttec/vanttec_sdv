@@ -169,12 +169,12 @@ def generate_launch_description():
       # aitsmc_node,
       # asmc_node,
       pid_node,
-      tf2_node,
-      sdv_description_launch,
-      sdv_loc_launch,
+      # tf2_node,
+      # sdv_description_launch,
+      # sdv_loc_launch,
       
       # sdv_can_launch,
       
-      # waypoint_handler,
-      # car_guidance_node,
+      waypoint_handler,
+      car_guidance_node,
    ])

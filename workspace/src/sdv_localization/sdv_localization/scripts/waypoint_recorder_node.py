@@ -31,6 +31,7 @@ class Waypoint_recorder_node(Node):
         self.waypoint_list_ = []
         self.x = 0.0
         self.y = 0.0
+        self.z = 0.0
 
         self.last = False
         self.pose_sub_ = self.create_subscription( Odometry, '/odom_lidar',
@@ -38,19 +39,20 @@ class Waypoint_recorder_node(Node):
         self.new_rec_sub_ = self.create_subscription( UInt8, '/new_waypoint',
                                                       self.new_rec, 1)
 
-        timer_period = 1  # seconds
+        timer_period = 0.1  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
 
         self.writting_permisions = 0
 
     def timer_callback(self):
-        print(self.x, self.y)
+        print(self.x, self.y, self.z)
         if self.writting_permisions == 1:
-            self.waypoint_list_.append([self.x,self.y])
+            self.waypoint_list_.append([self.x,self.y,self.z])
 
     def save_pos(self, msg):
         self.x = msg.pose.pose.position.x
         self.y = msg.pose.pose.position.y
+        self.z = msg.pose.pose.position.z
                 
     def new_rec(self, msg):
         self.writting_permisions = msg.data

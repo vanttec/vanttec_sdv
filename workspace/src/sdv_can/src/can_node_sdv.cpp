@@ -115,28 +115,31 @@ protected:
     }
 
     void throttle_watchdog(){
-        vanttec::CANMessage pot_enable_msg, stepper_enable_msg; 
+// cansend can0 410#0200
+// cansend can0 406#0701
+// cansend can0 406#0601
+        // vanttec::CANMessage pot_enable_msg, steer_enable_msg; 
 
-    //     // If throttle message has been received within 100ms
-    //     //if(is_auto && this->get_clock()->now() - last_throttle_message < rclcpp::Duration(0, 100 * 1e6)){
-    //     if ( is_auto ) {
-    //         RCLCPP_INFO(this->get_logger(), "auto enabled.");
-    //         vanttec::packByte(pot_enable_msg, 0x07, 0x01);
+        // // If throttle message has been received within 100ms
+        // //if(is_auto && this->get_clock()->now() - last_throttle_message < rclcpp::Duration(0, 100 * 1e6)){
+        // if ( is_auto ) {
+        //     RCLCPP_INFO(this->get_logger(), "auto enabled.");
+        //     vanttec::packByte(pot_enable_msg, 0x07, 0x01);
 
-    //         vanttec::CANMessage enable_motor{0x06, 0x01};
-    //         send_frame(0x406, enable_motor);
+        //     vanttec::CANMessage enable_motor{0x06, 0x01};
+        //     send_frame(0x406, enable_motor);
 	   	
-	//     vanttec::packByte(stepper_enable_msg, 0x02, 0x00);
+	    // vanttec::packByte(steer_enable_msg, 0x02, 0x00);
 
-    //     } else {
-    //         // Disable pot control, enable manual control.
-    //         vanttec::packByte(pot_enable_msg, 0x07, 0x00);
+        // } else {
+        //     // Disable pot control, enable manual control.
+        //     vanttec::packByte(pot_enable_msg, 0x07, 0x00);
 
-	//     vanttec::packByte(stepper_enable_msg, 0x02, 0x01);
-    //     }
+	    // vanttec::packByte(steer_enable_msg, 0x02, 0x01);
+        // }
 
-    //     send_frame(0x406, pot_enable_msg);
-	// send_frame(0x410, stepper_enable_msg);
+        // send_frame(0x406, pot_enable_msg);
+	    // send_frame(0x410, steer_enable_msg);
     }
  
     void zero_encoder(const std::shared_ptr<std_srvs::srv::Empty::Request> request,
@@ -161,22 +164,41 @@ protected:
         is_auto = request.get()->data == 1;
         
         // Send auto mode to steering stepper board.
-        uint8_t data = request.get()->data;
-        vanttec::CANMessage set_mode_msg{0x2, is_auto};
-        send_frame(0x410, set_mode_msg);
+        // uint8_t data = request.get()->data;
+        // vanttec::CANMessage set_mode_msg{0x2, is_auto};
+        // send_frame(0x410, set_mode_msg);
     }
 
     void activate_lightshow(const std::shared_ptr<sdv_msgs::srv::Uint8::Request> request,
         std::shared_ptr<sdv_msgs::srv::Uint8::Response> response) {
         
+        RCLCPP_INFO(this->get_logger(), "1");
+
         // Send msg to activate light show to panel board.
         uint8_t data = request.get()->data;
 
+        RCLCPP_INFO(this->get_logger(), "2");
+
+
         if (data == 1) {
-                vanttec::CANMessage set_mode_msg = {0x15, 0x12};
-                send_frame(0x410, set_mode_msg);
+                RCLCPP_INFO(this->get_logger(), "lightshow 1");
+
+                vanttec::CANMessage panel_msg;
+                vanttec::packByte(panel_msg, 0x15, 0x12);
+
+                send_frame(0x410, panel_msg);
+                
+                vanttec::CANMessage carlights_msg;
+                vanttec::packByte(carlights_msg, 0x15, 0x10);
+
+                // send_frame(0x410, carlights_msg);
+
         } else if (data == 0) {
-                vanttec::CANMessage set_mode_msg = {0x15, 0x0A};
+                RCLCPP_INFO(this->get_logger(), "lightshow 0");
+
+                vanttec::CANMessage set_mode_msg;
+                vanttec::packByte(set_mode_msg, 0x15, 0x0A);
+
                 send_frame(0x410, set_mode_msg);
         }
     }
