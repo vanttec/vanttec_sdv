@@ -17,58 +17,80 @@ public:
     CanNodeSDV() : CanNodeBase("sdv_can_node"){
         using namespace std::placeholders;
 
-        // [control] -> [this node] -> [stepper pcb] -> [steer stepper motor]
-        // [this node][steer_motor_angle_sub] : convert FLoat64 to CANMessage and send it
+        // Initialize parameters
+        this->declare_parameter("steer_enable", true);
+        this->declare_parameter("throttle_enable", true);
+        this->declare_parameter("brake_enable", true);
+
+        steer_enable = this->get_parameter("steer_enable").as_bool();
+        throttle_enable = this->get_parameter("throttle_enable").as_bool();
+        brake_enable = this->get_parameter("brake_enable").as_bool();
+
+
+        // [steer_motor_angle_sub] : convert Float64 to CANMessage and send it
         steer_motor_angle_sub = this->create_subscription<std_msgs::msg::Float64>(
             "/sdv/steering/setpoint", 10, [this](const std_msgs::msg::Float64::SharedPtr msg){
                 // RCLCPP_INFO(this->get_logger(), "Setpoint: %f", msg->data);
-                uint8_t base_msg_id = (STEER_MOTOR_ID & 0b11) << 6;
-
-                vanttec::CANMessage can_msg;
-                vanttec::packFloat(can_msg, base_msg_id | 0x01, msg->data);
-                send_frame(0x410, can_msg);
-            }
-        );
-
-        // [control] -> [this node] -> [throttle/brake pcb] -> [throttle/brake stepper motor]
-        // [this node][throttle_setpoint_sub] : convert FLoat64 to CANMessage and send it
-        throttle_setpoint_sub = this->create_subscription<std_msgs::msg::Float64>(
-            "/sdv/velocity/throttle", 10, [this](const std_msgs::msg::Float64::SharedPtr msg){
-                last_throttle_message = this->get_clock()->now();
-                vanttec::CANMessage can_msg;
-                double output = std::clamp(msg->data, -1., 1.);
-
-                if(output > this->max_throttle_threshold) {
-                    // Throttle
-                    vanttec::packByte(can_msg, 0x05, (int)(output*180)); // TODO: Change positive throttle canmsg to float too
-                    send_frame(0x406, can_msg);
-
-                } else if(output < this->min_throttle_threshold) {
-                    // Brake
-                    uint8_t base_msg_id = (BRAKE_MOTOR_ID & 0b11) << 6;
+                if(steer_enable){
+                    uint8_t base_msg_id = (STEER_MOTOR_ID & 0b11) << 6;
+                    vanttec::CANMessage can_msg;
                     vanttec::packFloat(can_msg, base_msg_id | 0x01, msg->data);
                     send_frame(0x410, can_msg);
                 }
             }
         );
 
-        // [britter encoder] -> [CAN] -> [this node] -> [ros]
-        // [this node][steering_angle_pub] : convert encoder's angle to Float64 and publish it
+        // [throttle_setpoint_sub] : convert Float64 to CANMessage and send it
+        throttle_setpoint_sub = this->create_subscription<std_msgs::msg::Float64>(
+            "/sdv/velocity/throttle", 10, [this](const std_msgs::msg::Float64::SharedPtr msg){
+                last_throttle_message = this->get_clock()->now();
+                vanttec::CANMessage throttle_msg, braking_msg;
+                double output = std::clamp(msg->data, -1., 1.);
+                double throttle_{0.}, brake_{0.};
+
+                // Throttle
+                if(output > this->max_throttle_threshold){
+                    throttle_ = output;
+                }
+                if(throttle_enable){
+                    vanttec::packByte(throttle_msg, 0x05, (uint8_t)(throttle_*180)); // TODO: Change positive throttle canmsg to float too
+                    send_frame(0x406, throttle_msg);
+                }
+
+                // Brake
+                if(output < this->min_throttle_threshold) {
+                    brake_ = -output;
+                }
+                if(brake_enable){
+                    uint8_t base_msg_id = (BRAKE_MOTOR_ID & 0b11) << 6;
+                    vanttec::packFloat(braking_msg, base_msg_id | 0x01, brake_);
+                    send_frame(0x410, braking_msg);
+                }
+            }
+        );
+
+        // [steering_angle_pub] : convert encoder's angle to Float64 and publish it
         steering_angle_pub = this->create_publisher<std_msgs::msg::Float64>(
             "/sdv/steering/position", 10
         );
 
-        // [ros] -> [this node] -> [stepper pcb] -> [stepper motor]
-        // [this node][zero_service] : if called, send a CAN message to zero the encoder on current position
-        zero_service = this->create_service<std_srvs::srv::Empty>(
+        // [zero_steering_service] : if called, send a CAN message to zero the encoder on current position
+        zero_steering_service = this->create_service<std_srvs::srv::Empty>(
             "/sdv/steering/reset_encoder",
             std::bind(
-                &CanNodeSDV::zero_encoder, this, _1, _2
+                &CanNodeSDV::zero_steering, this, _1, _2
             )
         );
 
-        // [ros] -> [this node] -> [CAN network]
-        // [this node][mode_service] : will send the value of the service as the current mode to CAN 
+        // [zero_braking_service] : if called, send a CAN message to zero the encoder on current position
+        zero_braking_service = this->create_service<std_srvs::srv::Empty>(
+            "/sdv/braking/reset_encoder",
+            std::bind(
+                &CanNodeSDV::zero_braking, this, _1, _2
+            )
+        );
+
+        // [mode_service] : will send the value of the service as the current mode to CAN 
         mode_service = this->create_service<sdv_msgs::srv::Uint8>(
             "/sdv/steering/set_mode",
             std::bind(
@@ -76,14 +98,13 @@ public:
             )
         );
 
-        // [ros] -> [this node] -> [CAN network]
-        // [this node][mode_service] : will send the value of the service as the current mode to CAN 
-        mode_service = this->create_service<sdv_msgs::srv::Uint8>(
-            "/sdv/steering/activate/lightshow",
-            std::bind(
-                &CanNodeSDV::activate_lightshow, this, _1, _2
-            )
-        );
+        // [light_mode_service] : will send the value of the service as the current light_mode to CAN 
+        // light_mode_service = this->create_service<sdv_msgs::srv::Uint8>(
+        //     "/sdv/steering/activate/lightshow",
+        //     std::bind(
+        //         &CanNodeSDV::activate_lightshow, this, _1, _2
+        //     )
+        // );
 
         throttle_watchdog_timer_ = this->create_wall_timer(100ms, std::bind(&CanNodeSDV::throttle_watchdog, this));
     }
@@ -98,22 +119,31 @@ protected:
         auto steady_clock = rclcpp::Clock();
 
         // RCLCPP_INFO(this->get_logger(), "Got message from: %#X  with vttec id: %#X", can_id, vttec_msg_id);
+        if(can_id == 0x407 && vttec_msg_id == 0x03){
+            std_msgs::msg::Float64 encoder_msg;
+            encoder_msg.data  = vanttec::getFloat(msg);
+            auto steady_clock = rclcpp::Clock();
+            // RCLCPP_WARN_THROTTLE(this->get_logger(), steady_clock, 1000, "Got encoder message: %f", encoder_msg.data);
+            steering_angle_pub->publish(encoder_msg);
+        }
 
-        if(can_id == 0x407){
-            if(vttec_msg_id == 0x03){
-                std_msgs::msg::Float64 encoder_msg;
-                encoder_msg.data  = vanttec::getFloat(msg);
-                auto steady_clock = rclcpp::Clock();
-                // RCLCPP_WARN_THROTTLE(this->get_logger(), steady_clock, 1000, "Got encoder message: %f", encoder_msg.data);
-                steering_angle_pub->publish(encoder_msg);
-            }
+        if(can_id == 0x013 && vttec_msg_id == 0x07){
+            float brake_encoder = vanttec::getLong(msg) * 1.;
+            // 0    = 318833152.000000,
+            // 1    = 318,873,856.000000
+            
+            RCLCPP_WARN_THROTTLE(this->get_logger(), steady_clock, 1000, 
+                "Original encoder: %f, processed to %f", brake_encoder, 
+                (brake_encoder - 318832640) / 41472.);
         }
     }
 
     void throttle_watchdog(){
-        // cansend can0 410#0200
-        // cansend can0 406#0701
-        // cansend can0 406#0601
+        /*
+cansend can0 410#0200
+cansend can0 406#0701
+cansend can0 406#0601
+        */
         vanttec::CANMessage pot_enable_msg, steer_enable_msg; 
 
         // If throttle message has been received within 100ms
@@ -137,18 +167,31 @@ protected:
 	    send_frame(0x410, steer_enable_msg);
     }
  
-    void zero_encoder(const std::shared_ptr<std_srvs::srv::Empty::Request> request,
+    void zero_braking(const std::shared_ptr<std_srvs::srv::Empty::Request> request,
         std::shared_ptr<std_srvs::srv::Empty::Response> response) {
         
-        RCLCPP_INFO(this->get_logger(), "setting encoder to zero");
+        RCLCPP_INFO(this->get_logger(), "setting braking encoder to zero");
 
-        // For debugging
+        // Reset braking encoder
+        // cansend can0 013#04130600
+        
+        vanttec::CANMessage msg1{0x04,0x13,0x06,0x00};
+        vanttec::CANMessage msg2{0x04,0x13,0x04,0xAA};
+        send_frame(0x13, msg1);
+        send_frame(0x13, msg2);
+    }
+
+    void zero_steering(const std::shared_ptr<std_srvs::srv::Empty::Request> request,
+        std::shared_ptr<std_srvs::srv::Empty::Response> response) {
+        
+        RCLCPP_INFO(this->get_logger(), "setting steering encoder to zero");
+
+        // Reset steering encoder
         // cansend can0 620#2303600000000080
         // cansend can0 620#2310100173617665
         
         vanttec::CANMessage set_zero_msg{0x23,0x03,0x60,0x00,0x00,0x00,0x00,0x80};
         vanttec::CANMessage store_params_msg{0x23,0x10,0x10,0x01,0x73,0x61,0x76,0x65};
-
         send_frame(0x620, set_zero_msg);
         send_frame(0x620, store_params_msg);
     }
@@ -175,7 +218,7 @@ protected:
         RCLCPP_INFO(this->get_logger(), "2");
 
 
-        if (data == 1) {
+        if (data) {
                 RCLCPP_INFO(this->get_logger(), "lightshow 1");
 
                 vanttec::CANMessage panel_msg;
@@ -188,7 +231,7 @@ protected:
 
                 // send_frame(0x410, carlights_msg);
 
-        } else if (data == 0) {
+        } else {
                 RCLCPP_INFO(this->get_logger(), "lightshow 0");
 
                 vanttec::CANMessage set_mode_msg;
@@ -200,16 +243,17 @@ protected:
 
 private:
     bool is_auto{false};
+    bool steer_enable{true}, throttle_enable{true}, brake_enable{true};
     double min_throttle_threshold{-0.05};
     double max_throttle_threshold{0.05};
     rclcpp::TimerBase::SharedPtr throttle_watchdog_timer_;
     rclcpp::Time last_throttle_message;
 
-    rclcpp::Service<std_srvs::srv::Empty>::SharedPtr zero_service;
+    rclcpp::Service<std_srvs::srv::Empty>::SharedPtr zero_steering_service;
+    rclcpp::Service<std_srvs::srv::Empty>::SharedPtr zero_braking_service;
     rclcpp::Service<sdv_msgs::srv::Uint8>::SharedPtr mode_service;
     rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr steer_motor_angle_sub;
-    rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr brake_motor_angle_sub;
-    rclcpp::Subscription<std_msgs::msg::UInt8>::SharedPtr throttle_setpoint_sub;
+    rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr throttle_setpoint_sub;
     rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr steering_angle_pub;
 };
 
