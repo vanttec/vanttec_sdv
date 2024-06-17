@@ -51,8 +51,8 @@ def generate_launch_description():
             executable='lane_detection',
             name='lane_detection',
             parameters=[{
-                "model_file" : 'best_feb2024_FINSA.pt', # Model file to use. For FINSA model, use 'best_feb2024_FINSA.pt', for Campus model, use 'best_CampusSeg.pt'
-                "center_class" : 0, # Class to use for center detection. For FINSA model, use 0, for Campus model, use 1
+                "model_file" : 'Campus_Lane.pt', # Model file to use. For FINSA model, use 'best_feb2024_FINSA.pt', for Campus model, use 'best_CampusSeg.pt'
+                "center_class" : 2, # Class to use for center detection. For FINSA model, use 0, for Campus model, use 1
                 "error_threshold" : [9,13], # Error threshold for the center point detection. [caution, warning]
                 "center_point" : [590, 500] # Center point of the image
             }], # TODO try the remapping

@@ -107,8 +107,8 @@ class LaneDetection(Node):
 
         
     # PARAMETERS
-    self.declare_parameter('model_file','best_feb2024_FINSA.pt')
-    self.declare_parameter('center_class', 0)
+    self.declare_parameter('model_file','Campus_Lane.pt')
+    self.declare_parameter('center_class', 2)
     self.declare_parameter('error_threshold', [9,13]) # Error threshold for the center point detection
     self.declare_parameter('center_point', [590, 500])
 

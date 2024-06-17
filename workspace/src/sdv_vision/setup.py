@@ -30,7 +30,8 @@ setup(
             'video_publisher = yolov8_lane_detection.video_pub:main',
             'lane_detection = yolov8_lane_detection.lane_detection:main', 
             'people_distance_detection = yolov8_object_detection.people_distance_detection:main',
-            'video_writer = yolov8_object_detection.video_writer:main'   
+            'video_writer = yolov8_object_detection.video_writer:main',
+            'model_testing = yolov8_lane_detection.model_testing:main'
         ],
     },
 )
