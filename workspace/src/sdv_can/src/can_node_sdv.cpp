@@ -46,22 +46,23 @@ public:
                 last_throttle_message = this->get_clock()->now();
                 vanttec::CANMessage throttle_msg, braking_msg;
                 double output = std::clamp(msg->data, -1., 1.);
-                double throttle_{0.}, brake_{0.};
+                double throttle_{0.}, brake_{0.5};
 
                 // Throttle
-                if(output > this->max_throttle_threshold){
-                    throttle_ = output;
-                }
                 if(throttle_enable){
+                    if(output > this->max_throttle_threshold){
+                        throttle_ = output;
+                    }
                     vanttec::packByte(throttle_msg, 0x05, (uint8_t)(throttle_*180)); // TODO: Change positive throttle canmsg to float too
                     send_frame(0x406, throttle_msg);
                 }
 
                 // Brake
-                if(output < this->min_throttle_threshold) {
-                    brake_ = -output;
-                }
                 if(brake_enable){
+                    if(output < this->min_throttle_threshold) {
+                        brake_ = -output;
+                        brake_ = std::clamp(brake_, 0., 1.);
+                    }
                     uint8_t base_msg_id = (BRAKE_MOTOR_ID & 0b11) << 6;
                     vanttec::packFloat(braking_msg, base_msg_id | 0x01, brake_);
                     send_frame(0x410, braking_msg);
@@ -106,7 +107,7 @@ public:
         //     )
         // );
 
-        throttle_watchdog_timer_ = this->create_wall_timer(100ms, std::bind(&CanNodeSDV::throttle_watchdog, this));
+        throttle_watchdog_timer_ = this->create_wall_timer(200ms, std::bind(&CanNodeSDV::throttle_watchdog, this));
     }
 protected:
     void parse_frame(const struct can_frame &frame) override {
@@ -128,13 +129,9 @@ protected:
         }
 
         if(can_id == 0x013 && vttec_msg_id == 0x07){
-            float brake_encoder = vanttec::getLong(msg) * 1.;
-            // 0    = 318833152.000000,
-            // 1    = 318,873,856.000000
-            
+            long brake_encoder = vanttec::getLong(msg);            
             RCLCPP_WARN_THROTTLE(this->get_logger(), steady_clock, 1000, 
-                "Original encoder: %f, processed to %f", brake_encoder, 
-                (brake_encoder - 318832640) / 41472.);
+                "Braking encoder: %d", brake_encoder-49152);
         }
     }
 
@@ -144,25 +141,25 @@ cansend can0 410#0200
 cansend can0 406#0701
 cansend can0 406#0601
         */
-        vanttec::CANMessage pot_enable_msg, steer_enable_msg; 
+        vanttec::CANMessage pot_enable_msg, steer_enable_msg, enable_motor; 
 
         // If throttle message has been received within 100ms
         //if(is_auto && this->get_clock()->now() - last_throttle_message < rclcpp::Duration(0, 100 * 1e6)){
         if ( is_auto ) {
             RCLCPP_INFO(this->get_logger(), "auto enabled.");
-
-            vanttec::CANMessage enable_motor{0x06, 0x01};
-            send_frame(0x406, enable_motor);
 	   	
             vanttec::packByte(pot_enable_msg, 0x07, 0x01);
+            vanttec::packByte(enable_motor, 0x06, 0x01);
             vanttec::packByte(steer_enable_msg, 0x02, 0x00);
 
         } else {
             // Disable pot control, enable manual control.
             vanttec::packByte(pot_enable_msg, 0x07, 0x00);
+            vanttec::packByte(enable_motor, 0x06, 0x00);
             vanttec::packByte(steer_enable_msg, 0x02, 0x01);
         }
 
+        send_frame(0x406, enable_motor);
         send_frame(0x406, pot_enable_msg);
 	    send_frame(0x410, steer_enable_msg);
     }
@@ -172,10 +169,11 @@ cansend can0 406#0601
         
         RCLCPP_INFO(this->get_logger(), "setting braking encoder to zero");
 
-        // Reset braking encoder
-        // cansend can0 013#04130600
+        /*Reset braking encoder to the middle
+cansend can0 013#04130C01
+        */
         
-        vanttec::CANMessage msg1{0x04,0x13,0x06,0x00};
+        vanttec::CANMessage msg1{0x04,0x13,0x0C,0x01};
         vanttec::CANMessage msg2{0x04,0x13,0x04,0xAA};
         send_frame(0x13, msg1);
         send_frame(0x13, msg2);

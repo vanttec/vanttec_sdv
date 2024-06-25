@@ -12,10 +12,10 @@ vel_pid_node:
     Kp: 1.0
     Ki: 0.01
     Kd: 0.2
-    U_MAX: 180.0
-    U_MIN: -180.0
-    enable_ramp: false 
-    ramp_rate: 10.0
+    U_MAX: 1.0
+    U_MIN: -1.0
+    enable_ramp: true
+    ramp_rate: 0.3
 
 # First Order Feedback Linearization 1-DOF PID Controller for the VTec SDC1
 sdc1_vel_pid_node:

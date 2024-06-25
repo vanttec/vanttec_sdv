@@ -38,7 +38,9 @@ class RemoteMapping(Node):
         self.lightshow_req.data = 0
         self.light_back = True
 
-        self.delta_dt = 0.15
+        self.steer_dt = 0.15
+        self.throttle_dt = 0.01
+        self.throttle_center_dt = 0.06
         self.curr_steer = 0.
         self.past_steer = 0.
         self.curr_throttle = 0.
@@ -60,7 +62,7 @@ class RemoteMapping(Node):
 
         # modify steer setpoint
         steer_delta = -msg.axes[joystick_axes_index]
-        self.curr_steer += steer_delta * self.delta_dt
+        self.curr_steer += steer_delta * self.steer_dt
         self.curr_steer = max(-3 * math.pi, min(self.curr_steer, 3 * math.pi))
 
         if abs(self.curr_steer - self.past_steer) < self.dropout:
@@ -73,11 +75,19 @@ class RemoteMapping(Node):
 
         # modify throttle setpoint
         throttle_delta = msg.axes[accel_axes_index] - msg.axes[braking_axes_index]
-        self.curr_throttle += throttle_delta * self.delta_dt
-        self.curr_throttle = max(-1., min(self.curr_throttle, 1.))
+        if throttle_delta == 0:
+            throttle_delta = -self.sign(self.curr_throttle)
+        if throttle_delta > 0 and self.curr_throttle > 0:
+            self.curr_throttle += throttle_delta * self.throttle_dt
+        else:
+            self.curr_throttle += throttle_delta * self.throttle_center_dt
+        self.curr_throttle = max(-1., min(self.curr_throttle, .6))
 
-        if abs(self.curr_throttle - self.past_throttle) < self.dropout:
+        if abs(self.curr_throttle) <= self.throttle_center_dt:
+            self.curr_throttle = 0.
+        elif abs(self.curr_throttle - self.past_throttle) < self.dropout:
             self.curr_throttle = self.past_throttle
+        
         self.past_throttle = self.curr_throttle
 
         self.throttle_msg.data = self.curr_throttle
@@ -107,6 +117,11 @@ class RemoteMapping(Node):
 
     def callback_done(self, msg):
         self.get_logger().info('CAN service called')
+
+    def sign(self,n):
+        if n > 0:
+            return 1
+        return -1
 
 
 
