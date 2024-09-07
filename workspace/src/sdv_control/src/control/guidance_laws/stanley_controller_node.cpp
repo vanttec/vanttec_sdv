@@ -110,7 +110,7 @@ class StanleyControllerNode : public rclcpp::Node
         rclcpp::Subscription<nav_msgs::msg::Path>::SharedPtr path_to_follow_;
 
         void timer_callback(){
-            velocity_setpoint_.data = 0;
+            velocity_setpoint_.data = 0.;
 
             if(path_arrived_) {
                 if(waypoint_ < smooth_path_.poses.size()){
@@ -203,12 +203,13 @@ class StanleyControllerNode : public rclcpp::Node
                             transform.transform.translation, smooth_path_.poses[waypoint_].pose.position)) < 1)
                             waypoint_++;
                     }
-                    RCLCPP_INFO(this->get_logger(), "wp: %d", 
-                    waypoint_
-                    );
+                    // RCLCPP_INFO(this->get_logger(), "wp: %d", 
+                    // waypoint_
+                    // );
 
                 } else {
-                    RCLCPP_INFO(this->get_logger(), "Reached the end of the path");
+                    velocity_setpoint_.data = 0.;
+                    // RCLCPP_INFO(this->get_logger(), "Reached the end of the path");
                 }
             } else {
                 RCLCPP_INFO(this->get_logger(), "Waiting for reference path");

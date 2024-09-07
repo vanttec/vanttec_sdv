@@ -40,9 +40,9 @@ class VelPidNode : public rclcpp::Node {
                 "/sdv/velocity/setpoint", 10,
                 [this](const std_msgs::msg::Float64 &msg) { vel_d = msg.data; });
 
-            velocity_sub_ = this->create_subscription<geometry_msgs::msg::TwistWithCovarianceStamped>(
+            velocity_sub_ = this->create_subscription<nav_msgs::msg::Odometry>(
                 "/vectornav/velocity_body", 10,
-                [this](const geometry_msgs::msg::TwistWithCovarianceStamped &msg) { 
+                [this](const nav_msgs::msg::Odometry &msg) { 
                     vel = msg.twist.twist.linear.x;
                 });
 
@@ -50,7 +50,7 @@ class VelPidNode : public rclcpp::Node {
                 "/sdv/velocity/throttle", 10);
 
             updateTimer =
-                this->create_wall_timer(100ms, std::bind(&VelPidNode::update, this));
+                this->create_wall_timer(10ms, std::bind(&VelPidNode::update, this));
         }
 
     private:
@@ -58,12 +58,12 @@ class VelPidNode : public rclcpp::Node {
         PID controller{PID::defaultParams()};
 
         rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr velocity_setpoint_sub_;
-        rclcpp::Subscription<geometry_msgs::msg::TwistWithCovarianceStamped>::SharedPtr velocity_sub_;
+        rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr velocity_sub_;
         rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr throttle_pub_;
 
         rclcpp::TimerBase::SharedPtr updateTimer;
 
-        double vel{0.0}, vel_d{0.0};
+        double vel{0.0}, vel_d{0.0}, u_{0.0};
 
         std_msgs::msg::Float64 throttle_msg;
 
@@ -89,7 +89,12 @@ class VelPidNode : public rclcpp::Node {
         }
 
         void update() {
-            throttle_msg.data = controller.update(vel, vel_d);
+            u_ = controller.update(vel, vel_d);
+            // if(u_ < -0.3 || u_ > 0.2)
+            if(u_ < -0. || u_ > 0.)
+                throttle_msg.data = u_;
+            else
+                throttle_msg.data = 0.0;
             throttle_pub_->publish(throttle_msg);
         }
 };

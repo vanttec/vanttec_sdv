@@ -21,6 +21,7 @@ find_package(tf2 REQUIRED)
 find_package(diagnostic_msgs REQUIRED)
 find_package(rclpy REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
+find_package(ament_cmake_python REQUIRED)
 
 set(DEPENDENCIES
     sdv_msgs
@@ -37,6 +38,7 @@ set(DEPENDENCIES
 )
 
 add_subdirectory(libs/vanttec_controllers)
+ament_python_install_package(scripts)
 
 add_executable(vel_pid_node src/control/regulators/first_order/vel_pid_node.cpp)
 target_include_directories(vel_pid_node PUBLIC

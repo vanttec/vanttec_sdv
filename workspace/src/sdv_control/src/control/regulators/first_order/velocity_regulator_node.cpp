@@ -27,7 +27,7 @@ class VelRegulatorNode : public rclcpp::Node {
                 "/sdv/velocity/setpoint", 10);
 
             updateTimer =
-                this->create_wall_timer(100ms, std::bind(&VelRegulatorNode::update, this));
+                this->create_wall_timer(10ms, std::bind(&VelRegulatorNode::update, this));
         }
 
     private:

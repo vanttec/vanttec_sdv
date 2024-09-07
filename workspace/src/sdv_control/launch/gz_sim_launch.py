@@ -38,6 +38,9 @@ def generate_launch_description():
       package='sdv_control',
       executable='vel_pid_node',
       parameters=[sim_params],
+      remappings=[
+         ("/vectornav/velocity_body","/gz_sim/odometry"),
+      ],
    )
 
    pid_regulator_node = Node(
@@ -51,14 +54,14 @@ def generate_launch_description():
       parameters=[sim_params],
    )
 
-   kinematic_node = Node(
-      package='sdv_control',
-      executable='sdv_kinematic_sim',
-      remappings=[
-         ("/input/accel_x", "/sdv/velocity/throttle"),
-         ("/output/odom", "/vectornav/velocity_body"),
-         ("/input/steering", "/sdv/steering/delta_setpoint"),
-      ]
+   gz_sim_launch = IncludeLaunchDescription(
+      PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+               FindPackageShare('sdv_description_gz'),
+               'launch',
+               'gazebo_launch.py'
+            ])
+      ])
    )
 
    foxglove_bridge = Node(
@@ -67,13 +70,14 @@ def generate_launch_description():
       executable="foxglove_bridge")
 
    return LaunchDescription([
-      rviz,
+      # rviz,
       pid_node,
-      pid_regulator_node,
-      kinematic_node,   
+      # pid_regulator_node,
       # stanley_node,
 
-      foxglove_bridge,
+      # gz_sim_launch,
+
+      # foxglove_bridge,
       
       # waypoint_handler,
       # car_guidance_node,
