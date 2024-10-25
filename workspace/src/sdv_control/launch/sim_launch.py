@@ -51,6 +51,16 @@ def generate_launch_description():
       parameters=[sim_params],
    )
 
+   path_planner_node = Node(
+      package='sdv_control',
+      executable='path_planner_node.py',
+   )
+
+   path_publisher_node = Node(
+      package='sdv_control',
+      executable='path_publisher_node.py',
+   )
+
    kinematic_node = Node(
       package='sdv_control',
       executable='sdv_kinematic_sim',
@@ -71,10 +81,11 @@ def generate_launch_description():
       pid_node,
       pid_regulator_node,
       kinematic_node,   
-      # stanley_node,
+      stanley_node,
+      path_planner_node,
+      path_publisher_node,
 
       foxglove_bridge,
       
       # waypoint_handler,
-      # car_guidance_node,
    ])
