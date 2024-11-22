@@ -40,9 +40,9 @@ class VelPidNode : public rclcpp::Node {
                 "/sdv/velocity/setpoint", 10,
                 [this](const std_msgs::msg::Float64 &msg) { vel_d = msg.data; });
 
-            velocity_sub_ = this->create_subscription<nav_msgs::msg::Odometry>(
+            velocity_sub_ = this->create_subscription<geometry_msgs::msg::TwistWithCovarianceStamped>(
                 "/vectornav/velocity_body", 10,
-                [this](const nav_msgs::msg::Odometry &msg) { 
+                [this](const geometry_msgs::msg::TwistWithCovarianceStamped &msg) { 
                     vel = msg.twist.twist.linear.x;
                 });
 
@@ -50,7 +50,7 @@ class VelPidNode : public rclcpp::Node {
                 "/sdv/velocity/throttle", 10);
 
             updateTimer =
-                this->create_wall_timer(10ms, std::bind(&VelPidNode::update, this));
+                this->create_wall_timer(100ms, std::bind(&VelPidNode::update, this));
         }
 
     private:
@@ -58,7 +58,7 @@ class VelPidNode : public rclcpp::Node {
         PID controller{PID::defaultParams()};
 
         rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr velocity_setpoint_sub_;
-        rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr velocity_sub_;
+        rclcpp::Subscription<geometry_msgs::msg::TwistWithCovarianceStamped>::SharedPtr velocity_sub_;
         rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr throttle_pub_;
 
         rclcpp::TimerBase::SharedPtr updateTimer;

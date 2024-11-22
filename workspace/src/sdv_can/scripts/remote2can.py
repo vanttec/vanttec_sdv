@@ -74,7 +74,8 @@ class RemoteMapping(Node):
 
 
         # modify throttle setpoint
-        throttle_delta = msg.axes[accel_axes_index] - msg.axes[braking_axes_index]
+        throttle_delta = (msg.axes[accel_axes_index] - msg.axes[braking_axes_index]) / 1.
+        # print(throttle_delta)
         if throttle_delta == 0:
             throttle_delta = -self.sign(self.curr_throttle)
         if throttle_delta > 0 and self.curr_throttle > 0:
@@ -89,7 +90,7 @@ class RemoteMapping(Node):
             self.curr_throttle = self.past_throttle
         
         self.past_throttle = self.curr_throttle
-
+        print(self.curr_throttle)
         self.throttle_msg.data = self.curr_throttle
         self.throttle_pub.publish(self.throttle_msg)
 

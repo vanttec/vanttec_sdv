@@ -7,6 +7,9 @@ def generate_launch_description():
     return LaunchDescription([
         Node(
             package='sdv_can',
+            output='screen',
+            emulate_tty=True,
+            arguments=[('__log_level:=debug')],
             executable='remote2can.py',
         ),
         Node(

@@ -39,9 +39,8 @@ def generate_launch_description():
    vectornav_launch = IncludeLaunchDescription(
       PythonLaunchDescriptionSource([
             PathJoinSubstitution([
-               FindPackageShare('sdv_launch'),
+               FindPackageShare('vectornav'),
                'launch',
-               'sensors',
                'vectornav.launch.py'
             ])
       ])
@@ -50,6 +49,6 @@ def generate_launch_description():
    return LaunchDescription([
       pid_node,
       foxglove_bridge,
-      # can_node,
+      can_node,
       vectornav_launch,
    ])

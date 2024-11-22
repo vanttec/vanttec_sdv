@@ -28,17 +28,16 @@ public:
 
 
         // [steer_motor_angle_sub] : convert Float64 to CANMessage and send it
-        steer_motor_angle_sub = this->create_subscription<std_msgs::msg::Float64>(
-            "/sdv/steering/setpoint", 10, [this](const std_msgs::msg::Float64::SharedPtr msg){
-                // RCLCPP_INFO(this->get_logger(), "Setpoint: %f", msg->data);
-                if(steer_enable){
-                    uint8_t base_msg_id = (STEER_MOTOR_ID & 0b11) << 6;
-                    vanttec::CANMessage can_msg;
-                    vanttec::packFloat(can_msg, base_msg_id | 0x01, msg->data);
-                    send_frame(0x410, can_msg);
-                }
-            }
-        );
+        // steer_motor_angle_sub = this->create_subscription<std_msgs::msg::Float64>(
+        //     "/sdv/steering/setpoint", 10, [this](const std_msgs::msg::Float64::SharedPtr msg){
+        //         if(steer_enable){
+        //             uint8_t base_msg_id = (STEER_MOTOR_ID & 0b11) << 6;
+        //             vanttec::CANMessage can_msg;
+        //             vanttec::packFloat(can_msg, base_msg_id | 0x01, msg->data);
+        //             send_frame(0x410, can_msg);
+        //         }
+        //     }
+        // );
 
         // [throttle_setpoint_sub] : convert Float64 to CANMessage and send it
         throttle_setpoint_sub = this->create_subscription<std_msgs::msg::Float64>(
@@ -46,23 +45,28 @@ public:
                 last_throttle_message = this->get_clock()->now();
                 vanttec::CANMessage throttle_msg, braking_msg;
                 double output = std::clamp(msg->data, -1., 1.);
-                double throttle_{0.}, brake_{0.5};
+                double throttle_{0.}, brake_{0.};
 
                 // Throttle
                 if(throttle_enable){
-                    if(output > this->max_throttle_threshold){
+                    if(output >= this->max_throttle_threshold){
                         throttle_ = output;
+                    } else if(output < this->max_throttle_threshold) {
+                        throttle_ = 0.;
                     }
+                    RCLCPP_ERROR(this->get_logger(), "%f", throttle_);
                     vanttec::packByte(throttle_msg, 0x05, (uint8_t)(throttle_*180)); // TODO: Change positive throttle canmsg to float too
                     send_frame(0x406, throttle_msg);
                 }
 
                 // Brake
                 if(brake_enable){
-                    if(output < this->min_throttle_threshold) {
-                        brake_ = -output;
-                        brake_ = std::clamp(brake_, 0., 1.);
+                    if(output <= this->min_throttle_threshold) {
+                        brake_ = std::clamp(-output, 0., 1.);
+                    } else if(output > this->min_throttle_threshold) {
+                        brake_ = 0.;
                     }
+                    std::cout << brake_ << std::endl;
                     uint8_t base_msg_id = (BRAKE_MOTOR_ID & 0b11) << 6;
                     vanttec::packFloat(braking_msg, base_msg_id | 0x01, brake_);
                     send_frame(0x410, braking_msg);
@@ -111,28 +115,28 @@ public:
     }
 protected:
     void parse_frame(const struct can_frame &frame) override {
-        vanttec::CANMessage msg;
-        std::copy(std::begin(frame.data), std::end(frame.data), std::begin(msg.data));
-        msg.len = frame.can_dlc;
-        uint8_t vttec_msg_id = vanttec::getId(msg);
-        uint32_t can_id = frame.can_id;
+        // vanttec::CANMessage msg;
+        // std::copy(std::begin(frame.data), std::end(frame.data), std::begin(msg.data));
+        // msg.len = frame.can_dlc;
+        // uint8_t vttec_msg_id = vanttec::getId(msg);
+        // uint32_t can_id = frame.can_id;
         
-        auto steady_clock = rclcpp::Clock();
+        // auto steady_clock = rclcpp::Clock();
 
-        // RCLCPP_INFO(this->get_logger(), "Got message from: %#X  with vttec id: %#X", can_id, vttec_msg_id);
-        if(can_id == 0x407 && vttec_msg_id == 0x03){
-            std_msgs::msg::Float64 encoder_msg;
-            encoder_msg.data  = vanttec::getFloat(msg);
-            auto steady_clock = rclcpp::Clock();
-            // RCLCPP_WARN_THROTTLE(this->get_logger(), steady_clock, 1000, "Got encoder message: %f", encoder_msg.data);
-            steering_angle_pub->publish(encoder_msg);
-        }
+        // // RCLCPP_INFO(this->get_logger(), "Got message from: %#X  with vttec id: %#X", can_id, vttec_msg_id);
+        // if(can_id == 0x407 && vttec_msg_id == 0x03){
+        //     std_msgs::msg::Float64 encoder_msg;
+        //     encoder_msg.data  = vanttec::getFloat(msg);
+        //     auto steady_clock = rclcpp::Clock();
+        //     // RCLCPP_WARN_THROTTLE(this->get_logger(), steady_clock, 1000, "Got encoder message: %f", encoder_msg.data);
+        //     steering_angle_pub->publish(encoder_msg);
+        // }
 
-        if(can_id == 0x013 && vttec_msg_id == 0x07){
-            long brake_encoder = vanttec::getLong(msg);            
-            RCLCPP_WARN_THROTTLE(this->get_logger(), steady_clock, 1000, 
-                "Braking encoder: %d", brake_encoder-49152);
-        }
+        // if(can_id == 0x013 && vttec_msg_id == 0x07){
+        //     long brake_encoder = vanttec::getLong(msg);            
+        //     // RCLCPP_WARN_THROTTLE(this->get_logger(), steady_clock, 1000, 
+        //     //     "Braking encoder: %d", brake_encoder-49152);
+        // }
     }
 
     void throttle_watchdog(){
@@ -184,14 +188,25 @@ cansend can0 013#04130C01
         
         RCLCPP_INFO(this->get_logger(), "setting steering encoder to zero");
 
-        // Reset steering encoder
-        // cansend can0 620#2303600000000080
-        // cansend can0 620#2310100173617665
-        
-        vanttec::CANMessage set_zero_msg{0x23,0x03,0x60,0x00,0x00,0x00,0x00,0x80};
+        /* Reset steering encoder
+        cansend can0 000#8000 
+        cansend can0 620#2303600000008000
+        cansend can0 620#2310100173617665
+        cansend can0 000#0100
+        */
+        vanttec::CANMessage stop_encoder_msg, reboot_encoder_msg;
+        vanttec::packByte(stop_encoder_msg,0x80,0x00);
+        vanttec::packByte(reboot_encoder_msg,0x01,0x00);
+
+        vanttec::CANMessage set_zero_msg{0x23,0x03,0x60,0x00,0x00,0x00,0x80,0x00};
+        set_zero_msg.len=8;
         vanttec::CANMessage store_params_msg{0x23,0x10,0x10,0x01,0x73,0x61,0x76,0x65};
+        store_params_msg.len=8;
+
+        send_frame(0x000, stop_encoder_msg);
         send_frame(0x620, set_zero_msg);
         send_frame(0x620, store_params_msg);
+        send_frame(0x000, reboot_encoder_msg);
     }
 
     void set_mode(const std::shared_ptr<sdv_msgs::srv::Uint8::Request> request,
