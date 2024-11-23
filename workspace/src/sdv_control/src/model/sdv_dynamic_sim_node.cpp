@@ -16,59 +16,63 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/float64.hpp"
 #include "tf2_ros/transform_broadcaster.h"
-// #include "vehicles/vtec_sdc1.hpp"
-#include "dynamic_models/ground_vehicles/car_like/vehicles/vtec_sdc1.hpp"
+#include "sdv_msgs/msg/nonlinear_functions.hpp"
+
+#include "dynamic_models/ground_vehicles/car_like/vehicles/vtec_sdc1.cpp"
 
 using namespace std::chrono_literals;
 
-class SdvDynNode : public rclcpp::Node {
+class SDVDynamicSimNode : public rclcpp::Node {
  public:
-  SdvDynNode() : Node("dyn_sdv") {
+  SDVDynamicSimNode() : Node("sdv_dynamic_sim_node") {
     using namespace std::placeholders;
 
-    this->declare_parameter("sample_time", rclcpp::PARAMETER_DOUBLE);    // Super important to get parameters from launch files!!
-    this->declare_parameter("D_MAX", rclcpp::PARAMETER_INTEGER);
+    this->declare_parameter("sample_time", 0.01);
+    this->declare_parameter("D_MAX", 255);
     sample_time_ = this->get_parameter("sample_time").as_double();
     D_MAX_ = this->get_parameter("D_MAX").as_int();
-    // this->get_parameter_or("sample_time", sample_time_, 0.01);
-    // this->get_parameter_or("D_MAX", D_MAX_, static_cast<uint8_t>(255));
 
     model = VTecSDC1DynamicModel{sample_time_, D_MAX_};
     model.setInitPose(Eigen::Vector3f{0,0,0});
 
     odom_pub_ =
-        this->create_publisher<nav_msgs::msg::Odometry>("output/odom", 10);
+        this->create_publisher<nav_msgs::msg::Odometry>("/vectornav/velocity_body", 10);
 
     pose_path_pub_ = this->create_publisher<nav_msgs::msg::Path>(
         "/sdv/pose_path", 10);
+    
+    f_g_pub_ = this->create_publisher<sdv_msgs::msg::NonlinearFunctions>(
+        "/sdv/control/nonlinear_functions", 10);
 
-    throttle_sub_ = this->create_subscription<std_msgs::msg::UInt8>(
+    throttle_sub_ = this->create_subscription<std_msgs::msg::Float64>(
         "/sdv/velocity/throttle", 10,
-        [this](const std_msgs::msg::UInt8 &msg) {
-            car_model_.setThrottle(msg.data);
+        [this](const std_msgs::msg::Float64 &msg) {
+            model.setThrottle(msg.data);
          });
 
     tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
     pose_stamped_tmp_.header.frame_id = "world";
     pose_path.header.frame_id = "world";
-    pose_path.header.stamp = SdvDynNode::now();
+    pose_path.header.stamp = SDVDynamicSimNode::now();
 
     // sample_time_ = 0.01;
     updateTimer = this->create_wall_timer(
-        1000ms*sample_time_, std::bind(&SdvDynNode::update, this));
+        // 1000ms*sample_time_, std::bind(&SDVDynamicSimNode::update, this));
+        10ms, std::bind(&SDVDynamicSimNode::update, this));
   }
 
  protected:
   void update() {
-    car_model_.calculateStates();
-    car_model_.calculateModelParams();
+    model.calculateModelParams();
+    model.calculateStates();
 
     /**
      * Output stage
      */
-    double x = car_model_.eta_pose_(0);  // position in x
-    double y = car_model_.eta_pose_(1);  // position in y
-    double etheta = car_model_.eta_pose_(2);
+    double x{0}, y{0}, etheta{0};
+    x = model.eta_pose_(0);  // position in x
+    y = model.eta_pose_(1);  // position in y
+    etheta = model.eta_pose_(2);
 
     tf2::Quaternion q;
     q.setRPY(0, 0, etheta);
@@ -90,13 +94,13 @@ class SdvDynNode : public rclcpp::Node {
     odom.pose.pose.orientation.z = q[2];
     odom.pose.pose.orientation.w = q[3];
 
-    double u, v, r;
+    double u{0}, v{0}, r{0};
 
     geometry_msgs::msg::Vector3 velMsg;
 
-    u = car_model_.velocities_(0);  // surge velocity
-    v = car_model_.velocities_(1);  // sway velocity
-    r = car_model_.velocities_(2);  // yaw rate
+    u = model.velocities_(0);  // surge velocity
+    v = model.velocities_(1);  // sway velocity
+    r = model.velocities_(2);  // yaw rate
     velMsg.x = u;
     velMsg.y = v;
     velMsg.z = r;
@@ -115,6 +119,10 @@ class SdvDynNode : public rclcpp::Node {
     odom_pub_->publish(odom);
     pose_path_pub_->publish(pose_path);
 
+    f_g_msg.f_x = model.get_f_();
+    f_g_msg.g_x = model.get_g_();
+    f_g_pub_->publish(f_g_msg);
+
     tf_broadcast(pose);
   }
 
@@ -122,10 +130,12 @@ class SdvDynNode : public rclcpp::Node {
   rclcpp::Publisher<geometry_msgs::msg::Vector3>::SharedPtr localVelPub;
   rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr pose_path_pub_;
   rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;
+  rclcpp::Publisher<sdv_msgs::msg::NonlinearFunctions>::SharedPtr f_g_pub_;
   rclcpp::TimerBase::SharedPtr updateTimer;
 
   geometry_msgs::msg::PoseStamped pose_stamped_tmp_;
-    nav_msgs::msg::Path pose_path;
+  nav_msgs::msg::Path pose_path;
+  sdv_msgs::msg::NonlinearFunctions f_g_msg;
 
   rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr throttle_sub_,
       rightThrusterSub;
@@ -133,7 +143,7 @@ class SdvDynNode : public rclcpp::Node {
   float sample_time_;
   int D_MAX_;
 
-  VTecSDC1DynamicModel model;
+  VTecSDC1DynamicModel model{0.01,255};
 
   std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
 
@@ -144,7 +154,7 @@ class SdvDynNode : public rclcpp::Node {
     // corresponding tf variables
     t.header.stamp = this->get_clock()->now();
     t.header.frame_id = "world";
-    t.child_frame_id = "usv";
+    t.child_frame_id = "sdv";
 
     // Turtle only exists in 2D, thus we get x and y translation
     // coordinates from the message and set the z coordinate to 0
@@ -169,7 +179,7 @@ class SdvDynNode : public rclcpp::Node {
 
 int main(int argc, char **argv) {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<SdvDynNode>());
+  rclcpp::spin(std::make_shared<SDVDynamicSimNode>());
   rclcpp::shutdown();
   return 0;
 }

@@ -13,6 +13,7 @@ find_package(std_msgs REQUIRED)
 
 rosidl_generate_interfaces(sdv_msgs
   "msg/PerceptionMode.msg"
+  "msg/NonlinearFunctions.msg"
   "msg/State.msg"
   "msg/PanelMsg.msg"
   "msg/XboxMsg.msg"

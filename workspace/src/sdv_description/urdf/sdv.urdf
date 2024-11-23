@@ -70,16 +70,16 @@
 
   <link name="base_link">
     <visual>
-      <origin rpy="0 3.14159 -1.5704" xyz="0 0 -1.9"/>
+      <origin rpy="0 0 -1.5704" xyz="0 0 1.9"/>
       <geometry>
         <mesh filename="package://sdv_description/meshes/sdv_nav.stl" scale="1.0 1.0 1.0"/>
       </geometry>
-      <material name="Cyan">
+      <material name="White">
         <color rgba="0.95 0.95 0.95 1.0"/>
       </material>
     </visual>
     <collision>
-      <origin rpy="0 3.14159 -1.5704" xyz="0 0 -1.9"/>
+      <origin rpy="0 0 -1.5704" xyz="0 0 1.9"/>
       <geometry>
         <mesh filename="package://sdv_description/meshes/sdv_nav.stl" scale="1.0 1.0 1.0"/>
       </geometry>
@@ -103,7 +103,7 @@
     <origin xyz="1.2 0 0"/>
   </joint>
 
-  <gazebo reference="base_link">
+  <gazebo reference="world">
     <material>Gazebo/White</material>
     <gravity>true</gravity>
   </gazebo>

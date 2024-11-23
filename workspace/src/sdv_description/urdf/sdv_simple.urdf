@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<robot name="sdv" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <link name="sdv">
+    <visual>
+      <origin rpy="0 0 -1.5704" xyz="0 0 1.9"/>
+      <geometry>
+        <mesh filename="package://sdv_description/meshes/sdv.stl" scale="1.0 1.0 1.0"/>
+      </geometry>
+      <material name="White">
+        <color rgba="0.95 0.95 0.95 1.0"/>
+      </material>      
+    </visual>
+  </link>
+
+  <gazebo reference="world">
+    <material>Gazebo/White</material>
+    <gravity>true</gravity>
+  </gazebo>
+
+</robot>
