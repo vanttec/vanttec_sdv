@@ -28,16 +28,16 @@ public:
 
 
         // [steer_motor_angle_sub] : convert Float64 to CANMessage and send it
-        // steer_motor_angle_sub = this->create_subscription<std_msgs::msg::Float64>(
-        //     "/sdv/steering/setpoint", 10, [this](const std_msgs::msg::Float64::SharedPtr msg){
-        //         if(steer_enable){
-        //             uint8_t base_msg_id = (STEER_MOTOR_ID & 0b11) << 6;
-        //             vanttec::CANMessage can_msg;
-        //             vanttec::packFloat(can_msg, base_msg_id | 0x01, msg->data);
-        //             send_frame(0x410, can_msg);
-        //         }
-        //     }
-        // );
+        steer_motor_angle_sub = this->create_subscription<std_msgs::msg::Float64>(
+            "/sdv/steering/setpoint", 10, [this](const std_msgs::msg::Float64::SharedPtr msg){
+                if(steer_enable){
+                    uint8_t base_msg_id = (STEER_MOTOR_ID & 0b11) << 6;
+                    vanttec::CANMessage can_msg;
+                    vanttec::packFloat(can_msg, base_msg_id | 0x01, msg->data);
+                    send_frame(0x410, can_msg);
+                }
+            }
+        );
 
         // [throttle_setpoint_sub] : convert Float64 to CANMessage and send it
         throttle_setpoint_sub = this->create_subscription<std_msgs::msg::Float64>(
@@ -115,13 +115,13 @@ public:
     }
 protected:
     void parse_frame(const struct can_frame &frame) override {
-        // vanttec::CANMessage msg;
-        // std::copy(std::begin(frame.data), std::end(frame.data), std::begin(msg.data));
-        // msg.len = frame.can_dlc;
-        // uint8_t vttec_msg_id = vanttec::getId(msg);
-        // uint32_t can_id = frame.can_id;
+        vanttec::CANMessage msg;
+        std::copy(std::begin(frame.data), std::end(frame.data), std::begin(msg.data));
+        msg.len = frame.can_dlc;
+        uint8_t vttec_msg_id = vanttec::getId(msg);
+        uint32_t can_id = frame.can_id;
         
-        // auto steady_clock = rclcpp::Clock();
+        auto steady_clock = rclcpp::Clock();
 
         // // RCLCPP_INFO(this->get_logger(), "Got message from: %#X  with vttec id: %#X", can_id, vttec_msg_id);
         // if(can_id == 0x407 && vttec_msg_id == 0x03){
@@ -137,6 +137,27 @@ protected:
         //     // RCLCPP_WARN_THROTTLE(this->get_logger(), steady_clock, 1000, 
         //     //     "Braking encoder: %d", brake_encoder-49152);
         // }
+
+    if (frame.can_id == 0x1A0) {
+        // 24-bit raw encoder value (3 bytes)
+        int32_t raw_encoder_value = (msg.data[2] << 16) | (msg.data[1] << 8) | msg.data[0];
+
+        // Adjust the raw value by subtracting the offset 0x800000
+        raw_encoder_value -= 0x800000;
+
+        // Scale it based on 4096 and convert to radians (-π to +π)
+        // Using the original scaling factor: ((float)raw_encoder_value / 4096.0f) * 2.0 * M_PI * -1
+        float encoder_position = (static_cast<float>(raw_encoder_value) / 4096.0f) * 2.0 * M_PI * -1;
+    
+        // Publish the encoder angle in radians
+        std_msgs::msg::Float64 encoder_msg;
+        encoder_msg.data = encoder_position;
+        steering_angle_pub->publish(encoder_msg);
+
+        // RCLCPP_INFO(this->get_logger(), "Steering encoder angle (radians): %f", encoder_position);
+        // RCLCPP_INFO(this->get_logger(), "Raw encoder value (hex): %#X", raw_encoder_value);
+    }
+
     }
 
     void throttle_watchdog(){
