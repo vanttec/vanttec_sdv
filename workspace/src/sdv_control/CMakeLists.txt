@@ -40,13 +40,25 @@ set(DEPENDENCIES
 add_subdirectory(libs/vanttec_controllers)
 ament_python_install_package(scripts)
 
-add_executable(vel_pid_node src/control/regulators/first_order/sdv_vel_pid_node.cpp)
-target_include_directories(vel_pid_node PUBLIC
+add_library(tf2_lib SHARED 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/simulation/sdc1_broadcaster.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/simulation/tf2_6dof_broadcaster_ros2.cpp
+)
+ament_target_dependencies(tf2_lib ${DEPENDENCIES})
+
+install(TARGETS tf2_lib
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+
+add_executable(sdc1_vel_pid_node src/control/regulators/first_order/sdc1_vel_pid_node.cpp)
+target_include_directories(sdc1_vel_pid_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include> libs/vanttec_controllers)
-target_compile_features(vel_pid_node PUBLIC c_std_99 cxx_std_17)
-ament_target_dependencies(vel_pid_node ${DEPENDENCIES})
-target_link_libraries(vel_pid_node vanttec_controllers)
+target_compile_features(sdc1_vel_pid_node PUBLIC c_std_99 cxx_std_17)
+ament_target_dependencies(sdc1_vel_pid_node ${DEPENDENCIES})
+target_link_libraries(sdc1_vel_pid_node vanttec_controllers)
 
 add_executable(stanley_controller_node src/control/guidance_laws/stanley_controller_node.cpp)
 target_include_directories(stanley_controller_node PUBLIC
@@ -56,36 +68,43 @@ target_compile_features(stanley_controller_node PUBLIC c_std_99 cxx_std_17)
 ament_target_dependencies(stanley_controller_node ${DEPENDENCIES})
 target_link_libraries(stanley_controller_node vanttec_controllers)
 
-add_executable(sdv_kinematic_sim src/model/sdv_kinematic_sim_node.cpp)
-target_include_directories(sdv_kinematic_sim PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include> libs/vanttec_controllers)
-target_compile_features(sdv_kinematic_sim PUBLIC c_std_99 cxx_std_17)
-ament_target_dependencies(sdv_kinematic_sim ${DEPENDENCIES})
-target_link_libraries(sdv_kinematic_sim vanttec_controllers)
+# add_executable(sdv_kinematic_sim src/model/sdv_kinematic_sim_node.cpp)
+# target_include_directories(sdv_kinematic_sim PUBLIC
+#   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+#   $<INSTALL_INTERFACE:include> libs/vanttec_controllers)
+# target_compile_features(sdv_kinematic_sim PUBLIC c_std_99 cxx_std_17)
+# ament_target_dependencies(sdv_kinematic_sim ${DEPENDENCIES})
+# target_link_libraries(sdv_kinematic_sim vanttec_controllers)
 
-add_executable(sdv_dynamic_sim_node src/model/sdv_dynamic_sim_node.cpp)
-target_include_directories(sdv_dynamic_sim_node PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include> libs/vanttec_controllers)
-target_compile_features(sdv_dynamic_sim_node PUBLIC c_std_99 cxx_std_17)
-ament_target_dependencies(sdv_dynamic_sim_node ${DEPENDENCIES})
-target_link_libraries(sdv_dynamic_sim_node vanttec_controllers)
+# add_executable(velocity_regulator_node src/control/regulators/first_order/velocity_regulator_node.cpp)
+# target_include_directories(velocity_regulator_node PUBLIC
+#   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+#   $<INSTALL_INTERFACE:include> libs/vanttec_controllers)
+# target_compile_features(velocity_regulator_node PUBLIC c_std_99 cxx_std_17)
+# ament_target_dependencies(velocity_regulator_node ${DEPENDENCIES})
+# target_link_libraries(velocity_regulator_node vanttec_controllers)
 
-add_executable(velocity_regulator_node src/control/regulators/first_order/velocity_regulator_node.cpp)
-target_include_directories(velocity_regulator_node PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include> libs/vanttec_controllers)
-target_compile_features(velocity_regulator_node PUBLIC c_std_99 cxx_std_17)
-ament_target_dependencies(velocity_regulator_node ${DEPENDENCIES})
-target_link_libraries(velocity_regulator_node vanttec_controllers)
+add_executable(car_tf2_broadcast_node src/model/car_tf2_broadcast_node.cpp)
+# Include directories for project headers and other package headers
+target_include_directories(car_tf2_broadcast_node
+            PUBLIC
+            # $<BUILD_INTERFACE:${VANTTEC_CONTROLLER_PATHS}>
+            $<BUILD_INTERFACE:${sdv_msgs_INCLUDE_DIRS}>
+            $<INSTALL_INTERFACE:include>
+)
+target_compile_features(car_tf2_broadcast_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+ament_target_dependencies(car_tf2_broadcast_node ${DEPENDENCIES})
+target_link_libraries(car_tf2_broadcast_node vanttec_controllers tf2_lib)
+set_target_properties(car_tf2_broadcast_node PROPERTIES
+  RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+)
 
 install(TARGETS 
-  vel_pid_node
+  sdc1_vel_pid_node
   stanley_controller_node
-  sdv_kinematic_sim
-  velocity_regulator_node
-  sdv_dynamic_sim_node
+  # sdv_kinematic_sim
+  # velocity_regulator_node
+  car_tf2_broadcast_node
   DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY 
@@ -93,7 +112,6 @@ install(DIRECTORY
   launch
   rviz
   DESTINATION share/${PROJECT_NAME})
-
 # Install Python executables
 install(PROGRAMS
   scripts/path_publisher_node.py

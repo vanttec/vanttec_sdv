@@ -102,7 +102,10 @@ def generate_launch_description():
       package='tf2_ros',
       executable='static_transform_publisher',
       name="tf_odom_base_link",
-      arguments = ['0', '0', '0', '0', '0', '-3.14159', 'map', 'odom'], # x y z yaw pitch roll
+      arguments = [
+         '--x', '0', '--y', '0', '--z', '0',
+         '--roll', '0', '--pitch', '0', '--yaw', '-3.14159',
+         '--frame-id', 'map', '--child-frame-id', 'odom'],
       # condition=UnlessCondition(LaunchConfiguration('is_simulation'))
       condition=IfCondition(
          PythonExpression([
@@ -120,7 +123,10 @@ def generate_launch_description():
       package='tf2_ros',
       executable='static_transform_publisher',
       name="tf_map_to_odom",
-      arguments = ['0', '0', '0', '0', '0', '0', 'map', 'odom'],
+      arguments = [
+         '--x', '0', '--y', '0', '--z', '0',
+         '--roll', '0', '--pitch', '0', '--yaw', '0',
+         '--frame-id', 'map', '--child-frame-id', 'odom'],
       # condition=UnlessCondition(LaunchConfiguration('is_simulation'))
       condition=IfCondition(
          PythonExpression([
@@ -137,7 +143,10 @@ def generate_launch_description():
       package='tf2_ros',
       executable='static_transform_publisher',
       name="tf_base_link_to_vectornav",
-      arguments = ['0', '0', '1.9', '0', '0.0', '0.0', 'base_link', 'vectornav'],
+      arguments = [
+         '--x', '0', '--y', '0', '--z', '1.9',
+         '--roll', '0', '--pitch', '0', '--yaw', '0',
+         '--frame-id', 'base_link', '--child-frame-id', 'vectornav'],
       condition=UnlessCondition(LaunchConfiguration('is_simulation'))
    )
 
@@ -153,7 +162,10 @@ def generate_launch_description():
       package='tf2_ros',
       executable='static_transform_publisher',
       name="tf_base_link_to_velodyne",
-      arguments = ['0.45', '0', '2.25', '-0.05', '0.0', '0.0', 'base_link', 'velodyne'],  #-0.05 y
+      arguments = [
+         '--x', '0.45', '--y', '0', '--z', '2.25',
+         '--roll', '0', '--pitch', '0', '--yaw', '-0.05',
+         '--frame-id', 'base_link', '--child-frame-id', 'velodyne'],  #-0.05 y
       condition=UnlessCondition(LaunchConfiguration('is_simulation'))
    )
    
@@ -162,7 +174,10 @@ def generate_launch_description():
       package='tf2_ros',
       executable='static_transform_publisher',
       name="tf_map_to_scan",
-      arguments = ['0', '0', '0', '0', '0', '0', 'map', 'scan'],
+      arguments = [
+         '--x', '0', '--y', '0', '--z', '0',
+         '--roll', '0', '--pitch', '0', '--yaw', '0',
+         '--frame-id', 'map', '--child-frame-id', 'scan'],
       # condition=UnlessCondition(LaunchConfiguration('is_simulation'))
       condition=IfCondition(
          PythonExpression([

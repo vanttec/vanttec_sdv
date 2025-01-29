@@ -28,7 +28,7 @@ find_package(nav_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
-find_package(sbg_driver REQUIRED)
+# find_package(sbg_driver REQUIRED)
 #find_package(sdv_localization_msgs REQUIRED)
 
 # find_package(ament_cmake_python REQUIRED)
@@ -61,12 +61,12 @@ ament_target_dependencies(sbg_processing rclcpp sensor_msgs tf2_geometry_msgs na
 ament_target_dependencies(temp_tf_odom_map rclcpp sensor_msgs vectornav_msgs tf2_geometry_msgs nav_msgs)
 
 install(TARGETS
-  vn_processing
-  sbg_processing
+  # vn_processing
+  # sbg_processing
   # diagnostics
   # vslam_repub
   # isaac_awake
-  temp_tf_odom_map
+  # temp_tf_odom_map
   DESTINATION lib/${PROJECT_NAME}
 )
 
