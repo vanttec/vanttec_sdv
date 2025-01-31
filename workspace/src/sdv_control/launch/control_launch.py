@@ -148,7 +148,7 @@ def generate_launch_description():
                'launch',
                'can_devices.launch.py'
             ])
-      ]),
+      ])
    )
 
    return LaunchDescription([
@@ -165,7 +165,7 @@ def generate_launch_description():
          msg="Running in real robot mode."
       ),
 
-      rviz,
+      # rviz,
       # aitsmc_node,
       # asmc_node,
       pid_node,

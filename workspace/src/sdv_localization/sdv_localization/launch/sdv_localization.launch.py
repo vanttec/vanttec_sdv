@@ -96,15 +96,38 @@ def generate_launch_description():
    )
 
    # *********** TRANSFORMS ***********
-    
+   # Coordinate System in RViz (ROS 2)
+
+   # RViz in ROS 2 follows the ENU (East-North-Up) coordinate system:
+
+   #    X → Forward (East)
+   #    Y → Left (North)
+   #    Z → Up
+
+   # This is the standard convention in ROS 2, which follows REP-103.
+   # Converting from ENU (RViz) to NED
+
+   # The NED (North-East-Down) coordinate system is commonly used in aerospace applications:
+
+   #    X → Forward (North)
+   #    Y → Right (East)
+   #    Z → Down
+
+   # To convert from ENU to NED, apply the following transformations:
+
+   #    Swap X and Y axes (ENU: X=East, Y=North → NED: X=North, Y=East).
+   #    Invert the Z axis (ENU: Up → NED: Down).
+   #    Adjust the orientation (roll, pitch, yaw) accordingly.
+
    # ODOM is in the NED frame
+
    tf_map_odom_NED = Node(
       package='tf2_ros',
       executable='static_transform_publisher',
       name="tf_odom_base_link",
       arguments = [
          '--x', '0', '--y', '0', '--z', '0',
-         '--roll', '0', '--pitch', '0', '--yaw', '-3.14159',
+         '--roll', '3.14159', '--pitch', '0', '--yaw', '1.5708',
          '--frame-id', 'map', '--child-frame-id', 'odom'],
       # condition=UnlessCondition(LaunchConfiguration('is_simulation'))
       condition=IfCondition(
@@ -195,16 +218,16 @@ def generate_launch_description():
    ld.add_action(is_simulation)
    ld.add_action(odometry_source)
 
-   ld.add_action(vectornav_launch)
+   # ld.add_action(vectornav_launch)
    ld.add_action(vn_processing)
    #ld.add_action(sbg_launch)
    #ld.add_action(sbg_processing)
    #ld.add_action(rviz)
 
    ld.add_action(tf_map_odom_NED)
-   ld.add_action(tf_map_odom_ENU)
-   ld.add_action(tf_base_link_vectornav)
+   # ld.add_action(tf_map_odom_ENU)
+   # ld.add_action(tf_base_link_vectornav)
    # ld.add_action(tf_base_link_sbg)
-   ld.add_action(tf_base_link_velodyne)
-   ld.add_action(tf_map_to_scan)
+   # ld.add_action(tf_base_link_velodyne)
+   # ld.add_action(tf_map_to_scan)
    return ld

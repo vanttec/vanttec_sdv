@@ -7,7 +7,13 @@ from launch_ros.actions import Node
 from launch.conditions import IfCondition, UnlessCondition
 
 def generate_launch_description():
-    rviz_config = os.path.join(get_package_share_directory("sdv_description"),'rviz/','urdf.rviz')
+    # rviz_config = os.path.join(get_package_share_directory("sdv_description"),'rviz/','urdf.rviz')
+    rviz_config = os.path.join(
+        get_package_share_directory('sdv_control'),
+        'launch/rviz_cfg',
+
+        'sdv_sim_wpnts.rviz'
+    )
 
     rviz = Node(
         package='rviz2',
@@ -18,7 +24,7 @@ def generate_launch_description():
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
 
-    urdf_file_name = 'sdv_simple.urdf'
+    urdf_file_name = 'sdv_simple_NED.urdf'
     urdf = os.path.join(
         get_package_share_directory("sdv_description"), "urdf/", urdf_file_name)
     with open(urdf, 'r') as infp:
