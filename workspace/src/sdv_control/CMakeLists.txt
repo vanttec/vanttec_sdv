@@ -68,6 +68,14 @@ target_compile_features(stanley_controller_node PUBLIC c_std_99 cxx_std_17)
 ament_target_dependencies(stanley_controller_node ${DEPENDENCIES})
 target_link_libraries(stanley_controller_node vanttec_controllers)
 
+add_executable(sdc1_dynamic_model_node src/model/sdc1_dynamic_model_node.cpp)
+target_include_directories(sdc1_dynamic_model_node PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include> libs/vanttec_controllers)
+target_compile_features(sdc1_dynamic_model_node PUBLIC c_std_99 cxx_std_17)
+ament_target_dependencies(sdc1_dynamic_model_node ${DEPENDENCIES})
+target_link_libraries(sdc1_dynamic_model_node vanttec_controllers)
+
 # add_executable(sdv_kinematic_sim src/model/sdv_kinematic_sim_node.cpp)
 # target_include_directories(sdv_kinematic_sim PUBLIC
 #   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -105,6 +113,7 @@ install(TARGETS
   # sdv_kinematic_sim
   # velocity_regulator_node
   car_tf2_broadcast_node
+  sdc1_dynamic_model_node
   DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY 
@@ -116,6 +125,7 @@ install(DIRECTORY
 install(PROGRAMS
   scripts/path_publisher_node.py
   scripts/path_planner_node.py
+  scripts/residual_dynamics.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

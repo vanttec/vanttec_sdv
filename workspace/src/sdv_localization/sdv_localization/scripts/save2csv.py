@@ -8,6 +8,7 @@ from rclpy.node import Node
 
 from sdv_msgs.msg import Encoder
 from std_msgs.msg import UInt8
+from geometry_msgs.msg import PoseWithCovarianceStamped
 from vectornav_msgs.msg import CommonGroup, InsGroup, ImuGroup
 
 #include "vectornav_msgs/msg/attitude_group.hpp"
@@ -23,50 +24,67 @@ class IMU2CSV(Node):
     def __init__(self):
         super().__init__('to_csv_node')
 
-        self.common_sub_ = self.create_subscription( CommonGroup, 'vectornav/raw/common',
-                                                      self.save_common, 1)
-        self.ins_sub_ = self.create_subscription( InsGroup, 'vectornav/raw/ins',
-                                                      self.save_ins, 1)
-        self.wheel_encoder_sub_ = self.create_subscription( Encoder, 'ifm_encoder',
-                                                      self.save_wheel_encoder, 1)
-        self.pot_step_sub_ = self.create_subscription( UInt8, 'potentiometer_step',
-                                                      self.pot_step, 1)
+        # self.common_sub_ = self.create_subscription( CommonGroup, 'vectornav/raw/common',
+        #                                               self.save_common, 1)
+        # self.ins_sub_ = self.create_subscription( InsGroup, 'vectornav/raw/ins',
+        #                                               self.save_ins, 1)
+        # self.wheel_encoder_sub_ = self.create_subscription( Encoder, 'ifm_encoder',
+        #                                               self.save_wheel_encoder, 1)
+        # self.pot_step_sub_ = self.create_subscription( UInt8, 'potentiometer_step',
+        #                                               self.pot_step, 1)
         # self.imu_sub_ = self.create_subscription( String, 'vectornav/raw/imu',
         #                                               self.save_imu, 1)
         # self.gps2_sub_ = self.create_subscription( String, 'vectornav/raw/gps2',
         #                                               self.save_gps, 1)
         # self.attitude_sub_ = self.create_subscription( String, 'vectornav/raw/attitude',
         #                                               self.save_attitude, 1)
+        self.pose_sub_ = self.create_subscription( PoseWithCovarianceStamped, 'sdv_localization/vectornav/pose',
+                                                      self.save_pose, 1)
 
         timer_period = 0.1  # seconds
-        self.timer = self.create_timer(timer_period, self.pot_callback)
+        # self.timer = self.create_timer(timer_period, self.pot_callback)
         self.pot_val = 0
 
         self.is_msg_arrived_ = False
         self.pot_step_val = 0
 
-        rosbag_path = '/home/ws/src/tests/'
-        test = 'pruebas1ago/throttle/step95/data'
+        rosbag_path = '/docker-ros/ws/src/tests/'
+        test = 'pruebas1ago/resistance/step90/data'
 
-        self.accel_file_path_ = rosbag_path + test + '/accel_data.csv'
-        self.accel_file_ = open(self.accel_file_path_, 'w')
-        self.accel_file_writer_ = csv.writer(self.accel_file_)
-        self.accel_file_writer_.writerow(['Time', 'AccelBody(x)','AccelBody(y)','AccelBody(z)', 'Theta', 'Psi', 'Psi_dot'])
+        # self.accel_file_path_ = rosbag_path + test + '/accel_data.csv'
+        # self.accel_file_ = open(self.accel_file_path_, 'w')
+        # self.accel_file_writer_ = csv.writer(self.accel_file_)
+        # self.accel_file_writer_.writerow(['Time', 'AccelBody(x)','AccelBody(y)','AccelBody(z)', 'Theta', 'Psi', 'Psi_dot'])
 
-        self.vel_file_path_ = rosbag_path + test + '/vel_data.csv'
-        self.vel_file_ = open(self.vel_file_path_, 'w')
-        self.vel_file_writer_ = csv.writer(self.vel_file_)
-        self.vel_file_writer_.writerow(['Time', 'VelBody(x)','VelBody(y)','VelBody(z)'])
+        # self.vel_file_path_ = rosbag_path + test + '/vel_data.csv'
+        # self.vel_file_ = open(self.vel_file_path_, 'w')
+        # self.vel_file_writer_ = csv.writer(self.vel_file_)
+        # self.vel_file_writer_.writerow(['Time', 'VelBody(x)','VelBody(y)','VelBody(z)'])
 
-        self.encoder_file_path_ = rosbag_path + test + '/encoder_data.csv'
-        self.encoder_file_ = open(self.encoder_file_path_, 'w')
-        self.encoder_file_writer_ = csv.writer(self.encoder_file_)
-        self.encoder_file_writer_.writerow(['Time', 'WheelAngle', 'SteeringAngle'])
+        # self.encoder_file_path_ = rosbag_path + test + '/encoder_data.csv'
+        # self.encoder_file_ = open(self.encoder_file_path_, 'w')
+        # self.encoder_file_writer_ = csv.writer(self.encoder_file_)
+        # self.encoder_file_writer_.writerow(['Time', 'WheelAngle', 'SteeringAngle'])
 
-        self.pot_file_path_ = rosbag_path + test + '/pot_data.csv'
-        self.pot_file_ = open(self.pot_file_path_, 'w')
-        self.pot_file_writer_ = csv.writer(self.pot_file_)
-        self.pot_file_writer_.writerow(['Time', 'Pot_Step'])
+        # self.pot_file_path_ = rosbag_path + test + '/pot_data.csv'
+        # self.pot_file_ = open(self.pot_file_path_, 'w')
+        # self.pot_file_writer_ = csv.writer(self.pot_file_)
+        # self.pot_file_writer_.writerow(['Time', 'Pot_Step'])
+
+        self.pose_file_path_ = rosbag_path + test + '/pose_data.csv'
+        self.pose_file_ = open(self.pose_file_path_, 'w')
+        self.pose_file_writer_ = csv.writer(self.pose_file_)
+        self.pose_file_writer_.writerow(['Time', 'x', 'y'])
+
+    def save_pose(self, msg):
+        if not self.is_msg_arrived_:
+            self.is_msg_arrived_ = True
+            self.start_time_ = self.get_clock().now()
+
+        if self.is_msg_arrived_:
+            elapsed_time = self.get_clock().now() - self.start_time_
+            self.pose_file_writer_.writerow([elapsed_time.nanoseconds / 1e9, msg.pose.pose.position.x, msg.pose.pose.position.y])
+
 
     def pot_callback(self):
         if self.is_msg_arrived_:
@@ -121,9 +139,11 @@ class IMU2CSV(Node):
             self.encoder_file_writer_.writerow([elapsed_time.nanoseconds / 1e9, msg.abs_angle, delta])
 
     def close(self):
-        self.accel_file_.close()
-        self.vel_file_.close()
-        self.encoder_file_.close()
+        # self.accel_file_.close()
+        # self.vel_file_.close()
+        # self.encoder_file_.close()
+        # self.pot_file_writer.close()
+        self.pose_file_writer_.close()
 
 def main(args=None):
     rclpy.init(args=args)

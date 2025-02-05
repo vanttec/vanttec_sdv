@@ -36,7 +36,7 @@ def generate_launch_description():
 
    odometry_source = DeclareLaunchArgument(
       'odometry_source',
-      default_value = 'rl', # or rl
+      default_value = 'vn', # or rl
       description = 'Defines if the odometry source comes directly from the \
                      vectornav (vn) or from the robot localization pkg (rl)'
    )

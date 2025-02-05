@@ -191,7 +191,7 @@ class CarControlNode : public rclcpp::Node
         }
 
     public:
-        CarControlNode() : Node("sdc_control_node")
+        CarControlNode() : Node("sdc1_control_node")
         {
             int frequency;
 
@@ -227,6 +227,8 @@ class CarControlNode : public rclcpp::Node
             pid_params_.kUMax = U_MAX_;
             pid_params_.kUMin = U_MIN_;
             pid_params_.kDt = sample_time_;
+            pid_params_.enable_ramp_rate_limit = true;
+            pid_params_.ramp_rate = 1;
             
             /* Publishers */
             if(is_simulation_){

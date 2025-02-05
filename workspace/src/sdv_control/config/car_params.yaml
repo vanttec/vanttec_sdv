@@ -21,8 +21,8 @@ vel_pid_node:
 sdc1_vel_pid_node:
   ros__parameters:
     Kp: 1.0
-    Ki: 0.01
-    Kd: 0.2 #0.01
+    Ki: 0.1
+    Kd: 0.1 #0.01
     D_MAX: 90
 
 # First Order Feedback Linearization 1-DOF ASMC Controller for the VTec SDC1

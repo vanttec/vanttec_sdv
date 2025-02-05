@@ -41,6 +41,16 @@ def generate_launch_description():
       'car_params.yaml'
    )
 
+   model_node = Node(
+      package='sdv_control',
+      executable='sdc1_dynamic_model_node',
+      output='screen',
+      name='sdc1_dynamic_model_node',
+      parameters=[
+                  car_params
+                  ]
+   )
+
    pid_node = Node(
       package='sdv_control',
       executable='sdc1_vel_pid_node',
@@ -168,6 +178,7 @@ def generate_launch_description():
       # rviz,
       # aitsmc_node,
       # asmc_node,
+      model_node,
       pid_node,
       tf2_node,
       sdv_description_launch,

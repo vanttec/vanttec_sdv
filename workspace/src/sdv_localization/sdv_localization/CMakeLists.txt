@@ -61,7 +61,7 @@ ament_target_dependencies(sbg_processing rclcpp sensor_msgs tf2_geometry_msgs na
 ament_target_dependencies(temp_tf_odom_map rclcpp sensor_msgs vectornav_msgs tf2_geometry_msgs nav_msgs)
 
 install(TARGETS
-  # vn_processing
+  vn_processing
   # sbg_processing
   # diagnostics
   # vslam_repub
