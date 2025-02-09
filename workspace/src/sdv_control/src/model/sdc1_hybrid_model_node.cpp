@@ -1,10 +1,10 @@
 /** ----------------------------------------------------------------------------
- * @file: sdc1_dynamic_model_node.cpp
- * @date: Feb 5, 2025
+ * @file: sdc1_hybrid_model_node.cpp
+ * @date: Feb 6, 2025
  * @author: Sebas Mtz
  * @email: sebas.martp@gmail.com
  *
- * @brief: Self-Driving Car 1 Dynamic Model Sim node.
+ * @brief: Self-Driving Car 1 Hybrid Dynamic Model Sim node.
  * -----------------------------------------------------------------------------
  **/
 
@@ -18,13 +18,14 @@
 
 #include "geometry_msgs/msg/accel.hpp"
 #include "geometry_msgs/msg/twist.hpp"
-#include "std_msgs/msg/float32.hpp"
 #include "std_msgs/msg/u_int8.hpp"
+#include "std_msgs/msg/float32.hpp"
+#include "std_msgs/msg/float64_multi_array.hpp"
 
 #include "sdv_msgs/msg/eta_pose.hpp"
 #include "sdv_msgs/msg/nonlinear_functions.hpp"
 
-#include "dynamic_models/ground_vehicles/car_like/vehicles/vtec_sdc1.hpp"
+#include "dynamic_models/ground_vehicles/car_like/vehicles/vtec_sdc1_hybrid.hpp"
 
 
 class SDC1ModelNode : public rclcpp::Node
@@ -61,7 +62,7 @@ class SDC1ModelNode : public rclcpp::Node
 		// rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr throttle_sub_;
 
 		/* Model */
-        std::unique_ptr<VTecSDC1DynamicModel> sdc1_;
+        std::unique_ptr<VTecSDC1HybridModel> sdc1_;
 
         void throttle_timer_callback() {
             // Change throttle value
@@ -119,16 +120,18 @@ class SDC1ModelNode : public rclcpp::Node
 		SDC1ModelNode() : Node("sdc1_model_node")
 		{
 			// using namespace std::placeholders;
-            int frequency;
+            int frequency = 100;
 
             /* Params */
-            this->declare_parameter("frequency", rclcpp::PARAMETER_INTEGER);    // Super important to get parameters from launch files!!
+            // this->declare_parameter("frequency", rclcpp::PARAMETER_INTEGER);    // Super important to get parameters from launch files!!
             this->declare_parameter("D_MAX", rclcpp::PARAMETER_INTEGER);
-            this->declare_parameter("init_pose", rclcpp::PARAMETER_DOUBLE_ARRAY);
+            // this->declare_parameter("init_pose", rclcpp::PARAMETER_DOUBLE_ARRAY);
 
-            frequency = this->get_parameter("frequency").as_int();
+            // frequency = this->get_parameter("frequency").as_int();
+            // this->get_parameter_or("frequency", frequency, static_cast<int>(100));
             this->get_parameter_or("D_MAX", D_MAX_, static_cast<uint8_t>(90));
-            init_pose_ = this->get_parameter("init_pose").as_double_array();
+            // this->get_parameter_or("init_pose", D_MAX_, static_cast<uint8_t>(90));
+            // init_pose_ = this->get_parameter("init_pose").as_double_array();
 
             sample_time_ = 1.0 / static_cast<float>(frequency);
 
@@ -161,10 +164,15 @@ class SDC1ModelNode : public rclcpp::Node
         ~SDC1ModelNode(){} // Destructor
 
         void configure(){
-			sdc1_ = std::make_unique<VTecSDC1DynamicModel>(sample_time_, D_MAX_);
-            Eigen::Vector3f init_pose = {static_cast<float>(init_pose_[0]),
-                                         static_cast<float>(init_pose_[1]),
-                                         static_cast<float>(init_pose_[2])};
+			sdc1_ = std::make_unique<VTecSDC1HybridModel>(sample_time_, D_MAX_,
+							"/docker-ros/ws/src/tests/GRU/gru_residual_dynamics.pt");
+            // Eigen::Vector3f init_pose = {static_cast<float>(init_pose_[0]),
+            //                              static_cast<float>(init_pose_[1]),
+            //                              static_cast<float>(init_pose_[2])};
+
+            Eigen::Vector3f init_pose = {0,
+                                         0,
+                                         0};
             sdc1_->setInitPose(init_pose);
         }
 

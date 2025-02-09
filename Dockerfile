@@ -13,6 +13,10 @@ RUN apt-get update -qq && \
         libtool \
         libpcap-dev \
         terminator \
+        wget \
+        unzip \
+        libopenblas-dev \
+        libomp-dev
     && rm -rf /var/lib/apt/lists/*
 
 # Install ROS dependencies
@@ -42,7 +46,33 @@ RUN apt-get update && \
 
 # Upgrade pip & Install Python dependencies
 RUN python3 -m pip install --upgrade pip setuptools && \
-    pip install --no-cache-dir python-can
+    pip install --no-cache-dir python-can && \
+    pip install gpytorch && \
+    pip install pandas && \
+    pip install matplotlib
+
+# === Download & Install LibTorch for CPU ===
+RUN wget -O libtorch-cpu.zip https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.6.0%2Bcpu.zip && \
+    unzip libtorch-cpu.zip -d /usr/local/libtorch_cpu && \
+    rm libtorch-cpu.zip
+
+# === Download & Install LibTorch for GPU (CUDA 12.6) ===
+RUN wget -O libtorch-gpu.zip https://download.pytorch.org/libtorch/cu126/libtorch-cxx11-abi-shared-with-deps-2.6.0%2Bcu126.zip && \
+    unzip libtorch-gpu.zip -d /usr/local/libtorch_gpu && \
+    rm libtorch-gpu.zip
+
+# === Set environment variables ===
+ENV CMAKE_PREFIX_PATH="/usr/local/libtorch_cpu/libtorch:/usr/local/libtorch_gpu/libtorch"
+ENV PATH="$CMAKE_PREFIX_PATH/bin:$PATH"
+ENV LD_LIBRARY_PATH="$CMAKE_PREFIX_PATH/lib:$LD_LIBRARY_PATH"
+
+# Set CPU path as a fallback (commented out but can be used if needed)
+# ENV CMAKE_PREFIX_PATH_CPU="/usr/local/libtorch_cpu"
+
+# Ensure the environment variables persist inside the container
+RUN echo 'export CMAKE_PREFIX_PATH="/usr/local/libtorch_cpu/libtorch:/usr/local/libtorch_gpu/libtorch"' >> ~/.bashrc && \
+    echo 'export PATH="$CMAKE_PREFIX_PATH/bin:$PATH"' >> ~/.bashrc && \
+    echo 'export LD_LIBRARY_PATH="$CMAKE_PREFIX_PATH/lib:$LD_LIBRARY_PATH"' >> ~/.bashrc
 
 # Source ROS and workspace in shell
 # RUN echo "source /opt/ros/jazzy/setup.bash" >> /root/.bashrc && \
@@ -55,3 +85,4 @@ RUN python3 -m pip install --upgrade pip setuptools && \
 # RUN chmod +x /root/entrypoint.sh
 
 # ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/bin/bash"]

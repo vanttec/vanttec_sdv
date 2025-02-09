@@ -43,9 +43,9 @@ def generate_launch_description():
 
    model_node = Node(
       package='sdv_control',
-      executable='sdc1_dynamic_model_node',
+      executable='sdc1_hybrid_model_node',
       output='screen',
-      name='sdc1_dynamic_model_node',
+      name='sdc1_model_node',
       parameters=[
                   car_params
                   ]
@@ -179,7 +179,7 @@ def generate_launch_description():
       # aitsmc_node,
       # asmc_node,
       model_node,
-      pid_node,
+      # pid_node,
       tf2_node,
       sdv_description_launch,
       sdv_loc_launch,

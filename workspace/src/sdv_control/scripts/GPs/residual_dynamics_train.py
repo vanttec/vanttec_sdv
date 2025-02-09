@@ -11,6 +11,9 @@ from gpytorch.models import ApproximateGP
 from gpytorch.variational import VariationalStrategy, CholeskyVariationalDistribution
 from tqdm import tqdm
 
+import numpy as np
+from sklearn.metrics import mean_squared_error
+
 class SparseResidualDynamicsGP(gpytorch.models.ApproximateGP):
     def __init__(self, inducing_points):
         num_inducing = inducing_points.size(0)
@@ -90,7 +93,7 @@ train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size,
 likelihood = GaussianLikelihood().to(device, dtype=dtype)
 
 # --- Initialize model ---
-num_inducing_points = min(200, train_x.shape[0])
+num_inducing_points = min(700, train_x.shape[0])
 inducing_points = train_x[:num_inducing_points, :].clone().detach().to(device)
 assert inducing_points.shape[0] > 0, "ERROR: Inducing points tensor is empty."
 
@@ -109,7 +112,7 @@ with gpytorch.settings.memory_efficient(True):
     optimizer = torch.optim.Adam([
         {'params': model.parameters()},
         {'params': likelihood.parameters()}
-    ], lr=0.01)
+    ], lr=0.001)
 
     mll = gpytorch.mlls.VariationalELBO(likelihood, model, num_data=train_x.size(0))
 
@@ -153,3 +156,24 @@ print(f"Output Scale: {model.covar_module.outputscale if hasattr(model.covar_mod
 model_save_path = "/docker-ros/ws/src/tests/residual_dynamics_gp_single_task.pth"
 torch.save(model.state_dict(), model_save_path)
 print(f"Model saved to {model_save_path}")
+
+# Set model to evaluation mode
+model.eval()
+likelihood.eval()
+
+# Make predictions
+with torch.no_grad():
+    test_preds = model(test_x).mean.cpu().numpy()
+    true_values = test_y.cpu().numpy()
+    
+    # Compute RMSE
+    rmse = np.sqrt(mean_squared_error(true_values, test_preds))
+    print(f"Test RMSE: {rmse}")
+    
+    # Save predictions
+    test_results = pd.DataFrame({
+        "true_residual_ax": true_values,
+        "predicted_residual_ax": test_preds
+    })
+    test_results.to_csv("/docker-ros/ws/src/tests/test_predictions.csv", index=False)
+    print("Test predictions saved to /docker-ros/ws/src/tests/test_predictions.csv")

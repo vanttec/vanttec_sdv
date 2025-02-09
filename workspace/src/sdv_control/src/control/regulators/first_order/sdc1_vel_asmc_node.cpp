@@ -79,7 +79,7 @@ class CarControlNode : public rclcpp::Node
                     /* calculate Model States */
                     model_->calculateModelParams();
 
-                    model_->calculateStates();
+                    model_->computeDynamics();
 
                     model_->updateNonLinearFunctions();
 
@@ -102,7 +102,7 @@ class CarControlNode : public rclcpp::Node
                             /* calculate Model States */
                             model_->calculateModelParams();
 
-                            model_->calculateStates();
+                            model_->computeDynamics();
 
                             model_->updateNonLinearFunctions();
 

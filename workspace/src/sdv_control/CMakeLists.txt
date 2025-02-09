@@ -107,13 +107,21 @@ set_target_properties(car_tf2_broadcast_node PROPERTIES
   RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
 )
 
+add_executable(sdc1_hybrid_model_node src/model/sdc1_hybrid_model_node.cpp)
+target_include_directories(sdc1_hybrid_model_node PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include> libs/vanttec_controllers)
+target_compile_features(sdc1_hybrid_model_node PUBLIC c_std_99 cxx_std_17)
+ament_target_dependencies(sdc1_hybrid_model_node ${DEPENDENCIES})
+target_link_libraries(sdc1_hybrid_model_node vanttec_controllers)
+
 install(TARGETS 
-  sdc1_vel_pid_node
-  stanley_controller_node
+  # sdc1_vel_pid_node
+  # stanley_controller_node
   # sdv_kinematic_sim
   # velocity_regulator_node
   car_tf2_broadcast_node
-  sdc1_dynamic_model_node
+  sdc1_hybrid_model_node
   DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY 
@@ -121,11 +129,11 @@ install(DIRECTORY
   launch
   rviz
   DESTINATION share/${PROJECT_NAME})
+
 # Install Python executables
 install(PROGRAMS
   scripts/path_publisher_node.py
   scripts/path_planner_node.py
-  scripts/residual_dynamics.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

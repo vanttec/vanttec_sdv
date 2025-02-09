@@ -88,7 +88,7 @@ class CarControlNode : public rclcpp::Node
 
                     /* calculate Model States */
                     car_->calculateModelParams();
-                    car_->calculateStates();
+                    car_->computeDynamics();
 
                     pid_->updateNonLinearFunctions();
                     pid_->calculateControlSignals(car_->velocities_(0), vel_d_, 0);
@@ -118,7 +118,7 @@ class CarControlNode : public rclcpp::Node
 
                             /* calculate Model States */
                             car_->calculateModelParams();
-                            car_->calculateStates();
+                            car_->computeDynamics();
 
                             pid_->updateNonLinearFunctions();
                             RCLCPP_INFO(this->get_logger(), "Vectornav vel received");
