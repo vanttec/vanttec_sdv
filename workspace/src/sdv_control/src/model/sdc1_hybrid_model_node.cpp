@@ -165,7 +165,7 @@ class SDC1ModelNode : public rclcpp::Node
 
         void configure(){
 			sdc1_ = std::make_unique<VTecSDC1HybridModel>(sample_time_, D_MAX_,
-							"/docker-ros/ws/src/tests/GRU/gru_residual_dynamics.pt");
+							"/docker-ros/ws/src/tests/GRU/test5/gru_residual_dynamics.pt");
             // Eigen::Vector3f init_pose = {static_cast<float>(init_pose_[0]),
             //                              static_cast<float>(init_pose_[1]),
             //                              static_cast<float>(init_pose_[2])};

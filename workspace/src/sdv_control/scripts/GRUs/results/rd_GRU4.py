@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 
+"""
+Same as rd_GRU2.py but with additional features:
+The state features are composed of the simulated states
+"""
+
 import torch
 import torch.nn as nn
 import gpytorch
@@ -44,18 +49,18 @@ for col in residual_targets:
 
 # === 2. Define Inputs and Outputs ===
 print("Defining inputs and outputs...")
-state_features = ["x", "y", "psi", "vx", "vy", "r", "ax", "ay", "psi_ddot"]
+state_features = ["sim_x", "sim_y", "sim_psi", "sim_vx", "sim_vy", "sim_r", "sim_ax", "sim_ay", "sim_psi_ddot"]
 control_features = ["D", "delta"]
 
 # Normalize inputs
 print("Normalizing inputs...")
 scaler_x = StandardScaler()
 scaler_u = StandardScaler()
-scaler_y = StandardScaler()
+scaler_y = StandardScaler()  # Ensure target normalization
 
 X_state = scaler_x.fit_transform(df[state_features])
 X_control = scaler_u.fit_transform(df[control_features])
-Y_residual = scaler_y.fit_transform(df[[f'residual_{col}' for col in residual_targets]])
+Y_residual = scaler_y.fit_transform(df[[f'residual_{col}' for col in residual_targets]])  # Ensure residual targets are correctly scaled
 
 # === 3. Convert to Time-Series Data ===
 print("Converting dataset to time-series format...")
@@ -107,7 +112,7 @@ output_size = len(residual_targets)
 
 model = ResidualGRU(input_size, control_size, hidden_size, output_size).to(device)
 criterion = nn.MSELoss()
-optimizer = torch.optim.AdamW(model.parameters(), lr=0.001, weight_decay=1e-4)
+optimizer = torch.optim.AdamW(model.parameters(), lr=5e-4, weight_decay=1e-3)
 scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=50)
 scheduler_plateau = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', patience=3, factor=0.5, verbose=True)
 
@@ -123,7 +128,7 @@ with gpytorch.settings.memory_efficient(True):
     model.train()
     train_losses = []
     avg_loss = 0  # Ensure avg_loss is defined before use
-    epochs = 50
+    epochs = 100
     for epoch in range(epochs):
             epoch_loss = 0
             with tqdm(train_loader, desc=f"Epoch {epoch+1}/{epochs}") as pbar:
@@ -133,28 +138,29 @@ with gpytorch.settings.memory_efficient(True):
                     output = model(batch_x, batch_u)
                     loss = criterion(output, batch_y)
                     loss.backward()
+                    torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)  # Gradient Clipping
                     optimizer.step()
                     optimizer.zero_grad()
                     epoch_loss += loss.item()
                     pbar.set_postfix(loss=loss.item())
-            
+
             avg_loss = epoch_loss / len(train_loader)
             scheduler.step()
             scheduler_plateau.step(avg_loss)
             train_losses.append(avg_loss)
             scheduler_plateau.step(avg_loss)
             print(f"Epoch {epoch+1}, Average Loss: {avg_loss:.10f}")
-            
-            if avg_loss < best_loss - 1e-4:
+
+            if avg_loss < best_loss - 1e-6:
                 best_loss = avg_loss
                 patience_counter = 0
             else:
                 patience_counter += 1
-            
+
             if patience_counter >= patience:
                 print("Early stopping triggered!")
                 break
-        
+
 print("Saving training loss plot...")
 plt.figure()
 plt.plot(train_losses, label="Training Loss")
@@ -162,12 +168,17 @@ plt.xlabel("Epoch")
 plt.ylabel("Loss")
 plt.legend()
 plt.title("Training Loss Over Epochs")
-plt.savefig("/docker-ros/ws/src/tests/GRU/training_loss.png")
+plt.savefig("/docker-ros/ws/src/tests/GRU/test4/training_loss.png")
 # plt.show()
 
 # === 6. Evaluate on Test Data ===
 torch.cuda.empty_cache()  # Frees unused memory on GPU
 print("Evaluating model on test data...")
+with torch.no_grad():
+    sample_x = X_test[:1].to(device)
+    sample_u = U_test[:1].to(device)
+    sample_pred = model(sample_x, sample_u)
+    print("Initial Prediction Output:", sample_pred.cpu().numpy())
 model.eval()
 test_dataset = torch.utils.data.TensorDataset(X_test, U_test)
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
@@ -185,26 +196,44 @@ rmse = torch.sqrt(test_loss)
 print(f"Test Loss: {test_loss.item():.4f}, RMSE: {rmse.item():.4f}")
 
 # Save test results to a file
-with open("/docker-ros/ws/src/tests/GRU/test_results.txt", "w") as f:
+with open("/docker-ros/ws/src/tests/GRU/test4/test_results.txt", "w") as f:
     f.write(f"Test Loss: {test_loss.item():.4f}")
     f.write(f"RMSE: {rmse.item():.4f}")
 
 # Plot Predictions vs True Values
 print("Saving residual predictions plot...")
 plt.figure()
-plt.scatter(Y_test.cpu().numpy(), Y_pred.cpu().numpy(), marker='x', alpha=0.5, label='Residuals', color='blue')
+plt.scatter(Y_test.cpu().numpy(), Y_pred.cpu().numpy(), alpha=0.5, label='Residuals', color='blue')
 plt.plot([-3, 3], [-3, 3], color='red', linestyle='dashed', linewidth=2, label='Perfect Fit')
 plt.xlabel("True Residuals")
 plt.ylabel("Predicted Residuals")
 plt.title("Predicted vs. True Residuals")
 plt.legend()
 plt.grid(True)
-plt.savefig("/docker-ros/ws/src/tests/GRU/residual_predictions.png")
+plt.savefig("/docker-ros/ws/src/tests/GRU/test4/residual_predictions.png")
 # plt.show()
 
 # === 7. Save Model ===
 print("Saving model...")
-torch.save(model.state_dict(), "/docker-ros/ws/src/tests/GRU/gru_residual_dynamics.pth")
+torch.save(model.state_dict(), "/docker-ros/ws/src/tests/GRU/test4/gru_residual_dynamics.pth")
 print("Model saved successfully.")
 
+# ✅ Wrap Model for TorchScript (Ensure Consistency)
+class WrappedModel(nn.Module):
+    def __init__(self, model):
+        super(WrappedModel, self).__init__()
+        self.model = model
 
+    def forward(self, x, u):
+        return self.model(x, u)
+
+# ✅ Convert Model to TorchScript (Traced Version)
+wrapped_model = WrappedModel(model)
+example_x = torch.randn(1, 10, 9).to(device)  # Example input: 10 time steps, 9 state features
+example_u = torch.randn(1, 10, 2).to(device)  # Example input: 10 time steps, 2 control features
+traced_model = torch.jit.trace(wrapped_model, (example_x, example_u))
+
+# ✅ Save the TorchScript Model (Directly)
+model_script_path = "/docker-ros/ws/src/tests/GRU/test4/gru_residual_dynamics.pt"
+traced_model.save(model_script_path)
+print(f"✅ Model successfully saved in TorchScript format at: {model_script_path}")
