@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
 
-"""
-Same as rd_GRU2.py but with additional features:
-The state features are composed of the simulated states
-"""
-
 import torch
 import torch.nn as nn
 import gpytorch
@@ -34,38 +29,36 @@ df_sim = df_sim.drop(columns=["az", "vz"], errors='ignore')
 # Compute angular acceleration (psi_ddot) using numerical differentiation
 dt = 0.01  # Modify if needed
 df_real['psi_ddot'] = (df_real['r'].shift(-1) - 2 * df_real['r'] + df_real['r'].shift(1)) / (dt ** 2)
-df_real['psi_ddot'].fillna(0, inplace=True)  # Handle NaNs from differentiation
+df_real.loc[:, 'psi_ddot'] = df_real['psi_ddot'].fillna(0)  # Updated to prevent FutureWarning
 
 # Merge based on experiment_id
 df_sim.rename(columns={col: f"sim_{col}" for col in df_sim.columns if col != 'experiment_id'}, inplace=True)
 df = pd.merge(df_real, df_sim, on="experiment_id")
 
-# Define residuals as direct outputs of the GRU without explicit subtraction
+# Define residuals as direct outputs of the GRU
 residual_targets = ["ax", "ay", "psi_ddot"]
-
-# Compute explicit residuals
 for col in residual_targets:
-    df[f'residual_{col}'] = df[col] - df[f'sim_{col}']  # Compute residuals explicitly
+    df[f'residual_{col}'] = df[col] - df[f'sim_{col}']
+
+# Apply improved log transformation only to psi_ddot
+df['residual_psi_ddot'] = np.sign(df['residual_psi_ddot']) * np.log1p(df['residual_psi_ddot'].abs() + 1e-6)
 
 # Print the mean and std of residuals in the dataset
 print(df[[f"residual_{col}" for col in residual_targets]].describe())
-
-# === 2. Define Inputs and Outputs ===
-print("Defining inputs and outputs...")
-state_features = ["sim_x", "sim_y", "sim_psi", "sim_vx", "sim_vy", "sim_r", "sim_ax", "sim_ay", "sim_psi_ddot"]
-control_features = ["D", "delta"]
 
 # Normalize inputs
 print("Normalizing inputs...")
 scaler_x = StandardScaler()
 scaler_u = StandardScaler()
-scaler_y = StandardScaler()  # Ensure target normalization
+scaler_y = StandardScaler()
+scaler_y_psi = StandardScaler()
 
-X_state = scaler_x.fit_transform(df[state_features])
-X_control = scaler_u.fit_transform(df[control_features])
-Y_residual = scaler_y.fit_transform(df[[f'residual_{col}' for col in residual_targets]])  # Ensure residual targets are correctly scaled
+X_state = scaler_x.fit_transform(df[["sim_x", "sim_y", "sim_psi", "sim_vx", "sim_vy", "sim_r", "sim_ax", "sim_ay", "sim_psi_ddot"]])
+X_control = scaler_u.fit_transform(df[["D", "delta"]])
+Y_residual = scaler_y.fit_transform(df[["residual_ax", "residual_ay"]])
+df['residual_psi_ddot'] = scaler_y_psi.fit_transform(df[['residual_psi_ddot']])
 
-# === 3. Convert to Time-Series Data ===
+# Convert to Time-Series Data
 print("Converting dataset to time-series format...")
 seq_length = 10
 
@@ -76,14 +69,11 @@ for i in range(len(df) - seq_length):
     Y_seq.append(Y_residual[i + seq_length])
 
 X_seq, U_seq, Y_seq = np.array(X_seq), np.array(U_seq), np.array(Y_seq)
-X_train, X_test, U_train, U_test, Y_train, Y_test = train_test_split(
-    X_seq, U_seq, Y_seq, test_size=0.2, random_state=42
-)
+X_train, X_test, U_train, U_test, Y_train, Y_test = train_test_split(X_seq, U_seq, Y_seq, test_size=0.2, random_state=42)
 
 print("Training samples:", len(X_train), "Testing samples:", len(X_test))
 
 # Convert to PyTorch tensors
-print("Converting data to PyTorch tensors...")
 X_train, U_train, Y_train = (
     torch.tensor(X_train, dtype=torch.float32).to(device),
     torch.tensor(U_train, dtype=torch.float32).to(device),
@@ -95,12 +85,12 @@ X_test, U_test, Y_test = (
     torch.tensor(Y_test, dtype=torch.float32).to(device),
 )
 
-# === 4. Define GRU Model ===
+# Define GRU Model
 print("Initializing GRU model...")
 class ResidualGRU(nn.Module):
     def __init__(self, input_size, control_size, hidden_size, output_size, num_layers=2):
         super(ResidualGRU, self).__init__()
-        self.gru = nn.GRU(input_size + control_size, hidden_size, num_layers, batch_first=True)
+        self.gru = nn.GRU(input_size + control_size, hidden_size, num_layers, batch_first=True, dropout=0.2)
         self.fc = nn.Linear(hidden_size, output_size)
 
     def forward(self, x, u):
@@ -108,62 +98,46 @@ class ResidualGRU(nn.Module):
         h, _ = self.gru(x)
         return self.fc(h[:, -1, :])
 
-input_size = len(state_features)
-control_size = len(control_features)
-hidden_size = 64
-output_size = len(residual_targets)
+input_size = X_state.shape[1]
+control_size = X_control.shape[1]
+hidden_size = 32  # Reduced from 64
+output_size = Y_residual.shape[1]
 
 model = ResidualGRU(input_size, control_size, hidden_size, output_size).to(device)
-criterion = nn.MSELoss()
+criterion = nn.SmoothL1Loss()  # Using Huber Loss
 optimizer = torch.optim.AdamW(model.parameters(), lr=5e-4, weight_decay=1e-3)
-scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=50)
-scheduler_plateau = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', patience=3, factor=0.5, verbose=True)
+batch_size = 64  # Increased from 32
 
-batch_size = 32
 train_dataset = torch.utils.data.TensorDataset(X_train, U_train, Y_train)
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True, drop_last=True)
 
-best_loss = float('inf')
-patience_counter = 0
-patience = 15
-
+# Training Loop with Memory-Efficient Settings
 with gpytorch.settings.memory_efficient(True):
     model.train()
     train_losses = []
-    avg_loss = 0  # Ensure avg_loss is defined before use
-    epochs = 200
+    best_loss = float('inf')
+    patience_counter = 0
+    patience = 15
+    epochs = 1
     for epoch in range(epochs):
-            epoch_loss = 0
-            with tqdm(train_loader, desc=f"Epoch {epoch+1}/{epochs}") as pbar:
+        epoch_loss = 0
+        with tqdm(train_loader, desc=f"Epoch {epoch+1}/{epochs}") as pbar:
+            optimizer.zero_grad()
+            for batch_x, batch_u, batch_y in pbar:
+                batch_x, batch_u, batch_y = batch_x.to(device), batch_u.to(device), batch_y.to(device)
+                output = model(batch_x, batch_u)
+                loss = criterion(output, batch_y)
+                loss.backward()
+                torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+                optimizer.step()
                 optimizer.zero_grad()
-                for batch_x, batch_u, batch_y in pbar:
-                    batch_x, batch_u, batch_y = batch_x.to(device), batch_u.to(device), batch_y.to(device)
-                    output = model(batch_x, batch_u)
-                    loss = criterion(output, batch_y)
-                    loss.backward()
-                    torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)  # Gradient Clipping
-                    optimizer.step()
-                    optimizer.zero_grad()
-                    epoch_loss += loss.item()
-                    pbar.set_postfix(loss=loss.item())
+                epoch_loss += loss.item()
+                pbar.set_postfix(loss=loss.item())
 
-            avg_loss = epoch_loss / len(train_loader)
-            scheduler.step()
-            scheduler_plateau.step(avg_loss)
-            train_losses.append(avg_loss)
-            scheduler_plateau.step(avg_loss)
-            print(f"Epoch {epoch+1}, Average Loss: {avg_loss:.10f}")
-
-            if avg_loss < best_loss - 1e-6:
-                best_loss = avg_loss
-                patience_counter = 0
-            else:
-                patience_counter += 1
-
-            if patience_counter >= patience:
-                print("Early stopping triggered!")
-                break
-
+        avg_loss = epoch_loss/len(train_loader)
+        train_losses.append(avg_loss)
+        print(f"Epoch {epoch+1}, Loss: {avg_loss:.6f}")
+   
 print("Saving training loss plot...")
 plt.figure()
 plt.plot(train_losses, label="Training Loss")
@@ -171,14 +145,14 @@ plt.xlabel("Epoch")
 plt.ylabel("Loss")
 plt.legend()
 plt.title("Training Loss Over Epochs")
-plt.savefig("/docker-ros/ws/src/tests/GRU/test5/training_loss.png")
+plt.savefig("/docker-ros/ws/src/tests/GRU/test7/training_loss.png")
 # plt.show()
-# Save all epoch losses to a file
-print("Saving epoch losses to a file...")
-with open("/docker-ros/ws/src/tests/GRU/test5/epoch_losses.txt", "w") as f:
-    for epoch, loss in enumerate(train_losses, 1):
-        f.write(f"Epoch {epoch}: {loss:.10f}\n")
-print("Epoch losses saved successfully.")
+# Save all epoch losses and learning rates to a file
+print("Saving epoch losses and learning rates to a file...")
+with open("/docker-ros/ws/src/tests/GRU/test7/epoch_losses_and_lrs.txt", "w") as f:
+    for epoch, (loss, lr) in enumerate(zip(train_losses, [group['lr'] for group in optimizer.param_groups]), 1):
+        f.write(f"Epoch {epoch}: Loss: {loss:.10f}, Learning Rate: {lr:.6f}\n")
+print("Epoch losses and learning rates saved successfully.")
 
 # === 6. Evaluate on Test Data ===
 torch.cuda.empty_cache()  # Frees unused memory on GPU
@@ -200,13 +174,27 @@ with torch.no_grad():
         Y_pred_list.append(batch_pred.cpu())  # Move predictions to CPU to free GPU memory
 
 Y_pred = torch.cat(Y_pred_list, dim=0)  # Reconstruct full predictions
-test_loss = criterion(Y_pred.to(device), Y_test)
+
+# Step 2: Denormalize residuals
+Y_pred[:, -1] = torch.tensor(
+    scaler_y_psi.inverse_transform(Y_pred[:, -1].reshape(-1, 1)).flatten(), dtype=torch.float32, device=device
+)
+
+# Step 3: Reverse Log Transformation
+Y_pred[:, -1] = np.sign(Y_pred[:, -1]) * (np.expm1(np.abs(Y_pred[:, -1])))
+
+# Step 4: Compute Corrected psi_ddot
+sim_psi_ddot = X_test[:, -1, -1].cpu().numpy()  # Extract sim_psi_ddot from the test set
+corrected_psi_ddot = sim_psi_ddot + Y_pred[:, -1].numpy()  # Add corrected residual to first-principles model
+
+# Compute test loss
+test_loss = criterion(torch.tensor(corrected_psi_ddot, dtype=torch.float32).to(device), Y_test[:, -1])
 rmse = torch.sqrt(test_loss)
 print(f"Test Loss: {test_loss.item():.4f}, RMSE: {rmse.item():.4f}")
 
 # Save test results to a file
-with open("/docker-ros/ws/src/tests/GRU/test5/test_results.txt", "w") as f:
-    f.write(f"Test Loss: {test_loss.item():.4f}")
+with open("/docker-ros/ws/src/tests/GRU/test7/test_results.txt", "w") as f:
+    f.write(f"Test Loss: {test_loss.item():.4f}, ")
     f.write(f"RMSE: {rmse.item():.4f}")
 
 # Plot Predictions vs True Values
@@ -219,30 +207,29 @@ plt.ylabel("Predicted Residuals")
 plt.title("Predicted vs. True Residuals")
 plt.legend()
 plt.grid(True)
-plt.savefig("/docker-ros/ws/src/tests/GRU/test5/residual_predictions.png")
+plt.savefig("/docker-ros/ws/src/tests/GRU/test7/residual_predictions.png")
 # plt.show()
 
 # === 7. Save Model ===
 print("Saving model...")
-torch.save(model.state_dict(), "/docker-ros/ws/src/tests/GRU/test5/gru_residual_dynamics.pth")
+torch.save(model.state_dict(), "/docker-ros/ws/src/tests/GRU/test7/gru_residual_dynamics.pth")
 print("Model saved successfully.")
 
 # ✅ Wrap Model for TorchScript (Ensure Consistency)
 class WrappedModel(nn.Module):
     def __init__(self, model):
         super(WrappedModel, self).__init__()
-        self.model = model
+        self.model = model  
 
     def forward(self, x, u):
         return self.model(x, u)
 
-# ✅ Convert Model to TorchScript (Traced Version)
+# ✅ Convert Model to TorchScript (Scripted Version)
 wrapped_model = WrappedModel(model)
-example_x = torch.randn(1, 10, 9).to(device)  # Example input: 10 time steps, 9 state features
-example_u = torch.randn(1, 10, 2).to(device)  # Example input: 10 time steps, 2 control features
-traced_model = torch.jit.trace(wrapped_model, (example_x, example_u))
+scripted_model = torch.jit.script(wrapped_model)
+scripted_model.to('cpu')
 
 # ✅ Save the TorchScript Model (Directly)
-model_script_path = "/docker-ros/ws/src/tests/GRU/test5/gru_residual_dynamics.pt"
-traced_model.save(model_script_path)
+model_script_path = "/docker-ros/ws/src/tests/GRU/test7/gru_residual_dynamics.pt"
+scripted_model.save(model_script_path)
 print(f"✅ Model successfully saved in TorchScript format at: {model_script_path}")
