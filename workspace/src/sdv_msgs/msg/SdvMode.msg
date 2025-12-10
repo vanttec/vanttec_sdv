@@ -1,6 +1,0 @@
-int8 E_STOP=0
-int8 DISABLED=1
-int8 TELEOP=2
-int8 AUTONOMOUS=2
-
-int8 mode

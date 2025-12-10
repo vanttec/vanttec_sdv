@@ -1,2 +1,0 @@
-# ROS compatibility node
-
