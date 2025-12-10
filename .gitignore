@@ -7,6 +7,18 @@ __pycache__/*
 workspace/build
 workspace/install
 workspace/log
-workspace/bags
-workspace/ros1_bags
-data/
+tinyspline
+navpilot-framework
+
+# Temporal
+workspace/src/hdmap_stack
+workspace/src/lidar_modules
+workspace/src/localization_modules
+workspace/src/mapping_modules
+workspace/src/mcap_reader
+workspace/src/msgs
+workspace/src/path_planning
+workspace/src/pc2_to_bin
+workspace/src/robot_description
+workspace/src/sensor_stack
+workspace/src/mrt_cmake_modules
