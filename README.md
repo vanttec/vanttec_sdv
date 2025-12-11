@@ -37,8 +37,8 @@ localization, mapping, and path planning.
 
 ### **Requirements**
 - Linux distribution (Ubuntu 22.04 recommended)
-- ROS 2 Humble Hawksbill
-- At least **8 GB RAM** recommended for full SLAM + planning stack
+- ROS 2 Humble
+- At least **8 GB RAM** recommended
 
 
 ## 🔧 Setup
