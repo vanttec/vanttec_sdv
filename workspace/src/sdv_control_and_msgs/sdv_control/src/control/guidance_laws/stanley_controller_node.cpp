@@ -227,7 +227,11 @@ class StanleyControllerNode : public rclcpp::Node
             /* Subscribers */
             imu_velocity_sub_ = this->create_subscription<nav_msgs::msg::Odometry>("/control/velocity_body",
                 1, [this](const nav_msgs::msg::Odometry &msg) { 
-                    vel_ = msg.twist.twist.linear.x;
+                    double vx = msg.twist.twist.linear.x;
+                    double vy = msg.twist.twist.linear.y;
+                    // Calculate Absolute Velocity (Magnitude)
+                    vel_ = std::hypot(vx, vy); 
+
                     vel_msgs_received_ = true;
                 });
 

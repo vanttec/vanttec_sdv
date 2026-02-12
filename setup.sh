@@ -109,6 +109,7 @@ colcon build --packages-select ndt_omp_ros2
 colcon build --packages-select lidar_localization_ros2
 colcon build --packages-select sensors_launch
 colcon build --packages-select sdv_msgs
+colcon build --packages-select sdv_velocity
 source install/setup.bash
 colcon build --packages-select sdv_control
 colcon build --packages-select sdv_can

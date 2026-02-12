@@ -79,7 +79,7 @@ sleep 1
 # Pane 5: Launch velocity
 tmux select-pane -t 5
 tmux send-keys "cd src" Enter
-tmux send-keys "python3 velocity.py" Enter
+tmux send-keys "ros2 run sdv_velocity velocity_node" Enter
 sleep 1
 
 # Pane 6: Launch path planning dynamic
