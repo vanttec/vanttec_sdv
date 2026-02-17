@@ -107,8 +107,13 @@ class StanleyControllerNode : public rclcpp::Node
         /* Subscribers */
         rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr imu_velocity_sub_;
         rclcpp::Subscription<nav_msgs::msg::Path>::SharedPtr path_to_follow_;
-        rclcpp::Subscription<visualization_msgs::msg::Marker>::SharedPtr lookahead_wp_sub_;
-        
+
+	//nuevo
+	rclcpp::Subscription<nav_msgs::msg::Path>::SharedPtr path_sub_;
+	std::vector<geometry_msgs::msg::Point> interpolated_points_;
+	double interpolation_resolution_ = 0.1;
+
+
         void timer_callback(){
             velocity_setpoint_.data = 0.;
             current_ref_.poses.clear();
@@ -134,6 +139,14 @@ class StanleyControllerNode : public rclcpp::Node
                 double roll, pitch;
                 tf2::Matrix3x3(quat).getRPY(roll, pitch, psi_);
 
+		//nuevo
+		if (interpolated_points_.empty())
+		    return;
+
+		/* Use last point of path */
+		p2_.position = interpolated_points_.back();
+		p2_.position.z += 0.1;
+
                 p1_.position = geometry_msgs::build<geometry_msgs::msg::Point>()
                     .x(vehicle_pos_.x)
                     .y(vehicle_pos_.y)
@@ -146,12 +159,12 @@ class StanleyControllerNode : public rclcpp::Node
                 pose_stamped_tmp_.pose = p2_;
                 current_ref_.poses.push_back(pose_stamped_tmp_);
 
-                stanley_->calculateCrosstrackError(vehicle_pos_, 
-                    Point{p1_.position.x, p1_.position.y, p1_.position.z}, 
+                stanley_->calculateCrosstrackError(vehicle_pos_,
+                    Point{p1_.position.x, p1_.position.y, p1_.position.z},
                     Point{p2_.position.x, p2_.position.y, p2_.position.z}
                     );
 
-                 //RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, psi: %f", 
+                 //RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, psi: %f",
                  //vehicle_pos_.x, vehicle_pos_.y, psi_
                  //);
 
@@ -163,7 +176,7 @@ class StanleyControllerNode : public rclcpp::Node
                 stanley_->calculateSteering(vel_, precision_);
 
                 // delta_.data = std::clamp(5*stanley_->delta_, -8.0, 8.0);
-                steering_setpoint_.data = 
+                steering_setpoint_.data =
                     // std::round(stanley_->delta_ * delta_to_steer * 0.8 * 100.0) / 100.0;
                     std::clamp(std::round(stanley_->delta_ * delta_to_steer * 0.8 * 2.0 * 100.0) / 100.0, -7.0, 6.0);
                     // std::clamp(stanley_->delta_, -7.0, 6.0);
@@ -191,8 +204,49 @@ class StanleyControllerNode : public rclcpp::Node
 
         double get_angle_diff(geometry_msgs::msg::Vector3 v, geometry_msgs::msg::Point p){
             double angle_diff = std::fmod((psi_ - needed_angle(v, p) + M_PI), 2*M_PI) - M_PI;
-            return angle_diff < -M_PI ? angle_diff + 2*M_PI : angle_diff;        
+            return angle_diff < -M_PI ? angle_diff + 2*M_PI : angle_diff;
         }
+
+	//nuevo
+	std::vector<geometry_msgs::msg::Point> interpolatePath(
+	    const std::vector<geometry_msgs::msg::PoseStamped>& poses,
+	    double resolution)
+	{
+	    std::vector<geometry_msgs::msg::Point> points;
+
+	    if (poses.size() < 2)
+		return points;
+
+	    auto prev = poses[0].pose.position;
+
+	    for (size_t i = 1; i < poses.size(); ++i)
+	    {
+		auto curr = poses[i].pose.position;
+
+		double dx = curr.x - prev.x;
+		double dy = curr.y - prev.y;
+		double dz = curr.z - prev.z;
+
+		double dist = std::sqrt(dx*dx + dy*dy + dz*dz);
+		int steps = std::max(1, static_cast<int>(dist / resolution));
+
+		for (int j = 0; j <= steps; ++j)
+		{
+		    double t = static_cast<double>(j) / steps;
+
+		    geometry_msgs::msg::Point p;
+		    p.x = prev.x + t * dx;
+		    p.y = prev.y + t * dy;
+		    p.z = prev.z + t * dz;
+
+		    points.push_back(p);
+		}
+
+		prev = curr;
+	    }
+
+	    return points;
+	}
 
     public:
         StanleyControllerNode() : Node("stanley_controller_node")
@@ -215,8 +269,8 @@ class StanleyControllerNode : public rclcpp::Node
             DELTA_SAT_ = this->get_parameter("DELTA_SAT").as_double_array();
             init_pose_ = this->get_parameter("init_pose").as_double_array();
             parent_frame_ = this->get_parameter("parent_frame").as_string();
-            
-            
+
+
             /* Publishers */
             car_steering_pub_ = this->create_publisher<std_msgs::msg::Float64>("/sdv/steering/setpoint", 1);
             car_steering_setpoint_pub_ = this->create_publisher<std_msgs::msg::Float64>("/sdv/steering/can_setpoint", 1);
@@ -226,32 +280,28 @@ class StanleyControllerNode : public rclcpp::Node
 
             /* Subscribers */
             imu_velocity_sub_ = this->create_subscription<nav_msgs::msg::Odometry>("/control/velocity_body",
-                1, [this](const nav_msgs::msg::Odometry &msg) { 
+                1, [this](const nav_msgs::msg::Odometry &msg) {
                     double vx = msg.twist.twist.linear.x;
                     double vy = msg.twist.twist.linear.y;
                     // Calculate Absolute Velocity (Magnitude)
-                    vel_ = std::hypot(vx, vy); 
+                    vel_ = std::hypot(vx, vy);
 
                     vel_msgs_received_ = true;
                 });
 
-            lookahead_wp_sub_ =  this->create_subscription<visualization_msgs::msg::Marker>("/target_waypoint_marker",
-                1, [this](const visualization_msgs::msg::Marker &msg) { 
-                    last_path_message = this->get_clock()->now();
-                    if (msg.points.empty()) {
-                        path_arrived_ = false;
-                        return;
-                    }
+	    // nuevo
+	    path_sub_ = this->create_subscription<nav_msgs::msg::Path>(
+		    "/path",
+		    1,
+		    [this](const nav_msgs::msg::Path &msg)
+		    {
+			last_path_message = this->get_clock()->now();
 
-                    const auto &pt = msg.points.back();
-                    p2_.position.x = pt.x;
-                    p2_.position.y = pt.y;
-                    p2_.position.z = pt.z + 0.1;
-                    //p2_ = msg.pose;
-                    //p2_.position.z = msg.pose.position.z+0.1;
-                    path_arrived_ = true;
+			interpolated_points_ = interpolatePath(msg.poses, interpolation_resolution_);
 
-                });
+			path_arrived_ = !interpolated_points_.empty();
+	   });
+
 
             geometry_msgs::msg::PoseStamped pose_stamped_tmp_;
             pose_stamped_tmp_.header.frame_id = "map";
