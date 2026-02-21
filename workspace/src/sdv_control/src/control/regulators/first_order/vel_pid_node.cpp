@@ -41,10 +41,14 @@ class VelPidNode : public rclcpp::Node {
                 "/sdv/velocity/desired_setpoint", 10,
                 [this](const std_msgs::msg::Float64 &msg) { vel_d = msg.data; });
 
-            velocity_sub_ = this->create_subscription<geometry_msgs::msg::TwistWithCovarianceStamped>(
-                "/vectornav/velocity_body", 10,
-                [this](const geometry_msgs::msg::TwistWithCovarianceStamped &msg) { 
-                    vel = msg.twist.twist.linear.x;
+            velocity_sub_ = this->create_subscription<nav_msgs::msg::Odometry>(
+                "/control/velocity_body", 10,
+                [this](const nav_msgs::msg::Odometry &msg) { 
+                    double vx = msg.twist.twist.linear.x;
+                    double vy = msg.twist.twist.linear.y;
+                    // Calculate Absolute Velocity (Magnitude)
+                    vel = std::hypot(vx, vy);
+
                 });
 
             is_auto_sub_ = this->create_subscription<std_msgs::msg::Bool>(
@@ -67,7 +71,7 @@ class VelPidNode : public rclcpp::Node {
         PID controller{PID::defaultParams()};
 
         rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr velocity_setpoint_sub_;
-        rclcpp::Subscription<geometry_msgs::msg::TwistWithCovarianceStamped>::SharedPtr velocity_sub_;
+        rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr velocity_sub_;
         rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr is_auto_sub_;
         rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr throttle_pub_;
 

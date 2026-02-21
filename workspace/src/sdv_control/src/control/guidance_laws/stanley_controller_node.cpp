@@ -53,6 +53,7 @@ class StanleyControllerNode : public rclcpp::Node
         bool new_path_arrived_{false};
         bool path_arrived_{false};
         bool nearest_waypoint_found_{false};
+        bool use_markers{false};
 
         std::unique_ptr<StanleyController> stanley_;
 
@@ -106,13 +107,13 @@ class StanleyControllerNode : public rclcpp::Node
 
         /* Subscribers */
         rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr imu_velocity_sub_;
-        rclcpp::Subscription<nav_msgs::msg::Path>::SharedPtr path_to_follow_;
+        rclcpp::Subscription<visualization_msgs::msg::Marker>::SharedPtr lookahead_wp_sub_;
+        rclcpp::Subscription<nav_msgs::msg::Path>::SharedPtr path_sub_;
 
-	//nuevo
-	rclcpp::Subscription<nav_msgs::msg::Path>::SharedPtr path_sub_;
-	std::vector<geometry_msgs::msg::Point> interpolated_points_;
-	double interpolation_resolution_ = 0.1;
-
+        //nuevo
+        rclcpp::Subscription<nav_msgs::msg::Path>::SharedPtr path_to_follow_sub_;
+        std::vector<geometry_msgs::msg::Point> interpolated_points_;
+        double interpolation_resolution_ = 0.2;
 
         void timer_callback(){
             velocity_setpoint_.data = 0.;
@@ -139,13 +140,13 @@ class StanleyControllerNode : public rclcpp::Node
                 double roll, pitch;
                 tf2::Matrix3x3(quat).getRPY(roll, pitch, psi_);
 
-		//nuevo
-		if (interpolated_points_.empty())
-		    return;
+                //nuevo
+                if (interpolated_points_.empty())
+                    return;
 
-		/* Use last point of path */
-		p2_.position = interpolated_points_.back();
-		p2_.position.z += 0.1;
+                /* Use last point of path */
+                p2_.position = interpolated_points_.back();
+                p2_.position.z += 0.1;
 
                 p1_.position = geometry_msgs::build<geometry_msgs::msg::Point>()
                     .x(vehicle_pos_.x)
@@ -289,19 +290,39 @@ class StanleyControllerNode : public rclcpp::Node
                     vel_msgs_received_ = true;
                 });
 
-	    // nuevo
-	    path_sub_ = this->create_subscription<nav_msgs::msg::Path>(
-		    "/path",
-		    1,
-		    [this](const nav_msgs::msg::Path &msg)
-		    {
-			last_path_message = this->get_clock()->now();
+	        // nuevo
+            if(!use_markers){
+                path_sub_ = this->create_subscription<nav_msgs::msg::Path>(
+                    "/sdv_trajectory",
+                    1,
+                    [this](const nav_msgs::msg::Path &msg)
+                    {
+                    last_path_message = this->get_clock()->now();
 
-			interpolated_points_ = interpolatePath(msg.poses, interpolation_resolution_);
+                    interpolated_points_ = interpolatePath(msg.poses, interpolation_resolution_);
 
-			path_arrived_ = !interpolated_points_.empty();
-	   });
+                    path_arrived_ = !interpolated_points_.empty();
+                });
+            }
+            else{
+                lookahead_wp_sub_ =  this->create_subscription<visualization_msgs::msg::Marker>("/target_waypoint_marker",
+                1, [this](const visualization_msgs::msg::Marker &msg) { 
+                    last_path_message = this->get_clock()->now();
+                    if (msg.points.empty()) {
+                        path_arrived_ = false;
+                        return;
+                    }
 
+                    const auto &pt = msg.points.back();
+                    p2_.position.x = pt.x;
+                    p2_.position.y = pt.y;
+                    p2_.position.z = pt.z + 0.1;
+                    //p2_ = msg.pose;
+                    //p2_.position.z = msg.pose.position.z+0.1;
+                    path_arrived_ = true;
+
+                });
+            }
 
             geometry_msgs::msg::PoseStamped pose_stamped_tmp_;
             pose_stamped_tmp_.header.frame_id = "map";

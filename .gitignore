@@ -22,3 +22,8 @@ workspace/src/pc2_to_bin
 workspace/src/robot_description
 workspace/src/sensor_stack
 workspace/src/mrt_cmake_modules
+workspace/src/gateway_modules
+workspace/src/lidar_modules
+workspace/src/camera_modules
+workspace/src/lidar_camera_calib
+workspace/src/multiCameraProcessing
