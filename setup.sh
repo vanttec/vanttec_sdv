@@ -55,7 +55,8 @@ fi
 
 #Fundamental libraries
 sudo apt update
-sudo apt install tmuxsudo apt-get install libeigen3-dev
+sudo apt install tmux
+sudo apt-get install libeigen3-dev
 sudo apt install libpcl-dev
 sudo apt-get install libpcap-dev
 sudo apt install can-utils
@@ -109,10 +110,10 @@ colcon build --packages-select ndt_omp_ros2
 colcon build --packages-select lidar_localization_ros2
 colcon build --packages-select sensors_launch
 colcon build --packages-select sdv_msgs
-colcon build --packages-select sdv_velocity
 source install/setup.bash
 colcon build --packages-select sdv_control
 colcon build --packages-select sdv_can
+colcon build --packages-select sdv_velocity
 colcon build --packages-select mrt_cmake_modules
 colcon build --packages-select polygon_msgs
 colcon build --packages-select polygon_rviz_plugins

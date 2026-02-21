@@ -67,36 +67,33 @@ sleep 1
 # Pane 3: Launch traduction_control
 tmux select-pane -t 3
 tmux send-keys "cd src" Enter
-tmux send-keys "python3 traduction_control.py" Enter
+tmux send-keys "ros2 run sdv_velocity velocity_node" Enter
 sleep 1
 
 # Pane 4: Launch traduction_steering
 tmux select-pane -t 4
 tmux send-keys "cd src" Enter
-tmux send-keys "python3 traduction_steering.py" Enter
+tmux send-keys "ros2 launch src/path_planning/launch/planning_obstacles.launch.py" Enter
 sleep 1
 
 # Pane 5: Launch velocity
 tmux select-pane -t 5
 tmux send-keys "cd src" Enter
-tmux send-keys "ros2 run sdv_velocity velocity_node" Enter
+tmux send-keys 'ros2 service call /sdv/steering/set_mode sdv_msgs/srv/Uint8 "{data: 1}"' Enter
+tmux send-keys 'ros2 service call /sdv/steering/reset_encoder std_srvs/srv/Empty' Enter
 sleep 1
 
 # Pane 6: Launch path planning dynamic
 tmux select-pane -t 6
-tmux send-keys "ros2 launch src/path_planning/launch/planning_obstacles.launch.py" Enter
+tmux send-keys "jtop" Enter
 sleep 1 
 
 # Pane 7: Launch ROS2 CAN
 tmux select-pane -t 7
-tmux send-keys "ros2 run sdv_can sdv_can_node" Enter
 sleep 1
 
 #Pane 8: Launch service activate and sensor stack
 tmux select-pane -t 8
-tmux send-keys 'ros2 service call /sdv/steering/set_mode sdv_msgs/srv/Uint8 "{data: 1}"' Enter
-tmux send-keys 'ros2 service call /sdv/steering/reset_encoder std_srvs/srv/Empty' Enter
-tmux send-keys "jtop" Enter
 
 # Optional: Add key bindings to cycle through panes
 tmux bind-key -n C-a select-pane -t :.+ 

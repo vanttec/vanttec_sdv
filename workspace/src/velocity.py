@@ -10,6 +10,7 @@ from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPo
 
 from geometry_msgs.msg import PoseWithCovarianceStamped, TwistWithCovarianceStamped
 from std_msgs.msg import Float32
+from nav_msgs.msg import Odometry
 
 def yaw_from_quaternion(qx, qy, qz, qw) -> float:
     siny_cosp = 2.0 * (qw * qz + qx * qy)
@@ -25,7 +26,7 @@ class PoseToVelocityCov(Node):
 
         # ---- Parameters ----
         self.declare_parameter('input_topic', '/pcl_pose')
-        self.declare_parameter('output_topic', '/vectornav/velocity_body')
+        self.declare_parameter('output_topic', '/control/velocity_body')
         self.declare_parameter('frame_id', 'map')
         self.declare_parameter('smooth_window', 1)
         self.declare_parameter('min_dt', 1e-4)
@@ -59,7 +60,7 @@ class PoseToVelocityCov(Node):
 
         # ---- I/O ----
         self.sub = self.create_subscription(PoseWithCovarianceStamped, input_topic, self.pose_cb, qos)
-        self.pub_twist = self.create_publisher(TwistWithCovarianceStamped, output_topic, qos)
+        self.pub_twist = self.create_publisher(Odometry, output_topic, qos)
         self.pub_speed = self.create_publisher(Float32, self.speed_topic, latched_qos)
         self.pub_speed_xy = None
         if self.publish_speed_xy:

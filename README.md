@@ -62,7 +62,9 @@ colcon build --packages-select lidar_localization_ros2
 colcon build --packages-select sensors_launch
 colcon build --packages-select sdv_msgs
 source install/setup.bash
-colcon build --packages-select sdv_control sdv_can
+colcon build --packages-select sdv_control
+colcon build --packages-select sdv_can
+colcon build --packages-select sdv_velocity
 colcon build --packages-select mrt_cmake_modules
 colcon build --packages-select polygon_msgs polygon_rviz_plugins polygon_utils
 colcon build --packages-select obstacles_information_msgs traffic_information_msgs

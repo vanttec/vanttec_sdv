@@ -111,7 +111,6 @@ class StanleyControllerNode : public rclcpp::Node
         rclcpp::Subscription<nav_msgs::msg::Path>::SharedPtr path_sub_;
 
         //nuevo
-        rclcpp::Subscription<nav_msgs::msg::Path>::SharedPtr path_to_follow_sub_;
         std::vector<geometry_msgs::msg::Point> interpolated_points_;
         double interpolation_resolution_ = 0.2;
 
@@ -145,8 +144,10 @@ class StanleyControllerNode : public rclcpp::Node
                     return;
 
                 /* Use last point of path */
-                p2_.position = interpolated_points_.back();
-                p2_.position.z += 0.1;
+                if(!use_markers){
+                    p2_.position = interpolated_points_.back();
+                    p2_.position.z += 0.1;
+                }
 
                 p1_.position = geometry_msgs::build<geometry_msgs::msg::Point>()
                     .x(vehicle_pos_.x)
@@ -300,6 +301,7 @@ class StanleyControllerNode : public rclcpp::Node
                     last_path_message = this->get_clock()->now();
 
                     interpolated_points_ = interpolatePath(msg.poses, interpolation_resolution_);
+                    
 
                     path_arrived_ = !interpolated_points_.empty();
                 });
