@@ -1,0 +1,32 @@
+[0.000000] (-) TimerEvent: {}
+[0.000688] (-) JobUnselected: {'identifier': 'isaac_ros_apriltag_interfaces'}
+[0.000913] (-) JobUnselected: {'identifier': 'isaac_ros_bi3d_interfaces'}
+[0.000937] (-) JobUnselected: {'identifier': 'isaac_ros_common'}
+[0.000954] (-) JobUnselected: {'identifier': 'isaac_ros_nitros_bridge_interfaces'}
+[0.000970] (-) JobUnselected: {'identifier': 'isaac_ros_nova_interfaces'}
+[0.000986] (-) JobUnselected: {'identifier': 'isaac_ros_pointcloud_interfaces'}
+[0.001001] (-) JobUnselected: {'identifier': 'isaac_ros_tensor_list_interfaces'}
+[0.001017] (-) JobUnselected: {'identifier': 'isaac_ros_test'}
+[0.001032] (-) JobUnselected: {'identifier': 'lidar3d_clustering'}
+[0.001046] (-) JobUnselected: {'identifier': 'lidar_ground_getter'}
+[0.001061] (-) JobUnselected: {'identifier': 'lidar_imu_sync'}
+[0.001076] (-) JobUnselected: {'identifier': 'lidar_path_to_odom'}
+[0.001090] (-) JobUnselected: {'identifier': 'lio_sam'}
+[0.001105] (-) JobUnselected: {'identifier': 'ros_compatibility'}
+[0.001120] (-) JobUnselected: {'identifier': 'sdv_can'}
+[0.001135] (-) JobUnselected: {'identifier': 'sdv_description'}
+[0.001149] (-) JobUnselected: {'identifier': 'sdv_launch'}
+[0.001163] (-) JobUnselected: {'identifier': 'sdv_lidar_processing'}
+[0.001177] (-) JobUnselected: {'identifier': 'sdv_localization'}
+[0.001193] (-) JobUnselected: {'identifier': 'sdv_manual_control'}
+[0.001207] (-) JobUnselected: {'identifier': 'sdv_msgs'}
+[0.001221] (-) JobUnselected: {'identifier': 'sdv_robot_description'}
+[0.001236] (-) JobUnselected: {'identifier': 'vectornav'}
+[0.001250] (-) JobUnselected: {'identifier': 'vectornav_msgs'}
+[0.001264] (-) JobUnselected: {'identifier': 'voxel_grid_filter'}
+[0.001278] (-) JobUnselected: {'identifier': 'waypoints_niagara_creator'}
+[0.001292] (-) JobUnselected: {'identifier': 'waypoints_niagara_loader'}
+[0.001312] (sdv_control) JobQueued: {'identifier': 'sdv_control', 'dependencies': OrderedDict([('sdv_msgs', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs'), ('vectornav_msgs', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs')])}
+[0.001342] (sdv_control) JobStarted: {'identifier': 'sdv_control'}
+[0.013550] (sdv_control) JobEnded: {'identifier': 'sdv_control', 'rc': 1}
+[0.024114] (-) EventReactorShutdown: {}

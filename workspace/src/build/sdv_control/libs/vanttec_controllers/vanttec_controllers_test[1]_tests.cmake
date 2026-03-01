@@ -1,0 +1,7 @@
+add_test( PID.SimpleModel /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control/libs/vanttec_controllers/vanttec_controllers_test [==[--gtest_filter=PID.SimpleModel]==] --gtest_also_run_disabled_tests)
+set_tests_properties( PID.SimpleModel PROPERTIES WORKING_DIRECTORY /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control/libs/vanttec_controllers SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+add_test( PID.ClampU /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control/libs/vanttec_controllers/vanttec_controllers_test [==[--gtest_filter=PID.ClampU]==] --gtest_also_run_disabled_tests)
+set_tests_properties( PID.ClampU PROPERTIES WORKING_DIRECTORY /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control/libs/vanttec_controllers SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+add_test( PID.RampRateLimit /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control/libs/vanttec_controllers/vanttec_controllers_test [==[--gtest_filter=PID.RampRateLimit]==] --gtest_also_run_disabled_tests)
+set_tests_properties( PID.RampRateLimit PROPERTIES WORKING_DIRECTORY /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control/libs/vanttec_controllers SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+set( vanttec_controllers_test_TESTS PID.SimpleModel PID.ClampU PID.RampRateLimit)

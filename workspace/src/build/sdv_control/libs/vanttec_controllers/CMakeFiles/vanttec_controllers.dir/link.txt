@@ -1,0 +1,2 @@
+/usr/bin/ar qc libvanttec_controllers.a CMakeFiles/vanttec_controllers.dir/src/controllers/control_laws/PID/first_order/pid.cpp.o
+/usr/bin/ranlib libvanttec_controllers.a

@@ -1,0 +1,630 @@
+[0.000000] (-) TimerEvent: {}
+[0.000780] (-) JobUnselected: {'identifier': 'isaac_ros_apriltag_interfaces'}
+[0.001207] (-) JobUnselected: {'identifier': 'isaac_ros_bi3d_interfaces'}
+[0.001498] (-) JobUnselected: {'identifier': 'isaac_ros_common'}
+[0.001596] (-) JobUnselected: {'identifier': 'isaac_ros_nitros_bridge_interfaces'}
+[0.001756] (-) JobUnselected: {'identifier': 'isaac_ros_nova_interfaces'}
+[0.001821] (-) JobUnselected: {'identifier': 'isaac_ros_pointcloud_interfaces'}
+[0.002013] (-) JobUnselected: {'identifier': 'isaac_ros_tensor_list_interfaces'}
+[0.002039] (-) JobUnselected: {'identifier': 'isaac_ros_test'}
+[0.002065] (-) JobUnselected: {'identifier': 'lidar3d_clustering'}
+[0.002121] (-) JobUnselected: {'identifier': 'lidar_ground_getter'}
+[0.002145] (-) JobUnselected: {'identifier': 'lidar_imu_sync'}
+[0.002170] (-) JobUnselected: {'identifier': 'lidar_path_to_odom'}
+[0.002194] (-) JobUnselected: {'identifier': 'lio_sam'}
+[0.002219] (-) JobUnselected: {'identifier': 'ros_compatibility'}
+[0.002243] (-) JobUnselected: {'identifier': 'sdv_can'}
+[0.002267] (-) JobUnselected: {'identifier': 'sdv_description'}
+[0.002292] (-) JobUnselected: {'identifier': 'sdv_launch'}
+[0.002316] (-) JobUnselected: {'identifier': 'sdv_lidar_processing'}
+[0.002340] (-) JobUnselected: {'identifier': 'sdv_localization'}
+[0.002365] (-) JobUnselected: {'identifier': 'sdv_manual_control'}
+[0.002389] (-) JobUnselected: {'identifier': 'sdv_msgs'}
+[0.002414] (-) JobUnselected: {'identifier': 'sdv_robot_description'}
+[0.002448] (-) JobUnselected: {'identifier': 'vectornav'}
+[0.002474] (-) JobUnselected: {'identifier': 'vectornav_msgs'}
+[0.002491] (-) JobUnselected: {'identifier': 'voxel_grid_filter'}
+[0.002507] (-) JobUnselected: {'identifier': 'waypoints_niagara_creator'}
+[0.002522] (-) JobUnselected: {'identifier': 'waypoints_niagara_loader'}
+[0.002542] (sdv_control) JobQueued: {'identifier': 'sdv_control', 'dependencies': OrderedDict([('sdv_msgs', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs'), ('vectornav_msgs', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs')])}
+[0.002574] (sdv_control) JobStarted: {'identifier': 'sdv_control'}
+[0.019221] (sdv_control) JobProgress: {'identifier': 'sdv_control', 'progress': 'cmake'}
+[0.019584] (sdv_control) Command: {'cmd': ['/usr/bin/cmake', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control', '-DCMAKE_INSTALL_PREFIX=/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control'], 'cwd': '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'fectec151'), ('LC_TIME', 'es_MX.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/fectec151'), ('OLDPWD', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'es_MX.UTF-8'), ('MANAGERPID', '2229'), ('SYSTEMD_EXEC_PID', '2620'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('TERMINATOR_DBUS_NAME', 'net.tenshu.Terminator25ef4b219e3b005583550f2b0f9f990c3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '61628'), ('NVM_DIR', '/home/fectec151/.nvm'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'fectec151'), ('JOURNAL_STREAM', '8:26278'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'fectec151'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('HISTCONTROL', 'ignoredups'), ('PATH', '/opt/ros/humble/bin:/home/fectec151/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/fec-pc:@/tmp/.ICE-unix/2419,unix/fec-pc:/tmp/.ICE-unix/2419'), ('INVOCATION_ID', 'ac81952abfe74ec08d13dc9e8ce9f7c6'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'es_MX.UTF-8'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('HISTSIZE', '1000'), ('TERMINATOR_DBUS_PATH', '/net/tenshu/Terminator2'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('IBUS_DISABLE_SNOOPER', '1'), ('LC_TELEPHONE', 'es_MX.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.FT5QO2'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'es_MX.UTF-8'), ('TERMINATOR_UUID', 'urn:uuid:b0ef87bf-7401-4b4e-a121-c61cceaa80f0'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'es_MX.UTF-8'), ('LC_IDENTIFICATION', 'es_MX.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('NVM_CD_FLAGS', ''), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'es_MX.UTF-8'), ('LC_PAPER', 'es_MX.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('NVM_RC_VERSION', ''), ('CMAKE_PREFIX_PATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs:/opt/ros/humble')]), 'shell': False}
+[0.099460] (-) TimerEvent: {}
+[0.133073] (sdv_control) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.199604] (-) TimerEvent: {}
+[0.248437] (sdv_control) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.260154] (sdv_control) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.300637] (-) TimerEvent: {}
+[0.391299] (sdv_control) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.400769] (-) TimerEvent: {}
+[0.403482] (sdv_control) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.403938] (sdv_control) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.404468] (sdv_control) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.408678] (sdv_control) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.500909] (-) TimerEvent: {}
+[0.543875] (sdv_control) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.561243] (sdv_control) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.561858] (sdv_control) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.562967] (sdv_control) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.567767] (sdv_control) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.8 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[0.601046] (-) TimerEvent: {}
+[0.701671] (-) TimerEvent: {}
+[0.802454] (-) TimerEvent: {}
+[0.820061] (sdv_control) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter \n'}
+[0.903057] (-) TimerEvent: {}
+[1.003551] (-) TimerEvent: {}
+[1.010124] (sdv_control) StdoutLine: {'line': b'-- Found rclcpp: 16.0.8 (/opt/ros/humble/share/rclcpp/cmake)\n'}
+[1.103693] (-) TimerEvent: {}
+[1.119170] (sdv_control) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[1.132861] (sdv_control) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[1.155688] (sdv_control) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[1.190807] (sdv_control) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[1.203843] (-) TimerEvent: {}
+[1.231678] (sdv_control) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[1.303998] (-) TimerEvent: {}
+[1.404404] (sdv_control) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 6.1.1 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)\n'}
+[1.404816] (-) TimerEvent: {}
+[1.411229] (sdv_control) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 6.2.6 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)\n'}
+[1.504969] (-) TimerEvent: {}
+[1.605428] (-) TimerEvent: {}
+[1.619612] (sdv_control) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  \n'}
+[1.671814] (sdv_control) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/humble/include  \n'}
+[1.705545] (-) TimerEvent: {}
+[1.751330] (sdv_control) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[1.775542] (sdv_control) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[1.807813] (-) TimerEvent: {}
+[1.908525] (-) TimerEvent: {}
+[1.956800] (sdv_control) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[1.957644] (sdv_control) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[2.008648] (-) TimerEvent: {}
+[2.094721] (sdv_control) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[2.097268] (sdv_control) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[2.108805] (-) TimerEvent: {}
+[2.209832] (-) TimerEvent: {}
+[2.310263] (-) TimerEvent: {}
+[2.411026] (-) TimerEvent: {}
+[2.511999] (-) TimerEvent: {}
+[2.537801] (sdv_control) StdoutLine: {'line': b'-- Found geometry_msgs: 4.2.3 (/opt/ros/humble/share/geometry_msgs/cmake)\n'}
+[2.612170] (-) TimerEvent: {}
+[2.635340] (sdv_control) StdoutLine: {'line': b'-- Found vectornav_msgs: 3.0.0 (/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/share/vectornav_msgs/cmake)\n'}
+[2.712292] (-) TimerEvent: {}
+[2.812709] (-) TimerEvent: {}
+[2.913133] (-) TimerEvent: {}
+[2.994827] (sdv_control) StdoutLine: {'line': b'-- Found nav_msgs: 4.2.3 (/opt/ros/humble/share/nav_msgs/cmake)\n'}
+[3.013310] (-) TimerEvent: {}
+[3.113772] (-) TimerEvent: {}
+[3.178369] (sdv_control) StdoutLine: {'line': b'-- Found sensor_msgs: 4.2.3 (/opt/ros/humble/share/sensor_msgs/cmake)\n'}
+[3.213900] (-) TimerEvent: {}
+[3.314353] (-) TimerEvent: {}
+[3.392561] (sdv_control) StdoutLine: {'line': b'-- Found tf2_ros: 0.25.6 (/opt/ros/humble/share/tf2_ros/cmake)\n'}
+[3.414517] (-) TimerEvent: {}
+[3.514975] (-) TimerEvent: {}
+[3.615408] (-) TimerEvent: {}
+[3.715876] (-) TimerEvent: {}
+[3.816325] (-) TimerEvent: {}
+[3.916987] (-) TimerEvent: {}
+[3.941152] (sdv_control) StdoutLine: {'line': b'-- Found sdv_msgs: 0.0.0 (/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/share/sdv_msgs/cmake)\n'}
+[4.017142] (-) TimerEvent: {}
+[4.079982] (sdv_control) StdoutLine: {'line': b'-- Found diagnostic_msgs: 4.2.3 (/opt/ros/humble/share/diagnostic_msgs/cmake)\n'}
+[4.117264] (-) TimerEvent: {}
+[4.146401] (sdv_control) StdoutLine: {'line': b'-- Found rclpy: 3.3.12 (/opt/ros/humble/share/rclpy/cmake)\n'}
+[4.151575] (sdv_control) StdoutLine: {'line': b'-- Found tf2_geometry_msgs: 0.25.6 (/opt/ros/humble/share/tf2_geometry_msgs/cmake)\n'}
+[4.173579] (sdv_control) StdoutLine: {'line': b'-- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)\n'}
+[4.177376] (sdv_control) StdoutLine: {'line': b'-- Found Eigen3: TRUE (found version "3.4.0") \n'}
+[4.177772] (sdv_control) StdoutLine: {'line': b'-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target\n'}
+[4.217390] (-) TimerEvent: {}
+[4.317811] (-) TimerEvent: {}
+[4.418558] (-) TimerEvent: {}
+[4.519988] (-) TimerEvent: {}
+[4.620330] (-) TimerEvent: {}
+[4.720775] (-) TimerEvent: {}
+[4.821252] (-) TimerEvent: {}
+[4.921679] (-) TimerEvent: {}
+[5.022309] (-) TimerEvent: {}
+[5.122719] (-) TimerEvent: {}
+[5.223153] (-) TimerEvent: {}
+[5.323518] (-) TimerEvent: {}
+[5.423962] (-) TimerEvent: {}
+[5.524470] (-) TimerEvent: {}
+[5.624866] (-) TimerEvent: {}
+[5.725301] (-) TimerEvent: {}
+[5.825806] (-) TimerEvent: {}
+[5.926199] (-) TimerEvent: {}
+[6.026655] (-) TimerEvent: {}
+[6.127073] (-) TimerEvent: {}
+[6.227663] (-) TimerEvent: {}
+[6.328192] (-) TimerEvent: {}
+[6.429125] (-) TimerEvent: {}
+[6.529585] (-) TimerEvent: {}
+[6.630071] (-) TimerEvent: {}
+[6.730977] (-) TimerEvent: {}
+[6.788831] (sdv_control) StdoutLine: {'line': b'-- Found Python: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter \n'}
+[6.831121] (-) TimerEvent: {}
+[6.831640] (sdv_control) StdoutLine: {'line': b'-- Found ament_lint_auto: 0.12.10 (/opt/ros/humble/share/ament_lint_auto/cmake)\n'}
+[6.931232] (-) TimerEvent: {}
+[7.019325] (sdv_control) StdoutLine: {'line': b"-- Added test 'cppcheck' to perform static code analysis on C / C++ code\n"}
+[7.020441] (sdv_control) StdoutLine: {'line': b'-- Configured cppcheck include dirs: $<BUILD_INTERFACE:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control/include>;/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control/libs/vanttec_controllers\n'}
+[7.020670] (sdv_control) StdoutLine: {'line': b'-- Configured cppcheck exclude dirs and/or files: \n'}
+[7.024307] (sdv_control) StdoutLine: {'line': b"-- Added test 'flake8' to check Python code syntax and style conventions\n"}
+[7.029876] (sdv_control) StdoutLine: {'line': b"-- Added test 'lint_cmake' to check CMake code style\n"}
+[7.031451] (-) TimerEvent: {}
+[7.033297] (sdv_control) StdoutLine: {'line': b"-- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257\n"}
+[7.052224] (sdv_control) StdoutLine: {'line': b"-- Added test 'uncrustify' to check C / C++ code style\n"}
+[7.052490] (sdv_control) StdoutLine: {'line': b'-- Configured uncrustify additional arguments: \n'}
+[7.055792] (sdv_control) StdoutLine: {'line': b"-- Added test 'xmllint' to check XML markup files\n"}
+[7.058501] (sdv_control) StdoutLine: {'line': b'-- Configuring done\n'}
+[7.128863] (sdv_control) StdoutLine: {'line': b'-- Generating done\n'}
+[7.131566] (-) TimerEvent: {}
+[7.135467] (sdv_control) StdoutLine: {'line': b'-- Build files have been written to: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control\n'}
+[7.164601] (sdv_control) CommandEnded: {'returncode': 0}
+[7.166125] (sdv_control) JobProgress: {'identifier': 'sdv_control', 'progress': 'build'}
+[7.168834] (sdv_control) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control', '--', '-j12', '-l12'], 'cwd': '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'fectec151'), ('LC_TIME', 'es_MX.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/fectec151'), ('OLDPWD', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'es_MX.UTF-8'), ('MANAGERPID', '2229'), ('SYSTEMD_EXEC_PID', '2620'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('TERMINATOR_DBUS_NAME', 'net.tenshu.Terminator25ef4b219e3b005583550f2b0f9f990c3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '61628'), ('NVM_DIR', '/home/fectec151/.nvm'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'fectec151'), ('JOURNAL_STREAM', '8:26278'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'fectec151'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('HISTCONTROL', 'ignoredups'), ('PATH', '/opt/ros/humble/bin:/home/fectec151/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/fec-pc:@/tmp/.ICE-unix/2419,unix/fec-pc:/tmp/.ICE-unix/2419'), ('INVOCATION_ID', 'ac81952abfe74ec08d13dc9e8ce9f7c6'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'es_MX.UTF-8'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('HISTSIZE', '1000'), ('TERMINATOR_DBUS_PATH', '/net/tenshu/Terminator2'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('IBUS_DISABLE_SNOOPER', '1'), ('LC_TELEPHONE', 'es_MX.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.FT5QO2'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'es_MX.UTF-8'), ('TERMINATOR_UUID', 'urn:uuid:b0ef87bf-7401-4b4e-a121-c61cceaa80f0'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'es_MX.UTF-8'), ('LC_IDENTIFICATION', 'es_MX.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('NVM_CD_FLAGS', ''), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'es_MX.UTF-8'), ('LC_PAPER', 'es_MX.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('NVM_RC_VERSION', ''), ('CMAKE_PREFIX_PATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs:/opt/ros/humble')]), 'shell': False}
+[7.231726] (-) TimerEvent: {}
+[7.272212] (sdv_control) StdoutLine: {'line': b'[  5%] \x1b[32mBuilding CXX object libs/vanttec_controllers/CMakeFiles/vanttec_controllers.dir/src/controllers/control_laws/PID/first_order/pid.cpp.o\x1b[0m\n'}
+[7.274323] (sdv_control) StdoutLine: {'line': b'[ 11%] \x1b[32mBuilding CXX object _deps/googletest-build/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o\x1b[0m\n'}
+[7.331858] (-) TimerEvent: {}
+[7.432339] (-) TimerEvent: {}
+[7.532976] (-) TimerEvent: {}
+[7.633813] (-) TimerEvent: {}
+[7.734473] (-) TimerEvent: {}
+[7.834975] (-) TimerEvent: {}
+[7.877595] (sdv_control) StdoutLine: {'line': b'[ 16%] \x1b[32m\x1b[1mLinking CXX static library libvanttec_controllers.a\x1b[0m\n'}
+[7.935113] (-) TimerEvent: {}
+[7.952058] (sdv_control) StdoutLine: {'line': b'[ 16%] Built target vanttec_controllers\n'}
+[7.996633] (sdv_control) StdoutLine: {'line': b'[ 22%] \x1b[32mBuilding CXX object CMakeFiles/vel_pid_node.dir/src/control/regulators/first_order/vel_pid_node.cpp.o\x1b[0m\n'}
+[7.998623] (sdv_control) StdoutLine: {'line': b'[ 27%] \x1b[32mBuilding CXX object CMakeFiles/sdv_kinematic_sim.dir/src/model/sdv_kinematic_sim_node.cpp.o\x1b[0m\n'}
+[7.998974] (sdv_control) StdoutLine: {'line': b'[ 33%] \x1b[32mBuilding CXX object CMakeFiles/stanley_controller_node.dir/src/control/guidance_laws/stanley_controller_node.cpp.o\x1b[0m\n'}
+[8.035271] (-) TimerEvent: {}
+[8.136316] (-) TimerEvent: {}
+[8.236861] (-) TimerEvent: {}
+[8.337385] (-) TimerEvent: {}
+[8.437932] (-) TimerEvent: {}
+[8.538415] (-) TimerEvent: {}
+[8.638914] (-) TimerEvent: {}
+[8.739420] (-) TimerEvent: {}
+[8.840007] (-) TimerEvent: {}
+[8.940476] (-) TimerEvent: {}
+[9.041012] (-) TimerEvent: {}
+[9.141548] (-) TimerEvent: {}
+[9.242048] (-) TimerEvent: {}
+[9.342536] (-) TimerEvent: {}
+[9.443075] (-) TimerEvent: {}
+[9.543715] (-) TimerEvent: {}
+[9.644921] (-) TimerEvent: {}
+[9.745397] (-) TimerEvent: {}
+[9.845901] (-) TimerEvent: {}
+[9.946495] (-) TimerEvent: {}
+[10.046994] (-) TimerEvent: {}
+[10.147504] (-) TimerEvent: {}
+[10.252321] (-) TimerEvent: {}
+[10.362351] (-) TimerEvent: {}
+[10.463002] (-) TimerEvent: {}
+[10.563530] (-) TimerEvent: {}
+[10.664524] (-) TimerEvent: {}
+[10.765357] (-) TimerEvent: {}
+[10.865909] (-) TimerEvent: {}
+[10.966419] (-) TimerEvent: {}
+[11.066934] (-) TimerEvent: {}
+[11.167584] (-) TimerEvent: {}
+[11.268186] (-) TimerEvent: {}
+[11.368835] (-) TimerEvent: {}
+[11.469784] (-) TimerEvent: {}
+[11.570379] (-) TimerEvent: {}
+[11.670971] (-) TimerEvent: {}
+[11.771513] (-) TimerEvent: {}
+[11.872058] (-) TimerEvent: {}
+[11.972575] (-) TimerEvent: {}
+[12.073339] (-) TimerEvent: {}
+[12.173880] (-) TimerEvent: {}
+[12.274370] (-) TimerEvent: {}
+[12.374903] (-) TimerEvent: {}
+[12.475307] (-) TimerEvent: {}
+[12.576011] (-) TimerEvent: {}
+[12.676490] (-) TimerEvent: {}
+[12.776909] (-) TimerEvent: {}
+[12.877340] (-) TimerEvent: {}
+[12.978663] (-) TimerEvent: {}
+[13.079189] (-) TimerEvent: {}
+[13.179739] (-) TimerEvent: {}
+[13.280248] (-) TimerEvent: {}
+[13.381235] (-) TimerEvent: {}
+[13.481775] (-) TimerEvent: {}
+[13.584444] (-) TimerEvent: {}
+[13.684979] (-) TimerEvent: {}
+[13.785500] (-) TimerEvent: {}
+[13.885954] (-) TimerEvent: {}
+[13.986387] (-) TimerEvent: {}
+[14.087150] (-) TimerEvent: {}
+[14.187749] (-) TimerEvent: {}
+[14.288431] (-) TimerEvent: {}
+[14.371565] (sdv_control) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control/src/control/guidance_laws/stanley_controller_node.cpp:18\x1b[m\x1b[K:\n'}
+[14.372086] (sdv_control) StderrLine: {'line': b'\x1b[01m\x1b[K/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control/libs/vanttec_controllers/src/controllers/guidance_laws/stanley_controller.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kvoid StanleyController::calculateSteering(double, uint8_t)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[14.372301] (sdv_control) StderrLine: {'line': b'\x1b[01m\x1b[K/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control/libs/vanttec_controllers/src/controllers/guidance_laws/stanley_controller.cpp:86:63:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused parameter \xe2\x80\x98\x1b[01m\x1b[Kprecision\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter\x07-Wunused-parameter\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[14.372483] (sdv_control) StderrLine: {'line': b'   86 | void StanleyController::calculateSteering(double vel, \x1b[01;35m\x1b[Kuint8_t precision\x1b[m\x1b[K){\n'}
+[14.372643] (sdv_control) StderrLine: {'line': b'      |                                                       \x1b[01;35m\x1b[K~~~~~~~~^~~~~~~~~\x1b[m\x1b[K\n'}
+[14.388636] (-) TimerEvent: {}
+[14.489184] (-) TimerEvent: {}
+[14.507822] (sdv_control) StdoutLine: {'line': b'[ 38%] \x1b[32m\x1b[1mLinking CXX static library ../../../lib/libgtest.a\x1b[0m\n'}
+[14.589337] (-) TimerEvent: {}
+[14.631834] (sdv_control) StdoutLine: {'line': b'[ 38%] Built target gtest\n'}
+[14.676115] (sdv_control) StdoutLine: {'line': b'[ 44%] \x1b[32mBuilding CXX object _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o\x1b[0m\n'}
+[14.683310] (sdv_control) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o\x1b[0m\n'}
+[14.689496] (-) TimerEvent: {}
+[14.790396] (-) TimerEvent: {}
+[14.891421] (-) TimerEvent: {}
+[14.992030] (-) TimerEvent: {}
+[15.094335] (-) TimerEvent: {}
+[15.195743] (-) TimerEvent: {}
+[15.297399] (-) TimerEvent: {}
+[15.400310] (-) TimerEvent: {}
+[15.503133] (-) TimerEvent: {}
+[15.604461] (-) TimerEvent: {}
+[15.706870] (-) TimerEvent: {}
+[15.809054] (-) TimerEvent: {}
+[15.911588] (-) TimerEvent: {}
+[16.016044] (-) TimerEvent: {}
+[16.116514] (-) TimerEvent: {}
+[16.217060] (-) TimerEvent: {}
+[16.318070] (-) TimerEvent: {}
+[16.418643] (-) TimerEvent: {}
+[16.519110] (-) TimerEvent: {}
+[16.590057] (sdv_control) StderrLine: {'line': b'\x1b[01m\x1b[K/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control/src/control/guidance_laws/stanley_controller_node.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kvoid StanleyControllerNode::timer_callback()\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[16.590504] (sdv_control) StderrLine: {'line': b'\x1b[01m\x1b[K/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control/src/control/guidance_laws/stanley_controller_node.cpp:138:39:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison of integer expressions of different signedness: \xe2\x80\x98\x1b[01m\x1b[Ksize_t\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Klong unsigned int\x1b[m\x1b[K\xe2\x80\x99} and \xe2\x80\x98\x1b[01m\x1b[Kint\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wsign-compare\x07-Wsign-compare\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[16.590740] (sdv_control) StderrLine: {'line': b'  138 |                     if(\x1b[01;35m\x1b[Kwaypoint_base_ == -1\x1b[m\x1b[K){\n'}
+[16.590939] (sdv_control) StderrLine: {'line': b'      |                        \x1b[01;35m\x1b[K~~~~~~~~~~~~~~~^~~~~\x1b[m\x1b[K\n'}
+[16.592213] (sdv_control) StderrLine: {'line': b'\x1b[01m\x1b[K/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control/src/control/guidance_laws/stanley_controller_node.cpp:174:50:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison of integer expressions of different signedness: \xe2\x80\x98\x1b[01m\x1b[Kint\x1b[m\x1b[K\xe2\x80\x99 and \xe2\x80\x98\x1b[01m\x1b[Kstd::vector<geometry_msgs::msg::PoseStamped_<std::allocator<void> >, std::allocator<geometry_msgs::msg::PoseStamped_<std::allocator<void> > > >::size_type\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Klong unsigned int\x1b[m\x1b[K\xe2\x80\x99} [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wsign-compare\x07-Wsign-compare\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[16.592557] (sdv_control) StderrLine: {'line': b'  174 |                         for(int i = waypoint_; \x1b[01;35m\x1b[Ki < smooth_path_.poses.size()\x1b[m\x1b[K; i++){\n'}
+[16.592854] (sdv_control) StderrLine: {'line': b'      |                                                \x1b[01;35m\x1b[K~~^~~~~~~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[16.593109] (sdv_control) StderrLine: {'line': b'\x1b[01m\x1b[K/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control/src/control/guidance_laws/stanley_controller_node.cpp:185:49:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison of integer expressions of different signedness: \xe2\x80\x98\x1b[01m\x1b[Kstd::size_t\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Klong unsigned int\x1b[m\x1b[K\xe2\x80\x99} and \xe2\x80\x98\x1b[01m\x1b[Kint\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wsign-compare\x07-Wsign-compare\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[16.593300] (sdv_control) StderrLine: {'line': b'  185 |                         while(i > 0 && \x1b[01;35m\x1b[Kmin_idx_ == -1\x1b[m\x1b[K){\n'}
+[16.593478] (sdv_control) StderrLine: {'line': b'      |                                        \x1b[01;35m\x1b[K~~~~~~~~~^~~~~\x1b[m\x1b[K\n'}
+[16.593655] (sdv_control) StderrLine: {'line': b'\x1b[01m\x1b[K/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control/src/control/guidance_laws/stanley_controller_node.cpp:195:47:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison of integer expressions of different signedness: \xe2\x80\x98\x1b[01m\x1b[Kstd::size_t\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Klong unsigned int\x1b[m\x1b[K\xe2\x80\x99} and \xe2\x80\x98\x1b[01m\x1b[Kint\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wsign-compare\x07-Wsign-compare\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[16.593894] (sdv_control) StderrLine: {'line': b'  195 |                         if(i == 0 && \x1b[01;35m\x1b[Kmin_idx_ == -1\x1b[m\x1b[K)\n'}
+[16.594070] (sdv_control) StderrLine: {'line': b'      |                                      \x1b[01;35m\x1b[K~~~~~~~~~^~~~~\x1b[m\x1b[K\n'}
+[16.594570] (sdv_control) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/logging.hpp:24\x1b[m\x1b[K,\n'}
+[16.594783] (sdv_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40\x1b[m\x1b[K,\n'}
+[16.594938] (sdv_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24\x1b[m\x1b[K,\n'}
+[16.595119] (sdv_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20\x1b[m\x1b[K,\n'}
+[16.595267] (sdv_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25\x1b[m\x1b[K,\n'}
+[16.595423] (sdv_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18\x1b[m\x1b[K,\n'}
+[16.595576] (sdv_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20\x1b[m\x1b[K,\n'}
+[16.595719] (sdv_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37\x1b[m\x1b[K,\n'}
+[16.595865] (sdv_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[16.596011] (sdv_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[16.596152] (sdv_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[16.596289] (sdv_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control/src/control/guidance_laws/stanley_controller_node.cpp:16\x1b[m\x1b[K:\n'}
+[16.596429] (sdv_control) StderrLine: {'line': b'\x1b[01m\x1b[K/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control/src/control/guidance_laws/stanley_controller_node.cpp:204:53:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kformat \xe2\x80\x98\x1b[01m\x1b[K%d\x1b[m\x1b[K\xe2\x80\x99 expects argument of type \xe2\x80\x98\x1b[01m\x1b[Kint\x1b[m\x1b[K\xe2\x80\x99, but argument 5 has type \xe2\x80\x98\x1b[01m\x1b[Ksize_t\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Klong unsigned int\x1b[m\x1b[K\xe2\x80\x99} [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wformat=\x07-Wformat=\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[16.596576] (sdv_control) StderrLine: {'line': b'  204 |                     RCLCPP_INFO(this->get_logger(), \x1b[01;35m\x1b[K"wp: %d"\x1b[m\x1b[K,\n'}
+[16.596712] (sdv_control) StderrLine: {'line': b'      |                                                     \x1b[01;35m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[16.596864] (sdv_control) StderrLine: {'line': b'  205 |                     \x1b[32m\x1b[Kwaypoint_\x1b[m\x1b[K\n'}
+[16.597010] (sdv_control) StderrLine: {'line': b'      |                     \x1b[32m\x1b[K~~~~~~~~~\x1b[m\x1b[K                        \n'}
+[16.597180] (sdv_control) StderrLine: {'line': b'      |                     \x1b[32m\x1b[K|\x1b[m\x1b[K\n'}
+[16.597324] (sdv_control) StderrLine: {'line': b'      |                     \x1b[32m\x1b[Ksize_t {aka long unsigned int}\x1b[m\x1b[K\n'}
+[16.597465] (sdv_control) StderrLine: {'line': b'\x1b[01m\x1b[K/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control/src/control/guidance_laws/stanley_controller_node.cpp:204:59:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kformat string is defined here\n'}
+[16.597616] (sdv_control) StderrLine: {'line': b'  204 |                     RCLCPP_INFO(this->get_logger(), "wp: \x1b[01;36m\x1b[K%d\x1b[m\x1b[K",\n'}
+[16.597754] (sdv_control) StderrLine: {'line': b'      |                                                          \x1b[01;36m\x1b[K~^\x1b[m\x1b[K\n'}
+[16.597919] (sdv_control) StderrLine: {'line': b'      |                                                           \x1b[01;36m\x1b[K|\x1b[m\x1b[K\n'}
+[16.598076] (sdv_control) StderrLine: {'line': b'      |                                                           \x1b[01;36m\x1b[Kint\x1b[m\x1b[K\n'}
+[16.598354] (sdv_control) StderrLine: {'line': b'      |                                                          \x1b[32m\x1b[K%ld\x1b[m\x1b[K\n'}
+[16.619253] (-) TimerEvent: {}
+[16.719747] (-) TimerEvent: {}
+[16.820264] (-) TimerEvent: {}
+[16.930962] (-) TimerEvent: {}
+[17.031884] (-) TimerEvent: {}
+[17.132363] (-) TimerEvent: {}
+[17.149412] (sdv_control) StdoutLine: {'line': b'[ 55%] \x1b[32m\x1b[1mLinking CXX static library ../../../lib/libgtest_main.a\x1b[0m\n'}
+[17.232506] (-) TimerEvent: {}
+[17.256729] (sdv_control) StdoutLine: {'line': b'[ 55%] Built target gtest_main\n'}
+[17.302355] (sdv_control) StdoutLine: {'line': b'[ 61%] \x1b[32mBuilding CXX object libs/vanttec_controllers/CMakeFiles/vanttec_controllers_test.dir/tests/controllers/control_laws/pid_test.cpp.o\x1b[0m\n'}
+[17.332641] (-) TimerEvent: {}
+[17.433774] (-) TimerEvent: {}
+[17.534233] (-) TimerEvent: {}
+[17.634730] (-) TimerEvent: {}
+[17.735471] (-) TimerEvent: {}
+[17.835964] (-) TimerEvent: {}
+[17.936444] (-) TimerEvent: {}
+[18.037010] (-) TimerEvent: {}
+[18.137481] (-) TimerEvent: {}
+[18.238499] (-) TimerEvent: {}
+[18.339402] (-) TimerEvent: {}
+[18.439924] (-) TimerEvent: {}
+[18.540431] (-) TimerEvent: {}
+[18.640983] (-) TimerEvent: {}
+[18.741538] (-) TimerEvent: {}
+[18.842060] (-) TimerEvent: {}
+[18.943076] (-) TimerEvent: {}
+[19.043827] (-) TimerEvent: {}
+[19.144325] (-) TimerEvent: {}
+[19.244874] (-) TimerEvent: {}
+[19.341694] (sdv_control) StdoutLine: {'line': b'[ 66%] \x1b[32m\x1b[1mLinking CXX static library ../../../lib/libgmock.a\x1b[0m\n'}
+[19.345021] (-) TimerEvent: {}
+[19.442732] (sdv_control) StdoutLine: {'line': b'[ 66%] Built target gmock\n'}
+[19.445149] (-) TimerEvent: {}
+[19.482244] (sdv_control) StdoutLine: {'line': b'[ 72%] \x1b[32mBuilding CXX object _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o\x1b[0m\n'}
+[19.545308] (-) TimerEvent: {}
+[19.645837] (-) TimerEvent: {}
+[19.746358] (-) TimerEvent: {}
+[19.758983] (sdv_control) StdoutLine: {'line': b'[ 77%] \x1b[32m\x1b[1mLinking CXX executable vanttec_controllers_test\x1b[0m\n'}
+[19.846514] (-) TimerEvent: {}
+[19.947450] (-) TimerEvent: {}
+[20.047913] (-) TimerEvent: {}
+[20.091658] (sdv_control) StdoutLine: {'line': b'[ 77%] Built target vanttec_controllers_test\n'}
+[20.148068] (-) TimerEvent: {}
+[20.248677] (-) TimerEvent: {}
+[20.349602] (-) TimerEvent: {}
+[20.450246] (-) TimerEvent: {}
+[20.550936] (-) TimerEvent: {}
+[20.651610] (-) TimerEvent: {}
+[20.752268] (-) TimerEvent: {}
+[20.853051] (-) TimerEvent: {}
+[20.953553] (-) TimerEvent: {}
+[21.054065] (-) TimerEvent: {}
+[21.154555] (-) TimerEvent: {}
+[21.255068] (-) TimerEvent: {}
+[21.356033] (-) TimerEvent: {}
+[21.456523] (-) TimerEvent: {}
+[21.557198] (-) TimerEvent: {}
+[21.657707] (-) TimerEvent: {}
+[21.758268] (-) TimerEvent: {}
+[21.858803] (-) TimerEvent: {}
+[21.953651] (sdv_control) StdoutLine: {'line': b'[ 83%] \x1b[32m\x1b[1mLinking CXX static library ../../../lib/libgmock_main.a\x1b[0m\n'}
+[21.958968] (-) TimerEvent: {}
+[22.050809] (sdv_control) StdoutLine: {'line': b'[ 83%] Built target gmock_main\n'}
+[22.059150] (-) TimerEvent: {}
+[22.159683] (-) TimerEvent: {}
+[22.260730] (-) TimerEvent: {}
+[22.361302] (-) TimerEvent: {}
+[22.461747] (-) TimerEvent: {}
+[22.562206] (-) TimerEvent: {}
+[22.663057] (-) TimerEvent: {}
+[22.763519] (-) TimerEvent: {}
+[22.864346] (-) TimerEvent: {}
+[22.964783] (-) TimerEvent: {}
+[23.065258] (-) TimerEvent: {}
+[23.165710] (-) TimerEvent: {}
+[23.266233] (-) TimerEvent: {}
+[23.367005] (-) TimerEvent: {}
+[23.467513] (-) TimerEvent: {}
+[23.567973] (-) TimerEvent: {}
+[23.668445] (-) TimerEvent: {}
+[23.768881] (-) TimerEvent: {}
+[23.869301] (-) TimerEvent: {}
+[23.970075] (-) TimerEvent: {}
+[24.070772] (-) TimerEvent: {}
+[24.171259] (-) TimerEvent: {}
+[24.271717] (-) TimerEvent: {}
+[24.372267] (-) TimerEvent: {}
+[24.472783] (-) TimerEvent: {}
+[24.573630] (-) TimerEvent: {}
+[24.674168] (-) TimerEvent: {}
+[24.775304] (-) TimerEvent: {}
+[24.875743] (-) TimerEvent: {}
+[24.976167] (-) TimerEvent: {}
+[25.076658] (-) TimerEvent: {}
+[25.177184] (-) TimerEvent: {}
+[25.277665] (-) TimerEvent: {}
+[25.378208] (-) TimerEvent: {}
+[25.478639] (-) TimerEvent: {}
+[25.579199] (-) TimerEvent: {}
+[25.679672] (-) TimerEvent: {}
+[25.780187] (-) TimerEvent: {}
+[25.880855] (-) TimerEvent: {}
+[25.981314] (-) TimerEvent: {}
+[26.081774] (-) TimerEvent: {}
+[26.182243] (-) TimerEvent: {}
+[26.283166] (-) TimerEvent: {}
+[26.383667] (-) TimerEvent: {}
+[26.484743] (-) TimerEvent: {}
+[26.585311] (-) TimerEvent: {}
+[26.685837] (-) TimerEvent: {}
+[26.786446] (-) TimerEvent: {}
+[26.886914] (-) TimerEvent: {}
+[26.987422] (-) TimerEvent: {}
+[27.088632] (-) TimerEvent: {}
+[27.189151] (-) TimerEvent: {}
+[27.289631] (-) TimerEvent: {}
+[27.390371] (-) TimerEvent: {}
+[27.491187] (-) TimerEvent: {}
+[27.591739] (-) TimerEvent: {}
+[27.692319] (-) TimerEvent: {}
+[27.802525] (-) TimerEvent: {}
+[27.903020] (-) TimerEvent: {}
+[28.003673] (-) TimerEvent: {}
+[28.104174] (-) TimerEvent: {}
+[28.205133] (-) TimerEvent: {}
+[28.305649] (-) TimerEvent: {}
+[28.406170] (-) TimerEvent: {}
+[28.506830] (-) TimerEvent: {}
+[28.607873] (-) TimerEvent: {}
+[28.708350] (-) TimerEvent: {}
+[28.808803] (-) TimerEvent: {}
+[28.909536] (-) TimerEvent: {}
+[29.010123] (-) TimerEvent: {}
+[29.110599] (-) TimerEvent: {}
+[29.211029] (-) TimerEvent: {}
+[29.311444] (-) TimerEvent: {}
+[29.412264] (-) TimerEvent: {}
+[29.513032] (-) TimerEvent: {}
+[29.613734] (-) TimerEvent: {}
+[29.714173] (-) TimerEvent: {}
+[29.814670] (-) TimerEvent: {}
+[29.915135] (-) TimerEvent: {}
+[30.015715] (-) TimerEvent: {}
+[30.116183] (-) TimerEvent: {}
+[30.216677] (-) TimerEvent: {}
+[30.317211] (-) TimerEvent: {}
+[30.417727] (-) TimerEvent: {}
+[30.518279] (-) TimerEvent: {}
+[30.619259] (-) TimerEvent: {}
+[30.719751] (-) TimerEvent: {}
+[30.820764] (-) TimerEvent: {}
+[30.911041] (sdv_control) StdoutLine: {'line': b'[ 88%] \x1b[32m\x1b[1mLinking CXX executable sdv_kinematic_sim\x1b[0m\n'}
+[30.920885] (-) TimerEvent: {}
+[31.021271] (-) TimerEvent: {}
+[31.121797] (-) TimerEvent: {}
+[31.222298] (-) TimerEvent: {}
+[31.322822] (-) TimerEvent: {}
+[31.423315] (-) TimerEvent: {}
+[31.523800] (-) TimerEvent: {}
+[31.624319] (-) TimerEvent: {}
+[31.724802] (-) TimerEvent: {}
+[31.825313] (-) TimerEvent: {}
+[31.925803] (-) TimerEvent: {}
+[32.026497] (-) TimerEvent: {}
+[32.047577] (sdv_control) StdoutLine: {'line': b'[ 88%] Built target sdv_kinematic_sim\n'}
+[32.126648] (-) TimerEvent: {}
+[32.227244] (-) TimerEvent: {}
+[32.327649] (-) TimerEvent: {}
+[32.428108] (-) TimerEvent: {}
+[32.528796] (-) TimerEvent: {}
+[32.630200] (-) TimerEvent: {}
+[32.731762] (-) TimerEvent: {}
+[32.804880] (sdv_control) StdoutLine: {'line': b'[ 94%] \x1b[32m\x1b[1mLinking CXX executable vel_pid_node\x1b[0m\n'}
+[32.831920] (-) TimerEvent: {}
+[32.932516] (-) TimerEvent: {}
+[33.034205] (-) TimerEvent: {}
+[33.134680] (-) TimerEvent: {}
+[33.235133] (-) TimerEvent: {}
+[33.335567] (-) TimerEvent: {}
+[33.435994] (-) TimerEvent: {}
+[33.536498] (-) TimerEvent: {}
+[33.636964] (-) TimerEvent: {}
+[33.737451] (-) TimerEvent: {}
+[33.838365] (-) TimerEvent: {}
+[33.914737] (sdv_control) StdoutLine: {'line': b'[ 94%] Built target vel_pid_node\n'}
+[33.938537] (-) TimerEvent: {}
+[34.038933] (-) TimerEvent: {}
+[34.139343] (-) TimerEvent: {}
+[34.239874] (-) TimerEvent: {}
+[34.340439] (-) TimerEvent: {}
+[34.440857] (-) TimerEvent: {}
+[34.525036] (sdv_control) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable stanley_controller_node\x1b[0m\n'}
+[34.541008] (-) TimerEvent: {}
+[34.641486] (-) TimerEvent: {}
+[34.741952] (-) TimerEvent: {}
+[34.842539] (-) TimerEvent: {}
+[34.943020] (-) TimerEvent: {}
+[35.043489] (-) TimerEvent: {}
+[35.143988] (-) TimerEvent: {}
+[35.244641] (-) TimerEvent: {}
+[35.345126] (-) TimerEvent: {}
+[35.445655] (-) TimerEvent: {}
+[35.546200] (-) TimerEvent: {}
+[35.646777] (-) TimerEvent: {}
+[35.670172] (sdv_control) StdoutLine: {'line': b'[100%] Built target stanley_controller_node\n'}
+[35.686528] (sdv_control) CommandEnded: {'returncode': 0}
+[35.746897] (-) TimerEvent: {}
+[35.765158] (sdv_control) JobProgress: {'identifier': 'sdv_control', 'progress': 'install'}
+[35.779576] (sdv_control) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control'], 'cwd': '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'fectec151'), ('LC_TIME', 'es_MX.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/lib:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/fectec151'), ('OLDPWD', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/sdv_control'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'es_MX.UTF-8'), ('MANAGERPID', '2229'), ('SYSTEMD_EXEC_PID', '2620'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('TERMINATOR_DBUS_NAME', 'net.tenshu.Terminator25ef4b219e3b005583550f2b0f9f990c3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '61628'), ('NVM_DIR', '/home/fectec151/.nvm'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'fectec151'), ('JOURNAL_STREAM', '8:26278'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'fectec151'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('HISTCONTROL', 'ignoredups'), ('PATH', '/opt/ros/humble/bin:/home/fectec151/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/fec-pc:@/tmp/.ICE-unix/2419,unix/fec-pc:/tmp/.ICE-unix/2419'), ('INVOCATION_ID', 'ac81952abfe74ec08d13dc9e8ce9f7c6'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'es_MX.UTF-8'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('HISTSIZE', '1000'), ('TERMINATOR_DBUS_PATH', '/net/tenshu/Terminator2'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('IBUS_DISABLE_SNOOPER', '1'), ('LC_TELEPHONE', 'es_MX.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.FT5QO2'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'es_MX.UTF-8'), ('TERMINATOR_UUID', 'urn:uuid:b0ef87bf-7401-4b4e-a121-c61cceaa80f0'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'es_MX.UTF-8'), ('LC_IDENTIFICATION', 'es_MX.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/build/sdv_control'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('NVM_CD_FLAGS', ''), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs/local/lib/python3.10/dist-packages:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'es_MX.UTF-8'), ('LC_PAPER', 'es_MX.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('NVM_RC_VERSION', ''), ('CMAKE_PREFIX_PATH', '/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/vectornav_msgs:/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_msgs:/opt/ros/humble')]), 'shell': False}
+[35.793551] (sdv_control) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[35.793999] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/sdv_control/vel_pid_node\n'}
+[35.800819] (sdv_control) StdoutLine: {'line': b'-- Set runtime path of "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/sdv_control/vel_pid_node" to ""\n'}
+[35.801064] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/sdv_control/stanley_controller_node\n'}
+[35.807870] (sdv_control) StdoutLine: {'line': b'-- Set runtime path of "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/sdv_control/stanley_controller_node" to ""\n'}
+[35.808101] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/sdv_control/sdv_kinematic_sim\n'}
+[35.812522] (sdv_control) StdoutLine: {'line': b'-- Set runtime path of "/home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/sdv_control/sdv_kinematic_sim" to ""\n'}
+[35.812767] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config\n'}
+[35.812909] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/waypoints_carreta.csv\n'}
+[35.813084] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/anniversary_waypoints_ned.csv\n'}
+[35.813241] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/car_params.yaml\n'}
+[35.813477] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/zigzag.csv\n'}
+[35.813625] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/el_borrego.csv\n'}
+[35.813768] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/zf_street.csv\n'}
+[35.813985] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/new_waypoints_3.csv\n'}
+[35.814175] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/zf_parking.csv\n'}
+[35.814462] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/sim2.csv\n'}
+[35.814742] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/sim_waypoints.csv\n'}
+[35.815045] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/sim_params.yaml\n'}
+[35.815330] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/parking_waypoints_ned.csv\n'}
+[35.815542] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/zf_estacionamiento.csv\n'}
+[35.815818] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/config/new_waypoints_1.csv\n'}
+[35.816104] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/launch\n'}
+[35.816455] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/launch/model_launch.py\n'}
+[35.816655] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/launch/rviz_cfg\n'}
+[35.816884] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/launch/rviz_cfg/sdv_sim_wpnts.rviz\n'}
+[35.817165] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/launch/control_launch.py\n'}
+[35.817300] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/launch/guidance_launch.py\n'}
+[35.817566] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/launch/sim_launch.py\n'}
+[35.817752] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/rviz\n'}
+[35.817892] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/rviz/sim.rviz\n'}
+[35.818313] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/sdv_control/path_publisher_node.py\n'}
+[35.818441] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/ament_index/resource_index/package_run_dependencies/sdv_control\n'}
+[35.818716] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/ament_index/resource_index/parent_prefix_path/sdv_control\n'}
+[35.819262] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/environment/ament_prefix_path.sh\n'}
+[35.819613] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/environment/ament_prefix_path.dsv\n'}
+[35.820001] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/environment/path.sh\n'}
+[35.820372] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/environment/path.dsv\n'}
+[35.820689] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/local_setup.bash\n'}
+[35.821087] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/local_setup.sh\n'}
+[35.821454] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/local_setup.zsh\n'}
+[35.821735] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/local_setup.dsv\n'}
+[35.822000] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/package.dsv\n'}
+[35.822399] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/ament_index/resource_index/packages/sdv_control\n'}
+[35.822699] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/cmake/sdv_controlConfig.cmake\n'}
+[35.822946] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/cmake/sdv_controlConfig-version.cmake\n'}
+[35.823225] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/share/sdv_control/package.xml\n'}
+[35.824418] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include\n'}
+[35.824625] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock\n'}
+[35.824786] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/gmock-nice-strict.h\n'}
+[35.825084] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/gmock-actions.h\n'}
+[35.825202] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/gmock-more-actions.h\n'}
+[35.825358] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/gmock-function-mocker.h\n'}
+[35.825536] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/gmock.h\n'}
+[35.825677] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/gmock-cardinalities.h\n'}
+[35.825844] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/gmock-more-matchers.h\n'}
+[35.825987] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/gmock-matchers.h\n'}
+[35.826508] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/gmock-spec-builders.h\n'}
+[35.826763] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/internal\n'}
+[35.826927] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/internal/gmock-internal-utils.h\n'}
+[35.827106] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/internal/custom\n'}
+[35.827280] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/internal/custom/README.md\n'}
+[35.827495] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/internal/custom/gmock-matchers.h\n'}
+[35.827666] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/internal/custom/gmock-port.h\n'}
+[35.827832] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/internal/custom/gmock-generated-actions.h\n'}
+[35.828001] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/internal/gmock-port.h\n'}
+[35.828156] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gmock/internal/gmock-pp.h\n'}
+[35.828392] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/libgmock.a\n'}
+[35.830877] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/libgmock_main.a\n'}
+[35.831176] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/pkgconfig/gmock.pc\n'}
+[35.831499] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/pkgconfig/gmock_main.pc\n'}
+[35.832164] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/cmake/GTest/GTestTargets.cmake\n'}
+[35.832397] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/cmake/GTest/GTestTargets-noconfig.cmake\n'}
+[35.832711] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/cmake/GTest/GTestConfigVersion.cmake\n'}
+[35.833025] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/cmake/GTest/GTestConfig.cmake\n'}
+[35.833267] (sdv_control) StdoutLine: {'line': b'-- Up-to-date: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include\n'}
+[35.833789] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest\n'}
+[35.833974] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest_pred_impl.h\n'}
+[35.834130] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest-matchers.h\n'}
+[35.834322] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest.h\n'}
+[35.834515] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest-typed-test.h\n'}
+[35.834793] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest-message.h\n'}
+[35.835000] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest-printers.h\n'}
+[35.835165] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest_prod.h\n'}
+[35.835434] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest-death-test.h\n'}
+[35.835522] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest-param-test.h\n'}
+[35.835618] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest-test-part.h\n'}
+[35.835698] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal\n'}
+[35.835770] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/gtest-type-util.h\n'}
+[35.835940] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/gtest-port-arch.h\n'}
+[35.836179] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/gtest-internal.h\n'}
+[35.836452] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/gtest-port.h\n'}
+[35.836641] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/gtest-string.h\n'}
+[35.836828] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/gtest-param-util.h\n'}
+[35.837028] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/gtest-filepath.h\n'}
+[35.837276] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/custom\n'}
+[35.837403] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/custom/gtest.h\n'}
+[35.837470] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/custom/gtest-printers.h\n'}
+[35.837532] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/custom/gtest-port.h\n'}
+[35.837592] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/custom/README.md\n'}
+[35.837655] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/internal/gtest-death-test-internal.h\n'}
+[35.837737] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/include/gtest/gtest-spi.h\n'}
+[35.838054] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/libgtest.a\n'}
+[35.842294] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/libgtest_main.a\n'}
+[35.842507] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/pkgconfig/gtest.pc\n'}
+[35.842709] (sdv_control) StdoutLine: {'line': b'-- Installing: /home/fectec151/Downloads/Projects/vanttec_sdv/workspace/src/install/sdv_control/lib/pkgconfig/gtest_main.pc\n'}
+[35.845269] (sdv_control) CommandEnded: {'returncode': 0}
+[35.847090] (-) TimerEvent: {}
+[35.947726] (-) TimerEvent: {}
+[35.952961] (sdv_control) JobEnded: {'identifier': 'sdv_control', 'rc': 0}
+[35.954168] (-) EventReactorShutdown: {}

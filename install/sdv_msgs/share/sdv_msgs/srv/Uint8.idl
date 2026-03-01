@@ -1,0 +1,15 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from sdv_msgs/srv/Uint8.srv
+// generated code does not contain a copyright notice
+
+
+module sdv_msgs {
+  module srv {
+    struct Uint8_Request {
+      uint8 data;
+    };
+    struct Uint8_Response {
+      uint8 structure_needs_at_least_one_member;
+    };
+  };
+};

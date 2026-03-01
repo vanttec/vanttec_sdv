@@ -30,6 +30,7 @@ rosidl_generate_interfaces(sdv_msgs
   "msg/SystemDynamics.msg"
   "msg/ThrustControl.msg"
   "msg/Encoder.msg"
+  "msg/WaypointVector.msg"
   "srv/Uint8.srv"
   DEPENDENCIES geometry_msgs std_msgs)
 
