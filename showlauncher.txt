@@ -1,0 +1,11 @@
+/home/vanttec/navpilot-framework/models/sdv.glb
+
+ros2 launch sensors_launch lidar_imu.launch.py
+
+ros2 launch robot_description display.launch.py
+
+ros2 launch pointcloud_rotation lidar_rotation.launch.py
+
+cd /home/vanttec/ros2-gl-viewer/build 
+
+./pointcloud_viewer 

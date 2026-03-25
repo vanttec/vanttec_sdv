@@ -32,6 +32,7 @@ ament_target_dependencies(sdv_can_node rclcpp std_msgs geometry_msgs std_srvs sd
 
 add_subdirectory(libs/vanttec_CANLib)
 target_link_libraries(sdv_can_node Vanttec_CANLibLIB Boost::system)
+
 # include_directories(libs/vanttec_CANLib/platform_specific/vanttec_canlib_linux)
 
 install(DIRECTORY launch 

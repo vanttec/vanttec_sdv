@@ -20,35 +20,37 @@ def generate_launch_description():
 
    car_guidance_node = Node(
       package='sdv_control',
-      executable='stanley_controller_node',
+      executable='stanley_controller_fix_node',
       output='screen',
       emulate_tty=True,
       arguments=[('__log__level:=debug')],
-      name='stanley_controller_node',
+      name='stanley_controller_fix_node',
       parameters=[
-                  car_params
+                  car_params,
+                  {'reference_frame': 'map'},
+                  {'robot_frame': 'velodyne'}
                   ]
    )
 
-   pid_node = Node(
-      package='sdv_control',
-      executable='vel_pid_node',
-      parameters=[car_params],
-   )
+   # pid_node = Node(
+   #    package='sdv_control',
+   #    executable='vel_pid_node',
+   #    parameters=[car_params],
+   # )
 
-   pid_regulator_node = Node(
-      package='sdv_control',
-      executable='velocity_regulator_node',
-   )
+   # pid_regulator_node = Node(
+   #    package='sdv_control',
+   #    executable='velocity_regulator_node',
+   # )
 
-   foxglove_bridge = Node(
-      name="foxglove_bridge",
-      package="foxglove_bridge",
-      executable="foxglove_bridge")
+#   foxglove_bridge = Node(
+#      name="foxglove_bridge",
+#      package="foxglove_bridge",
+#      executable="foxglove_bridge")
 
    return LaunchDescription([
       car_guidance_node,
-      pid_node,
-      pid_regulator_node,
-      foxglove_bridge,
+#      pid_node,
+#      pid_regulator_node,
+#      foxglove_bridge,
    ])

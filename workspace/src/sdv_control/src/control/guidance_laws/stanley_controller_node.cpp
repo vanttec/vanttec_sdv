@@ -53,7 +53,7 @@ class StanleyControllerNode : public rclcpp::Node
         bool new_path_arrived_{false};
         bool path_arrived_{false};
         bool nearest_waypoint_found_{false};
-        bool use_markers{false};
+        bool use_markers{true};
 
         std::unique_ptr<StanleyController> stanley_;
 
@@ -86,9 +86,12 @@ class StanleyControllerNode : public rclcpp::Node
         // double DISTANCE_VAL_ = 0.5;                // Meters
         double DISTANCE_VAL_ = 3;                // Meters
         std::string parent_frame_;
+        std::string reference_frame_{"map"};
+        std::string robot_frame_{"velodyne"};
         nav_msgs::msg::Path smooth_path_;
 
-        const double kLookaheadDistance = 4.0;
+        //Naturalmente en 4 metros
+        const double kLookaheadDistance = 2.5;
         const double kBehindDistance = 1.0;
 
         nav_msgs::msg::Path current_ref_;
@@ -117,22 +120,23 @@ class StanleyControllerNode : public rclcpp::Node
         void timer_callback(){
             velocity_setpoint_.data = 0.;
             current_ref_.poses.clear();
-            if(path_arrived_ && this->get_clock()->now() - last_path_message < rclcpp::Duration(0, 100 * 1e6) ) {
+            if(path_arrived_ && this->get_clock()->now() - last_path_message < rclcpp::Duration(0, 500 * 1e6) ) {
                 geometry_msgs::msg::TransformStamped transform;
                 try {
                     transform = tf_buffer_->lookupTransform(
-                        "map", "velodyne",
+                        reference_frame_, robot_frame_,
                         tf2::TimePointZero);
                 } catch (const tf2::TransformException & ex) {
-                    RCLCPP_INFO(
-                        this->get_logger(), "Could not transform %s to %s: %s",
-                        "map", "velodyne", ex.what());
+                    RCLCPP_WARN_THROTTLE(
+                        this->get_logger(), *this->get_clock(), 1000,
+                        "Could not transform %s to %s: %s",
+                        reference_frame_.c_str(), robot_frame_.c_str(), ex.what());
                     return;
                 }
 
                 vehicle_pos_.x = transform.transform.translation.x;
                 vehicle_pos_.y = transform.transform.translation.y;
-                vehicle_pos_.z = transform.transform.translation.z - 1.45;
+                vehicle_pos_.z = transform.transform.translation.z - 1.45; 
 
                 tf2::Quaternion quat;
                 tf2::fromMsg(transform.transform.rotation, quat);
@@ -140,7 +144,7 @@ class StanleyControllerNode : public rclcpp::Node
                 tf2::Matrix3x3(quat).getRPY(roll, pitch, psi_);
 
                 //nuevo
-                if (interpolated_points_.empty())
+                if (!use_markers && interpolated_points_.empty())
                     return;
 
                 /* Use last point of path */
@@ -155,7 +159,7 @@ class StanleyControllerNode : public rclcpp::Node
                     .z(vehicle_pos_.z);
 
                 geometry_msgs::msg::PoseStamped pose_stamped_tmp_;
-                pose_stamped_tmp_.header.frame_id = "map";
+                pose_stamped_tmp_.header.frame_id = reference_frame_;
                 pose_stamped_tmp_.pose = p1_;
                 current_ref_.poses.push_back(pose_stamped_tmp_);
                 pose_stamped_tmp_.pose = p2_;
@@ -167,11 +171,14 @@ class StanleyControllerNode : public rclcpp::Node
                     );
 
                  //RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, psi: %f",
-                 //vehicle_pos_.x, vehicle_pos_.y, psi_
+                 //vehicle_pos_.x, vehicle_pos_.y, psi_, 
                  //);
 
-                  //RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 200,
-                  //"delta(rad)=%.3f, ex=%.3f, v=%.2f", stanley_->delta_, stanley_->ex_, vel_);
+                RCLCPP_INFO(this->get_logger(), "Vehicle position: (%.3f, %.3f), Heading: %.3f rad","Target position: (%.3f, %.3f)", 
+                vehicle_pos_.x, vehicle_pos_.y, psi_, p2_.position.x, p2_.position.y);
+
+                  RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 200,
+                  "delta(rad)=%.3f, Crosstrack error=%.3f, velocity=%.2f", stanley_->delta_, stanley_->ex_, vel_);
 
 
                 stanley_->setYawAngle(psi_);
@@ -180,7 +187,8 @@ class StanleyControllerNode : public rclcpp::Node
                 // delta_.data = std::clamp(5*stanley_->delta_, -8.0, 8.0);
                 steering_setpoint_.data =
                     // std::round(stanley_->delta_ * delta_to_steer * 0.8 * 100.0) / 100.0;
-                    std::clamp(std::round(stanley_->delta_ * delta_to_steer * 0.8 * 2.0 * 100.0) / 100.0, -7.0, 6.0);
+                    std::clamp(std::round(stanley_->delta_ * delta_to_steer * 0.8 * 2.0 * 100.0) / 100.0, -7.0, 8.0);
+                    //std::clamp(std::round(stanley_->delta_ * delta_to_steer * 0.6 * 100.0) / 100.0, -7.0, 8.0);
                     // std::clamp(stanley_->delta_, -7.0, 6.0);
                 car_steering_pub_->publish(steering_setpoint_);
                 car_steering_setpoint_pub_->publish(steering_setpoint_);
@@ -265,12 +273,16 @@ class StanleyControllerNode : public rclcpp::Node
             this->declare_parameter("DELTA_SAT", rclcpp::PARAMETER_DOUBLE_ARRAY);
             this->declare_parameter("init_pose", rclcpp::PARAMETER_DOUBLE_ARRAY);
             this->declare_parameter("parent_frame", rclcpp::PARAMETER_STRING);    // Super important to get parameters from launch files!!
+            this->declare_parameter("reference_frame", "odom");
+            this->declare_parameter("robot_frame", "velodyne");
 
             k_ = this->get_parameter("K").as_double();
             k_soft_ = this->get_parameter("K_soft").as_double();
             DELTA_SAT_ = this->get_parameter("DELTA_SAT").as_double_array();
             init_pose_ = this->get_parameter("init_pose").as_double_array();
             parent_frame_ = this->get_parameter("parent_frame").as_string();
+            reference_frame_ = this->get_parameter("reference_frame").as_string();
+            robot_frame_ = this->get_parameter("robot_frame").as_string();
 
 
             /* Publishers */
@@ -312,6 +324,7 @@ class StanleyControllerNode : public rclcpp::Node
                     last_path_message = this->get_clock()->now();
                     if (msg.points.empty()) {
                         path_arrived_ = false;
+                        RCLCPP_DEBUG(this->get_logger(), "Received empty marker on /target_waypoint_marker");
                         return;
                     }
 
@@ -319,16 +332,14 @@ class StanleyControllerNode : public rclcpp::Node
                     p2_.position.x = pt.x;
                     p2_.position.y = pt.y;
                     p2_.position.z = pt.z + 0.1;
-                    //p2_ = msg.pose;
-                    //p2_.position.z = msg.pose.position.z+0.1;
                     path_arrived_ = true;
-
+                    RCLCPP_INFO(this->get_logger(), "Received target marker (x=%.3f, y=%.3f, z=%.3f)", p2_.position.x, p2_.position.y, p2_.position.z);
                 });
             }
 
             geometry_msgs::msg::PoseStamped pose_stamped_tmp_;
-            pose_stamped_tmp_.header.frame_id = "map";
-            current_ref_.header.frame_id = "map";
+            pose_stamped_tmp_.header.frame_id = reference_frame_;
+            current_ref_.header.frame_id = reference_frame_;
             current_ref_.header.stamp = StanleyControllerNode::now();
             current_ref_.poses.push_back(pose_stamped_tmp_);
             current_ref_.poses.push_back(pose_stamped_tmp_);

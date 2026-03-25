@@ -49,7 +49,7 @@ class CarGuidanceNode : public rclcpp::Node
         /* Control signals */
         float vel_;
         std_msgs::msg::Float32 delta_;
-
+        
         /* Vehicle pose */
         std::vector<double> init_pose_ = {0,0,0};
         Point vehicle_pos_ = {0, 0};

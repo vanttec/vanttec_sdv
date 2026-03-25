@@ -194,7 +194,6 @@ class StanleyControllerNode : public rclcpp::Node
                 car_steering_setpoint_pub_->publish(steering_setpoint_);
                 current_ref_pub_->publish(current_ref_);
 
-                velocity_setpoint_.data = std::clamp(stanley_->ex_, 0.0, 0.2);
             } else {
                 velocity_setpoint_.data = 0.;
                 RCLCPP_INFO(this->get_logger(), "Waiting for reference path");

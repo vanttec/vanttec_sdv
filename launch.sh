@@ -45,13 +45,16 @@ tmux split-window -v -p 50
 tmux select-pane -t 7
 tmux split-window -v -p 50
 
+tmux select-pane -t 7
+tmux split-window -h -p 50
+
 tmux select-layout tiled
 
 # Assign commands to each pane with a 5-second delay between each
 
 # Pane 0: Start localization
 tmux select-pane -t 0
-tmux send-keys "ros2 launch src/localization_modules/launch/localization.launch.py" Enter
+tmux send-keys "ros2 launch vanttec_sdv/workspace/src/localization_modules/launch/localization.launch.py" Enter
 sleep 1
 
 # Pane 1: Launch ROS2 clustering
@@ -73,27 +76,36 @@ sleep 1
 # Pane 4: Launch traduction_steering
 tmux select-pane -t 4
 tmux send-keys "cd src" Enter
-tmux send-keys "ros2 launch src/path_planning/launch/planning_obstacles.launch.py" Enter
+tmux send-keys "ros2 launch pointcloud_clustering_KDTree pointcloud_clustering.launch.py" Enter
+#tmux send-keys "ros2 launch vanttec_sdv/workspace/src/path_planning/launch/planning_obstacles.launch.py" Enter
 sleep 1
 
 # Pane 5: Launch velocity
 tmux select-pane -t 5
-tmux send-keys "cd src" Enter
-tmux send-keys 'ros2 service call /sdv/steering/set_mode sdv_msgs/srv/Uint8 "{data: 1}"' Enter
-tmux send-keys 'ros2 service call /sdv/steering/reset_encoder std_srvs/srv/Empty' Enter
+tmux send-keys "ros2 run sdv_can sdv_can_node" Enter
 sleep 1
 
 # Pane 6: Launch path planning dynamic
 tmux select-pane -t 6
-tmux send-keys "jtop" Enter
+tmux send-keys "ros2 run sdv_control waypoint_publisher_node.py " Enter
 sleep 1 
 
 # Pane 7: Launch ROS2 CAN
 tmux select-pane -t 7
+tmux send-keys "jtop" Enter
 sleep 1
 
 #Pane 8: Launch service activate and sensor stack
 tmux select-pane -t 8
+tmux send-keys "cd src" Enter
+tmux send-keys 'ros2 service call /sdv/steering/set_mode sdv_msgs/srv/Uint8 "{data: 1}"' Enter
+tmux send-keys 'ros2 service call /sdv/steering/reset_encoder std_srvs/srv/Empty' Enter
+
+# tmux select-pane -t 9
+# tmux send-keys 'ros2 launch tcp_gateway jetson1_server.launch.py' Enter
+
+
+
 
 # Optional: Add key bindings to cycle through panes
 tmux bind-key -n C-a select-pane -t :.+ 

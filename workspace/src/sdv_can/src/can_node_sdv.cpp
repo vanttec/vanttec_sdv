@@ -1,6 +1,7 @@
 #include "can_node_base.h"
 #include "Vanttec_CANLib/CANMessage.h"
 #include <std_msgs/msg/float64.hpp>
+#include <std_msgs/msg/int32.hpp>
 #include <std_msgs/msg/u_int8.hpp>
 #include <std_msgs/msg/bool.hpp>
 #include "sdv_msgs/srv/uint8.hpp"
@@ -135,7 +136,7 @@ protected:
         float encoder_position = (static_cast<float>(raw_encoder_value) / 4096.0f) * 2.0 * M_PI /16.0;
         // float encoder_position = (static_cast<float>(raw_encoder_value) / 4096.0f) * 2.0 * M_PI;
     
-        // Publish the encoder angle in radians
+        // Publish the encoder angle in radians (original conversion)
         std_msgs::msg::Float64 encoder_msg;
         encoder_msg.data = encoder_position;
         steering_angle_pub->publish(encoder_msg);

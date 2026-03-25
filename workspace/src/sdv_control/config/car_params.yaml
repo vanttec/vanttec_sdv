@@ -51,6 +51,14 @@ sdc1_vel_aitsmc_node:
 # Stanley Controller Params
 stanley_controller_node:
   ros__parameters:
-    K: 1.0 # drives you to path faster, induces overshoot
-    K_soft: 12.0 # softens overshoot
+    k: 0.8 # drives you to path faster, induces overshoot //1.0
+    K_soft: 16.0 # softens overshoot //12.0
+    DELTA_SAT: [-0.5922, 0.5264] # new car limits in radians
+
+
+# Stanley Controller Params
+stanley_controller_fix_node:
+  ros__parameters:
+    K: 0.8 # drives you to path faster, induces overshoot //1.0
+    K_soft: 16.0 # softens overshoot //12.0
     DELTA_SAT: [-0.5922, 0.5264] # new car limits in radians
