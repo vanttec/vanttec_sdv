@@ -38,46 +38,96 @@ localization, mapping, and path planning.
 ### **Requirements**
 - Linux distribution (Ubuntu 22.04 recommended)
 - ROS 2 Humble
-- At least **8 GB RAM** recommended
-
+- At least **8 GB RAM**  with 12GB of swap recommended
 
 ## 🔧 Setup
 Run the environment setup script:
-
 ```sh
-source setup.sh
+source setup.sh --target local --sync
 ```
+### With Docker (recommend)
+Inisde of docker directory.
+
+#### Step 1: Build the Docker Image
+
+```bash
+sudo docker compose build
+```
+
+#### Step 2: Start the Container
+
+The `-d` flag ensures the container runs in detached mode (in the background).
+
+```bash
+sudo docker compose up -d
+```
+
+**Common error**:  *invalid subinterface vlan name* or similar, Just comment out all the lines inside Docker Compose, lidar_net: and its content, just apply on personal computers if you won't use the LiDAR.
+
+#### Step 3: Access the Container
+
+Use `zsh` to start a shell inside the container.
+
+```bash
+docker exec -it sdv_container zsh
+```
+#### Step 4: 📦 Install GitHub repositories & dependencies (colcon build)
+
+The repository is mounted inside the container at **`/workspace`**.
+
+If you are not already in `/workspace`, run:
+
+```bash
+cd /workspace
+```
+
+Run the setup/build script:
+
+```bash
+chmod +x setup.sh
+source setup.sh --target docker --shell zsh --sync
+```
+ **Note:** The argument sync is for update the repositories of navpilot (do git pull).
+
+
 ### Building Packages of ROS2
-If you need to compile everything from zero:
+If you need to compile everything from zero, list of all packages:
 
 ```sh
 colcon build --packages-select pointcloud_rotation
 colcon build --packages-select lidar_imu_sync
 colcon build --packages-select robot_description
-colcon build --packages-select vectornav_msgs vectornav
-colcon build --packages-select velodyne_msgs velodyne_driver velodyne_laserscan velodyne_pointcloud velodyne
+colcon build --packages-select vectornav_msgs 
+colcon build --packages-select vectornav
+colcon build --packages-select velodyne_msgs 
+colcon build --packages-select velodyne_driver 
+colcon build --packages-select velodyne_laserscan
+colcon build --packages-select velodyne_pointcloud
+colcon build --packages-select velodyne
 colcon build --packages-select lio_sam
 colcon build --packages-select ndt_omp_ros2
 colcon build --packages-select lidar_localization_ros2
 colcon build --packages-select sensors_launch
 colcon build --packages-select sdv_msgs
-source install/setup.bash
 colcon build --packages-select sdv_control
 colcon build --packages-select sdv_can
 colcon build --packages-select sdv_velocity
 colcon build --packages-select mrt_cmake_modules
-colcon build --packages-select polygon_msgs polygon_rviz_plugins polygon_utils
-colcon build --packages-select obstacles_information_msgs traffic_information_msgs
-source install/setup.bash
-colcon build --packages-select pointcloud_clustering lanelet2_core
-source install/setup.bash
-colcon build --packages-select lanelet2_maps lanelet2_projection lanelet2_traffic_rules
-source install/setup.bash
-colcon build --packages-select lanelet2_routing lanelet2_io lanelet2_validation
-source install/setup.bash
+colcon build --packages-select polygon_msgs 
+colcon build --packages-selectp olygon_rviz_plugins 
+colcon build --packages-select polygon_utils
+colcon build --packages-select obstacles_information_msgs
+colcon build --packages-select traffic_information_msgs
+colcon build --packages-select pointcloud_clustering 
+colcon build --packages-select lanelet2_core
+colcon build --packages-select lanelet2_io
+colcon build --packages-select lanelet2_maps 
+colcon build --packages-select lanelet2_projection
+colcon build --packages-select lanelet2_traffic_rules
+colcon build --packages-select lanelet2_routing 
+colcon build --packages-select lanelet2_validation
 colcon build --packages-select waypoints_routing
 colcon build --packages-select path_planning_dynamic
-source install/setup.bash
 ```
 ## 📌 Related Framework
 
@@ -91,6 +141,10 @@ https://github.com/armando-genis/navpilot-framework
 Start the full SDV stack:
 ```sh
 source launch.sh
+```
+Inside of docker
+```sh
+source launch.sh --shell zsh
 ```
 
 This script launches multiple modules via tmux, so each subsystem runs in its own terminal panel.

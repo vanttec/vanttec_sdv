@@ -27,3 +27,4 @@ workspace/src/lidar_modules
 workspace/src/camera_modules
 workspace/src/lidar_camera_calib
 workspace/src/multiCameraProcessing
+workspace/src/multimlprocessing

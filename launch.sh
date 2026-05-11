@@ -5,9 +5,18 @@ sudo ip link set down can2
 sudo ip link set can2 type can bitrate 125000
 sudo ip link set up can2
 
-source /opt/ros/humble/setup.bash
+SHELL_TYPE="bash" # Default
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --shell) SHELL_TYPE="$2"; shift 2 ;;
+    *) shift ;; # Ignore other arguments for now
+  esac
+done
+
 cd workspace
-source install/setup.bash
+
+SETUP_ROS="/opt/ros/humble/setup.$SHELL_TYPE"
+SETUP_WS="install/setup.$SHELL_TYPE"
 
 # Create a new tmux session
 session_name="vtec_sdv$(date +%s)"
@@ -54,7 +63,7 @@ tmux select-layout tiled
 
 # Pane 0: Start localization
 tmux select-pane -t 0
-tmux send-keys "ros2 launch vanttec_sdv/workspace/src/localization_modules/launch/localization.launch.py" Enter
+tmux send-keys "ros2 launch src/localization_modules/launch/localization.launch.py" Enter
 sleep 1
 
 # Pane 1: Launch ROS2 clustering
