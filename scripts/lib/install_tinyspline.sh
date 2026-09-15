@@ -5,7 +5,7 @@ install_tinyspline() {
     local SUDO_CMD="${2:-}"
     local BUILD_DIR="$DEPS_DIR/tinyspline"
 
-    if [ -d "$REPO_DIR/tinyspline" ]; then
+    if [ -d "$BUILD_DIR/tinyspline" ]; then
         echo "[tinyspline] Already exist, skip."
         return
     fi
