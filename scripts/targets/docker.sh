@@ -15,4 +15,4 @@ echo "=== 🐳 Setup: Docker ==="
 
 clone_deps         "$DEPS_DIR" "$REPO_DIR" "$SYNC"
 install_tinyspline "/opt" ""    
-build_workspace "$REPO_DIR/workspace" "$SHELL_TYPE"
+build_workspace "$REPO_DIR" "$SHELL_TYPE"
