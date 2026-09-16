@@ -14,10 +14,12 @@ from tf2_ros.transform_listener import TransformListener
 import yaml
 import math
 from pathlib import Path
+from std_msgs.msg import Float32, String
+from sdv_msgs.srv import LoadRoute
 
 # CONFIGURACIÓN - COPIA/PEGA TU DIRECTORIO AQUÍ
 # ============================================================================
-WAYPOINTS_YAML = "/home/vanttec/vanttec_sdv/workspace/src/sdv_control/config/waypoints_path.yaml"
+WAYPOINTS_YAML = "/home/vanttec/vanttec_sdv/workspace/src/sdv_control/config/rutas/RutaHUB1.yaml"
 # ============================================================================
 
 
@@ -32,28 +34,28 @@ class WaypointPublisher(Node):
         
         waypoints_file = self.get_parameter('waypoints_file').value
         self.lookahead_distance = self.get_parameter('lookahead_distance').value
-        publish_rate = self.get_parameter('publish_rate').value
+        self.timer = None
+
+        # Servicio
+        self.change_path_service = self.create_service(
+                LoadRoute,
+                '/waypoints/change_path',
+                self.start_new_path_callback
+        )
         
         # Usar la variable configurada al inicio si no se especifica parámetro
         if not waypoints_file:
             waypoints_file = WAYPOINTS_YAML
-        
-        self.waypoints = self.load_waypoints(waypoints_file)
-        self.current_idx = 0
-        
+
         self.tf_buffer = Buffer()
         self.tf_listener = TransformListener(self.tf_buffer, self)
         
         self.publisher = self.create_publisher(Marker, '/target_waypoint_marker', 10)
+        self.percentage_pub = self.create_publisher(Float32, '/waypoint_progress', 10)
+
+        self.load_path(waypoints_file)
         
-        timer_period = 1.0 / publish_rate
-        self.timer = self.create_timer(timer_period, self.timer_callback)
         
-        self.get_logger().info(f'Waypoint publisher iniciado')
-        self.get_logger().info(f'Archivo: {waypoints_file}')
-        self.get_logger().info(f'Waypoints cargados: {len(self.waypoints)}')
-        self.get_logger().info(f'Lookahead distance: {self.lookahead_distance}m')
-    
     def load_waypoints(self, filepath):
         """Carga waypoints desde YAML"""
         with open(filepath, 'r') as f:
@@ -107,6 +109,7 @@ class WaypointPublisher(Node):
             if dist >= self.lookahead_distance:
                 target_idx = i
                 break
+        print(self.current_idx, target_idx)
 
         if target_idx >= len(self.waypoints):
             target_idx = len(self.waypoints) - 1
@@ -152,9 +155,53 @@ class WaypointPublisher(Node):
             f'Progreso: {progress:.1f}% ({self.current_idx}/{len(self.waypoints)}) | '
             f'Distancia al path: {min_dist:.2f}m',
             throttle_duration_sec=1.0)
+
+        msg = Float32()
+        msg.data = progress
+        self.percentage_pub.publish(msg)
         
         if self.current_idx >= len(self.waypoints) - 1:
             self.get_logger().info('Path completado!', throttle_duration_sec=2.0)
+
+    def start_new_path_callback(self, request, response):
+            try:
+                self.load_path(request.path)
+                response.success = True
+                response.message = f'Nuevo path cargado: ({request.path})'
+                print('path cargado')
+            except Exception as e:
+                response.success = False
+                response.message = str(e)
+                print(str(e))
+
+            return response
+
+    def load_path(self, path: str):
+
+        self.get_logger().info(
+            f'Loading route: {path}'
+        )
+        
+        if self.timer is not None:
+            self.destroy_timer(self.timer)
+            self.timer = None
+    
+        waypoints_file = path
+        publish_rate = self.get_parameter('publish_rate').value
+
+        
+        self.waypoints = self.load_waypoints(waypoints_file)
+        self.current_idx = 0
+        
+        
+        timer_period = 1.0 / publish_rate
+        self.timer = self.create_timer(timer_period, self.timer_callback)
+        
+        self.get_logger().info(f'Waypoint publisher iniciado')
+        self.get_logger().info(f'Archivo: {waypoints_file}')
+        self.get_logger().info(f'Waypoints cargados: {len(self.waypoints)}')
+        self.get_logger().info(f'Lookahead distance: {self.lookahead_distance}m')
+
 
 
 def main(args=None):

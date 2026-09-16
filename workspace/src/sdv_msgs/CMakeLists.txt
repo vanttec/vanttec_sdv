@@ -31,6 +31,7 @@ rosidl_generate_interfaces(sdv_msgs
   "msg/ThrustControl.msg"
   "msg/Encoder.msg"
   "srv/Uint8.srv"
+  "srv/LoadRoute.srv"
   DEPENDENCIES geometry_msgs std_msgs)
 
 ament_package()

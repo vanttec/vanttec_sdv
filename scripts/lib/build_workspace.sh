@@ -52,6 +52,9 @@ build_workspace() {
 
   _source
 
+  _build gnss_relocalizer ros_gui
+
+  _source
+
   echo "[build] Build complete."
 }
-
