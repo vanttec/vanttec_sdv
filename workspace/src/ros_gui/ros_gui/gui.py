@@ -58,7 +58,9 @@ class MainWindow(QWidget):
 
         # waypoint dropdown
         self.route_dropdown = QComboBox()
-        routes_dir = "/home/vanttec/vanttec_sdv/workspace/src/sdv_control/config/rutas"
+
+
+        routes_dir = "/home/vanttec/vanttec_sdv/workspace/src/sdv_control/config/rutas" #cambiar a /workspace/src/sdv_control/config/rutas si no lo encuentra y estas en docker.
 
         for file in os.listdir(routes_dir):
             if file.endswith(".yaml"):
