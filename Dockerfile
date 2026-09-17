@@ -202,6 +202,7 @@ SHELL ["/bin/bash", "-c"]
 #let this space
 RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash"   >> ~/.bashrc \
  && echo "source /opt/ros/${ROS_DISTRO}/setup.zsh"    >> ~/.zshrc \
+ && echo "if [ -f /workspace/install/setup.zsh ]; then source /workspace/install/setup.zsh; fi" >> ~/.zshrc \
  && echo "export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> ~/.bashrc \
  && echo "export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> ~/.zshrc
 
